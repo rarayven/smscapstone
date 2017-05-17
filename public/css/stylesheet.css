@@ -1,0 +1,26 @@
+ .toggle.android { border-radius: 0px;}
+ .toggle.android .toggle-handle { border-radius: 0px; }
+ .panel-default li, p{
+ 	text-align: left;
+ }
+ .panel-heading{
+ 	text-align: center;
+ }
+ .text {
+ 	display: : inline-block;
+ }
+ .equal, .equal > div[class*='col-'] {  
+ 	display: -webkit-flex;
+ 	display: flex;
+ 	flex:1 1 auto;
+ }
+ .table img{
+ 	display: block;
+ 	margin: 0 auto;
+ }
+ .table p{
+ 	text-align: center;
+ }
+ .content{
+ 	overflow: hidden;
+ }
