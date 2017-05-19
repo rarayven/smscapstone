@@ -21,7 +21,7 @@ class CoordinatorEventsController extends Controller
     public function index()
     {
 
-        $events = Event::where('user_id',Auth::user()->id)
+        $events = Event::where('user_id',Auth::id())
         ->get();
         // dd($events);
         return view('SMS.Coordinator.Services.CoordinatorEvents')->withEvents($events);
@@ -50,7 +50,7 @@ class CoordinatorEventsController extends Controller
             $time_to = date("H:i:s", strtotime($request->time_to));
             $date_held = Carbon::createFromFormat('Y-m-d', $request->date_held);
             $event = new Event;
-            $event->user_id = Auth::user()->id;
+            $event->user_id = Auth::id();
             $event->title = $request->title;
             $event->description = $request->description;
             $event->place_held = $request->place_held;
@@ -58,7 +58,7 @@ class CoordinatorEventsController extends Controller
             $event->time_from = $time_from;
             $event->time_to = $time_to;
             $event->save();
-            $events = Event::where('user_id',Auth::user()->id)
+            $events = Event::where('user_id',Auth::id())
             ->get();
             return Response::json($events);
         }catch(\Exception $e){

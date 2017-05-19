@@ -15,8 +15,11 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->type == 'Admin')
-            return $next($request);
-        return redirect('/');
+        if(!Auth::guest()){
+            if(Auth::user()->type == 'Admin')
+                return $next($request);
+            return redirect('/');
+        }
+        return redirect('/login');
     }
 }

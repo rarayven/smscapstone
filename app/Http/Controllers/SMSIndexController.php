@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Auth;
 class SMSIndexController extends Controller
@@ -13,20 +11,17 @@ class SMSIndexController extends Controller
      */
     public function index()
     {
-        $link = '';
         if (!Auth::guest()) {
             $type = Auth::user()->type;
             if($type == 'Admin')
-                $link = url('admin/dashboard');
+                return redirect('admin/dashboard');
             elseif($type == 'Coordinator')
-                $link = url('coordinator/dashboard');
+                return redirect('coordinator/dashboard');
             elseif($type == 'Student')
-                $link = url('student/dashboard');
-            
+                return redirect('student/dashboard');
         }
-        return view('SMS.SMSIndex')->withLink($link);
+        return view('SMS.SMSIndex');
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -36,7 +31,6 @@ class SMSIndexController extends Controller
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -47,7 +41,6 @@ class SMSIndexController extends Controller
     {
         //
     }
-
     /**
      * Display the specified resource.
      *
@@ -58,7 +51,6 @@ class SMSIndexController extends Controller
     {
         //
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -69,7 +61,6 @@ class SMSIndexController extends Controller
     {
         //
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -81,7 +72,6 @@ class SMSIndexController extends Controller
     {
         //
     }
-
     /**
      * Remove the specified resource from storage.
      *

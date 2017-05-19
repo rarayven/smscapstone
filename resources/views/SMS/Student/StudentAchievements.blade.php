@@ -1,4 +1,8 @@
 @extends('SMS.Student.StudentMain')
+@section('override')
+{!! Html::style("plugins/datatables/dataTables.bootstrap.min.css") !!}
+{!! Html::style("plugins/sweetalert/sweetalert.min.css") !!}
+@endsection
 @section('content')
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -72,7 +76,7 @@
             <div class="form-group">
               <div class="btn btn-default btn-file">
                 <i class="fa fa-image"></i> Choose File..
-                <input type="file" name="strApplPicture">
+                <input id="pdf" type="file" name="pdf">
               </div>
               <p class="help-block">Max. 2MB</p>
             </div>
@@ -91,65 +95,27 @@
       </div>
     </div>
     <div class="box box-danger">
-      <div class="box-header with-border">
-        <button id="btn-add" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Add Achievement</button>
-      </div>
-      <div class="row">
-        <div class="box-body table-responsive">
-          <table class="table table-hover">
-            <thead>
-              <th>Achievement Description</th>
-              <th>Place</th>
-              <th>Date</th>
-              <th>Action</th>
-            </thead>
-            <tr>
-              <td>First Place sa Puso ko</td>
-              <td>xsA Pus0 cKoh ngA ihHh</td>
-              <td>213 AD</td>
-              <td style="">
-                <button class="btn btn-warning btn-xs btn-detail open-modal" value=""><i class="fa fa-edit"></i> Edit</button>
-                <button class="btn btn-danger btn-xs btn-delete" value=""><i class="fa fa-trash"></i> Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>48th Oscar's Best Actor</td>
-              <td>Ermita, Manila</td>
-              <td>March 7, 2017</td>
-              <td style="">
-                <button class="btn btn-warning btn-xs btn-detail open-modal" value=""><i class="fa fa-edit"></i> Edit</button>
-                <button class="btn btn-danger btn-xs btn-delete" value=""><i class="fa fa-trash"></i> Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Spelling Quiz Bee Participant</td>
-              <td>University of the Philippines Diliman</td>
-              <td>March 8, 2017</td>
-              <td style="">
-                <button class="btn btn-warning btn-xs btn-detail open-modal" value=""><i class="fa fa-edit"></i> Edit</button>
-                <button class="btn btn-danger btn-xs btn-delete" value=""><i class="fa fa-trash"></i> Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>IT Research Forum Speaker</td>
-              <td>Claro M. Recto Hall</td>
-              <td>March 6, 2017</td>
-              <td style="">
-                <button class="btn btn-warning btn-xs btn-detail open-modal" value=""><i class="fa fa-edit"></i> Edit</button>
-                <button class="btn btn-danger btn-xs btn-delete" value=""><i class="fa fa-trash"></i> Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>President's Lister</td>
-              <td>Polytechnic University of the Philippines</td>
-              <td>December 31, 2016</td>
-              <td style="">
-                <button class="btn btn-warning btn-xs btn-detail open-modal" value=""><i class="fa fa-edit"></i> Edit</button>
-                <button class="btn btn-danger btn-xs btn-delete" value=""><i class="fa fa-trash"></i> Delete</button>
-              </td>
-            </tr>
-          </table>
-        </div>
+      <div class="box-body table-responsive">
+        {{ Form::button("<i class='fa fa-plus'></i> Add Achievement", [
+          'id' => 'btn-add',
+          'class' => 'btn btn-primary btn-sm',
+          'value' => 'add',
+          'type' => '',
+          'style' => 'margin-bottom: 10px;'
+          ]) 
+        }}
+        <table id="achievement-table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
+          <thead>
+            <th>Description</th>
+            <th>Place Held</th>
+            <th>Date Held</th>
+            <th>Status</th>
+            <th>Token</th>
+            <th>Action</th>
+          </thead>
+          <tbody id="district-list">
+          </tbody>
+        </table>
       </div>
     </div>
     <!-- /.content -->
@@ -160,5 +126,11 @@
 <!-- /.content-wrapper -->
 @endsection
 @section('script')
+{!! Html::script("plugins/datatables/jquery.dataTables.min.js") !!}
+{!! Html::script("plugins/datatables/dataTables.bootstrap.min.js") !!}
+{!! Html::script("plugins/sweetalert/sweetalert.min.js") !!}
 {!! Html::script("custom/StudentAchievementAjax.js") !!}
+<script type="text/javascript">
+  var dataurl = "{!! route('studentachievement.data') !!}";
+</script>
 @endsection

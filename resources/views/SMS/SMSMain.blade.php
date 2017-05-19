@@ -67,72 +67,25 @@ desired effect
             <li class="{{Request::path() == 'how-to-apply' ? 'active' : ''}}"><a href="{{ url('how-to-apply') }}">How to Apply</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            @if (Auth::guest())
             <li class="{{Request::path() == 'login' ? 'active' : ''}}"><a href="{{ url('/login') }}">Login</a></li>
-            @else
-            <div class="navbar-custom-menu">
-              <ul class="nav navbar-nav">
-                <!-- User Account Menu -->
-                <li class="dropdown user user-menu">
-                  <!-- Menu Toggle Button -->
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <!-- The user image in the navbar-->
-                    <img src="../../img/avatar5.png" class="user-image" alt="User Image">
-                    <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                    <span class="hidden-xs">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</span>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <!-- The user image in the menu -->
-                    <li class="user-header">
-                      <img src="../../img/avatar5.png" class="img-circle" alt="User Image">
-                      <p>
-                        {{ Auth::user()->first_name }} {{ Auth::user()->last_name }} - {{ Auth::user()->type }}
-                        <small>Member since Nov. 2012</small>
-                      </p>
-                    </li>
-                  </li>
-                  <!-- Menu Footer-->
-                  <li class="user-footer">
-                    <div class="row col-md-12">
-                      <div class="col-md-4">
-                        <a href="{{$link}}" class="btn btn-flat">Home</a>
-                      </div>
-                      <div class="col-md-4">
-                        <a href="#" class="btn btn-flat">Profile</a>
-                      </div>
-                      <div class="col-md-4">
-                        <a href="{{ route('logout') }}" class="btn btn-flat"
-                        onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                        Sign out
-                      </a>
-
-                      <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        {{ csrf_field() }}
-                      </form>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-              @endif
-            </ul>
-          </div>
+          </ul>
         </div>
-      </nav>
-    </header>
-    @yield('middlecontent')
-    {!! Html::script("plugins/jQuery/jquery-3.1.1.min.js") !!}
-    {!! Html::script("js/bootstrap.min.js") !!} 
-    {!! Html::script("js/jquery.backstretch.min.js") !!} 
-    {!! Html::script("js/retina-1.1.0.min.js") !!} 
-    {!! Html::script("plugins/input-mask/jquery.inputmask.js") !!} 
-    {!! Html::script("plugins/input-mask/jquery.inputmask.date.extensions.js") !!} 
-    {!! Html::script("plugins/input-mask/jquery.inputmask.extensions.js") !!}
-    {!! Html::script("plugins/jQueryUI/jquery-ui.min.js") !!} 
-    {!! Html::script("plugins/iCheck/icheck.min.js") !!}
-    {!! Html::script("plugins/fastclick/fastclick.min.js") !!} 
-    {!! Html::script("plugins/slimScroll/jquery.slimscroll.min.js") !!} 
-    {!! Html::script("js/parsley.min.js") !!}  
-    @yield('endscript')
-  </body>
-  </html>
+      </div>
+    </nav>
+  </header>
+  @yield('middlecontent')
+  {!! Html::script("plugins/jQuery/jquery-3.1.1.min.js") !!}
+  {!! Html::script("js/bootstrap.min.js") !!} 
+  {!! Html::script("js/jquery.backstretch.min.js") !!} 
+  {!! Html::script("js/retina-1.1.0.min.js") !!} 
+  {!! Html::script("plugins/input-mask/jquery.inputmask.js") !!} 
+  {!! Html::script("plugins/input-mask/jquery.inputmask.date.extensions.js") !!} 
+  {!! Html::script("plugins/input-mask/jquery.inputmask.extensions.js") !!}
+  {!! Html::script("plugins/jQueryUI/jquery-ui.min.js") !!} 
+  {!! Html::script("plugins/iCheck/icheck.min.js") !!}
+  {!! Html::script("plugins/fastclick/fastclick.min.js") !!} 
+  {!! Html::script("plugins/slimScroll/jquery.slimscroll.min.js") !!} 
+  {!! Html::script("js/parsley.min.js") !!}  
+  @yield('endscript')
+</body>
+</html>

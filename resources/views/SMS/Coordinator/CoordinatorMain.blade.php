@@ -15,6 +15,7 @@
   {!! Html::style("css/stylesheet.css") !!}
   {!! Html::style("css/parsley.css") !!}
   {!! Html::style("plugins/datatables/dataTables.bootstrap.min.css") !!}
+  {!! Html::style("plugins/sweetalert/sweetalert.min.css") !!}
   @yield('override')
   <link rel="icon" href="{{ asset('img/logo.ico') }}">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -183,6 +184,7 @@ desired effect
 {!! Html::script("js/parsley.min.js") !!}
 {!! Html::script("plugins/datatables/jquery.dataTables.min.js") !!}
 {!! Html::script("plugins/datatables/dataTables.bootstrap.min.js") !!}
+{!! Html::script("plugins/sweetalert/sweetalert.min.js") !!}
 @yield('script')
 </body>
 </html>

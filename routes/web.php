@@ -12,6 +12,8 @@
 */
 
 //DataTable
+Route::get('scholar/achievements/data', ['uses' => 'CoordinatorAchievementsController@data', 'as' => 'coordinatorachievement.data']);
+Route::get('student/achievements/data', ['uses' => 'StudentAchievementsController@data', 'as' => 'studentachievement.data']);
 Route::get('admin/maintenance/budgtype/data', ['uses' => 'AdminMBudgtypeController@data', 'as' => 'budgtype.data']);
 Route::get('admin/maintenance/grade/data', ['uses' => 'AdminMGradeController@data', 'as' => 'grade.data']);
 Route::get('admin/maintenance/steps/data', ['uses' => 'AdminMStepsController@data', 'as' => 'steps.data']);

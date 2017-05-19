@@ -13,6 +13,7 @@
   {!! Html::style("css/bootstrap-toggle.min.css") !!}
   {!! Html::style("css/stylesheet.css") !!}
   {!! Html::style("css/parsley.css") !!}
+  @yield('override')
   <link rel="icon" href="{{ asset('img/logo.ico') }}">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

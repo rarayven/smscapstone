@@ -15,8 +15,11 @@ class CoordinatorMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->type == 'Coordinator')
-            return $next($request);
-        return redirect('/');
+        if(!Auth::guest()){
+            if(Auth::user()->type == 'Coordinator')
+                return $next($request);
+            return redirect('/');
+        }
+        return redirect('/login');
     }
 }

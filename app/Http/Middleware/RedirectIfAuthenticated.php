@@ -25,7 +25,6 @@ class RedirectIfAuthenticated
                 return redirect('coordinator/dashboard');
             elseif($type == 'Student')
                 return redirect('student/dashboard');
-            // return redirect('/admin/dashboard');
         }
 
         return $next($request);
