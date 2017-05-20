@@ -64,7 +64,7 @@ class AdminMBudgtypeController extends Controller
     }
     public function create()
     {
-        //
+        return redirect('admin/maintenance/budgtype');
     }
     public function store(Request $request)
     {
@@ -85,7 +85,7 @@ class AdminMBudgtypeController extends Controller
     }
     public function show($id)
     {
-        //
+        return redirect('admin/maintenance/budgtype');
     }
     public function edit($id)
     {

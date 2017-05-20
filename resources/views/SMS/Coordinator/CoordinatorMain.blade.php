@@ -86,7 +86,7 @@ desired effect
                 <!-- Menu Footer-->
                 <li class="user-footer">
                   <div class="pull-left">
-                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                    <a href="{{ url('coordinator/services/profile') }}" class="btn btn-default btn-flat">Profile</a>
                   </div>
                   <div class="pull-right">
                     <a href="{{ route('logout') }}" class="btn btn-default btn-flat"
@@ -159,7 +159,6 @@ desired effect
           </ul>
         </li>
         <li class="{{Request::path() == 'coordinator/services/queries' ? 'active' : ''}}"><a href="{{ url('coordinator/services/queries') }}"><i class="fa fa-fw fa-list"></i> <span>Queries</span></a></li>
-        <li class="{{Request::path() == 'coordinator/services/settings' ? 'active' : ''}}"><a href="{{ url('coordinator/services/settings') }}"><i class="fa fa-gear"></i><span>Account Settings</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>

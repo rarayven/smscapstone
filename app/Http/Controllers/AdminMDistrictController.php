@@ -65,7 +65,7 @@ class AdminMDistrictController extends Controller
     }
     public function create()
     {
-        //
+        return redirect('admin/maintenance/district');
     }
     public function store(Request $request)
     {
@@ -92,7 +92,7 @@ class AdminMDistrictController extends Controller
     }
     public function show($id)
     {
-        //
+        return redirect('admin/maintenance/district');
     }
     public function edit($id)
     {

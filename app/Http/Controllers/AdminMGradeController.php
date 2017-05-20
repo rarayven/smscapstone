@@ -65,7 +65,7 @@ class AdminMGradeController extends Controller
     }
     public function create()
     {
-        //
+        return redirect('admin/maintenance/grade');
     }
     public function store(Request $request)
     {
@@ -97,7 +97,7 @@ class AdminMGradeController extends Controller
     }
     public function show($id)
     {
-        //
+        return redirect('admin/maintenance/grade');
     }
     public function edit($id)
     {

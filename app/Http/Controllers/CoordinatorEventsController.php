@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Event;
 use Auth;
@@ -20,13 +18,10 @@ class CoordinatorEventsController extends Controller
      */
     public function index()
     {
-
         $events = Event::where('user_id',Auth::id())
         ->get();
-        // dd($events);
         return view('SMS.Coordinator.Services.CoordinatorEvents')->withEvents($events);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -36,7 +31,6 @@ class CoordinatorEventsController extends Controller
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -68,7 +62,6 @@ class CoordinatorEventsController extends Controller
                 return var_dump($e->errorInfo[1]);
         }
     }
-
     /**
      * Display the specified resource.
      *
@@ -79,7 +72,6 @@ class CoordinatorEventsController extends Controller
     {
         //
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -90,7 +82,6 @@ class CoordinatorEventsController extends Controller
     {
         //
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -102,7 +93,6 @@ class CoordinatorEventsController extends Controller
     {
         //
     }
-
     /**
      * Remove the specified resource from storage.
      *

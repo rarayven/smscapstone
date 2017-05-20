@@ -64,7 +64,7 @@ class AdminMBatchController extends Controller
     }
     public function create()
     {
-        //
+        return redirect('admin/maintenance/batch');
     }
     public function store(Request $request)
     {
@@ -85,7 +85,7 @@ class AdminMBatchController extends Controller
     }
     public function show($id)
     {
-        //
+        return redirect('admin/maintenance/batch');
     }
     public function edit($id)
     {

@@ -12,6 +12,7 @@
 */
 
 //DataTable
+Route::get('scholar/token/data', ['uses' => 'CoordinatorTokenController@data', 'as' => 'token.data']);
 Route::get('scholar/achievements/data', ['uses' => 'CoordinatorAchievementsController@data', 'as' => 'coordinatorachievement.data']);
 Route::get('student/achievements/data', ['uses' => 'StudentAchievementsController@data', 'as' => 'studentachievement.data']);
 Route::get('admin/maintenance/budgtype/data', ['uses' => 'AdminMBudgtypeController@data', 'as' => 'budgtype.data']);
@@ -27,7 +28,6 @@ Route::get('admin/maintenance/school/data', ['uses' => 'AdminMSchoolController@d
 Route::get('admin/maintenance/district/data', ['uses' => 'AdminMDistrictController@data', 'as' => 'district.data']);
 //Student Route List
 Route::resource('student/dashboard', 'StudentIndexController');
-Route::resource('student/settings', 'StudentSettingsController');
 Route::resource('student/renewal', 'StudentRenewalController');
 Route::resource('student/profile', 'StudentProfileController');
 Route::resource('student/messages', 'StudentMessagesController');
@@ -52,7 +52,6 @@ Route::resource('apply', 'SMSAccountApplyController');
 //Coordinator Route List
 Route::resource('coordinator/scholar/details', 'CoordinatorApplicantsDetailsController');
 Route::resource('coordinator/dashboard', 'CoordinatorIndexController');
-Route::resource('coordinator/services/settings', 'CoordinatorSettingsController');
 Route::resource('coordinator/services/messages', 'CoordinatorMessagesController');
 Route::resource('coordinator/services/announcements', 'CoordinatorAnnouncementsController');
 Route::resource('coordinator/services/profile', 'CoordinatorProfileController');
@@ -80,5 +79,5 @@ Route::resource('admin/maintenance/barangay','AdminMBarangayController');
 Route::resource('admin/dashboard', 'AdminIndexController');
 //Landing Page Routing List
 Route::resource('/', 'SMSIndexController');
-
+//Authentication Route
 Auth::routes();

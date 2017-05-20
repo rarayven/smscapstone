@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Datatables;
-use App\Achievement;
+use App\User;
+use Auth;
+use DB;
+use App\Connection;
 class CoordinatorAchievementsController extends Controller
 {
     public function __construct()
@@ -13,36 +16,37 @@ class CoordinatorAchievementsController extends Controller
     }
     public function data()
     {   
-        $achievement = Achievement::where('user_id',5)->get();
-        return Datatables::of($achievement)
+        $connections = Connection::join('users','connections.user_id','users.id')
+        ->join('councilors','connections.councilor_id','councilors.id')
+        ->select('councilors.id')
+        ->where('connections.user_id',Auth::id())
+        ->first();
+        $users = User::join('achievements','users.id','achievements.user_id')
+        ->join('connections','users.id','connections.user_id')
+        ->join('student_details','users.id','student_details.user_id')
+        ->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',users.middle_name) as strStudName"),'users.*','student_details.*','achievements.*'])
+        ->where('connections.councilor_id',$connections->id)
+        ->where('achievements.status','Pending')
+        ->where('users.type','Student')
+        ->get();
+        $datatables = Datatables::of($users)
         ->addColumn('action', function ($data) {
             return "<button class='btn btn-info btn-xs btn-view' value='$data->id'><i class='fa fa-eye'></i> View</button> <button class='btn btn-success btn-xs btn-detail open-modal' value='$data->id'><i class='fa fa-check'></i> Accept</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->id'><i class='fa fa-trash-o'></i> Remove</button>";
         })
-        ->editColumn('status', function ($data) {
-            if($data->status=='Accepted'){
-                $status = 'success';
-            }elseif ($data->status=='Pending') {
-                $status = 'warning';
-            }elseif ($data->status=='Declined') {
-                $status = 'danger';
-            }
-            return "<span class='label label-$status'>$data->status</span>";
-        })
-        ->editColumn('token_process', function ($data) {
-            if($data->token_process=='Received'){
-                $token_process = 'success';
-            }elseif ($data->token_process=='Pending') {
-                $token_process = 'warning';
-            }elseif ($data->token_process=='Cancelled') {
-                $token_process = 'danger';
-            }
-            return "<span class='label label-$token_process'>$data->token_process</span>";
+        ->editColumn('strStudName', function ($data) {
+            $images = url('images/'.$data->picture);
+            return "<table><tr><td><div class='col-md-2'><img src='$images' class='img-circle' alt='data Image' height='60'></div></td><td>$data->last_name, $data->first_name $data->middle_name</td></tr></table>";
         })
         ->setRowId(function ($data) {
             return $data = 'id'.$data->id;
         })
-        ->rawColumns(['status','token_process','action'])
-        ->make(true);
+        ->rawColumns(['strStudName','action']);
+        // if ($keyword = $request->get('search')['value']) {
+        //     $datatables->filterColumn('user_id', 'where', 'like', "$keyword%");
+        //     $datatables->filterColumn('strStudName', 'whereRaw', "CONCAT(users.last_name
+        //         ,', ',users.first_name,' ',users.middle_name) like ? ", ["%$keyword%"]);
+        // }
+        return $datatables->make(true);
     }
     /**
      * Display a listing of the resource.
@@ -51,8 +55,8 @@ class CoordinatorAchievementsController extends Controller
      */
     public function index()
     {
-      return view('SMS.Coordinator.Scholar.CoordinatorAchievements');
-  }
+        return view('SMS.Coordinator.Scholar.CoordinatorAchievements');
+    }
 
     /**
      * Show the form for creating a new resource.

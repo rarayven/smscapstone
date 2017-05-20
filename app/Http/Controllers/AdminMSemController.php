@@ -64,7 +64,7 @@ class AdminMSemController extends Controller
     }
     public function create()
     {
-        //
+        return redirect('admin/maintenance/sem');
     }
     public function store(Request $request)
     {
@@ -85,7 +85,7 @@ class AdminMSemController extends Controller
     }
     public function show($id)
     {
-        //
+        return redirect('admin/maintenance/sem');
     }
     public function edit($id)
     {

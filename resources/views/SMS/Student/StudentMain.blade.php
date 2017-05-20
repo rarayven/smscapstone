@@ -83,7 +83,7 @@ desired effect
                 <!-- Menu Footer-->
                 <li class="user-footer">
                   <div class="pull-left">
-                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                    <a href="{{ url('student/profile') }}" class="btn btn-default btn-flat">Profile</a>
                   </div>
                   <div class="pull-right">
                     <a href="{{ route('logout') }}" class="btn btn-default btn-flat"
@@ -124,7 +124,6 @@ desired effect
         <li class="{{Request::path() == 'student/events' ? 'active' : ''}}"><a href="{{ url('student/events') }}"><i class="fa fa-flag"></i><span>Events</span></a></li>
         <li class="{{Request::path() == 'student/achievements' ? 'active' : ''}}"><a href="{{ url('student/achievements') }}"><i class="fa fa-trophy"></i><span>Achievements</span></a></li>
         <li class="{{Request::path() == 'student/renewal' ? 'active' : ''}}"><a href="{{ url('student/renewal') }}"><i class="fa fa-refresh"></i><span>Renewal</span></a></li>
-        <li class="{{Request::path() == 'student/settings' ? 'active' : ''}}"><a href="{{ url('student/settings') }}"><i class="fa fa-cogs"></i><span>Account Settings</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>

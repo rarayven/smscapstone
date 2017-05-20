@@ -74,7 +74,7 @@ class AdminMCouncilorController extends Controller
     }
     public function create()
     {
-        //
+        return redirect('admin/maintenance/councilor');
     }
     public function store(Request $request)
     {
@@ -105,7 +105,6 @@ class AdminMCouncilorController extends Controller
             $councilor->cell_no=$request->strCounCell;
             $councilor->save();
             $users = new User;
-            // $users->councilor_id=$councilor->id;
             $users->type='Coordinator';
             $users->password=$randompassword;
             $users->first_name=$randompassword;

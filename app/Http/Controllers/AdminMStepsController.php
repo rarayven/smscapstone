@@ -118,7 +118,7 @@ class AdminMStepsController extends Controller
     }
     public function show($id)
     {
-        //
+        return redirect('admin/maintenance/steps');
     }
     public function edit($id)
     {

@@ -67,7 +67,7 @@ class AdminMSchoolController extends Controller
     }
     public function create()
     {
-        //
+        return redirect('admin/maintenance/school');
     }
     public function store(Request $request)
     {
@@ -89,7 +89,7 @@ class AdminMSchoolController extends Controller
     }
     public function show($id)
     {
-        //
+        return redirect('admin/maintenance/school');
     }
     public function edit($id)
     {

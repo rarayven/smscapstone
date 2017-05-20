@@ -64,7 +64,7 @@ class AdminMYearController extends Controller
     }
     public function create()
     {
-        //
+        return redirect('admin/maintenance/year');
     }
     public function store(Request $request)
     {
@@ -85,7 +85,7 @@ class AdminMYearController extends Controller
     }
     public function show($id)
     {
-        //
+        return redirect('admin/maintenance/year');
     }
     public function edit($id)
     {

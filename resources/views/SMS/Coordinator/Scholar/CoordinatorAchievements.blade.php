@@ -19,8 +19,6 @@
           <thead>
             <th>Student</th>
             <th>Achievement</th>
-            <th>Student</th>
-            <th>Achievement</th>
             <th>Date Held</th>
             <th>Action</th>
           </thead>

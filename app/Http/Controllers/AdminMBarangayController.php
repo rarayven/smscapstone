@@ -67,8 +67,7 @@ class AdminMBarangayController extends Controller
     }
     public function create()
     {
-        // $district = District::where('isActive',1)->get();
-        // return Response::json($district);
+        return redirect('admin/maintenance/barangay');
     }
     public function store(Request $request)
     {
@@ -92,7 +91,7 @@ class AdminMBarangayController extends Controller
     }
     public function show($id)
     {
-        //
+        return redirect('admin/maintenance/barangay');
     }
     public function edit($id)
     {
