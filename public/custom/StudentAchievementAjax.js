@@ -5,7 +5,15 @@ $(document).ready(function(){
 		$('#frmAchievement').trigger("reset");
 		$('#add_achievement').modal('show');
 	});
-
+	var url = "/student/achievements";
+	var dt = new Date();
+	dt.setFullYear(new Date().getFullYear());
+	$('#datepicker').datepicker({
+		viewMode: "years",
+		endDate : dt,
+		autoclose: true,
+		format : 'yyyy-mm-dd'
+	});
 	var table = $('#achievement-table').DataTable({
 		responsive: true,
 		processing: true,
@@ -25,6 +33,15 @@ $(document).ready(function(){
 		{data: 'action', name: 'action', orderable: false, searchable: false}
 		]
 	});
+	$.ajaxSetup({
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+		}
+	})	
+	$('#add_achievement').on('hide.bs.modal', function(){
+		// $('#frmAchivement').trigger("reset");
+		$('#frmAchivement').parsley().destroy();
+	});
 	//create new task / update existing task
 	xhrPool = [];
 	$("#btn-save").click(function () {
@@ -35,11 +52,11 @@ $(document).ready(function(){
 			setTimeout(function(){
 				$("#btn-save").removeAttr('disabled');
 			}, 1000);
+			var file_data = $('#pdf').prop('files')[0];
 			var formData = {
 				description: $('#description').parsley('data-parsley-whitespace','squish').getValue(),
 				place_held: $('#place_held').parsley('data-parsley-whitespace','squish').getValue(),
-				date_held: $('#date_held').parsley('data-parsley-whitespace','squish').getValue(),
-				pdf: $('#pdf').parsley('data-parsley-whitespace','squish').getValue()
+				date_held: $('#datepicker').val()
 			}
 			var state = $('#btn-save').val();
 			var type = "POST"; 
@@ -57,7 +74,7 @@ $(document).ready(function(){
 				data: formData,
 				dataType: 'json',
 				success: function (data) {
-					$('#add_district').modal('hide');
+					$('#add_achievement').modal('hide');
 					table.draw();
 					swal({
 						title: "Success!",

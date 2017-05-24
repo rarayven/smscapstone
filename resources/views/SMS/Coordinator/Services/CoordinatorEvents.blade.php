@@ -144,33 +144,102 @@
     </div>
   </div>
 </div>
-<div class="row">
-  <div id="events">
-    @foreach ($events as $event)
+<div class="modal fade" id="details_events">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        {{ Form::button('&times;', [
+          'class' => 'close',
+          'type' => '',
+          'data-dismiss' => 'modal'
+          ]) 
+        }}
+        <h4>Event Details</h4>
+      </div>
+      <div class="modal-body" id="details">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="nav-tabs-custom">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#tab_1" data-toggle="tab">Upcoming</a></li>
+    <li><a href="#tab_2" data-toggle="tab">Finished</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active row" id="tab_1">
+      <div id="events">
+        @foreach ($events as $event)
+        <div class="col-md-4">
+          <div class="small-box bg-purple">
+            <div class="box-body">
+              <div class="pull-right">
+                <?php
+                $checked = '';
+                if($event->status=='Ongoing'){
+                  $checked = 'checked';
+                }
+                ?>
+                <input type='checkbox' id='isActive' name='isActive' value='{{$event->id}}' data-toggle='toggle' data-style='android' data-onstyle='success' data-offstyle='danger' data-on="Ongoing" data-off="Cancelled" {{$checked}} data-size='mini'>
+                <button class='btn btn-warning btn-xs btn-detail open-modal' value='{{$event->id}}'><i class='fa fa-edit'></i></button> <button class='btn btn-danger btn-xs btn-delete' value='{{$event->id}}'><i class='fa fa-times'></i></button>
+              </div>
+              <h4><b>{{$event->title}}</b></h4>
+              <p>Saturday</p>
+              <p>{{$event->date_held}}</p>
+              <p>{{$event->time_from}} - {{$event->time_to}}</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-person-add"></i>
+            </div>
+            <a value="{{$event->id}}" class="btn small-box-footer">
+              View Event Details <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        @endforeach
+      </div>
+    </div>
+    <div class="tab-pane row" id="tab_2">
+     @foreach ($done as $done)
+     <?php
+     if($done->status=='Done'){
+      $changer = 'success';
+    }else{
+      $changer = 'danger';
+    }
+    ?>
     <div class="col-md-4">
-      <div class="small-box bg-red">
+      <div class="small-box bg-orange">
         <div class="box-body">
-          <h4><b>{{$event->title}}</b></h4>
+          <div class="pull-right">
+            <span class='label label-{{$changer}}'>{{$done->status}}</span>
+          </div>
+          <h4><b>{{$done->title}}</b></h4>
           <p>Saturday</p>
-          <p>{{$event->date_held}}</p>
-          <p>{{$event->time_from}} - {{$event->time_to}}</p>
+          <p>{{$done->date_held}}</p>
+          <p>{{$done->time_from}} - {{$done->time_to}}</p>
         </div>
         <div class="icon">
           <i class="ion ion-person-add"></i>
         </div>
-        <a href="#" class="small-box-footer">
+        <a value="{{$done->id}}" class="btn small-box-footer details">
           View Event Details <i class="fa fa-arrow-circle-right"></i>
         </a>
-      </div>
+      </a>
     </div>
-    @endforeach
   </div>
+  @endforeach
+</div>
+</div>
 </div>
 </section>
 </div>
 @endsection
+@section('meta')
+<meta name="_token" content="{!! csrf_token() !!}" />
+@endsection
 @section('script')
 {!! Html::script("plugins/datepicker/bootstrap-datepicker.js") !!}
 {!! Html::script("plugins/timepicker/bootstrap-timepicker.min.js") !!}
-{!! Html::script("custom/EventsAjax.js") !!}
+{!! Html::script("custom/CoordinatorEventsAjax.js") !!}
 @endsection

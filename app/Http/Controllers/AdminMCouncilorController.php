@@ -10,6 +10,7 @@ use DB;
 use Datatables;
 use Input;
 use Validator;
+use Hash;
 class AdminMCouncilorController extends Controller
 {
     public function __construct()
@@ -94,7 +95,8 @@ class AdminMCouncilorController extends Controller
         DB::beginTransaction();
         try
         {
-            $randompassword = str_random(25);
+            // $randompassword = str_random(25);
+            $randompassword = Hash::make('password');
             $randomnumber = str_random(15);
             $councilor = new Councilor;
             $councilor->first_name=$request->strCounFirstName;
@@ -107,9 +109,9 @@ class AdminMCouncilorController extends Controller
             $users = new User;
             $users->type='Coordinator';
             $users->password=$randompassword;
-            $users->first_name=$randompassword;
-            $users->middle_name=$randompassword;
-            $users->last_name=$randompassword;
+            $users->first_name=$randomnumber;
+            $users->middle_name=$randomnumber;
+            $users->last_name=$randomnumber;
             $users->email=$request->strUserEmail;
             $users->cell_no=$randomnumber;
             $users->save();
@@ -171,7 +173,19 @@ class AdminMCouncilorController extends Controller
         if ($validation2->fails()) {
             return "2";
         }
-        $validation3 = Validator::make(Input::all(), Councilor::coordinator($id));
+        try
+        {
+            $connection = Connection::join('users','connections.user_id','users.id')
+            ->select('users.id')
+            ->where('connections.councilor_id',$id)
+            ->where('users.type','Coordinator')
+            ->first();
+        }
+        catch(\Exception $e){
+            dd("Error");
+        }
+        
+        $validation3 = Validator::make(Input::all(), Councilor::coordinator($connection->id));
         if ($validation3->fails()) {
             return "3";
         }

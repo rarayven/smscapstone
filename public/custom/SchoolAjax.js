@@ -1,13 +1,13 @@
 $(document).ready(function(){
- $.ajaxSetup({
+   $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
     }
 })
- var url = "/admin/maintenance/school";
- var id='';
- var url2 = "/admin/maintenance/school/checkbox";
- var table = $('#school-table').DataTable({
+   var url = "/admin/maintenance/school";
+   var id='';
+   var url2 = "/admin/maintenance/school/checkbox";
+   var table = $('#school-table').DataTable({
     responsive: true,
     processing: true,
     serverSide: true,
@@ -23,27 +23,27 @@ $(document).ready(function(){
     {data: 'action', name: 'action', orderable: false, searchable: false}
     ]
 });
- $('#add_school').on('hide.bs.modal', function(){
+   $('#add_school').on('hide.bs.modal', function(){
     $('#frmSchool').parsley().destroy();
     $('#frmSchool').trigger("reset");
 });
- $('#school-list').on('change', '#isActive',function(){ 
-   var link_id = $(this).val();
-   $.ajax({
-    url: url2 + '/' + link_id,
-    type: "PUT",
-    success: function (data) {
-        console.log(data);
-        if(data=="Deleted"){
-            refresh();
+   $('#school-list').on('change', '#isActive',function(){ 
+     var link_id = $(this).val();
+     $.ajax({
+        url: url2 + '/' + link_id,
+        type: "PUT",
+        success: function (data) {
+            console.log(data);
+            if(data=="Deleted"){
+                refresh();
+            }
+        },
+        error: function (data) {
+            console.log('Error:', data);
         }
-    },
-    error: function (data) {
-        console.log('Error:', data);
-    }
-});
-});
- function refresh(){
+    });
+ });
+   function refresh(){
     swal({
         title: "Record Deleted!",
         type: "warning",
@@ -72,7 +72,7 @@ $(document).ready(function(){
             if(data=="Deleted"){
                 refresh();
             }else{
-                var textToFind = data.strSystDesc;
+                var textToFind = data.academic_gradings_description;
                 var dd = document.getElementById('intSystID');
                 for (var i = 0; i < dd.options.length; i++) {
                     if (dd.options[i].text === textToFind) {
@@ -96,8 +96,8 @@ $(document).ready(function(){
     });
     //delete task and remove it from list
     $('#school-list').on('click', '.btn-delete',function(){ 
-     var link_id = $(this).val();
-     swal({
+       var link_id = $(this).val();
+       swal({
         title: "Are you sure?",
         type: "warning",
         showCancelButton: true,
@@ -149,7 +149,7 @@ $(document).ready(function(){
         }
     }, 500);
     });
- });
+   });
     //create new task / update existing task
     xhrPool = [];
     $("#btn-save").click(function () {

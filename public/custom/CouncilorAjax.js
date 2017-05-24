@@ -1,13 +1,13 @@
 $(document).ready(function(){
-   $.ajaxSetup({
+ $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
     }
 })
-   var url = "/admin/maintenance/councilor";
-   var id='';
-   var url2 = "/admin/maintenance/councilor/checkbox";
-   var table = $('#councilor-table').DataTable({
+ var url = "/admin/maintenance/councilor";
+ var id='';
+ var url2 = "/admin/maintenance/councilor/checkbox";
+ var table = $('#councilor-table').DataTable({
     responsive: true,
     processing: true,
     serverSide: true,
@@ -23,13 +23,13 @@ $(document).ready(function(){
     {data: 'action', name: 'action', orderable: false, searchable: false}
     ]
 });
-   $('#add_councilor').on('hide.bs.modal', function(){
+ $('#add_councilor').on('hide.bs.modal', function(){
     $('#frmCouncilor').parsley().destroy();
     $('#frmCouncilor').trigger("reset");
 });
-   $('#councilor-list').on('change', '#isActive',function(){ 
-       var link_id = $(this).val();
-       $.ajax({
+ $('#councilor-list').on('change', '#isActive',function(){ 
+     var link_id = $(this).val();
+     $.ajax({
         url: url2 + '/' + link_id,
         type: "PUT",
         success: function (data) {
@@ -42,8 +42,8 @@ $(document).ready(function(){
             console.log('Error:', data);
         }
     });
-   });
-   function refresh(){
+ });
+ function refresh(){
     swal({
         title: "Record Deleted!",
         type: "warning",
@@ -72,7 +72,7 @@ $(document).ready(function(){
             if(data=="Deleted"){
                 refresh();
             }else{
-                var textToFind = data.strDistDesc;
+                var textToFind = data.district_description;
                 var dd = document.getElementById('intCounDistID');
                 for (var i = 0; i < dd.options.length; i++) {
                     if (dd.options[i].text === textToFind) {
@@ -121,60 +121,60 @@ $(document).ready(function(){
     });
     //delete task and remove it from list
     $('#councilor-list').on('click', '.btn-delete',function(){ 
-     var link_id = $(this).val();
-     swal({
-      title: "Are you sure?",
-      type: "warning",
-      showCancelButton: true,
-      confirmButtonClass: "btn-danger",
-      confirmButtonText: "Delete",
-      cancelButtonText: "Cancel",
-      closeOnConfirm: false,
-      allowOutsideClick: true,
-      showLoaderOnConfirm: true,
-      closeOnCancel: true
-  },
-  function(isConfirm) {
-    setTimeout(function () {
-      if (isConfirm) {
-        $.ajax({
-          url: url + '/' + link_id,
-          type: "DELETE",
-          success: function (data) {
-            console.log(data);
-            if(data=="Deleted"){
-                refresh();
-            }else{
-                if(data[0]=="true"){
-                  swal({
-                    title: "Failed!",
-                    text: "<center>"+data[1].last_name+" is in use</center>",
-                    type: "error",
-                    showConfirmButton: false,
-                    allowOutsideClick: true,
-                    html: true
-                });
-              }else{
-                  table.draw();
-                  swal({
-                    title: "Deleted!",
-                    text: "<center>"+data.last_name+", "+data.first_name+" "+data.middle_name+" is Deleted</center>",
-                    type: "success",
-                    timer: 1000,
-                    showConfirmButton: false,
-                    html: true
-                });
-              }
-          }
+       var link_id = $(this).val();
+       swal({
+          title: "Are you sure?",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonClass: "btn-danger",
+          confirmButtonText: "Delete",
+          cancelButtonText: "Cancel",
+          closeOnConfirm: false,
+          allowOutsideClick: true,
+          showLoaderOnConfirm: true,
+          closeOnCancel: true
       },
-      error: function (data) {
-        console.log(data);
-    }
-});
-    }
-}, 500);
-});
- });
+      function(isConfirm) {
+        setTimeout(function () {
+          if (isConfirm) {
+            $.ajax({
+              url: url + '/' + link_id,
+              type: "DELETE",
+              success: function (data) {
+                console.log(data);
+                if(data=="Deleted"){
+                    refresh();
+                }else{
+                    if(data[0]=="true"){
+                      swal({
+                        title: "Failed!",
+                        text: "<center>"+data[1].last_name+" is in use</center>",
+                        type: "error",
+                        showConfirmButton: false,
+                        allowOutsideClick: true,
+                        html: true
+                    });
+                  }else{
+                      table.draw();
+                      swal({
+                        title: "Deleted!",
+                        text: "<center>"+data.last_name+", "+data.first_name+" "+data.middle_name+" is Deleted</center>",
+                        type: "success",
+                        timer: 1000,
+                        showConfirmButton: false,
+                        html: true
+                    });
+                  }
+              }
+          },
+          error: function (data) {
+            console.log(data);
+        }
+    });
+        }
+    }, 500);
+    });
+   });
     //create new task / update existing task
     xhrPool = [];
     $("#btn-save").click(function () {

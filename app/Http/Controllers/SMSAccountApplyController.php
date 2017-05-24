@@ -24,20 +24,15 @@ use Image;
 use App\Connection;
 use App\Grade;
 use Auth;
+use Hash;
 class SMSAccountApplyController extends Controller
 {
+  public function __construct()
+  {
+    $this->middleware('guest');
+  }
   public function index()
   {
-    $link = '';
-    if (!Auth::guest()) {
-      $type = Auth::user()->type;
-      if($type == 'Admin')
-        $link = url('admin/dashboard');
-      elseif($type == 'Coordinator')
-        $link = url('coordinator/dashboard');
-      elseif($type == 'Student')
-        $link = url('student/dashboard');
-    }
     $district = District::where('is_active',1)->get();
     $councilor = Councilor::where('is_active',1)->get();
     $barangay = Barangay::where('is_active',1)->get();
@@ -46,7 +41,7 @@ class SMSAccountApplyController extends Controller
     $grade = Academicgrade::where('is_active',1)->get();
     $year = Year::where('is_active',1)->get();
     $sem = Semester::where('is_active',1)->get();
-    return view('SMS.Account.SMSAccountApply')->withDistrict($district)->withCouncilor($councilor)->withBarangay($barangay)->withSchool($school)->withCourse($course)->withGrade($grade)->withYear($year)->withSem($sem)->withLink($link);
+    return view('SMS.Account.SMSAccountApply')->withDistrict($district)->withCouncilor($councilor)->withBarangay($barangay)->withSchool($school)->withCourse($course)->withGrade($grade)->withYear($year)->withSem($sem);
   }
   public function create()
   {
@@ -57,7 +52,7 @@ class SMSAccountApplyController extends Controller
     DB::beginTransaction();
     try
     {
-      $randompassword = str_random(25);
+      $randompassword = Hash::make('password');
       $dtm = Carbon::now('Asia/Manila');
       $date = $request->datPersDOB;
       $dob = Carbon::createFromFormat('Y-m-d', $date);
@@ -76,10 +71,12 @@ class SMSAccountApplyController extends Controller
       $users->email=$request->strUserEmail;
       $users->password=$randompassword;
       $users->cell_no=$request->strUserCell;
+      $users->picture=$imagename;
       $users->save();
       $connections = new Connection;
       $connections->user_id = $users->id;
       $connections->councilor_id = $request->intCounID;
+      $connections->save();
       $batch = Batch::where('is_active',1)->max('id');
       $application = new Application;
       $application->user_id=$users->id;
@@ -93,7 +90,6 @@ class SMSAccountApplyController extends Controller
       $application->gender=$request->PersGender;
       $application->brothers=$request->intPersBrothers;
       $application->sisters=$request->intPersSisters;
-      $application->picture=$imagename;
       $application->batch_id=$batch;
       $application->application_date=$dtm;
       $application->first_essay=$request->strPersEssay;

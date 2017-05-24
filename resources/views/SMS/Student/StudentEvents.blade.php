@@ -14,26 +14,92 @@
   </section>
   <!-- Main content -->
   <section class="content">
-    <!-- Your Page Content Here -->
-    <div class="form-group">
-      @foreach ($events as $event)
-      <div class="col-md-4">
-        <div class="small-box bg-red">
-          <div class="box-body">
-            <h4><b>{{$event->title}}</b></h4>
-            <p>Saturday</p>
-            <p>{{$event->date_held}}</p>
-            <p>{{$event->time_from}} - {{$event->time_to}}</p>
+    <div class="modal fade" id="details_events">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            {{ Form::button('&times;', [
+              'class' => 'close',
+              'type' => '',
+              'data-dismiss' => 'modal'
+              ]) 
+            }}
+            <h4>Event Details</h4>
           </div>
-          <div class="icon">
-            <i class="ion ion-person-add"></i>
+          <div class="modal-body" id="details">
           </div>
-          <a href="#" class="small-box-footer">
-            View Event Details <i class="fa fa-arrow-circle-right"></i>
-          </a>
         </div>
       </div>
-      @endforeach
+    </div>
+    <!-- Your Page Content Here -->
+    <!-- Custom Tabs -->
+    <div class="nav-tabs-custom">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab_1" data-toggle="tab">Upcoming</a></li>
+        <li><a href="#tab_2" data-toggle="tab">Finished</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active row" id="tab_1">
+          @foreach ($events as $event)
+          <?php
+          if($event->status=='Ongoing'){
+            $status = 'success';
+          }else{
+            $status = 'danger';
+          }
+          ?>
+          <div class="col-md-4">
+            <div class="small-box bg-orange">
+              <div class="box-body">
+                <div class="pull-right">
+                  <span class='label label-{{$status}}'>{{$event->status}}</span>
+                </div>
+                <h4><b>{{$event->title}}</b></h4>
+                <p>Saturday</p>
+                <p>{{$event->date_held}}</p>
+                <p>{{$event->time_from}} - {{$event->time_to}}</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person-add"></i>
+              </div>
+              <a value="{{$event->id}}" class="btn small-box-footer details">
+                View Event Details <i class="fa fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+          @endforeach
+        </div>
+        <div class="tab-pane row" id="tab_2">
+          @foreach ($done as $done)
+          <?php
+          if($done->status=='Done'){
+            $changer = 'success';
+          }else{
+            $changer = 'danger';
+          }
+          ?>
+          <div class="col-md-4">
+            <div class="small-box bg-purple">
+              <div class="box-body">
+                <div class="pull-right">
+                  <span class='label label-{{$changer}}'>{{$done->status}}</span>
+                </div>
+                <h4><b>{{$done->title}}</b></h4>
+                <p>Saturday</p>
+                <p>{{$done->date_held}}</p>
+                <p>{{$done->time_from}} - {{$done->time_to}}</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person-add"></i>
+              </div>
+              <a value="{{$done->id}}" class="btn small-box-footer details">
+                View Event Details <i class="fa fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+          @endforeach
+        </div>
+      </div>
     </div>
   </section>
   <!-- /.content -->
@@ -42,4 +108,7 @@
 <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+@endsection
+@section('script')
+{!! Html::script("custom/StudentEventsAjax.js") !!}
 @endsection

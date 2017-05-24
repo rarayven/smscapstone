@@ -21,7 +21,7 @@
         <!-- Profile Image -->
         <div class="box box-primary">
           <div class="box-body box-profile">
-            <img class="profile-user-img img-responsive img-circle" src="../../LTE/dist/img/user2-160x160.jpg" alt="User profile picture">
+            <img class="profile-user-img img-responsive img-circle" src="{{ asset('images/'.Auth::user()->picture) }}" alt="User profile picture">
             <h3 class="profile-username text-center">Alexander Pierce</h3>
             <a href="#" class="btn btn-default btn-block"><b>Change Profile Photo</b></a>
           </div>

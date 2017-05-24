@@ -1,6 +1,7 @@
 @extends('SMS.Student.StudentMain')
 @section('override')
 {!! Html::style("plugins/datatables/dataTables.bootstrap.min.css") !!}
+{!! Html::style("plugins/datepicker/datepicker3.css") !!}
 {!! Html::style("plugins/sweetalert/sweetalert.min.css") !!}
 @endsection
 @section('content')
@@ -76,7 +77,7 @@
             <div class="form-group">
               <div class="btn btn-default btn-file">
                 <i class="fa fa-image"></i> Choose File..
-                <input id="pdf" type="file" name="pdf">
+                <input type="file" name="pdf">
               </div>
               <p class="help-block">Max. 2MB</p>
             </div>
@@ -125,10 +126,14 @@
 </div>
 <!-- /.content-wrapper -->
 @endsection
+@section('meta')
+<meta name="_token" content="{!! csrf_token() !!}" />
+@endsection
 @section('script')
 {!! Html::script("plugins/datatables/jquery.dataTables.min.js") !!}
 {!! Html::script("plugins/datatables/dataTables.bootstrap.min.js") !!}
 {!! Html::script("plugins/sweetalert/sweetalert.min.js") !!}
+{!! Html::script("plugins/datepicker/bootstrap-datepicker.js") !!}
 {!! Html::script("custom/StudentAchievementAjax.js") !!}
 <script type="text/javascript">
   var dataurl = "{!! route('studentachievement.data') !!}";

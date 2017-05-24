@@ -11,6 +11,8 @@ use App\Course;
 use App\School;
 use App\Batch;
 use Response;
+use App\Connection;
+use Auth;
 use Datatables;
 class CoordinatorStudentsListController extends Controller
 {
@@ -34,12 +36,19 @@ class CoordinatorStudentsListController extends Controller
     }
     public function store(Request $request)
     {
+        $connections = Connection::join('users','connections.user_id','users.id')
+        ->join('councilors','connections.councilor_id','councilors.id')
+        ->select('councilors.id')
+        ->where('connections.user_id',Auth::id())
+        ->first();
         $application = Application::join('users','student_details.user_id','users.id')
+        ->join('connections','users.id','connections.user_id')
         ->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',users.middle_name) as strStudName"),'student_details.*','users.*'])
         ->where('users.type','Student')
+        ->where('connections.councilor_id',$connections->id)
         ->where('student_details.application_status','Accepted');
         $datatables = Datatables::of($application)
-        ->addColumn('checkbox', function ($data) {
+        ->editColumn('checkbox', function ($data) {
             $checked = '';
             if($data->is_active==1){
                 $checked = 'checked';
@@ -48,22 +57,26 @@ class CoordinatorStudentsListController extends Controller
             $('[data-toggle=\'toggle\']').bootstrapToggle('destroy');   
             $('[data-toggle=\'toggle\']').bootstrapToggle();</script>";
         })
-        ->addColumn('forfeit', function ($data) {
-            return "<small style='margin-top: 10px;' class='label bg-red'>Yeah</small>";
-        })
-        ->addColumn('graduated', function ($data) {
-            return "<small style='margin-top: 10px;'' class='label bg-green'>Something</small>";
+        ->editColumn('student_status', function ($data) {
+            if ($data->student_status == 'Graduated') {
+                $color = 'success';
+            }elseif ($data->student_status == 'Forfeit') {
+                $color = 'danger';
+            }else {
+                $color = 'warning';
+            }
+            return "<small class='label label-$color'>$data->student_status</small>";
         })
         ->addColumn('action', function ($data) {
-            return "<button style='margin-top: 10px;' class='btn btn-warning btn-sm'><i class='fa fa-edit'></i> Edit</button> <button style='margin-top: 10px;' class='btn btn-info btn-sm open-modal'><i class='fa fa-eye'></i> View</button>";
+            return "<button class='btn btn-warning btn-xs'><i class='fa fa-edit'></i> Edit</button> <button class='btn btn-info btn-xs open-modal'><i class='fa fa-eye'></i> View</button>";
         })
         ->editColumn('strStudName', function ($data) {
             $images = url('images/'.$data->picture);
-            return "<table><tr><td><div class='col-md-2'><img src='$images' class='img-circle' alt='User Image' height='60'></div></td><td>$data->last_name, $data->first_name $data->middle_name</td></tr></table>";
+            return "<table><tr><td><div class='col-md-2'><img src='$images' class='img-circle' alt='User Image' height='40'></div></td><td>$data->last_name, $data->first_name $data->middle_name</td></tr></table>";
         })
         ->setRowId(function ($data) {
             return $data = 'id'.$data->user_id;
-        })->rawColumns(['strStudName','forfeit','graduated','checkbox','action']);
+        })->rawColumns(['strStudName','student_status','checkbox','action']);
         if ($strUserFirstName = $request->get('strUserFirstName')) {
             $datatables->where('users.first_name', 'like', '%'.$strUserFirstName.'%');
         }
@@ -104,7 +117,28 @@ class CoordinatorStudentsListController extends Controller
     }
     public function update(Request $request, $id)
     {
-        //
+        try
+        {
+            $user = User::findorfail($id);
+            if ($user->is_active) {
+                $user->is_active=0;
+            }
+            else{
+                $user->is_active=1;
+            }
+            $user->save();
+        }
+        catch(\Exception $e) {
+            try{
+                if($e->errorInfo[1]==1062)
+                    return "This Data Already Exists";
+                else
+                    return var_dump($e->errorInfo[1]);
+            }
+            catch(\Exception $e){
+                return "Deleted";
+            }
+        } 
     }
     public function destroy($id)
     {

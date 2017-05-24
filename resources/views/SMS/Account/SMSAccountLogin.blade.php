@@ -26,34 +26,25 @@
             </div>
           </div>
           <div class="form-bottom">
-            {{ Form::open([
-              'role' => 'form',
-              'class' => 'login-form'])
-            }}
-            <div class="form-group">
-              {{ Form::label('email', 'Email',[
-                'class' => 'sr-only'
-                ]) }}
-              {{ Form::text('email', null, [
-                'id' => 'form-username',
-                'class' => 'form-username form-control',
-                'placeholder' => 'Email...',
-                'autocomplete' => 'off'
-                ]) 
-              }}
-            </div>
-            <div class="form-group">
-              {{ Form::label('password', 'Password',[
-                'class' => 'sr-only'
-                ]) }}
-                <input type="password" name="password" placeholder="Password..." class="form-password form-control" id="form-password">
-                {{-- {{ Form::password('password', null, [
-                  'id' => 'form-password',
-                  'class' => 'form-password form-control',
-                  'placeholder' => 'Password...',
-                  'autocomplete' => 'off'
-                  ]) 
-                }} --}}
+            <form class="login-form" role="form" method="POST" action="{{ route('login') }}">
+              {{ csrf_field() }}
+              <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                <label for="email" class="sr-only">E-Mail Address</label>
+                <input id="email" type="text" placeholder="Email..." class="form-username form-control" name="email" value="{{ old('email') }}" required autofocus>
+                @if ($errors->has('email'))
+                <span class="help-block">
+                  <strong>{{ $errors->first('email') }}</strong>
+                </span>
+                @endif
+              </div>
+              <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                <label for="password" class="sr-only">Password</label>
+                <input id="password" type="password" placeholder="Password..." class="form-control form-password" name="password" required>
+                @if ($errors->has('password'))
+                <span class="help-block">
+                  <strong>{{ $errors->first('password') }}</strong>
+                </span>
+                @endif
               </div>
               <div class="form-group">
                 <div class="checkbox">
@@ -62,21 +53,23 @@
                   </label>
                 </div>
               </div>
-              {{ Form::button('Sign in!', [
-                'class' => 'btn',
-                'type' => 'submit'
-                ]) 
-              }}
-              {{-- <button type="submit" class="btn">Sign in!</button> --}}
-              {{ Form::close() }}
-            </div>
+              <div class="form-group">
+                <button type="submit" class="btn">
+                  Sign in!
+                </button>
+                <a class="btn btn-link" href="{{ route('password.request') }}">
+                  Forgot Your Password?
+                </a>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
   </div>
-  @endsection
-  @section('endscript')
-  {!! Html::script("js/jquery.backstretch.min.js") !!}
-  {!! Html::script("js/scriptslogin.js") !!}
-  @endsection
+</div>
+@endsection
+@section('endscript')
+{!! Html::script("js/jquery.backstretch.min.js") !!}
+{!! Html::script("js/scriptslogin.js") !!}
+@endsection

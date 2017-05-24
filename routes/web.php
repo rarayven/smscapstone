@@ -12,8 +12,6 @@
 */
 
 //DataTable
-Route::get('scholar/token/data', ['uses' => 'CoordinatorTokenController@data', 'as' => 'token.data']);
-Route::get('scholar/achievements/data', ['uses' => 'CoordinatorAchievementsController@data', 'as' => 'coordinatorachievement.data']);
 Route::get('student/achievements/data', ['uses' => 'StudentAchievementsController@data', 'as' => 'studentachievement.data']);
 Route::get('admin/maintenance/budgtype/data', ['uses' => 'AdminMBudgtypeController@data', 'as' => 'budgtype.data']);
 Route::get('admin/maintenance/grade/data', ['uses' => 'AdminMGradeController@data', 'as' => 'grade.data']);
@@ -34,6 +32,7 @@ Route::resource('student/messages', 'StudentMessagesController');
 Route::resource('student/achievements', 'StudentAchievementsController');
 Route::resource('student/events', 'StudentEventsController');
 //Checkbox Route List
+Route::put('coordinator/services/events/checkbox/{id}', ['uses' => 'CoordinatorEventsController@checkbox', 'as' => 'events.checkbox']);
 Route::put('admin/maintenance/budgtype/checkbox/{id}', ['uses' => 'AdminMBudgtypeController@checkbox', 'as' => 'budgtype.checkbox']);
 Route::put('admin/maintenance/grade/checkbox/{id}', ['uses' => 'AdminMGradeController@checkbox', 'as' => 'grade.checkbox']);
 Route::put('admin/maintenance/sem/checkbox/{id}', ['uses' => 'AdminMSemController@checkbox', 'as' => 'sem.checkbox']);
@@ -47,7 +46,6 @@ Route::put('admin/maintenance/course/checkbox/{id}', ['uses' => 'AdminMCourseCon
 Route::put('admin/maintenance/councilor/checkbox/{id}', ['uses' => 'AdminMCouncilorController@checkbox', 'as' => 'councilor.checkbox']);
 //SMS Route List
 Route::resource('how-to-apply', 'SMSHowToApplyController');
-Route::resource('account/register', 'SMSAccountCoordinatorController');
 Route::resource('apply', 'SMSAccountApplyController');
 //Coordinator Route List
 Route::resource('coordinator/scholar/details', 'CoordinatorApplicantsDetailsController');

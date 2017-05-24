@@ -176,10 +176,9 @@
 						<strong class="pull-right" id="advsearch" style="cursor: pointer; cursor: hand;">Advanced Search</strong>
 						<table id="student-table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
 							<thead>
-								<th>Student</th>					
+								<th>Student</th>
+								<th>Condition</th>			
 								<th>Status</th>
-								<th>Forfeit</th>
-								<th>Graduated</th>
 								<th >Action</th>
 							</thead>
 							<tbody id="student-list">

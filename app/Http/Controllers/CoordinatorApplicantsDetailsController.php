@@ -10,6 +10,7 @@ use App\Studentsteps;
 use App\Current;
 use App\Step;
 use App\Siblings;
+use App\User;
 use Carbon\Carbon;
 class CoordinatorApplicantsDetailsController extends Controller
 {
@@ -81,6 +82,9 @@ class CoordinatorApplicantsDetailsController extends Controller
             $studentsteps->step_id=$intStepID;
             $studentsteps->completion_date=$current;
             $studentsteps->save();
+            $user = User::find($id);
+            $user->is_active = 1;
+            $user->save();
             DB::commit();
             return redirect('/coordinator/scholar/applicants');
         } 

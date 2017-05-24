@@ -3,6 +3,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 class SMSHowToApplyController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
     /**
      * Display a listing of the resource.
      *

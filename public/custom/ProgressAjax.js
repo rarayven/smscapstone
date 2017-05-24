@@ -8,6 +8,10 @@ $(document).ready(function(){
     var table = $('#student-table').DataTable({
         processing: true,
         serverSide: true,
+        "columnDefs": [
+        { "width": "200px", "targets": 2 },
+        { "width": "200px", "targets": 1 }
+        ],
         ajax: {
             type: 'POST',
             url: dataurl,
@@ -26,7 +30,7 @@ $(document).ready(function(){
         },
         columns: [
         {data: 'strStudName', name: 'strStudName'},
-        {data: 'intStepOrder', name: 'tblSteps.intStepOrder', searchable: false},
+        {data: 'intStepOrder', name: 'steps.order', searchable: false},
         {data: 'action', name: 'action', orderable: false, searchable: false}
         ]
     });
@@ -46,7 +50,7 @@ $(document).ready(function(){
         var link_id = $(this).val();
         var id = $(this).attr('id')
         if(confirm("Are you sure you want to proceed?")){
-         $.ajax({
+           $.ajax({
             url: url + '/' + link_id,
             type: "PUT",
             success: function (data) {
@@ -69,8 +73,8 @@ $(document).ready(function(){
                 console.log('Error:', data);
             }
         });
-     }
- });
+       }
+   });
     $('#student-list').on('click', '.open-modal',function(){ 
         var link_id = $(this).val();
         $('#view_details').modal('show');
@@ -93,8 +97,8 @@ $(document).ready(function(){
         var id = $(this).attr('id');
         if(confirm("Are you sure you want to proceed?")){
             $.get(url + '/' + link_id +"/edit" , function (data) {
-               table.draw();
-           })
+             table.draw();
+         })
         }
     });
 });

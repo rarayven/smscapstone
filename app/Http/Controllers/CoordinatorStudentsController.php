@@ -13,6 +13,8 @@ use App\Course;
 use App\Batch;
 use Response;
 use App\Studentsteps;
+use App\Connection;
+use Auth;
 use Datatables;
 class CoordinatorStudentsController extends Controller
 {
@@ -38,11 +40,18 @@ class CoordinatorStudentsController extends Controller
 	}
 	public function store(Request $request)
 	{
+		$connections = Connection::join('users','connections.user_id','users.id')
+		->join('councilors','connections.councilor_id','councilors.id')
+		->select('councilors.id')
+		->where('connections.user_id',Auth::id())
+		->first();
 		$application = Application::join('users','student_details.user_id','users.id')
+		->join('connections','users.id','connections.user_id')
 		->join('student_steps','student_steps.user_id','users.id')
 		->join('steps','student_steps.step_id','steps.id')
 		->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',users.middle_name) as strStudName"),'users.*','student_steps.step_id','steps.description','steps.order','student_details.*'])
 		->where('users.type','Student')
+		->where('connections.councilor_id',$connections->id)
 		->where('student_details.is_steps_done',0);
 		$datatables = Datatables::of($application)
 		->editColumn('intStepOrder', function ($data) {
@@ -62,11 +71,11 @@ class CoordinatorStudentsController extends Controller
 			else
 				$state = "disabled";
 			return "<div id=dp$data->id>
-			<button style='margin-top: 10px;' id=$count class='btn btn-success btn-sm btn-progress' $state $state value=$data->id><i class='fa fa-check'></i> Check</button> <button style='margin-top: 10px;' id=$count class='btn btn-warning btn-undo btn-sm' $state $state value=$data->id><i class='fa fa-undo'></i> Undo</button> <button style='margin-top: 10px;' class='btn btn-info btn-sm open-modal'><i class='fa fa-eye'></i> View</button></div>";
+			<button id=$count class='btn btn-success btn-xs btn-progress' $state $state value=$data->id><i class='fa fa-check'></i> Check</button> <button id=$count class='btn btn-warning btn-undo btn-xs' $state $state value=$data->id><i class='fa fa-undo'></i> Undo</button> <button class='btn btn-info btn-xs open-modal'><i class='fa fa-eye'></i> View</button></div>";
 		})
 		->editColumn('strStudName', function ($data) {
 			$images = url('images/'.$data->picture);
-			return "<table><tr><td><div class='col-md-2'><img src='$images' class='img-circle' alt='data Image' height='60'></div></td><td>$data->last_name, $data->first_name $data->middle_name</td></tr></table>";
+			return "<table><tr><td><div class='col-md-2'><img src='$images' class='img-circle' alt='data Image' height='40'></div></td><td>$data->last_name, $data->first_name $data->middle_name</td></tr></table>";
 		})
 		->setRowId(function ($data) {
 			return $data = 'id'.$data->user_id;

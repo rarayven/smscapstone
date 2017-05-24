@@ -59,7 +59,6 @@
 											'id' => 'strCounMiddleName',
 											'class' => 'form-control',
 											'maxlength' => '25',
-											'required' => 'required',
 											'data-parsley-pattern' => '^[a-zA-Z. ]+$',
 											'autocomplete' => 'off'
 											]) 

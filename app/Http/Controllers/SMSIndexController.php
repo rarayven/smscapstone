@@ -4,6 +4,10 @@ use Illuminate\Http\Request;
 use Auth;
 class SMSIndexController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -11,15 +15,6 @@ class SMSIndexController extends Controller
      */
     public function index()
     {
-        if (!Auth::guest()) {
-            $type = Auth::user()->type;
-            if($type == 'Admin')
-                return redirect('admin/dashboard');
-            elseif($type == 'Coordinator')
-                return redirect('coordinator/dashboard');
-            elseif($type == 'Student')
-                return redirect('student/dashboard');
-        }
         return view('SMS.SMSIndex');
     }
     /**

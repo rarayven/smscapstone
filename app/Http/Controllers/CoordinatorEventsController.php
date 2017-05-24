@@ -11,32 +11,48 @@ class CoordinatorEventsController extends Controller
     {
         $this->middleware('coordinator');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function checkbox($id)
+    {
+        try
+        {
+            $event = Event::findorfail($id);
+            if ($event->status=='Ongoing') {
+                $event->status='Cancelled';
+            }
+            else{
+                $event->status='Ongoing';
+            }
+            $event->save();
+        }
+        catch(\Exception $e) {
+            try{
+                if($e->errorInfo[1]==1062)
+                    return "This Data Already Exists";
+                else
+                    return var_dump($e->errorInfo[1]);
+            }
+            catch(\Exception $e){
+                return "Deleted";
+            }
+        } 
+    }
     public function index()
     {
         $events = Event::where('user_id',Auth::id())
+        ->whereIn('status',['Ongoing','Cancelled'])
         ->get();
-        return view('SMS.Coordinator.Services.CoordinatorEvents')->withEvents($events);
+        $done = Event::where('user_id',Auth::id())
+        ->where('status','Done')
+        ->get();
+        return view('SMS.Coordinator.Services.CoordinatorEvents')->withEvents($events)->withDone($done);
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $events = Event::where('user_id',Auth::id())
+        ->whereIn('status',['Ongoing','Cancelled'])
+        ->get();
+        return Response::json($events);
     }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         try{
@@ -52,9 +68,7 @@ class CoordinatorEventsController extends Controller
             $event->time_from = $time_from;
             $event->time_to = $time_to;
             $event->save();
-            $events = Event::where('user_id',Auth::id())
-            ->get();
-            return Response::json($events);
+            return Response::json($event);
         }catch(\Exception $e){
             if($e->errorInfo[1]==1062)
                 return "This Data Already Exists";
@@ -62,45 +76,76 @@ class CoordinatorEventsController extends Controller
                 return var_dump($e->errorInfo[1]);
         }
     }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        try
+        {
+            $events = Event::where('id',$id)
+            ->where('user_id',Auth::id())
+            ->first();
+            return Response::json($events);
+        }
+        catch(\Exception $e)
+        {
+            return "Deleted";
+        }
     }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        try
+        {
+            $events = Event::where('id',$id)
+            ->where('user_id',Auth::id())
+            ->first();
+            return Response::json($events);
+        }
+        catch(\Exception $e)
+        {
+            return "Deleted";
+        }
     }
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        try{
+            $time_from = date("H:i:s", strtotime($request->time_from));
+            $time_to = date("H:i:s", strtotime($request->time_to));
+            $date_held = Carbon::createFromFormat('Y-m-d', $request->date_held);
+            $event = Event::findorfail($id);
+            $event->user_id = Auth::id();
+            $event->title = $request->title;
+            $event->description = $request->description;
+            $event->place_held = $request->place_held;
+            $event->date_held = $date_held;
+            $event->time_from = $time_from;
+            $event->time_to = $time_to;
+            $event->save();
+            return Response::json($event);
+        }catch(\Exception $e){
+            if($e->errorInfo[1]==1062)
+                return "This Data Already Exists";
+            else
+                return var_dump($e->errorInfo[1]);
+        }
     }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        try
+        {
+            $event = Event::findorfail($id);
+            try
+            {
+                $event->delete();
+                return Response::json($event);
+            }
+            catch(\Exception $e) {
+                if($e->errorInfo[1]==1451)
+                    return Response::json(['true',$event]);
+                else
+                    return Response::json(['true',$event,$e->errorInfo[1]]);
+            }
+        } 
+        catch(\Exception $e) {
+            return "Deleted";
+        }
     }
 }

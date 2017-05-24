@@ -8,6 +8,11 @@ $(document).ready(function(){
     var table = $('#student-table').DataTable({
         processing: true,
         serverSide: true,
+        "columnDefs": [
+        { "width": "130px", "targets": 3 },
+        { "width": "70px", "targets": 2 },
+        { "width": "70px", "targets": 1 }
+        ],
         ajax: {
             type: 'POST',
             url: dataurl,
@@ -25,11 +30,27 @@ $(document).ready(function(){
         },
         columns: [
         {data: 'strStudName', name: 'strStudName'},
-        {data: 'checkbox', name: 'checkbox', orderable: false, searchable: false},
-        {data: 'forfeit', name: 'forfeit', orderable: false, searchable: false},
-        {data: 'graduated', name: 'graduated', orderable: false, searchable: false},
+        {data: 'student_status', name: 'student_details.student_status', searchable: false},
+        {data: 'checkbox', name: 'users.is_active', searchable: false},
         {data: 'action', name: 'action', orderable: false, searchable: false}
         ]
+    });
+    $('#student-list').on('change', '#isActive',function(){ 
+        var link_id = $(this).val();
+        $.ajax({
+            url: dataurl + '/' + link_id,
+            type: "PUT",
+            success: function (data) {
+                console.log(data);
+                if(data=="Deleted"){
+                    refresh();
+                }
+            },
+            error: function (data) {
+                console.log(url + '/' + link_id);
+                console.log('Error:', data);
+            }
+        });
     });
     $('#btn-advSearch').on('click', function(e) {
         table.draw();

@@ -551,6 +551,7 @@
                         'class' => 'form-control',
                         'maxlength' => '25',
                         'autocomplete' => 'off',
+                        'placeholder' => 'First Name',
                         'data-parsley-pattern' => '^[a-zA-Z. ]+$'
                         ]) 
                     }}
@@ -562,6 +563,7 @@
                         'class' => 'form-control',
                         'maxlength' => '25',
                         'autocomplete' => 'off',
+                        'placeholder' => 'Last Name',
                         'data-parsley-pattern' => '^[a-zA-Z. ]+$'
                         ]) 
                     }}

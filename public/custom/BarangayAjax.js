@@ -72,7 +72,7 @@ $('#barangay-list').on('click', '.open-modal',function(){
     if(data=="Deleted"){
       refresh();
     }else{
-      var textToFind = data.strDistDesc;
+      var textToFind = data.districts_description;
       var dd = document.getElementById('intDistID');
       for (var i = 0; i < dd.options.length; i++) {
         if (dd.options[i].text === textToFind) {

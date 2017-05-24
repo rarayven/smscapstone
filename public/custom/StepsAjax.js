@@ -19,7 +19,7 @@ $(document).ready(function(){
     columns: [
     {data: 'description', name: 'description'},
     {data: 'deadline', name: 'deadline'},
-    {data: 'order', name: 'order'},
+    {data: 'intStepOrder', name: 'intStepOrder'},
     {data: 'isActive', name: 'isActive', searchable: false},
     {data: 'action', name: 'action', orderable: false, searchable: false}
     ]
@@ -38,7 +38,7 @@ $(document).ready(function(){
         if(data=="Deleted"){
           refresh();
         }else{
-          $('#num'+link_id).replaceWith("<div id=num"+data.intStepID+">"+data.intStepOrder+"</div>");
+          $('#num'+link_id).replaceWith("<div id=num"+data.id+">"+data.order+"</div>");
         }
       },
       error: function (data) {

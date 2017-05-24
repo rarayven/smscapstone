@@ -47,7 +47,7 @@ desired effect
     <!-- Main Header -->
     <header class="main-header">
       <!-- Logo -->
-      <a href="{{ url('student/index') }}" class="logo">
+      <a href="{{ url('student/dashboard') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>S</b>MS</span>
         <!-- logo for regular state and mobile devices -->
@@ -67,14 +67,14 @@ desired effect
               <!-- Menu Toggle Button -->
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <!-- The user image in the navbar-->
-                <img src="../../img/user2-160x160.jpg" class="user-image" alt="User Image">
+                <img src="{{ asset('images/'.Auth::user()->picture) }}" class="user-image" alt="User Image">
                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
                 <span class="hidden-xs">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</span>
               </a>
               <ul class="dropdown-menu">
                 <!-- The user image in the menu -->
                 <li class="user-header">
-                  <img src="../../img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                  <img src="{{ asset('images/'.Auth::user()->picture) }}" class="img-circle" alt="User Image">
                   <p>
                     {{ Auth::user()->first_name }} {{ Auth::user()->last_name }} - {{ Auth::user()->type }}
                     <small>Member since Nov. 2012</small>
@@ -110,7 +110,7 @@ desired effect
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="../../img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="{{ asset('images/'.Auth::user()->picture) }}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</p>

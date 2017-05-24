@@ -27,7 +27,6 @@ $(document).ready(function(){
 		$('#frmDistrict').parsley().destroy();
 	});
 	$('#district-list').on('change', '#isActive',function(){ 
-
 		var link_id = $(this).val();
 		$.ajax({
 			url: url2 + '/' + link_id,

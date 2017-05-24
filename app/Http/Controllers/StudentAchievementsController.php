@@ -5,6 +5,7 @@ use Datatables;
 use App\Achievement;
 use Response;
 use Auth;
+use DB;
 class StudentAchievementsController extends Controller
 {
     public function __construct()
@@ -70,13 +71,28 @@ class StudentAchievementsController extends Controller
      */
     public function store(Request $request)
     {
-        $achievement = new Achievement;
-        $achievement->description = $request->description;
-        $achievement->place_held = $request->place_held;
-        $achievement->date_held = $request->date_held;
-        $achievement->pdf = $request->pdf;
-        $achievement->save();
-        return Response::json($achievement);
+        DB::beginTransaction();
+        try
+        {
+            // $pdf = $request->file('pdf');
+            // $pdfname = md5(Auth::user()->email. time()).'.'.$pdf->getClientOriginalExtension();
+            $achievement = new Achievement;
+            $achievement->user_id = Auth::id();
+            $achievement->description = $request->description;
+            $achievement->place_held = $request->place_held;
+            $achievement->date_held = $request->date_held;
+            $achievement->pdf = "Temporary";
+            $achievement->save();
+            // $pdf->move(base_path().'/public/docs/', $pdfname);
+            DB::commit();
+            return Response::json($achievement);
+        }
+        catch(\Exception $e)
+        {
+            DB::rollBack();
+            dd($e);
+            return dd($e->errorInfo[2]);
+        }  
     }
     /**
      * Display the specified resource.
