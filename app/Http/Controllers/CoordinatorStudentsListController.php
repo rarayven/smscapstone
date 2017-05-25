@@ -30,10 +30,6 @@ class CoordinatorStudentsListController extends Controller
         $batch = Batch::where('is_active',1)->get();
         return view('SMS.Coordinator.Scholar.CoordinatorStudentsList')->withDistrict($district)->withCouncilor($councilor)->withBarangay($barangay)->withSchool($school)->withCourse($course)->withBatch($batch);
     }
-    public function create()
-    {
-        //
-    }
     public function store(Request $request)
     {
         $connections = Connection::join('users','connections.user_id','users.id')
@@ -107,14 +103,6 @@ class CoordinatorStudentsListController extends Controller
         }
         return $datatables->make(true);
     }
-    public function show($id)
-    {
-        //
-    }
-    public function edit($id)
-    {
-        //
-    }
     public function update(Request $request, $id)
     {
         try
@@ -139,9 +127,5 @@ class CoordinatorStudentsListController extends Controller
                 return "Deleted";
             }
         } 
-    }
-    public function destroy($id)
-    {
-        //
     }
 }

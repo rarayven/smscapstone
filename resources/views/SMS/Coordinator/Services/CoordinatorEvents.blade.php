@@ -184,9 +184,9 @@
                 <button class='btn btn-warning btn-xs btn-detail open-modal' value='{{$event->id}}'><i class='fa fa-edit'></i></button> <button class='btn btn-danger btn-xs btn-delete' value='{{$event->id}}'><i class='fa fa-times'></i></button>
               </div>
               <h4><b>{{$event->title}}</b></h4>
-              <p>Saturday</p>
-              <p>{{$event->date_held}}</p>
-              <p>{{$event->time_from}} - {{$event->time_to}}</p>
+              <p>{{$event->date_held->format('l')}}</p>
+              <p>{{$event->date_held->format('M d, Y')}}</p>
+              <p>{{date('h:i A',strtotime($event->time_from))}} - {{date('h:i A',strtotime($event->time_to))}}</p>
             </div>
             <div class="icon">
               <i class="ion ion-person-add"></i>
@@ -215,9 +215,9 @@
             <span class='label label-{{$changer}}'>{{$done->status}}</span>
           </div>
           <h4><b>{{$done->title}}</b></h4>
-          <p>Saturday</p>
-          <p>{{$done->date_held}}</p>
-          <p>{{$done->time_from}} - {{$done->time_to}}</p>
+          <p>{{$done->date_held->format('l')}}</p>
+          <p>{{$done->date_held->format('M d, Y')}}</p>
+          <p>{{date('h:i A',strtotime($done->time_from))}} - {{date('h:i A',strtotime($done->time_to))}}</p>
         </div>
         <div class="icon">
           <i class="ion ion-person-add"></i>

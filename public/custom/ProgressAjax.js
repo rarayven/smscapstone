@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var url = '/coordinator/scholar/students';
+    var url = '/coordinator/progress';
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -48,7 +48,7 @@ $(document).ready(function(){
     });
     $('#student-list').on('click', '.btn-progress',function(){
         var link_id = $(this).val();
-        var id = $(this).attr('id')
+        var id = $(this).attr('id');
         if(confirm("Are you sure you want to proceed?")){
            $.ajax({
             url: url + '/' + link_id,

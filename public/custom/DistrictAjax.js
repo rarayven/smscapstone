@@ -4,9 +4,9 @@ $(document).ready(function(){
 			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
 		}
 	})
-	var url = "/admin/maintenance/district";
+	var url = "/admin/district";
 	var id='';
-	var url2 = "/admin/maintenance/district/checkbox";
+	var url2 = "/admin/district/checkbox";
 	var table = $('#district-table').DataTable({
 		responsive: true,
 		processing: true,

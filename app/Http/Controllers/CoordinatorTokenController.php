@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Datatables;
 use App\User;
@@ -16,17 +14,13 @@ use App\School;
 use App\Batch;
 use App\Achievement;
 use Response;
+use Carbon\Carbon;
 class CoordinatorTokenController extends Controller
 {
     public function __construct()
     {
         $this->middleware('coordinator');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $district = District::where('is_active',1)->get();
@@ -37,23 +31,6 @@ class CoordinatorTokenController extends Controller
         $batch = Batch::where('is_active',1)->get();
         return view('SMS.Coordinator.Scholar.CoordinatorToken')->withDistrict($district)->withCouncilor($councilor)->withBarangay($barangay)->withSchool($school)->withCourse($course)->withBatch($batch);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $connections = Connection::join('users','connections.user_id','users.id')
@@ -73,6 +50,9 @@ class CoordinatorTokenController extends Controller
         ->addColumn('action', function ($data) {
             return "<div id=dp$data->id><button class='btn btn-primary btn-xs btn-view' value='$data->id'><i class='fa fa-envelope'></i> Message</button> <button class='btn btn-success btn-xs btn-detail open-modal' value='$data->id'><i class='fa fa-share'></i> Receive</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->id'><i class='fa fa-remove'></i> Cancel</button></div>";
         })
+        ->editColumn('date_held', function ($data) {
+            return $data->date_held ? with(new Carbon($data->date_held))->format('M d, Y - h:i A ') : '';
+        })
         ->editColumn('strStudName', function ($data) {
             $images = url('images/'.$data->picture);
             return "<table><tr><td><div class='col-md-2'><img src='$images' class='img-circle' alt='data Image' height='40'></div></td><td>$data->last_name, $data->first_name $data->middle_name</td></tr></table>";
@@ -88,24 +68,6 @@ class CoordinatorTokenController extends Controller
         }
         return $datatables->make(true);
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         try
@@ -120,14 +82,6 @@ class CoordinatorTokenController extends Controller
             return "Deleted";
         }
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         try
@@ -142,13 +96,6 @@ class CoordinatorTokenController extends Controller
             return "Deleted";
         }
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         try

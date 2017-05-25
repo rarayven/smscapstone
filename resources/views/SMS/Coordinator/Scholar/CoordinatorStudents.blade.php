@@ -198,6 +198,6 @@
 @section('script')
 {!! Html::script("custom/ProgressAjax.js") !!}
 <script type="text/javascript">
-	var dataurl = "{!! route('students.store') !!}";
+	var dataurl = "{!! route('progress.store') !!}";
 </script>
 @endsection

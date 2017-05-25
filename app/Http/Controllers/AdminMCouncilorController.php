@@ -73,10 +73,6 @@ class AdminMCouncilorController extends Controller
         $district = District::where('is_active',1)->pluck('description','id');
         return view('SMS.Admin.Maintenance.AdminMCouncilor')->withDistrict($district);
     }
-    public function create()
-    {
-        return redirect('admin/maintenance/councilor');
-    }
     public function store(Request $request)
     {
         Input::merge(array_map('trim', Input::all()));

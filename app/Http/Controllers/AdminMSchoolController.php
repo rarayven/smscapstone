@@ -65,10 +65,6 @@ class AdminMSchoolController extends Controller
         $grade = Academicgrade::where('is_active',1)->pluck('description','id');
         return view('SMS.Admin.Maintenance.AdminMSchool')->withGrade($grade);
     }
-    public function create()
-    {
-        return redirect('admin/maintenance/school');
-    }
     public function store(Request $request)
     {
         Input::merge(array_map('trim', Input::all()));
@@ -86,10 +82,6 @@ class AdminMSchoolController extends Controller
             else
                 return var_dump($e->errorInfo[1]);
         } 
-    }
-    public function show($id)
-    {
-        return redirect('admin/maintenance/school');
     }
     public function edit($id)
     {

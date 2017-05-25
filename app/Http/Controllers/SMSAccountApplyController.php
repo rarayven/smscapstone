@@ -43,10 +43,6 @@ class SMSAccountApplyController extends Controller
     $sem = Semester::where('is_active',1)->get();
     return view('SMS.Account.SMSAccountApply')->withDistrict($district)->withCouncilor($councilor)->withBarangay($barangay)->withSchool($school)->withCourse($course)->withGrade($grade)->withYear($year)->withSem($sem);
   }
-  public function create()
-  {
-      //
-  }
   public function store(Request $request)
   {
     DB::beginTransaction();

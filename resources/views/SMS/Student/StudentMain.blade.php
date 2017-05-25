@@ -8,12 +8,12 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   {!! Html::style("css/bootstrap.min.css") !!}
   {!! Html::style("css/font-awesome.css") !!}
-  {!! Html::style("css/AdminLTE.min.css") !!}
-  {!! Html::style("css/_all-skins.min.css") !!}
   {!! Html::style("css/bootstrap-toggle.min.css") !!}
   {!! Html::style("css/stylesheet.css") !!}
   {!! Html::style("css/parsley.css") !!}
   @yield('override')
+  {!! Html::style("css/AdminLTE.min.css") !!}
+  {!! Html::style("css/_all-skins.min.css") !!}
   <link rel="icon" href="{{ asset('img/logo.ico') }}">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -120,7 +120,9 @@ desired effect
       <ul class="sidebar-menu">
         <li class="header">NAVIGATION</li>
         <!-- Optionally, you can add icons to the links -->
-        <li class="{{Request::path() == 'student/messages' ? 'active' : ''}}"><a href="{{ url('student/messages') }}"><i class="fa fa-envelope"></i><span>Messages</span></a></li>
+        <li class="{{Request::path() == 'student/dashboard' ? 'active' : ''}}"><a href="{{ url('student/dashboard') }}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
+        <li class="{{Request::path() == 'student/announcements' ? 'active' : ''}}"><a href="{{ url('student/announcements') }}"><i class="fa fa-bullhorn"></i><span>Announcements</span></a></li>
+        <li class="{{Request::path() == 'student/messages' ? 'active' : ''}} {{Request::path() == 'student/messages/create' ? 'active' : ''}} {{Request::path() == 'student/messages/sent' ? 'active' : ''}}"><a href="{{ url('student/messages') }}"><i class="fa fa-envelope"></i><span>Messages</span></a></li>
         <li class="{{Request::path() == 'student/events' ? 'active' : ''}}"><a href="{{ url('student/events') }}"><i class="fa fa-flag"></i><span>Events</span></a></li>
         <li class="{{Request::path() == 'student/achievements' ? 'active' : ''}}"><a href="{{ url('student/achievements') }}"><i class="fa fa-trophy"></i><span>Achievements</span></a></li>
         <li class="{{Request::path() == 'student/renewal' ? 'active' : ''}}"><a href="{{ url('student/renewal') }}"><i class="fa fa-refresh"></i><span>Renewal</span></a></li>
@@ -143,10 +145,10 @@ desired effect
 {!! Html::script("js/bootstrap.min.js") !!}
 {!! Html::script("js/bootstrap-toggle.min.js") !!}
 {!! Html::script("js/script.js") !!}
-{!! Html::script("js/app.min.js") !!}
 {!! Html::script("plugins/fastclick/fastclick.min.js") !!}
 {!! Html::script("plugins/slimScroll/jquery.slimscroll.min.js") !!}
 {!! Html::script("js/parsley.min.js") !!}
 @yield('script')
+{!! Html::script("js/app.min.js") !!}
 </body>
 </html>

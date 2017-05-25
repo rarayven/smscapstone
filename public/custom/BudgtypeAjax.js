@@ -4,9 +4,9 @@ $(document).ready(function(){
     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
   }
 })
- var url = "/admin/maintenance/budgtype";
+ var url = "/admin/budgtype";
  var id='';
- var url2 = "/admin/maintenance/budgtype/checkbox";
+ var url2 = "/admin/budgtype/checkbox";
  var table = $('#budgtype-table').DataTable({
   responsive: true,
   processing: true,

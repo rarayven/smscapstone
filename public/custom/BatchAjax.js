@@ -4,9 +4,9 @@ $(document).ready(function(){
     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
   }
 })
- var url = "/admin/maintenance/batch";
+ var url = "/admin/batch";
  var id='';
- var url2 = "/admin/maintenance/batch/checkbox";
+ var url2 = "/admin/batch/checkbox";
  var table = $('#batch-table').DataTable({
   responsive: true,
   processing: true,

@@ -9,14 +9,14 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   {!! Html::style("css/bootstrap.min.css") !!}
   {!! Html::style("css/font-awesome.css") !!}
-  {!! Html::style("css/AdminLTE.min.css") !!}
-  {!! Html::style("css/_all-skins.min.css") !!}
   {!! Html::style("css/bootstrap-toggle.min.css") !!}
   {!! Html::style("css/stylesheet.css") !!}
   {!! Html::style("css/parsley.css") !!}
   {!! Html::style("plugins/datatables/dataTables.bootstrap.min.css") !!}
   {!! Html::style("plugins/sweetalert/sweetalert.min.css") !!}
   @yield('override')
+  {!! Html::style("css/AdminLTE.min.css") !!}
+  {!! Html::style("css/_all-skins.min.css") !!}
   <link rel="icon" href="{{ asset('img/logo.ico') }}">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -86,7 +86,7 @@ desired effect
                 <!-- Menu Footer-->
                 <li class="user-footer">
                   <div class="pull-left">
-                    <a href="{{ url('coordinator/services/profile') }}" class="btn btn-default btn-flat">Profile</a>
+                    <a href="{{ url('coordinator/profile') }}" class="btn btn-default btn-flat">Profile</a>
                   </div>
                   <div class="pull-right">
                     <a href="{{ route('logout') }}" class="btn btn-default btn-flat"
@@ -123,42 +123,43 @@ desired effect
       <ul class="sidebar-menu">
         <li class="header">NAVIGATION</li>
         <!-- Optionally, you can add icons to the links -->
-        <li class="{{Request::path() == 'coordinator/scholar/applicants' ? 'active' : ''}}"><a href="{{ url('coordinator/scholar/applicants') }}"><i class="fa fa-fw fa-users"></i> <span>Applicants</span></a></li>
-        <li class="treeview {{Request::path() == 'coordinator/scholar/list' ? 'active' : ''}} {{Request::path() == 'coordinator/scholar/students' ? 'active' : ''}}">
+        <li class="{{Request::path() == 'coordinator/dashboard' ? 'active' : ''}}"><a href="{{ url('coordinator/dashboard') }}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
+        <li class="{{Request::path() == 'coordinator/applicants' ? 'active' : ''}}"><a href="{{ url('coordinator/applicants') }}"><i class="fa fa-fw fa-users"></i> <span>Applicants</span></a></li>
+        <li class="treeview {{Request::path() == 'coordinator/list' ? 'active' : ''}} {{Request::path() == 'coordinator/progress' ? 'active' : ''}}">
           <a href="#"><i class="fa  fa-graduation-cap"></i> <span>Students</span>
           </a>
           <ul class="treeview-menu">
-            <li class="{{Request::path() == 'coordinator/scholar/list' ? 'active' : ''}}"><a href="{{ url('coordinator/scholar/list') }}"><i class="fa fa-list-ul"></i>Student List</a></li>
-            <li class="{{Request::path() == 'coordinator/scholar/students' ? 'active' : ''}}"><a href="{{ url('coordinator/scholar/students') }}"><i class="fa fa-tasks"></i>Step Progress</a></li>
+            <li class="{{Request::path() == 'coordinator/list' ? 'active' : ''}}"><a href="{{ url('coordinator/list') }}"><i class="fa fa-list-ul"></i>Student List</a></li>
+            <li class="{{Request::path() == 'coordinator/progress' ? 'active' : ''}}"><a href="{{ url('coordinator/progress') }}"><i class="fa fa-tasks"></i>Step Progress</a></li>
           </ul>
         </li>
-        <li class="treeview {{Request::path() == 'coordinator/services/messages' ? 'active' : ''}} {{Request::path() == 'coordinator/services/announcements' ? 'active' : ''}}">
+        <li class="treeview {{Request::path() == 'coordinator/announcements' ? 'active' : ''}} {{Request::path() == 'coordinator/messages' ? 'active' : ''}} {{Request::path() == 'coordinator/messages/create' ? 'active' : ''}} {{Request::path() == 'coordinator/messages/sent' ? 'active' : ''}}">
           <a href="#"><i class="fa  fa-envelope"></i> <span>Mail</span>
             <small class="label pull-right bg-green">new</small>
           </a>
           <ul class="treeview-menu">
-            <li class="{{Request::path() == 'coordinator/services/messages' ? 'active' : ''}}"><a href="{{ url('coordinator/services/messages') }}"><i class="fa fa-inbox"></i>Messages</a></li>
-            <li class="{{Request::path() == 'coordinator/services/announcements' ? 'active' : ''}}"><a href="{{ url('coordinator/services/announcements') }}"><i class="fa fa-bullhorn"></i>Announcements</a></li>
+            <li class="{{Request::path() == 'coordinator/messages' ? 'active' : ''}} {{Request::path() == 'coordinator/messages/create' ? 'active' : ''}} {{Request::path() == 'coordinator/messages/sent' ? 'active' : ''}}"><a href="{{ url('coordinator/messages') }}"><i class="fa fa-inbox"></i>Messages</a></li>
+            <li class="{{Request::path() == 'coordinator/announcements' ? 'active' : ''}}"><a href="{{ url('coordinator/announcements') }}"><i class="fa fa-bullhorn"></i>Announcements</a></li>
           </ul>
         </li>
-        <li class="{{Request::path() == 'coordinator/services/events' ? 'active' : ''}}"><a href="{{ url('coordinator/services/events') }}"><i class="fa fa-flag"></i> <span>Events</span></a></li>
-        <li class="treeview {{Request::path() == 'coordinator/scholar/achievements' ? 'active' : ''}} {{Request::path() == 'coordinator/scholar/token' ? 'active' : ''}}">
+        <li class="{{Request::path() == 'coordinator/events' ? 'active' : ''}}"><a href="{{ url('coordinator/events') }}"><i class="fa fa-flag"></i> <span>Events</span></a></li>
+        <li class="treeview {{Request::path() == 'coordinator/achievements' ? 'active' : ''}} {{Request::path() == 'coordinator/token' ? 'active' : ''}}">
           <a href="#"><i class="fa  fa-trophy"></i> <span>Achievements</span>
           </a>
           <ul class="treeview-menu">
-            <li class="{{Request::path() == 'coordinator/scholar/achievements' ? 'active' : ''}}"><a href="{{ url('coordinator/scholar/achievements') }}"><i class="fa fa-star"></i>Student Achievements</a></li>
-            <li class="{{Request::path() == 'coordinator/scholar/token' ? 'active' : ''}}"><a href="{{ url('coordinator/scholar/token') }}"><i class="fa fa-gift"></i>Token Processing</a></li>
+            <li class="{{Request::path() == 'coordinator/achievements' ? 'active' : ''}}"><a href="{{ url('coordinator/achievements') }}"><i class="fa fa-star"></i>Student Achievements</a></li>
+            <li class="{{Request::path() == 'coordinator/token' ? 'active' : ''}}"><a href="{{ url('coordinator/token') }}"><i class="fa fa-gift"></i>Token Processing</a></li>
           </ul>
         </li>
-        <li class="{{Request::path() == 'coordinator/services/budget' ? 'active' : ''}}"><a href="{{ url('coordinator/services/budget') }}"><i class="fa fa-fw fa-money"></i> <span>Budget</span></a></li>
-        <li class="treeview {{Request::path() == 'coordinator/services/reports' ? 'active' : ''}} {{Request::path() == 'coordinator/services/reports' ? 'active' : ''}}">
+        <li class="{{Request::path() == 'coordinator/budget' ? 'active' : ''}}"><a href="{{ url('coordinator/budget') }}"><i class="fa fa-fw fa-money"></i> <span>Budget</span></a></li>
+        <li class="treeview {{Request::path() == 'coordinator/reports' ? 'active' : ''}} {{Request::path() == 'coordinator/reports' ? 'active' : ''}}">
           <a href="#"><i class="fa  fa-trophy"></i> <span>Reports</span>
           </a>
           <ul class="treeview-menu">
-            <li class="{{Request::path() == 'coordinator/services/reports' ? 'active' : ''}}"><a href="{{ url('coordinator/services/reports') }}"><i class="fa fa-star"></i>Students</a></li>
+            <li class="{{Request::path() == 'coordinator/reports' ? 'active' : ''}}"><a href="{{ url('coordinator/reports') }}"><i class="fa fa-star"></i>Students</a></li>
           </ul>
         </li>
-        <li class="{{Request::path() == 'coordinator/services/queries' ? 'active' : ''}}"><a href="{{ url('coordinator/services/queries') }}"><i class="fa fa-fw fa-list"></i> <span>Queries</span></a></li>
+        <li class="{{Request::path() == 'coordinator/queries' ? 'active' : ''}}"><a href="{{ url('coordinator/queries') }}"><i class="fa fa-fw fa-list"></i> <span>Queries</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>
@@ -177,7 +178,6 @@ desired effect
 {!! Html::script("js/bootstrap.min.js") !!}
 {!! Html::script("js/bootstrap-toggle.min.js") !!}
 {!! Html::script("js/script.js") !!}
-{!! Html::script("js/app.min.js") !!}
 {!! Html::script("plugins/fastclick/fastclick.min.js") !!}
 {!! Html::script("plugins/slimScroll/jquery.slimscroll.min.js") !!}
 {!! Html::script("js/parsley.min.js") !!}
@@ -185,5 +185,6 @@ desired effect
 {!! Html::script("plugins/datatables/dataTables.bootstrap.min.js") !!}
 {!! Html::script("plugins/sweetalert/sweetalert.min.js") !!}
 @yield('script')
+{!! Html::script("js/app.min.js") !!}
 </body>
 </html>

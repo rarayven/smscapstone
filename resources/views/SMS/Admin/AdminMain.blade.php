@@ -8,8 +8,6 @@
   @yield('meta')
   {!! Html::style("css/bootstrap.min.css") !!}
   {!! Html::style("css/font-awesome.css") !!}
-  {!! Html::style("css/AdminLTE.min.css") !!}
-  {!! Html::style("css/_all-skins.min.css") !!}
   {!! Html::style("css/bootstrap-toggle.min.css") !!}
   {!! Html::style("css/stylesheet.css") !!}
   {!! Html::style("css/parsley.css") !!}
@@ -17,6 +15,8 @@
   {!! Html::style("plugins/sweetalert/sweetalert.min.css") !!}
   <link rel="icon" href="{{ asset('img/logo.ico') }}">
   @yield('head')
+  {!! Html::style("css/AdminLTE.min.css") !!}
+  {!! Html::style("css/_all-skins.min.css") !!}
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -57,7 +57,7 @@ desired effect
         </a>
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
-          
+
           <ul class="nav navbar-nav">
             <!-- User Account Menu -->
             <li class="dropdown user user-menu">
@@ -116,19 +116,21 @@ desired effect
     </div>
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu">
+      {{-- <li class="header">NAVIGATION</li>
+      <li class="{{Request::path() == 'admin/dashboard' ? 'active' : ''}}"><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li> --}}
       <li class="header">MAINTENANCE</li>
       <!-- Optionally, you can add icons to the links -->
-      <li class="{{Request::path() == 'admin/maintenance/district' ? 'active' : ''}}"><a href="{{ url('admin/maintenance/district') }}"><i class="fa fa-bank"></i> <span>District</span></a></li>
-      <li class="{{Request::path() == 'admin/maintenance/barangay' ? 'active' : ''}}"><a href="{{ url('admin/maintenance/barangay') }}"><i class="fa fa-fw fa-map"></i> <span>Barangay</span></a></li>
-      <li class="{{Request::path() == 'admin/maintenance/councilor' ? 'active' : ''}}"><a href="{{ url('admin/maintenance/councilor') }}"><i class="fa fa-fw fa-gavel"></i> <span>Councilor</span></a></li>
-      <li class="{{Request::path() == 'admin/maintenance/grade' ? 'active' : ''}}"><a href="{{ url('admin/maintenance/grade') }}"><i class="fa fa-fw fa-level-up"></i> <span>Academic Grading</span></a></li>
-      <li class="{{Request::path() == 'admin/maintenance/school' ? 'active' : ''}}"><a href="{{ url('admin/maintenance/school') }}"><i class="fa fa-fw fa-graduation-cap"></i> <span>School</span></a></li>
-      <li class="{{Request::path() == 'admin/maintenance/course' ? 'active' : ''}}"><a href="{{ url('admin/maintenance/course') }}"><i class="fa fa-fw fa-book"></i> <span>Courses</span></a></li>
-      <li class="{{Request::path() == 'admin/maintenance/sem' ? 'active' : ''}}"><a href="{{ url('admin/maintenance/sem') }}"><i class="fa fa-fw fa-slack"></i> <span>Semester</span></a></li>
-      <li class="{{Request::path() == 'admin/maintenance/year' ? 'active' : ''}}"><a href="{{ url('admin/maintenance/year') }}"><i class="fa fa-fw fa-table"></i> <span>Year</span></a></li>
-      <li class="{{Request::path() == 'admin/maintenance/batch' ? 'active' : ''}}"><a href="{{ url('admin/maintenance/batch') }}"><i class="fa fa-fw fa-stack-overflow"></i> <span>Batch</span></a></li>
-      <li class="{{Request::path() == 'admin/maintenance/steps' ? 'active' : ''}}"><a href="{{ url('admin/maintenance/steps') }}"><i class="fa fa-fw fa-line-chart"></i> <span>Steps</span></a></li>
-      <li class="{{Request::path() == 'admin/maintenance/budgtype' ? 'active' : ''}}"><a href="{{ url('admin/maintenance/budgtype') }}"><i class="fa fa-fw fa-money"></i> <span>Budget Type</span></a></li>
+      <li class="{{Request::path() == 'admin/district' ? 'active' : ''}}"><a href="{{ url('admin/district') }}"><i class="fa fa-bank"></i> <span>District</span></a></li>
+      <li class="{{Request::path() == 'admin/barangay' ? 'active' : ''}}"><a href="{{ url('admin/barangay') }}"><i class="fa fa-fw fa-map"></i> <span>Barangay</span></a></li>
+      <li class="{{Request::path() == 'admin/councilor' ? 'active' : ''}}"><a href="{{ url('admin/councilor') }}"><i class="fa fa-fw fa-gavel"></i> <span>Councilor</span></a></li>
+      <li class="{{Request::path() == 'admin/grade' ? 'active' : ''}}"><a href="{{ url('admin/grade') }}"><i class="fa fa-fw fa-level-up"></i> <span>Academic Grading</span></a></li>
+      <li class="{{Request::path() == 'admin/school' ? 'active' : ''}}"><a href="{{ url('admin/school') }}"><i class="fa fa-fw fa-graduation-cap"></i> <span>School</span></a></li>
+      <li class="{{Request::path() == 'admin/course' ? 'active' : ''}}"><a href="{{ url('admin/course') }}"><i class="fa fa-fw fa-book"></i> <span>Courses</span></a></li>
+      <li class="{{Request::path() == 'admin/sem' ? 'active' : ''}}"><a href="{{ url('admin/sem') }}"><i class="fa fa-fw fa-slack"></i> <span>Semester</span></a></li>
+      <li class="{{Request::path() == 'admin/year' ? 'active' : ''}}"><a href="{{ url('admin/year') }}"><i class="fa fa-fw fa-table"></i> <span>Year</span></a></li>
+      <li class="{{Request::path() == 'admin/batch' ? 'active' : ''}}"><a href="{{ url('admin/batch') }}"><i class="fa fa-fw fa-stack-overflow"></i> <span>Batch</span></a></li>
+      <li class="{{Request::path() == 'admin/steps' ? 'active' : ''}}"><a href="{{ url('admin/steps') }}"><i class="fa fa-fw fa-line-chart"></i> <span>Steps</span></a></li>
+      <li class="{{Request::path() == 'admin/budgtype' ? 'active' : ''}}"><a href="{{ url('admin/budgtype') }}"><i class="fa fa-fw fa-money"></i> <span>Budget Type</span></a></li>
     </ul>
     <!-- /.sidebar-menu -->
   </section>
@@ -144,7 +146,6 @@ desired effect
 {!! Html::script("js/bootstrap.min.js") !!} 
 {!! Html::script("js/bootstrap-toggle.min.js") !!} 
 {!! Html::script("js/script.js") !!}
-{!! Html::script("js/app.min.js") !!} 
 {!! Html::script("plugins/fastclick/fastclick.min.js") !!} 
 {!! Html::script("plugins/slimScroll/jquery.slimscroll.min.js") !!}
 {!! Html::script("js/parsley.min.js") !!}
@@ -152,5 +153,6 @@ desired effect
 {!! Html::script("plugins/datatables/dataTables.bootstrap.min.js") !!}
 {!! Html::script("plugins/sweetalert/sweetalert.min.js") !!}
 @yield('script')
+{!! Html::script("js/app.min.js") !!} 
 </body>
 </html>

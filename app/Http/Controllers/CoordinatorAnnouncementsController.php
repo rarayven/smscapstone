@@ -1,88 +1,62 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-
+use App\Announcement;
+use Datatables;
+use Auth;
+use DB;
+use Response;
+use Carbon\Carbon;
 class CoordinatorAnnouncementsController extends Controller
 {
     public function __construct()
     {
         $this->middleware('coordinator');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function data()
+    {   
+        $announcement = Announcement::where('user_id',Auth::id());
+        return Datatables::of($announcement)
+        ->addColumn('action', function ($data) {
+            return "<button class='btn btn-success btn-xs btn-pdf' value='$data->id'><i class='fa fa-file-pdf-o'></i> PDF</button> <button class='btn btn-info btn-xs btn-view' value='$data->id'><i class='fa fa-eye'></i> View</button> <button class='btn btn-warning btn-xs btn-detail open-modal' value='$data->id'><i class='fa fa-edit'></i> Edit</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->id'><i class='fa fa-trash-o'></i> Delete</button>";
+        })
+        ->editColumn('date_post', function ($data) {
+            return $data->date_post ? with(new Carbon($data->date_post))->format('M d, Y - h:i A ') : '';
+        })
+        ->setRowId(function ($data) {
+            return $data = 'id'.$data->id;
+        })
+        ->rawColumns(['action'])
+        ->make(true);
+    }
     public function index()
     {
         return view('SMS.Coordinator.Services.CoordinatorAnnouncements');
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        DB::beginTransaction();
+        try
+        {
+            $dtm = Carbon::now('Asia/Manila');
+            $pdf = $request->file('pdf');
+            $pdfname = md5(Auth::user()->email. time()).'.'.$pdf->getClientOriginalExtension();
+            $announcement = new Announcement;
+            $announcement->user_id = Auth::id();
+            $announcement->title = $request->title;
+            $announcement->description = $request->description;
+            $announcement->pdf = $pdfname;
+            $announcement->date_post = $dtm;
+            $announcement->save();
+            $pdf->move(base_path().'/public/docs/', $pdfname);
+            DB::commit();
+            return Response::json($announcement);
+        }
+        catch(\Exception $e)
+        {
+            DB::rollBack();
+            dd($e);
+            return dd($e->errorInfo[2]);
+        }  
     }
 }

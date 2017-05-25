@@ -60,13 +60,13 @@ $(document).ready(function(){
 			})
 		}
 	});
-	var dataurl = "/coordinator/scholar/achievements";
+	var dataurl = "/coordinator/achievements";
 	var table = $('#achievement-table').DataTable({
 		processing: true,
 		serverSide: true,
 		"columnDefs": [
 		{ "width": "200px", "targets": 3 },
-		{ "width": "70px", "targets": 2 }
+		{ "width": "150px", "targets": 2 }
 		],
 		ajax: {
 			type: 'POST',

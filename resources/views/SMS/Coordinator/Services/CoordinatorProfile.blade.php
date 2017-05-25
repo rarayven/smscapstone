@@ -21,8 +21,8 @@
         <!-- Profile Image -->
         <div class="box box-danger">
           <div class="box-body box-profile">
-            <img class="profile-user-img img-responsive img-circle" src="../../LTE/dist/img/user2-160x160.jpg" alt="User profile picture">
-            <h3 class="profile-username text-center">Alexander Pierce</h3>
+            <img class="profile-user-img img-responsive img-circle" src="{{ asset('images/'.Auth::user()->picture) }}" alt="User profile picture">
+            <h3 class="profile-username text-center">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h3>
             <a href="#" class="btn btn-default btn-block"><b>Change Profile Photo</b></a>
           </div>
           <!-- /.box-body -->
@@ -43,26 +43,21 @@
           <form class="form-horizontal">
             <div class="box-body">
               <div class="form-group">
-                <label for="lastName" class="col-sm-2 control-label">Last Name</label>
+                <label for="firstName" class="col-sm-2 control-label">First Name</label>
                 <div class="col-sm-10">
-                  <input type="name" class="form-control" id="lastName" placeholder="Last Name">
+                  <input type="text" class="form-control" id="firstName" placeholder="First Name">
                 </div>
               </div>
               <div class="form-group">
-                <label for="firstName" class="col-sm-2 control-label">First Name</label>
+                <label for="firstName" class="col-sm-2 control-label">Middle Name</label>
                 <div class="col-sm-10">
-                  <input type="name" class="form-control" id="firstName" placeholder="First Name">
+                  <input type="text" class="form-control" id="firstName" placeholder="First Name">
                 </div>
               </div>
-              <div class="form-group date">
-                <label for="datepicker" class="col-sm-2 control-label">Birthdate</label>
+              <div class="form-group">
+                <label for="lastName" class="col-sm-2 control-label">Last Name</label>
                 <div class="col-sm-10">
-                  <div class="input-group">
-                    <div class="input-group-addon">
-                      <i class="fa fa-calendar"></i>
-                    </div>
-                    <input type="text" class="form-control pull-right" id="datepicker" placeholder="mm/dd/yyyy">
-                  </div> 
+                  <input type="text" class="form-control" id="lastName" placeholder="Last Name">
                 </div>
               </div>
               <div class="form-group">

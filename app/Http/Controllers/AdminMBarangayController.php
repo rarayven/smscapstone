@@ -65,10 +65,6 @@ class AdminMBarangayController extends Controller
         $district = District::where('is_active',1)->pluck('description','id');
         return view('SMS.Admin.Maintenance.AdminMBarangay')->withDistrict($district);
     }
-    public function create()
-    {
-        return redirect('admin/maintenance/barangay');
-    }
     public function store(Request $request)
     {
         Input::merge(array_map('trim', Input::all()));
@@ -88,10 +84,6 @@ class AdminMBarangayController extends Controller
             else
                 return var_dump($e->errorInfo[1]);
         } 
-    }
-    public function show($id)
-    {
-        return redirect('admin/maintenance/barangay');
     }
     public function edit($id)
     {

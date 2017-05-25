@@ -20,15 +20,7 @@ class CoordinatorApplicantsDetailsController extends Controller
     }
     public function index()
     {
-        return redirect('coordinator/scholar/applicants');
-    }
-    public function create()
-    {
-        //
-    }
-    public function store(Request $request)
-    {
-        //
+        return redirect(route('applicants.index'));
     }
     public function show($id)
     {
@@ -63,7 +55,7 @@ class CoordinatorApplicantsDetailsController extends Controller
         }
         catch(\Exception $e)
         {
-            return redirect('coordinator/scholar/applicants');
+            return redirect(route('applicants.index'));
         }
     }
     public function edit($id)
@@ -86,7 +78,7 @@ class CoordinatorApplicantsDetailsController extends Controller
             $user->is_active = 1;
             $user->save();
             DB::commit();
-            return redirect('/coordinator/scholar/applicants');
+            return redirect(route('applicants.index'));
         } 
         catch(\Exception $e)
         {
@@ -100,10 +92,6 @@ class CoordinatorApplicantsDetailsController extends Controller
         $application->remarks=$request->strApplRemarks;
         $application->application_status='Declined';
         $application->save();
-        return redirect('/coordinator/scholar/applicants');
-    }
-    public function destroy($id)
-    {
-        //
+        return redirect(route('applicants.index'));
     }
 }

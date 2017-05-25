@@ -62,10 +62,6 @@ class AdminMCourseController extends Controller
     {
         return view('SMS.Admin.Maintenance.AdminMCourse');
     }
-    public function create()
-    {
-        return redirect('admin/maintenance/course');
-    }
     public function store(Request $request)
     {
         Input::merge(array_map('trim', Input::all()));
@@ -82,10 +78,6 @@ class AdminMCourseController extends Controller
             else
                 return var_dump($e->errorInfo[1]);
         } 
-    }
-    public function show($id)
-    {
-        return redirect('admin/maintenance/course');
     }
     public function edit($id)
     {

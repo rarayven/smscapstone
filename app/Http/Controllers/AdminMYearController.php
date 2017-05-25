@@ -62,10 +62,6 @@ class AdminMYearController extends Controller
     {
         return view('SMS.Admin.Maintenance.AdminMYear');
     }
-    public function create()
-    {
-        return redirect('admin/maintenance/year');
-    }
     public function store(Request $request)
     {
         Input::merge(array_map('trim', Input::all()));
@@ -82,10 +78,6 @@ class AdminMYearController extends Controller
             else
                 return var_dump($e->errorInfo[1]);
         } 
-    }
-    public function show($id)
-    {
-        return redirect('admin/maintenance/year');
     }
     public function edit($id)
     {

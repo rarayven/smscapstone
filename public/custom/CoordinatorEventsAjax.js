@@ -3,8 +3,8 @@ $(document).ready(function(){
 		showInputs: false
 	});
 	var id='';
-	var url = "/coordinator/services/events";
-	var url2 = "/coordinator/services/events/checkbox";
+	var url = "/coordinator/events";
+	var url2 = "/coordinator/events/checkbox";
 	var dt = new Date();
 	dt.setDate(dt.getDate());
 	$('#datepicker').datepicker({
@@ -152,6 +152,9 @@ $(document).ready(function(){
 			$('#add_event').modal('hide');
 			$('#events').empty();
 			$.each(data, function(index, value) {
+				var day = new Date(value.date_held);
+				var time_from = new Date("October 13, 2014 "+value.time_from);
+				var time_to = new Date("October 13, 2014 "+value.time_to);
 				if(value.status=='Ongoing'){
 					checked = 'checked';
 				}else{
@@ -165,9 +168,9 @@ $(document).ready(function(){
 				"<button class='btn btn-warning btn-xs btn-detail open-modal' value="+value.id+"><i class='fa fa-edit'></i></button> <button class='btn btn-danger btn-xs btn-delete' value="+value.id+"><i class='fa fa-times'></i></button>"+
 				"</div>"+
 				"<h4><b>"+value.title+"</b></h4>"+
-				"<p>Monday</p>"+
-				"<p>"+value.date_held+"</p>"+
-				"<p>"+value.time_from+" - "+value.time_to+"</p>"+
+				"<p>"+day.toLocaleString('en-us',{weekday:'long'})+"</p>"+
+				"<p>"+day.toLocaleString('en-us',{year: 'numeric', month: 'short', day: '2-digit'})+"</p>"+
+				"<p>"+time_from.toLocaleString('en-us',{ hour: '2-digit', minute: '2-digit' })+" - "+time_to.toLocaleString('en-us',{ hour: '2-digit', minute: '2-digit' })+"</p>"+
 				"</div>"+
 				"<div class='icon'>"+
 				"<i class='ion ion-person-add'></i>"+

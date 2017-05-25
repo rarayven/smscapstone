@@ -63,10 +63,6 @@ class AdminMDistrictController extends Controller
     {
         return view('SMS.Admin.Maintenance.AdminMDistrict');
     }
-    public function create()
-    {
-        return redirect('admin/maintenance/district');
-    }
     public function store(Request $request)
     {
         Input::merge(array_map('trim', Input::all()));
@@ -89,10 +85,6 @@ class AdminMDistrictController extends Controller
             else
                 return var_dump($e->errorInfo[1]);
         } 
-    }
-    public function show($id)
-    {
-        return redirect('admin/maintenance/district');
     }
     public function edit($id)
     {

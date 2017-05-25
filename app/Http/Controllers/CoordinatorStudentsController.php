@@ -34,10 +34,6 @@ class CoordinatorStudentsController extends Controller
 		$count = Step::where('is_active',1)->count();
 		return view('SMS.Coordinator.Scholar.CoordinatorStudents')->withCount($count)->withDistrict($district)->withCouncilor($councilor)->withBarangay($barangay)->withSchool($school)->withCourse($course)->withBatch($batch)->withSteps($steps);
 	}
-	public function create()
-	{
-        //
-	}
 	public function store(Request $request)
 	{
 		$connections = Connection::join('users','connections.user_id','users.id')
@@ -205,9 +201,5 @@ class CoordinatorStudentsController extends Controller
         {
         	DB::rollBack();
         }
-    }
-    public function destroy($id)
-    {
-        //
     }
 }

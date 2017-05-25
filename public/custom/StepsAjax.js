@@ -4,9 +4,9 @@ $(document).ready(function(){
       'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
     }
   })
-  var url = "/admin/maintenance/steps";
+  var url = "/admin/steps";
   var id='';
-  var url2 = "/admin/maintenance/steps/checkbox";
+  var url2 = "/admin/steps/checkbox";
   var table = $('#steps-table').DataTable({
     responsive: true,
     processing: true,

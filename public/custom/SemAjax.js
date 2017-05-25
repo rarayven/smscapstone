@@ -4,9 +4,9 @@ $(document).ready(function(){
     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
   }
 })
- var url = "/admin/maintenance/sem";
+ var url = "/admin/sem";
  var id='';
- var url2 = "/admin/maintenance/sem/checkbox";
+ var url2 = "/admin/sem/checkbox";
  var table = $('#sem-table').DataTable({
   responsive: true,
   processing: true,

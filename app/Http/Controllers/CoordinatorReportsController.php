@@ -25,11 +25,11 @@ class CoordinatorReportsController extends Controller
      */
     public function create()
     {
-        $application = Application::join('tblUser','tblApplicationDetails.intApplStudID','tblUser.intUserID')
-        ->join('tblCurrentCollege','tblApplicationDetails.intApplStudID','tblCurrentCollege.intCurrStudID')
-        ->join('tblSchool','tblCurrentCollege.intCurrSchoID','tblSchool.intSchoID')
-        ->select('tblUser.*','tblSchool.strSchoDesc')
-        ->where('tblApplicationDetails.ApplStatus','Accepted')->get();
+        $application = Application::join('users','student_details.user_id','users.id')
+        ->join('current_colleges','student_details.user_id','current_colleges.student_detail_user_id')
+        ->join('schools','current_colleges.school_id','schools.id')
+        ->select('users.*','schools.description')
+        ->where('student_details.application_status','Accepted')->get();
         // return view('SMS.Coordinator.Reports.CoordinatorStudentReport')->withApplication($application);
         view()->share('application',$application);
         // $pdf = PDF::loadHTML('<h1>Test</h1>');

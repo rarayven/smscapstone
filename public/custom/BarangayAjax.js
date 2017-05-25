@@ -4,9 +4,9 @@ $(document).ready(function(){
     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
   }
 })
- var url = "/admin/maintenance/barangay";
+ var url = "/admin/barangay";
  var id='';
- var url2 = "/admin/maintenance/barangay/checkbox";
+ var url2 = "/admin/barangay/checkbox";
  var table = $('#barangay-table').DataTable({
   responsive: true,
   processing: true,

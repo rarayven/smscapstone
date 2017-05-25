@@ -22,7 +22,8 @@ $(document).ready(function(){
 		"columnDefs": [
 		{ "width": "180px", "targets": 5 },
 		{ "width": "70px", "targets": 4 },
-		{ "width": "70px", "targets": 3 }
+		{ "width": "70px", "targets": 3 },
+		{ "width": "150px", "targets": 2 }
 		],
 		columns: [
 		{data: 'description', name: 'description'},
@@ -38,8 +39,8 @@ $(document).ready(function(){
 			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
 		}
 	})	
-	$('#add_achievement').on('hide.bs.modal', function(){
-		// $('#frmAchivement').trigger("reset");
+	$('#add_achievement').on('hidden.bs.modal', function(){
+		$('#frmAchivement').trigger("reset");
 		$('#frmAchivement').parsley().destroy();
 	});
 	//create new task / update existing task
@@ -52,12 +53,14 @@ $(document).ready(function(){
 			setTimeout(function(){
 				$("#btn-save").removeAttr('disabled');
 			}, 1000);
-			var file_data = $('#pdf').prop('files')[0];
-			var formData = {
-				description: $('#description').parsley('data-parsley-whitespace','squish').getValue(),
-				place_held: $('#place_held').parsley('data-parsley-whitespace','squish').getValue(),
-				date_held: $('#datepicker').val()
-			}
+			// var formData = {
+			// 	description: $('#description').parsley('data-parsley-whitespace','squish').getValue(),
+			// 	place_held: $('#place_held').parsley('data-parsley-whitespace','squish').getValue(),
+			// 	date_held: $('#datepicker').val(),
+			// 	pdf: $('input[type=file]').val()
+			// }
+			var formData = new FormData($('#frmAchivement')[0]);
+
 			var state = $('#btn-save').val();
 			var type = "POST"; 
 			var my_url = url;
@@ -72,7 +75,9 @@ $(document).ready(function(){
 				type: type,
 				url: my_url,
 				data: formData,
+				processData: false,
 				dataType: 'json',
+				contentType: false,
 				success: function (data) {
 					$('#add_achievement').modal('hide');
 					table.draw();

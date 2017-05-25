@@ -54,8 +54,8 @@
 				<tbody>
 					<tr>
 						<td>{{$ctr}}</td>
-						<td>{{$applications->strUserLastName}}, {{$applications->strUserFirstName}} {{$applications->strUserMiddleName}}</td>
-						<td>{{$applications->strSchoDesc}}</td>
+						<td>{{$applications->last_name}}, {{$applications->first_name}} {{$applications->middle_name}}</td>
+						<td>{{$applications->description}}</td>
 					</tr>
 				</tbody>
 				@endforeach

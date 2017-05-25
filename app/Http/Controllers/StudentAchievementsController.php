@@ -5,6 +5,7 @@ use Datatables;
 use App\Achievement;
 use Response;
 use Auth;
+use Carbon\Carbon;
 use DB;
 class StudentAchievementsController extends Controller
 {
@@ -29,6 +30,9 @@ class StudentAchievementsController extends Controller
             }
             return "<span class='label label-$status'>$data->status</span>";
         })
+        ->editColumn('date_held', function ($data) {
+            return $data->date_held ? with(new Carbon($data->date_held))->format('M d, Y - h:i A ') : '';
+        })
         ->editColumn('token_process', function ($data) {
             if($data->token_process=='Received'){
                 $token_process = 'success';
@@ -45,45 +49,25 @@ class StudentAchievementsController extends Controller
         ->rawColumns(['status','token_process','action'])
         ->make(true);
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return view('SMS.Student.StudentAchievements');
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         DB::beginTransaction();
         try
         {
-            // $pdf = $request->file('pdf');
-            // $pdfname = md5(Auth::user()->email. time()).'.'.$pdf->getClientOriginalExtension();
+            $pdf = $request->file('pdf');
+            $pdfname = md5(Auth::user()->email. time()).'.'.$pdf->getClientOriginalExtension();
             $achievement = new Achievement;
             $achievement->user_id = Auth::id();
             $achievement->description = $request->description;
             $achievement->place_held = $request->place_held;
             $achievement->date_held = $request->date_held;
-            $achievement->pdf = "Temporary";
+            $achievement->pdf = $pdfname;
             $achievement->save();
-            // $pdf->move(base_path().'/public/docs/', $pdfname);
+            $pdf->move(base_path().'/public/docs/', $pdfname);
             DB::commit();
             return Response::json($achievement);
         }
@@ -93,46 +77,5 @@ class StudentAchievementsController extends Controller
             dd($e);
             return dd($e->errorInfo[2]);
         }  
-    }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

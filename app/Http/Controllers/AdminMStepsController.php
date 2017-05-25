@@ -88,7 +88,6 @@ class AdminMStepsController extends Controller
     }
     public function index()
     {
-        // dd($pivot);
         return view('SMS.Admin.Maintenance.AdminMSteps');
     }
     public function create()
@@ -115,10 +114,6 @@ class AdminMStepsController extends Controller
             else
                 return var_dump($e->errorInfo[1]);
         } 
-    }
-    public function show($id)
-    {
-        return redirect('admin/maintenance/steps');
     }
     public function edit($id)
     {
