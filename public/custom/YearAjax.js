@@ -18,7 +18,7 @@ $(document).ready(function(){
   ],
   columns: [
   {data: 'description', name: 'description'},
-  {data: 'isActive', name: 'isActive', searchable: false},
+  {data: 'is_active', name: 'is_active', searchable: false},
   {data: 'action', name: 'action', orderable: false, searchable: false}
   ]
 });

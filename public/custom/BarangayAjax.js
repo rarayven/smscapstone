@@ -19,7 +19,7 @@ $(document).ready(function(){
   columns: [
   {data: 'districts_description', name: 'districts.description'},
   {data: 'description', name: 'barangay.description'},
-  {data: 'isActive', name: 'isActive', searchable: false},
+  {data: 'is_active', name: 'barangay.is_active', searchable: false},
   {data: 'action', name: 'action', orderable: false, searchable: false}
   ]
 });

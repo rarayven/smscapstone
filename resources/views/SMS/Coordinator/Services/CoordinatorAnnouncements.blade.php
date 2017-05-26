@@ -37,7 +37,7 @@
                       <input class="form-control" type="text" name="title" placeholder="Subject:">
                     </div>
                     <div class="form-group">
-                      <textarea id="compose-textarea" name="description" class="form-control" style="height: 300px"></textarea>
+                      <textarea id="compose-textarea" name="description" class="form-control" style="resize: none; height: 300px"></textarea>
                     </div>
                     <div class="form-group">
                       <div class="btn btn-default btn-file">

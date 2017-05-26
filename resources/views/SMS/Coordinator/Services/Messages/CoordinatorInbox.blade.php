@@ -1,6 +1,7 @@
 @extends('SMS.Coordinator.CoordinatorMain')
 @section('override')
 {!! Html::style("plugins/datatables/dataTables.bootstrap.min.css") !!}
+{!! Html::style("plugins/sweetalert/sweetalert.min.css") !!}
 @endsection
 @section('content')
 <!-- Content Wrapper. Contains page content -->
@@ -9,14 +10,12 @@
   <section class="content-header">
     <h1>
       Messages
-      <small>"No. of unread here"</small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{ url('coordinator/dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
       <li class="active">Here</li>
     </ol>
   </section>
-
   <!-- Main content -->
   <section class="content">
     @if (Session::has('success'))
@@ -28,11 +27,9 @@
     <div class="row">
       <div class="col-md-2">
         <a href="{{ url('coordinator/messages/create') }}" class="btn btn-primary btn-block margin-bottom">Compose</a>
-
         <div class="box box-solid">
           <div class="box-header with-border">
             <h3 class="box-title">Folders</h3>
-
             <div class="box-tools">
               <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
               </button>
@@ -41,7 +38,7 @@
           <div class="box-body no-padding">
             <ul class="nav nav-pills nav-stacked">
               <li class="active"><a href="{{ url('coordinator/messages') }}"><i class="fa fa-inbox"></i> Inbox
-                <span class="label label-danger pull-right">4</span></a></li>
+                <span class="label label-primary pull-right">12</span></a></li>
                 <li><a href="{{ url('coordinator/messages/sent') }}"><i class="fa fa-envelope-o"></i> Sent</a></li>
               </ul>
             </div>
@@ -66,9 +63,10 @@
                     <th>Title</th>
                     <th>Description</th>
                     <th>Date</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </thead>
-                  <tbody id="district-list">
+                  <tbody id="list">
                   </tbody>
                 </table>
                 <!-- /.table -->
@@ -92,8 +90,11 @@
   @section('script')
   {!! Html::script("plugins/datatables/jquery.dataTables.min.js") !!}
   {!! Html::script("plugins/datatables/dataTables.bootstrap.min.js") !!}
-  {!! Html::script("custom/MessageAjax.js") !!}
+  {!! Html::script("plugins/sweetalert/sweetalert.min.js") !!}
+  {!! Html::script("custom/InboxAjax.js") !!}
   <script type="text/javascript">
     var dataurl = "{!! route('coordinatorinbox.data') !!}";
+    var url = "/coordinator/messages/delete";
+    var url2 = "/coordinator/messages/checkbox";
   </script>
   @endsection

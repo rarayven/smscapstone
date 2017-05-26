@@ -19,7 +19,7 @@ $(document).ready(function(){
     columns: [
     {data: 'description', name: 'schools.description'},
     {data: 'academic_gradings_description', name: 'academic_gradings.description'},
-    {data: 'isActive', name: 'isActive', searchable: false},
+    {data: 'is_active', name: 'schools.is_active', searchable: false},
     {data: 'action', name: 'action', orderable: false, searchable: false}
     ]
 });

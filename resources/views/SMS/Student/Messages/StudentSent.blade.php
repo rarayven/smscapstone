@@ -1,6 +1,7 @@
 @extends('SMS.Student.StudentMain')
 @section('override')
 {!! Html::style("plugins/datatables/dataTables.bootstrap.min.css") !!}
+{!! Html::style("plugins/sweetalert/sweetalert.min.css") !!}
 @endsection
 @section('content')
 <!-- Content Wrapper. Contains page content -->
@@ -9,7 +10,6 @@
   <section class="content-header">
     <h1>
       Messages
-      <small>"No. of unread here"</small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{ url('student/dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -54,13 +54,12 @@
               <div class="table-responsive mailbox-messages">
                 <table id="table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
                   <thead>
-                    <th>Sender</th>
                     <th>Title</th>
                     <th>Description</th>
                     <th>Date</th>
                     <th>Action</th>
                   </thead>
-                  <tbody id="district-list">
+                  <tbody id="list">
                   </tbody>
                 </table>
                 <!-- /.table -->
@@ -84,8 +83,10 @@
   @section('script')
   {!! Html::script("plugins/datatables/jquery.dataTables.min.js") !!}
   {!! Html::script("plugins/datatables/dataTables.bootstrap.min.js") !!}
-  {!! Html::script("custom/MessageAjax.js") !!}
+  {!! Html::script("plugins/sweetalert/sweetalert.min.js") !!}
+  {!! Html::script("custom/SentAjax.js") !!}
   <script type="text/javascript">
     var dataurl = "{!! route('studentsent.data') !!}";
+    var url = "/student/messages/sent/delete";
   </script>
   @endsection

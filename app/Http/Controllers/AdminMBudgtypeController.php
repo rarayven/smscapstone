@@ -18,7 +18,7 @@ class AdminMBudgtypeController extends Controller
         ->addColumn('action', function ($data) {
             return "<button class='btn btn-warning btn-xs btn-detail open-modal' value='$data->id'><i class='fa fa-edit'></i> Edit</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->id'><i class='fa fa-trash-o'></i> Delete</button>";
         })
-        ->editColumn('isActive', function ($data) {
+        ->editColumn('is_active', function ($data) {
             $checked = '';
             if($data->is_active==1){
                 $checked = 'checked';
@@ -30,7 +30,7 @@ class AdminMBudgtypeController extends Controller
         ->setRowId(function ($data) {
             return $data = 'id'.$data->id;
         })
-        ->rawColumns(['isActive','action'])
+        ->rawColumns(['is_active','action'])
         ->make(true);
     }
     public function checkbox($id)

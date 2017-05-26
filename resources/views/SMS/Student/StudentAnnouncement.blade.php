@@ -24,19 +24,23 @@
         <i class="fa fa-bullhorn bg-blue"></i>
         <div class="timeline-item">
           <span class="time"><i class="fa fa-clock-o"></i> {{$announcements->date_post->diffForHumans()}}</span>
-          <h3 class="timeline-header"><strong>{{$announcements->title}}</strong></h3>
-          <div class="timeline-body">
-            {{$announcements->description}}
+          <h4 class="timeline-header">Subject: <strong>{{$announcements->title}}</strong><br><br>
+            From: <small>{{$announcements->last_name}} {{$announcements->middle_name}}</small></h4>
+            <div class="timeline-body">
+              {{$announcements->description}}
+            </div>
+            @if ($announcements->pdf != '')
+            <div class="timeline-footer">
+              <a href="#" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> {{$announcements->pdf}}</a>
+            </div>
+            @endif
           </div>
-          @if ($announcements->pdf != '')
-          <div class="timeline-footer">
-            <a href="#" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> {{$announcements->pdf}}</a>
-          </div>
-          @endif
-        </div>
-      </li>
-      @endforeach
-    </ul>
-  </section>
-</div>
-@endsection
+        </li>
+        @endforeach
+      </ul>
+      <div class="pull-right">
+        {!!$announcement->links();!!}
+      </div>
+    </section>
+  </div>
+  @endsection

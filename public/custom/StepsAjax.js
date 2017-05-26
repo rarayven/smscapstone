@@ -19,8 +19,8 @@ $(document).ready(function(){
     columns: [
     {data: 'description', name: 'description'},
     {data: 'deadline', name: 'deadline'},
-    {data: 'intStepOrder', name: 'intStepOrder'},
-    {data: 'isActive', name: 'isActive', searchable: false},
+    {data: 'order', name: 'order'},
+    {data: 'is_active', name: 'is_active', searchable: false},
     {data: 'action', name: 'action', orderable: false, searchable: false}
     ]
   });

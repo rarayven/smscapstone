@@ -22,9 +22,11 @@ class StudentAnnouncementController extends Controller
         ->where('connections.councilor_id',$connection->councilor_id)
         ->where('users.type','Coordinator')
         ->first();
-        $announcement = Announcement::where('user_id',$users->id)
-        ->orderBy('id','desc')
-        ->get();
+        $announcement = Announcement::join('users','announcements.user_id','users.id')
+        ->select('announcements.*','users.*')
+        ->where('announcements.user_id',$users->id)
+        ->orderBy('announcements.id','desc')
+        ->paginate(10);
         return view('SMS.Student.StudentAnnouncement')->withAnnouncement($announcement);
     }
 }

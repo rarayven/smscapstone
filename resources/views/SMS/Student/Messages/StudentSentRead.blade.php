@@ -40,7 +40,7 @@
         <div class="col-md-10">
           <div class="box box-danger">
             <div class="box-header with-border">
-              <h3 class="box-title">Read Mail</h3>
+              <h3 class="box-title">Read Sent</h3>
               <span class="mailbox-read-time pull-right">{{$message->date_created->format('M d, Y - h:i A ')}}</span>
             </div>
             <!-- /.box-header -->
@@ -48,7 +48,10 @@
               <div class="mailbox-read-info">
                 <h3>Subject: {{$message->title}}</h3>
                 <br>
-                <h5>From: <strong>{{$message->last_name}}, {{$message->first_name}} {{$message->middle_name}} ({{$message->email}})</strong>
+                <h5>Sent To: 
+                  @foreach ($users as $users)
+                  <strong>{{$users->last_name}}, {{$users->first_name}} {{$users->middle_name}} ({{$users->email}}) // </strong>
+                  @endforeach
                 </h5>
               </div>
               <!-- /.mailbox-controls -->
@@ -62,9 +65,6 @@
                 @endif
               </div>
               <!-- /.mailbox-read-message -->
-            </div>
-            <div class="box-footer">
-              <button type="submit" class="btn btn-success btn-block"><i class="fa fa-reply"></i> Reply</button>
             </div>
             <!-- /.box-footer -->
           </div>

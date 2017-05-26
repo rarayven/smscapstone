@@ -11,6 +11,8 @@
 */
 //Student Route List
 Route::group(['prefix' => 'student/'], function () {
+	//Student Checkbox Route List
+	Route::put('messages/checkbox/{id}', ['uses' => 'StudentMessagesController@checkbox', 'as' => 'studentinbox.checkbox']);
 	//Student DataTable
 	Route::get('messages/sentdata', ['uses' => 'StudentMessagesController@sentdata', 'as' => 'studentsent.data']);
 	Route::get('messages/inboxdata', ['uses' => 'StudentMessagesController@inboxdata', 'as' => 'studentinbox.data']);
@@ -30,8 +32,10 @@ Route::group(['prefix' => 'student/'], function () {
 	Route::get('messages', ['uses' => 'StudentMessagesController@index', 'as' => 'studentmessage.index']);
 	Route::get('messages/create', ['uses' => 'StudentMessagesController@create', 'as' => 'studentmessage.create']);
 	Route::post('messages', ['uses' => 'StudentMessagesController@store', 'as' => 'studentmessage.store']);
-	Route::get('messages/{id}', ['uses' => 'StudentMessagesController@show', 'as' => 'studentmessage.show']);
-	Route::delete('messages/{id}', ['uses' => 'StudentMessagesController@destroy', 'as' => 'messages.destroy']);
+	Route::get('messages/show/{id}', ['uses' => 'StudentMessagesController@show', 'as' => 'studentmessage.show']);
+	Route::delete('messages/delete/{id}', ['uses' => 'StudentMessagesController@destroy', 'as' => 'studentmessage.destroy']);
+	Route::get('messages/sent/show/{id}', ['uses' => 'StudentMessagesController@showsent', 'as' => 'studentmessage.showsent']);
+	Route::delete('messages/sent/delete/{id}', ['uses' => 'StudentMessagesController@destroysent', 'as' => 'studentmessage.destroysent']);
 	//Student Announcements
 	Route::get('announcements', ['uses' => 'StudentAnnouncementController@index', 'as' => 'studentannouncements.index']);
 	//Student Dashboard
@@ -44,6 +48,7 @@ Route::group(['prefix' => 'coordinator/'], function () {
 	Route::get('messages/inboxdata', ['uses' => 'CoordinatorMessagesController@inboxdata', 'as' => 'coordinatorinbox.data']);
 	Route::get('announcements/data', ['uses' => 'CoordinatorAnnouncementsController@data', 'as' => 'coordinatorannouncements.data']);
 	//Coordinator Checkbox Route List
+	Route::put('messages/checkbox/{id}', ['uses' => 'CoordinatorMessagesController@checkbox', 'as' => 'coordinatorinbox.checkbox']);
 	Route::put('events/checkbox/{id}', ['uses' => 'CoordinatorEventsController@checkbox', 'as' => 'coordinatorevents.checkbox']);
 	//Coordinator Profile
 	Route::resource('profile', 'CoordinatorProfileController');
@@ -81,7 +86,10 @@ Route::group(['prefix' => 'coordinator/'], function () {
 	Route::get('messages', ['uses' => 'CoordinatorMessagesController@index', 'as' => 'coordinatormessage.index']);
 	Route::get('messages/create', ['uses' => 'CoordinatorMessagesController@create', 'as' => 'coordinatormessage.create']);
 	Route::post('messages', ['uses' => 'CoordinatorMessagesController@store', 'as' => 'coordinatormessage.store']);
-	Route::get('messages/{id}', ['uses' => 'CoordinatorMessagesController@show', 'as' => 'coordinatormessage.show']);
+	Route::get('messages/show/{id}', ['uses' => 'CoordinatorMessagesController@show', 'as' => 'coordinatormessage.show']);
+	Route::delete('messages/delete/{id}', ['uses' => 'CoordinatorMessagesController@destroy', 'as' => 'coordinatormessage.destroy']);
+	Route::get('messages/sent/show/{id}', ['uses' => 'CoordinatorMessagesController@showsent', 'as' => 'coordinatormessage.showsent']);
+	Route::delete('messages/sent/delete/{id}', ['uses' => 'CoordinatorMessagesController@destroysent', 'as' => 'coordinatormessage.destroysent']);
 	//Coordinator Progress
 	Route::get('progress', ['uses' => 'CoordinatorStudentsController@index', 'as' => 'progress.index']);
 	Route::post('progress', ['uses' => 'CoordinatorStudentsController@store', 'as' => 'progress.store']);

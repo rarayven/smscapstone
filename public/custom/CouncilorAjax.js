@@ -18,8 +18,8 @@ $(document).ready(function(){
     ],
     columns: [
     {data: 'strCounName', name: 'strCounName'},
-    {data: 'district_description', name: 'tblDistrict.strDistDesc'},
-    {data: 'isActive', name: 'isActive', searchable: false},
+    {data: 'district_description', name: 'districts.description'},
+    {data: 'is_active', name: 'councilors.is_active', searchable: false},
     {data: 'action', name: 'action', orderable: false, searchable: false}
     ]
 });

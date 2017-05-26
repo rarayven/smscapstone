@@ -21,7 +21,7 @@ $(document).ready(function(){
   {data: 'highest_grade', name: 'highest_grade'},
   {data: 'lowest_grade', name: 'lowest_grade'},
   {data: 'failing_grade', name: 'failing_grade'},
-  {data: 'isActive', name: 'isActive', searchable: false},
+  {data: 'is_active', name: 'is_active', searchable: false},
   {data: 'action', name: 'action', orderable: false, searchable: false}
   ]
 });

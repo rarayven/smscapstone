@@ -1,8 +1,4 @@
 @extends('SMS.Coordinator.CoordinatorMain')
-@section('override')
-{!! Html::style("plugins/datatables/dataTables.bootstrap.min.css") !!}
-{!! Html::style("plugins/sweetalert/sweetalert.min.css") !!}
-@endsection
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -33,59 +29,50 @@
             <ul class="nav nav-pills nav-stacked">
               <li><a href="{{ url('coordinator/messages') }}"><i class="fa fa-inbox"></i> Inbox
                 <span class="label label-primary pull-right">12</span></a></li>
-                <li class="active"><a href="{{ url('coordinator/messages/sent') }}"><i class="fa fa-envelope-o"></i> Sent</a></li>
+                <li><a href="{{ url('coordinator/messages/sent') }}"><i class="fa fa-envelope-o"></i> Sent</a></li>
               </ul>
             </div>
             <!-- /.box-body -->
           </div>
           <!-- /. box -->
-          <!-- /.box -->
         </div>
         <!-- /.col -->
         <div class="col-md-10">
           <div class="box box-danger">
             <div class="box-header with-border">
-              <h3 class="box-title">Sent</h3>
-              <!-- /.box-tools -->
+              <h3 class="box-title">Read Sent</h3>
+              <span class="mailbox-read-time pull-right">{{$message->date_created->format('M d, Y - h:i A ')}}</span>
             </div>
             <!-- /.box-header -->
-            <div class="box-body">
-              <div class="table-responsive mailbox-messages">
-                <table id="table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
-                  <thead>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Date</th>
-                    <th>Action</th>
-                  </thead>
-                  <tbody id="list">
-                  </tbody>
-                </table>
-                <!-- /.table -->
+            <div class="box-body no-padding">
+              <div class="mailbox-read-info">
+                <h3>Subject: {{$message->title}}</h3>
+                <br>
+                <h5>Sent To: 
+                  @foreach ($users as $users)
+                  <strong>{{$users->last_name}}, {{$users->first_name}} {{$users->middle_name}} ({{$users->email}}) // </strong>
+                  @endforeach
+                </h5>
               </div>
-              <!-- /.mail-box-messages -->
+              <!-- /.mailbox-controls -->
+              <div class="mailbox-read-message">
+
+                <textarea style="resize: none; width: 100%; height:50vh;" readonly="readonly">{{$message->description}}</textarea>
+                @if ($message->pdf != '')
+                <div class="form-control">
+                  <a href="#" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> {{$message->pdf}}</a>
+                </div>
+                @endif
+              </div>
+              <!-- /.mailbox-read-message -->
             </div>
-            <!-- /.box-body -->
+            <!-- /.box-footer -->
           </div>
           <!-- /. box -->
         </div>
         <!-- /.col -->
       </div>
+      <!-- /.row -->
     </section>
-    <!-- /.content -->
   </div>
-  <!-- /.content-wrapper -->
-  @endsection
-  @section('meta')
-  <meta name="_token" content="{!! csrf_token() !!}" />
-  @endsection
-  @section('script')
-  {!! Html::script("plugins/datatables/jquery.dataTables.min.js") !!}
-  {!! Html::script("plugins/datatables/dataTables.bootstrap.min.js") !!}
-  {!! Html::script("plugins/sweetalert/sweetalert.min.js") !!}
-  {!! Html::script("custom/SentAjax.js") !!}
-  <script type="text/javascript">
-    var dataurl = "{!! route('coordinatorsent.data') !!}";
-    var url = "/coordinator/messages/sent/delete";
-  </script>
   @endsection

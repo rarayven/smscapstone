@@ -9,7 +9,6 @@
 	<section class="content-header">
 		<h1>
 			Messages
-			<small>"No. of unread here"</small>
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="{{ url('coordinator/dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -19,7 +18,7 @@
 	<!-- Main content -->
 	<section class="content">
 		<div class="row">
-			<div class="col-md-3">
+			<div class="col-md-2">
 				<a href="{{ url('coordinator/messages') }}" class="btn btn-primary btn-block margin-bottom">Back to Inbox</a>
 				<div class="box box-solid">
 					<div class="box-header with-border">
@@ -41,7 +40,7 @@
 					<!-- /. box -->
 				</div>
 				<!-- /.col -->
-				<div class="col-md-9">
+				<div class="col-md-10">
 					<div class="box box-danger">
 						<div class="box-header with-border">
 							<h3 class="box-title">Compose New Message</h3>
@@ -51,7 +50,7 @@
 							{{ Form::open([
 								'method' => 'Post',
 								'enctype' => 'multipart/form-data',
-								'url' => 'coordinator/messages'])
+								'route' => 'coordinatormessage.store'])
 							}}
 							<div class="form-group">
 								<label>Send To:</label>
@@ -67,7 +66,7 @@
 							</div>
 							<div class="form-group">
 								<label>Message:</label>
-								<textarea id="compose-textarea" name="description" class="form-control" style="height: 300px"></textarea>
+								<textarea id="compose-textarea" name="description" class="form-control" style="height: 300px; resize: none;"></textarea>
 							</div>
 							<div class="form-group">
 								<div class="btn btn-default btn-file">
@@ -84,9 +83,6 @@
 			</div>
 		</section>
 	</div>
-	@endsection
-	@section('meta')
-	<meta name="_token" content="{!! csrf_token() !!}" />
 	@endsection
 	@section('script')
 	{!! Html::script("plugins/select2/select2.min.js") !!}

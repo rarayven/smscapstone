@@ -19,7 +19,7 @@ class AdminMDistrictController extends Controller
         ->addColumn('action', function ($data) {
             return "<button class='btn btn-warning btn-xs btn-detail open-modal' value='$data->id'><i class='fa fa-edit'></i> Edit</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->id'><i class='fa fa-trash-o'></i> Delete</button>";
         })
-        ->editColumn('isActive', function ($data) {
+        ->editColumn('is_active', function ($data) {
             $checked = '';
             if($data->is_active==1){
                 $checked = 'checked';
@@ -31,7 +31,7 @@ class AdminMDistrictController extends Controller
         ->setRowId(function ($data) {
             return $data = 'id'.$data->id;
         })
-        ->rawColumns(['isActive','action'])
+        ->rawColumns(['is_active','action'])
         ->make(true);
     }
     public function checkbox($id)
@@ -65,6 +65,16 @@ class AdminMDistrictController extends Controller
     }
     public function store(Request $request)
     {
+        // $messages = [
+        // 'required' => 'The description field is required.',
+        // ];
+        // $validator = Validator::make($request->all(), [
+        //     'strDistDesc' =>  'required|unique:districts,description|max:15',
+        //     ],$messages);
+        // if ($validator->fails()) {
+        //     dd($validator->errors()->all());
+        //     return "Required";
+        // }
         Input::merge(array_map('trim', Input::all()));
         $validator = Validator::make($request->all(), [
             'strDistDesc' =>  'required|max:15|min:3',

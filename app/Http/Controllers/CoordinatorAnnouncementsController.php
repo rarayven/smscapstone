@@ -39,16 +39,20 @@ class CoordinatorAnnouncementsController extends Controller
         try
         {
             $dtm = Carbon::now('Asia/Manila');
-            $pdf = $request->file('pdf');
-            $pdfname = md5(Auth::user()->email. time()).'.'.$pdf->getClientOriginalExtension();
             $announcement = new Announcement;
             $announcement->user_id = Auth::id();
             $announcement->title = $request->title;
             $announcement->description = $request->description;
-            $announcement->pdf = $pdfname;
             $announcement->date_post = $dtm;
+            if ($request->file('pdf')!='') {
+                $pdf = $request->file('pdf');
+                $pdfname = md5(Auth::user()->email. time()).'.'.$pdf->getClientOriginalExtension();
+                $announcement->pdf = $pdfname;
+            }
             $announcement->save();
-            $pdf->move(base_path().'/public/docs/', $pdfname);
+            if ($request->file('pdf')!='') {
+                $pdf->move(base_path().'/public/docs/', $pdfname);
+            }
             DB::commit();
             return Response::json($announcement);
         }
