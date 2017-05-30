@@ -101,19 +101,24 @@
         <div class="modal-content">
           <div class="modal-header">
             <button class="close" data-dismiss="modal">&times;</button>
-            <h4>Message</h4>
+            <h4>Send Message</h4>
           </div>
           <div class="modal-body">
-            <form id="frmMessage" method="POST" data-parsley-validate>
-              <div class="form-group">
-                <textarea id="description" name="description" class="form-control" minlength="3" required style="resize: none; height: 400px;"></textarea>
-                <input type="hidden" name="_token" value="{{csrf_token()}}">
-                <input type="hidden" name="_method" value="PUT">
-              </div>
-              <div class="form-group">
-                <button id="btn-message" class="btn btn-success btn-block">Submit</button>
-              </div>
-            </form>
+            {{ Form::open([
+              'id' => 'frmMessage', 'data-parsley-whitespace' => 'squish'])
+            }}
+            <div class="form-group">
+              <label>Subject: </label>
+              <input type="text" id="title" name="title" class="form-control" required minlength="3" maxlength="25">
+            </div>
+            <div class="form-group">
+              <label>Message: </label>
+              <textarea id="description" name="description" class="form-control" minlength="3" required style="resize: none; height: 400px;"></textarea>
+            </div>
+            <div class="form-group">
+              <button id="btn-message" class="btn btn-success btn-block">Submit</button>
+            </div>
+            {{ Form::close() }}
           </div>
         </div>
       </div>
@@ -124,10 +129,11 @@
         <thead>
           <th>Student</th>
           <th>Achievement</th>
+          <th>Place Held</th>
           <th>Date Held</th>
           <th>Action</th>
         </thead>
-        <tbody id="district-list">
+        <tbody id="list">
         </tbody>
       </table>
     </div>

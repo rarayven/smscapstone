@@ -28,51 +28,51 @@
           <div class="box-body no-padding">
             <ul class="nav nav-pills nav-stacked">
               <li><a href="{{ url('student/messages') }}"><i class="fa fa-inbox"></i> Inbox
-                <span class="label label-primary pull-right">12</span></a></li>
-                <li><a href="{{ url('student/messages/sent') }}"><i class="fa fa-envelope-o"></i> Sent</a></li>
-              </ul>
-            </div>
-            <!-- /.box-body -->
+               <span class="label label-warning pull-right notif"></span></a></li>
+               <li><a href="{{ url('student/messages/sent') }}"><i class="fa fa-envelope-o"></i> Sent</a></li>
+             </ul>
+           </div>
+           <!-- /.box-body -->
+         </div>
+         <!-- /. box -->
+       </div>
+       <!-- /.col -->
+       <div class="col-md-10">
+        <div class="box box-danger">
+          <div class="box-header with-border">
+            <h3 class="box-title">Read Mail</h3>
+            <span class="mailbox-read-time pull-right">{{$message->date_created->format('M d, Y - h:i A ')}}</span>
           </div>
-          <!-- /. box -->
-        </div>
-        <!-- /.col -->
-        <div class="col-md-10">
-          <div class="box box-danger">
-            <div class="box-header with-border">
-              <h3 class="box-title">Read Mail</h3>
-              <span class="mailbox-read-time pull-right">{{$message->date_created->format('M d, Y - h:i A ')}}</span>
+          <!-- /.box-header -->
+          <div class="box-body no-padding">
+            <div class="mailbox-read-info">
+              <h3>Subject: {{$message->title}}</h3>
+              <br>
+              <h5>From: <strong>{{$message->last_name}}, {{$message->first_name}} {{$message->middle_name}} ({{$message->email}})</strong>
+              </h5>
             </div>
-            <!-- /.box-header -->
-            <div class="box-body no-padding">
-              <div class="mailbox-read-info">
-                <h3>Subject: {{$message->title}}</h3>
-                <br>
-                <h5>From: <strong>{{$message->last_name}}, {{$message->first_name}} {{$message->middle_name}} ({{$message->email}})</strong>
-                </h5>
-              </div>
-              <!-- /.mailbox-controls -->
-              <div class="mailbox-read-message">
+            <!-- /.mailbox-controls -->
+            <div class="mailbox-read-message">
 
-                <textarea style="resize: none; width: 100%; height:50vh;" readonly="readonly">{{$message->description}}</textarea>
-                @if ($message->pdf != '')
-                <div class="form-control">
-                  <a href="#" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> {{$message->pdf}}</a>
-                </div>
-                @endif
+              <textarea style="resize: none; width: 100%; height:50vh;" readonly="readonly">{{$message->description}}</textarea>
+              @if ($message->pdf != '')
+              <div class="form-control">
+                <a href="#" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> {{$message->pdf}}</a>
               </div>
-              <!-- /.mailbox-read-message -->
+              @endif
             </div>
-            <div class="box-footer">
-              <button type="submit" class="btn btn-success btn-block"><i class="fa fa-reply"></i> Reply</button>
-            </div>
-            <!-- /.box-footer -->
+            <!-- /.mailbox-read-message -->
           </div>
-          <!-- /. box -->
+          <div class="box-footer">
+            <a href="{{ route('studentmessage.reply',$message->sender) }}"><button type="button" class="btn btn-success btn-block"><i class="fa fa-reply"></i> Reply</button></a>
+          </div>
+          <!-- /.box-footer -->
         </div>
-        <!-- /.col -->
+        <!-- /. box -->
       </div>
-      <!-- /.row -->
-    </section>
-  </div>
-  @endsection
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+</div>
+@endsection

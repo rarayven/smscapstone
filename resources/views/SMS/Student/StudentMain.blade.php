@@ -91,7 +91,6 @@ desired effect
                     document.getElementById('logout-form').submit();">
                     Sign out
                   </a>
-
                   <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     {{ csrf_field() }}
                   </form>
@@ -122,7 +121,7 @@ desired effect
         <!-- Optionally, you can add icons to the links -->
         <li class="{{Request::path() == 'student/dashboard' ? 'active' : ''}}"><a href="{{ url('student/dashboard') }}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
         <li class="{{Request::path() == 'student/announcements' ? 'active' : ''}}"><a href="{{ url('student/announcements') }}"><i class="fa fa-bullhorn"></i><span>Announcements</span></a></li>
-        <li class="{{Request::path() == 'student/messages' ? 'active' : ''}} {{Request::path() == 'student/messages/create' ? 'active' : ''}} {{Request::path() == 'student/messages/sent' ? 'active' : ''}}"><a href="{{ url('student/messages') }}"><i class="fa fa-envelope"></i><span>Messages</span></a></li>
+        <li class="{{Request::path() == 'student/messages' ? 'active' : ''}} {{Request::path() == 'student/messages/create' ? 'active' : ''}} {{Request::path() == 'student/messages/sent' ? 'active' : ''}}"><a href="{{ url('student/messages') }}"><i class="fa fa-envelope"></i><span>Messages</span><small class="label pull-right bg-green panelnotif"></small></a></li>
         <li class="{{Request::path() == 'student/events' ? 'active' : ''}}"><a href="{{ url('student/events') }}"><i class="fa fa-flag"></i><span>Events</span></a></li>
         <li class="{{Request::path() == 'student/achievements' ? 'active' : ''}}"><a href="{{ url('student/achievements') }}"><i class="fa fa-trophy"></i><span>Achievements</span></a></li>
         <li class="{{Request::path() == 'student/renewal' ? 'active' : ''}}"><a href="{{ url('student/renewal') }}"><i class="fa fa-refresh"></i><span>Renewal</span></a></li>
@@ -148,7 +147,11 @@ desired effect
 {!! Html::script("plugins/fastclick/fastclick.min.js") !!}
 {!! Html::script("plugins/slimScroll/jquery.slimscroll.min.js") !!}
 {!! Html::script("js/parsley.min.js") !!}
+{!! Html::script("custom/NotificationAjax.js") !!}
 @yield('script')
 {!! Html::script("js/app.min.js") !!}
+<script type="text/javascript">
+  var notif = "{!! route('studentmessage.unreadmessage') !!}";
+</script>
 </body>
 </html>

@@ -48,7 +48,7 @@ class CoordinatorAchievementsController extends Controller
         ->get();
         $datatables = Datatables::of($users)
         ->addColumn('action', function ($data) {
-            return "<div id=dp$data->id><button class='btn btn-info btn-xs btn-view' value='$data->id'><i class='fa fa-eye'></i> View</button> <button class='btn btn-success btn-xs btn-detail open-modal' value='$data->id'><i class='fa fa-check'></i> Accept</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->id'><i class='fa fa-trash-o'></i> Decline</button></div>";
+            return "<div id=dp$data->id><button class='btn btn-info btn-xs btn-view' value='$data->id'><i class='fa fa-file-pdf-o'></i> PDF</button> <button class='btn btn-success btn-xs btn-detail open-modal' value='$data->id'><i class='fa fa-check'></i> Accept</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->id'><i class='fa fa-trash-o'></i> Decline</button></div>";
         })
         ->editColumn('strStudName', function ($data) {
             $images = url('images/'.$data->picture);

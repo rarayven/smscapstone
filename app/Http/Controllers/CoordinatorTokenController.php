@@ -13,6 +13,8 @@ use App\Course;
 use App\School;
 use App\Batch;
 use App\Achievement;
+use App\Message;
+use App\Receiver;
 use Response;
 use Carbon\Carbon;
 class CoordinatorTokenController extends Controller
@@ -20,6 +22,33 @@ class CoordinatorTokenController extends Controller
     public function __construct()
     {
         $this->middleware('coordinator');
+    }
+    public function messages(Request $request)
+    {
+        DB::beginTransaction();
+        try
+        {
+            $dtm = Carbon::now('Asia/Manila');
+            $message = new Message;
+            $message->user_id = Auth::id();
+            $message->title = $request->title;
+            $message->description = $request->description;
+            $message->date_created = $dtm;
+            $message->save();
+            $receiver = new Receiver;
+            $receiver->message_id = $message->id;
+            $receiver->user_id = $request->id;
+            $receiver->save();
+            DB::commit();
+            return Response::json($message);
+        }
+        catch(\Exception $e)
+        {
+            DB::rollBack();
+            dd($e);
+            return dd($e->errorInfo[2]);
+        }
+
     }
     public function index()
     {
@@ -41,14 +70,14 @@ class CoordinatorTokenController extends Controller
         $users = User::join('achievements','users.id','achievements.user_id')
         ->join('connections','users.id','connections.user_id')
         ->join('student_details','users.id','student_details.user_id')
-        ->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',users.middle_name) as strStudName"),'users.*','student_details.*','achievements.*'])
+        ->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',users.middle_name) as strStudName"),'users.*','student_details.*','achievements.*','users.id as user_id'])
         ->where('connections.councilor_id',$connections->id)
         ->where('users.type','Student')
         ->where('achievements.status','Accepted')
         ->get();
         $datatables = Datatables::of($users)
         ->addColumn('action', function ($data) {
-            return "<div id=dp$data->id><button class='btn btn-primary btn-xs btn-view' value='$data->id'><i class='fa fa-envelope'></i> Message</button> <button class='btn btn-success btn-xs btn-detail open-modal' value='$data->id'><i class='fa fa-share'></i> Receive</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->id'><i class='fa fa-remove'></i> Cancel</button></div>";
+            return "<div id=dp$data->user_id><button class='btn btn-info btn-xs btn-view' value='$data->user_id'><i class='fa fa-file-pdf-o'></i> PDF</button> <button class='btn btn-primary btn-xs btn-view' value='$data->user_id'><i class='fa fa-envelope'></i> Message</button> <button class='btn btn-success btn-xs btn-detail open-modal' value='$data->user_id'><i class='fa fa-share'></i> Receive</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->user_id'><i class='fa fa-remove'></i> Cancel</button></div>";
         })
         ->editColumn('date_held', function ($data) {
             return $data->date_held ? with(new Carbon($data->date_held))->format('M d, Y - h:i A ') : '';

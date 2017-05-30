@@ -16,7 +16,6 @@
       <li class="active">Here</li>
     </ol>
   </section>
-
   <!-- Main content -->
   <section class="content">
     <div class="row">
@@ -33,60 +32,60 @@
           <div class="box-body no-padding">
             <ul class="nav nav-pills nav-stacked">
               <li><a href="{{ url('student/messages') }}"><i class="fa fa-inbox"></i> Inbox
-                <span class="label label-primary pull-right">12</span></a></li>
-                <li class="active"><a href="{{ url('student/messages/sent') }}"><i class="fa fa-envelope-o"></i> Sent</a></li>
-              </ul>
-            </div>
-            <!-- /.box-body -->
+               <span class="label label-warning pull-right notif"></span></a></li>
+               <li class="active"><a href="{{ url('student/messages/sent') }}"><i class="fa fa-envelope-o"></i> Sent</a></li>
+             </ul>
+           </div>
+           <!-- /.box-body -->
+         </div>
+         <!-- /. box -->
+         <!-- /.box -->
+       </div>
+       <!-- /.col -->
+       <div class="col-md-10">
+        <div class="box box-danger">
+          <div class="box-header with-border">
+            <h3 class="box-title">Sent</h3>
+            <!-- /.box-tools -->
           </div>
-          <!-- /. box -->
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
-        <div class="col-md-10">
-          <div class="box box-danger">
-            <div class="box-header with-border">
-              <h3 class="box-title">Sent</h3>
-              <!-- /.box-tools -->
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="table-responsive mailbox-messages">
+              <table id="table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
+                <thead>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Date</th>
+                  <th>Action</th>
+                </thead>
+                <tbody id="list">
+                </tbody>
+              </table>
+              <!-- /.table -->
             </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <div class="table-responsive mailbox-messages">
-                <table id="table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
-                  <thead>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Date</th>
-                    <th>Action</th>
-                  </thead>
-                  <tbody id="list">
-                  </tbody>
-                </table>
-                <!-- /.table -->
-              </div>
-              <!-- /.mail-box-messages -->
-            </div>
-            <!-- /.box-body -->
+            <!-- /.mail-box-messages -->
           </div>
-          <!-- /. box -->
+          <!-- /.box-body -->
         </div>
-        <!-- /.col -->
+        <!-- /. box -->
       </div>
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-  @endsection
-  @section('meta')
-  <meta name="_token" content="{!! csrf_token() !!}" />
-  @endsection
-  @section('script')
-  {!! Html::script("plugins/datatables/jquery.dataTables.min.js") !!}
-  {!! Html::script("plugins/datatables/dataTables.bootstrap.min.js") !!}
-  {!! Html::script("plugins/sweetalert/sweetalert.min.js") !!}
-  {!! Html::script("custom/SentAjax.js") !!}
-  <script type="text/javascript">
-    var dataurl = "{!! route('studentsent.data') !!}";
-    var url = "/student/messages/sent/delete";
-  </script>
-  @endsection
+      <!-- /.col -->
+    </div>
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+@endsection
+@section('meta')
+<meta name="_token" content="{!! csrf_token() !!}" />
+@endsection
+@section('script')
+{!! Html::script("plugins/datatables/jquery.dataTables.min.js") !!}
+{!! Html::script("plugins/datatables/dataTables.bootstrap.min.js") !!}
+{!! Html::script("plugins/sweetalert/sweetalert.min.js") !!}
+{!! Html::script("custom/SentAjax.js") !!}
+<script type="text/javascript">
+  var dataurl = "{!! route('studentsent.data') !!}";
+  var url = "/student/messages/sent/delete";
+</script>
+@endsection

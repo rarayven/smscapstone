@@ -94,7 +94,6 @@ desired effect
                     document.getElementById('logout-form').submit();">
                     Sign out
                   </a>
-
                   <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     {{ csrf_field() }}
                   </form>
@@ -136,46 +135,36 @@ desired effect
             <li class="{{Request::path() == 'coordinator/progress' ? 'active' : ''}}"><a href="{{ url('coordinator/progress') }}"><i class="fa fa-tasks"></i>Step Progress</a></li>
           </ul>
         </li>
-        <li class="treeview {{Request::path() == 'coordinator/announcements' ? 'active' : ''}} {{Request::path() == 'coordinator/messages' ? 'active' : ''}} {{Request::path() == 'coordinator/messages/create' ? 'active' : ''}} {{Request::path() == 'coordinator/messages/sent' ? 'active' : ''}}">
-          <a href="#"><i class="fa  fa-envelope"></i> <span>Mail</span>
+        <li class="treeview {{Request::path() == 'coordinator/achievements' ? 'active' : ''}} {{Request::path() == 'coordinator/token' ? 'active' : ''}}">
+          <a href="#"><i class="fa  fa-trophy"></i> <span>Achievements</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="{{Request::path() == 'coordinator/messages' ? 'active' : ''}} {{Request::path() == 'coordinator/messages/create' ? 'active' : ''}} {{Request::path() == 'coordinator/messages/sent' ? 'active' : ''}}"><a href="{{ url('coordinator/messages') }}"><i class="fa fa-inbox"></i>Messages
-              <small class="label pull-right bg-green">new</small></a></li>
-              <li class="{{Request::path() == 'coordinator/announcements' ? 'active' : ''}}"><a href="{{ url('coordinator/announcements') }}"><i class="fa fa-bullhorn"></i>Announcements</a></li>
-            </ul>
-          </li>
-          <li class="{{Request::path() == 'coordinator/events' ? 'active' : ''}}"><a href="{{ url('coordinator/events') }}"><i class="fa fa-flag"></i> <span>Events</span></a></li>
-          <li class="treeview {{Request::path() == 'coordinator/achievements' ? 'active' : ''}} {{Request::path() == 'coordinator/token' ? 'active' : ''}}">
-            <a href="#"><i class="fa  fa-trophy"></i> <span>Achievements</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu">
-              <li class="{{Request::path() == 'coordinator/achievements' ? 'active' : ''}}"><a href="{{ url('coordinator/achievements') }}"><i class="fa fa-star"></i>Student Achievements</a></li>
-              <li class="{{Request::path() == 'coordinator/token' ? 'active' : ''}}"><a href="{{ url('coordinator/token') }}"><i class="fa fa-gift"></i>Token Processing</a></li>
-            </ul>
-          </li>
-          <li class="{{Request::path() == 'coordinator/budget' ? 'active' : ''}}"><a href="{{ url('coordinator/budget') }}"><i class="fa fa-fw fa-money"></i> <span>Budget</span></a></li>
-          <li class="treeview {{Request::path() == 'coordinator/reports' ? 'active' : ''}} {{Request::path() == 'coordinator/reports' ? 'active' : ''}}">
-            <a href="#"><i class="fa  fa-trophy"></i> <span>Reports</span>
-            </a>
-            <ul class="treeview-menu">
-              <li class="{{Request::path() == 'coordinator/reports' ? 'active' : ''}}"><a href="{{ url('coordinator/reports') }}"><i class="fa fa-star"></i>Students</a></li>
-            </ul>
-          </li>
-          <li class="{{Request::path() == 'coordinator/queries' ? 'active' : ''}}"><a href="{{ url('coordinator/queries') }}"><i class="fa fa-fw fa-list"></i> <span>Queries</span></a></li>
-        </ul>
-        <!-- /.sidebar-menu -->
-      </section>
-      <!-- /.sidebar -->
-    </aside>
-    @yield('content')
-    <!-- Main Footer -->
+            <li class="{{Request::path() == 'coordinator/achievements' ? 'active' : ''}}"><a href="{{ url('coordinator/achievements') }}"><i class="fa fa-star"></i>Student Achievements</a></li>
+            <li class="{{Request::path() == 'coordinator/token' ? 'active' : ''}}"><a href="{{ url('coordinator/token') }}"><i class="fa fa-gift"></i>Token Processing</a></li>
+          </ul>
+        </li>
+        <li class="{{Request::path() == 'coordinator/messages' ? 'active' : ''}}{{Request::path() == 'coordinator/messages/create' ? 'active' : ''}} {{Request::path() == 'coordinator/messages/sent' ? 'active' : ''}}"><a href="{{ url('coordinator/messages') }}"><i class="fa fa-envelope"></i> <span>Messages</span><small class="label pull-right bg-green panelnotif"></small></a></li>
+        <li class="{{Request::path() == 'coordinator/announcements' ? 'active' : ''}}"><a href="{{ url('coordinator/announcements') }}"><i class="fa fa-bullhorn"></i> <span>Announcements</span></a></li>
+        <li class="{{Request::path() == 'coordinator/events' ? 'active' : ''}}"><a href="{{ url('coordinator/events') }}"><i class="fa fa-flag"></i> <span>Events</span></a></li>
+        <li class="{{Request::path() == 'coordinator/budget' ? 'active' : ''}}"><a href="{{ url('coordinator/budget') }}"><i class="fa fa-fw fa-money"></i> <span>Budget</span></a></li>
+        <li class="treeview {{Request::path() == 'coordinator/reports' ? 'active' : ''}} {{Request::path() == 'coordinator/reports' ? 'active' : ''}}">
+          <a href="#"><i class="fa  fa-trophy"></i> <span>Reports</span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{Request::path() == 'coordinator/reports' ? 'active' : ''}}"><a href="{{ url('coordinator/reports') }}"><i class="fa fa-star"></i>Students</a></li>
+          </ul>
+        </li>
+        <li class="{{Request::path() == 'coordinator/queries' ? 'active' : ''}}"><a href="{{ url('coordinator/queries') }}"><i class="fa fa-fw fa-list"></i> <span>Queries</span></a></li>
+      </ul>
+      <!-- /.sidebar-menu -->
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+  @yield('content')
+  <!-- Main Footer -->
   <!-- Add the sidebar's background. This div must be placed
   immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
@@ -193,7 +182,11 @@ desired effect
 {!! Html::script("plugins/datatables/jquery.dataTables.min.js") !!}
 {!! Html::script("plugins/datatables/dataTables.bootstrap.min.js") !!}
 {!! Html::script("plugins/sweetalert/sweetalert.min.js") !!}
+{!! Html::script("custom/NotificationAjax.js") !!}
 @yield('script')
 {!! Html::script("js/app.min.js") !!}
+<script type="text/javascript">
+  var notif = "{!! route('coordinatormessage.unreadmessage') !!}";
+</script>
 </body>
 </html>

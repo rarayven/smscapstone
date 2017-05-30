@@ -65,8 +65,8 @@ $(document).ready(function(){
 		processing: true,
 		serverSide: true,
 		"columnDefs": [
-		{ "width": "200px", "targets": 3 },
-		{ "width": "150px", "targets": 2 }
+		{ "width": "200px", "targets": 4 },
+		{ "width": "150px", "targets": 3 }
 		],
 		ajax: {
 			type: 'POST',
@@ -86,6 +86,7 @@ $(document).ready(function(){
 		columns: [
 		{data: 'strStudName', name: 'strStudName'},
 		{data: 'description', name: 'achievements.description'},
+		{data: 'place_held', name: 'achievements.place_held'},
 		{data: 'date_held', name: 'achievements.date_held'},
 		{data: 'action', name: 'action', orderable: false, searchable: false}
 		]

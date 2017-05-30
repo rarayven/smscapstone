@@ -18,7 +18,7 @@ class CoordinatorAnnouncementsController extends Controller
         $announcement = Announcement::where('user_id',Auth::id());
         return Datatables::of($announcement)
         ->addColumn('action', function ($data) {
-            return "<button class='btn btn-success btn-xs btn-pdf' value='$data->id'><i class='fa fa-file-pdf-o'></i> PDF</button> <button class='btn btn-info btn-xs btn-view' value='$data->id'><i class='fa fa-eye'></i> View</button> <button class='btn btn-warning btn-xs btn-detail open-modal' value='$data->id'><i class='fa fa-edit'></i> Edit</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->id'><i class='fa fa-trash-o'></i> Delete</button>";
+            return "<button class='btn btn-info btn-xs btn-pdf' value='$data->id'><i class='fa fa-file-pdf-o'></i> PDF</button> <button class='btn btn-warning btn-xs btn-detail open-modal' value='$data->id'><i class='fa fa-edit'></i> Edit</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->id'><i class='fa fa-trash-o'></i> Delete</button>";
         })
         ->editColumn('date_post', function ($data) {
             return $data->date_post ? with(new Carbon($data->date_post))->format('M d, Y - h:i A ') : '';

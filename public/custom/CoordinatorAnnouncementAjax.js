@@ -12,7 +12,7 @@ $(document).ready(function(){
 		serverSide: true,
 		ajax: dataurl,
 		"columnDefs": [
-		{ "width": "250px", "targets": 2 },
+		{ "width": "200px", "targets": 2 },
 		{ "width": "150px", "targets": 1 }
 		],
 		columns: [

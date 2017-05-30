@@ -28,7 +28,7 @@
           <div class="box-body no-padding">
             <ul class="nav nav-pills nav-stacked">
               <li><a href="{{ url('coordinator/messages') }}"><i class="fa fa-inbox"></i> Inbox
-                <span class="label label-primary pull-right">12</span></a></li>
+                <span class="label label-warning pull-right notif"></span></a></li>
                 <li><a href="{{ url('coordinator/messages/sent') }}"><i class="fa fa-envelope-o"></i> Sent</a></li>
               </ul>
             </div>
@@ -64,7 +64,7 @@
               <!-- /.mailbox-read-message -->
             </div>
             <div class="box-footer">
-              <button type="submit" class="btn btn-success btn-block"><i class="fa fa-reply"></i> Reply</button>
+              <a href="{{ route('coordinatormessage.reply',$message->sender) }}"><button type="button" class="btn btn-success btn-block"><i class="fa fa-reply"></i> Reply</button></a>
             </div>
             <!-- /.box-footer -->
           </div>

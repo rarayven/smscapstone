@@ -11,6 +11,8 @@
 */
 //Student Route List
 Route::group(['prefix' => 'student/'], function () {
+	//Student Notification
+	Route::get('messages/notification', ['uses' => 'StudentMessagesController@unreadmessage', 'as' => 'studentmessage.unreadmessage']);
 	//Student Checkbox Route List
 	Route::put('messages/checkbox/{id}', ['uses' => 'StudentMessagesController@checkbox', 'as' => 'studentinbox.checkbox']);
 	//Student DataTable
@@ -36,6 +38,7 @@ Route::group(['prefix' => 'student/'], function () {
 	Route::delete('messages/delete/{id}', ['uses' => 'StudentMessagesController@destroy', 'as' => 'studentmessage.destroy']);
 	Route::get('messages/sent/show/{id}', ['uses' => 'StudentMessagesController@showsent', 'as' => 'studentmessage.showsent']);
 	Route::delete('messages/sent/delete/{id}', ['uses' => 'StudentMessagesController@destroysent', 'as' => 'studentmessage.destroysent']);
+	Route::get('messages/reply/{id}', ['uses' => 'StudentMessagesController@reply', 'as' => 'studentmessage.reply']);
 	//Student Announcements
 	Route::get('announcements', ['uses' => 'StudentAnnouncementController@index', 'as' => 'studentannouncements.index']);
 	//Student Dashboard
@@ -43,6 +46,8 @@ Route::group(['prefix' => 'student/'], function () {
 });
 //Coordinator Route List
 Route::group(['prefix' => 'coordinator/'], function () {
+	//Student Notification
+	Route::get('messages/notification', ['uses' => 'CoordinatorMessagesController@unreadmessage', 'as' => 'coordinatormessage.unreadmessage']);
 	//Coordinator DataTable
 	Route::get('messages/sentdata', ['uses' => 'CoordinatorMessagesController@sentdata', 'as' => 'coordinatorsent.data']);
 	Route::get('messages/inboxdata', ['uses' => 'CoordinatorMessagesController@inboxdata', 'as' => 'coordinatorinbox.data']);
@@ -59,6 +64,7 @@ Route::group(['prefix' => 'coordinator/'], function () {
 	//Coordinator Budget
 	Route::resource('budget', 'CoordinatorBudgetController');
 	//Coordinator Token
+	Route::post('token/messages', ['uses' => 'CoordinatorTokenController@messages', 'as' => 'token.messages']);
 	Route::get('token', ['uses' => 'CoordinatorTokenController@index', 'as' => 'token.index']);
 	Route::post('token', ['uses' => 'CoordinatorTokenController@store', 'as' => 'token.store']);
 	Route::get('token/{id}/edit', ['uses' => 'CoordinatorTokenController@edit', 'as' => 'token.edit']);
@@ -90,6 +96,7 @@ Route::group(['prefix' => 'coordinator/'], function () {
 	Route::delete('messages/delete/{id}', ['uses' => 'CoordinatorMessagesController@destroy', 'as' => 'coordinatormessage.destroy']);
 	Route::get('messages/sent/show/{id}', ['uses' => 'CoordinatorMessagesController@showsent', 'as' => 'coordinatormessage.showsent']);
 	Route::delete('messages/sent/delete/{id}', ['uses' => 'CoordinatorMessagesController@destroysent', 'as' => 'coordinatormessage.destroysent']);
+	Route::get('messages/reply/{id}', ['uses' => 'CoordinatorMessagesController@reply', 'as' => 'coordinatormessage.reply']);
 	//Coordinator Progress
 	Route::get('progress', ['uses' => 'CoordinatorStudentsController@index', 'as' => 'progress.index']);
 	Route::post('progress', ['uses' => 'CoordinatorStudentsController@store', 'as' => 'progress.store']);

@@ -102,6 +102,7 @@
           <thead>
             <th>Student</th>
             <th>Achievement</th>
+            <th>Place Held</th>
             <th>Date Held</th>
             <th>Action</th>
           </thead>

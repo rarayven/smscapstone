@@ -53,12 +53,8 @@
 								'route' => 'coordinatormessage.store'])
 							}}
 							<div class="form-group">
-								<label>Send To:</label>
-								<select class="form-control select2" name="receiver[]" multiple="multiple" data-placeholder="Send To:" style="width: 100%;">
-									@foreach ($users as $user)
-									<option value="{{$user->id}}">{{$user->first_name}} {{$user->last_name}}</option>
-									@endforeach
-								</select>
+								<label>Send To: </label> {{$user->last_name}}, {{$user->first_name}} {{$user->middle_name}} ({{$user->email}})
+								<input type="hidden" name="receiver[]" value="{{$user->id}}">
 							</div>
 							<div class="form-group">
 								<label>Subject:</label>

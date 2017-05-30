@@ -7,10 +7,13 @@ $(document).ready(function(){
 	$('#message').on('hide.bs.modal', function(){
 		$('#frmMessage').trigger("reset");
 	});
-	$('#district-list').on('click', '.btn-view',function(){ 
+	var messageId = '';
+	$('#list').on('click', '.btn-view',function(){ 
+		var link_id = $(this).val();
+		messageId = link_id;
 		$('#message').modal('show');
 	});
-	$('#district-list').on('click', '.open-modal',function(){ 
+	$('#list').on('click', '.open-modal',function(){ 
 		if (confirm("Are you sure?")) {
 			var link_id = $(this).val();
 			$.ajax({
@@ -33,7 +36,7 @@ $(document).ready(function(){
 			});
 		}
 	});
-	$('#district-list').on('click', '.btn-delete',function(){  
+	$('#list').on('click', '.btn-delete',function(){  
 		var link_id = $(this).val();
 		if (confirm("Are you Sure?")) {
 			$.ajax({
@@ -55,7 +58,7 @@ $(document).ready(function(){
 			});
 		}
 	});
-	$('#district-list').on('click', '.back',function(){
+	$('#list').on('click', '.back',function(){
 		var link_id = $(this).val();
 		var id = $(this).attr('id');
 		if(confirm("Are you sure you want to proceed?")){
@@ -66,13 +69,14 @@ $(document).ready(function(){
 			})
 		}
 	});
+	var url2 = "/coordinator/token/messages"
 	var dataurl = "/coordinator/token";
 	var table = $('#achievement-table').DataTable({
 		processing: true,
 		serverSide: true,
 		"columnDefs": [
-		{ "width": "200px", "targets": 3 },
-		{ "width": "150px", "targets": 2 }
+		{ "width": "270px", "targets": 4 },
+		{ "width": "150px", "targets": 3 }
 		],
 		ajax: {
 			type: 'POST',
@@ -92,6 +96,7 @@ $(document).ready(function(){
 		columns: [
 		{data: 'strStudName', name: 'strStudName'},
 		{data: 'description', name: 'achievements.description'},
+		{data: 'place_held', name: 'achievements.place_held'},
 		{data: 'date_held', name: 'achievements.date_held'},
 		{data: 'action', name: 'action', orderable: false, searchable: false}
 		]
@@ -107,5 +112,55 @@ $(document).ready(function(){
 	});
 	$('#advsearch').click(function(){
 		$('#advanced_search').modal('show');
+	});
+	xhrPool = [];
+	$("#btn-message").click(function () {
+		$('#frmMessage').parsley().destroy();
+		if($('#frmMessage').parsley().isValid())
+		{
+			$("#btn-message").attr('disabled','disabled');
+			setTimeout(function(){
+				$("#btn-message").removeAttr('disabled');
+			}, 1000);
+			var formData = {
+				title: $('#title').parsley('data-parsley-whitespace','squish').getValue(),
+				description: $('#description').parsley('data-parsley-whitespace','squish').getValue(),
+				id: messageId
+			}
+			var type = "POST"; 
+			var my_url = url2;
+			$.ajax({
+				beforeSend: function (jqXHR, settings) {
+					xhrPool.push(jqXHR);
+				},
+				type: type,
+				url: my_url,
+				data: formData,
+				dataType: 'json',
+				success: function (data) {
+					$('#message').modal('hide');
+					table.draw();
+					swal({
+						title: "Success!",
+						text: "<center>"+data.title+" is Stored</center>",
+						type: "success",
+						timer: 1000,
+						showConfirmButton: false,
+						html: true
+					});
+				},
+				error: function (data) {
+					console.log('Error:', data.responseText);
+					try{
+						alert("Something went wrong!");
+					}catch(err){}
+					finally{
+						$.each(xhrPool, function(idx, jqXHR) {
+							jqXHR.abort();
+						});
+					}
+				}
+			});
+		}
 	});
 });

@@ -50,7 +50,7 @@ class StudentMessagesController extends Controller
         ->where('receivers.user_id',Auth::id());
         $datatables = Datatables::of($message)
         ->addColumn('action', function ($data) {
-            return "<a href=".route('studentmessage.show',$data->receivers_id)."><button class='btn btn-info btn-xs btn-view' value='$data->receivers_id'><i class='fa fa-eye'></i> View</button></a> <button class='btn btn-danger btn-xs btn-delete' value='$data->receivers_id'><i class='fa fa-trash-o'></i> Delete</button>";
+            return "<a href=".route('studentmessage.reply',$data->user_id)."><button class='btn btn-success btn-xs btn-view' value='$data->id'><i class='fa fa-reply'></i> Reply</button></a> <a href=".route('studentmessage.show',$data->receivers_id)."><button class='btn btn-info btn-xs btn-view' value='$data->receivers_id'><i class='fa fa-eye'></i> View</button></a> <button class='btn btn-danger btn-xs btn-delete' value='$data->receivers_id'><i class='fa fa-trash-o'></i> Delete</button>";
         })
         ->editColumn('is_read', function ($data) {
             $checked = '';
@@ -96,6 +96,19 @@ class StudentMessagesController extends Controller
         })
         ->rawColumns(['action']);
         return $datatables->make(true);
+    }
+    public function unreadmessage()
+    {
+        $count = Receiver::where('is_read',0)
+        ->where('user_id',Auth::id())
+        ->where('is_deleted',0)
+        ->count();
+        return Response::json($count);
+    }
+    public function reply($id)
+    {
+        $user = User::find($id);
+        return view('SMS.Student.Messages.StudentReply')->withUser($user);
     }
     public function index()
     {
@@ -169,7 +182,7 @@ class StudentMessagesController extends Controller
             $receiver->is_read = 1;
             $receiver->save();
             $message = Message::join('users','messages.user_id','users.id')
-            ->select('messages.*','users.*')
+            ->select('messages.*','users.*','users.id as sender')
             ->where('messages.id',$receiver->message_id)
             ->first();
             return view('SMS.Student.Messages.StudentRead')->withMessage($message);
