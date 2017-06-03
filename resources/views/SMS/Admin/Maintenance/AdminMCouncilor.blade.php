@@ -6,8 +6,7 @@
 			<small>Councilor</small>
 		</h1>
 		<ol class="breadcrumb">
-			<li><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li class="active">Maintenance</li>
+			<li><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
 			<li class="active">Councilor</li>
 		</ol>
 	</section>
@@ -169,9 +168,6 @@
 			</div>
 		</section>
 	</div>
-	@endsection
-	@section('meta')
-	<meta name="_token" content="{!! csrf_token() !!}" />
 	@endsection
 	@section('script')
 	{!! Html::script("custom/CouncilorAjax.js") !!}

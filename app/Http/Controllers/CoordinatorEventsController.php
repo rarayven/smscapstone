@@ -9,6 +9,7 @@ class CoordinatorEventsController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('auth');
         $this->middleware('coordinator');
     }
     public function checkbox($id)

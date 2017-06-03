@@ -18,7 +18,6 @@ class AdminMiddleware
         if(!Auth::guest()){
             if(Auth::user()->type == 'Admin')
                 return $next($request);
-            return redirect('/');
         }
         return redirect('/login');
     }

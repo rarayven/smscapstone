@@ -9,8 +9,7 @@
 			<small>Steps</small>
 		</h1>
 		<ol class="breadcrumb">
-			<li><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li class="active">Maintenance</li>
+			<li><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
 			<li class="active">Steps</li>
 		</ol>
 	</section>
@@ -52,7 +51,7 @@
 										}}
 									</div>
 									<div class="form-group">
-										{{ Form::label('name', 'Steps Description') }}
+										{{ Form::label('name', 'Step Description') }}
 										{{ Form::text('strStepDesc', null, [
 											'id' => 'strStepDesc',
 											'class' => 'form-control',
@@ -121,9 +120,6 @@
 		<!-- /.content -->
 	</div>
 	<!-- /.content-wrapper -->
-	@endsection
-	@section('meta')
-	<meta name="_token" content="{!! csrf_token() !!}" />
 	@endsection
 	@section('script')
 	{!! Html::script("custom/StepsAjax.js") !!}

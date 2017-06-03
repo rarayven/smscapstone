@@ -6,6 +6,11 @@
 {!! Html::style("css/stylesheet.css") !!}
 {!! Html::style("css/style.css") !!}
 @endsection
+@section('login')
+<ul class="nav navbar-nav navbar-right">
+	<li class="{{Request::path() == 'login' ? 'active' : ''}}"><a href="{{ url('/login') }}">Login</a></li>
+</ul>
+@endsection
 @section('middlecontent')
 <!--contents here-->
 @endsection

@@ -1,9 +1,9 @@
 $(document).ready(function(){
  $.ajaxSetup({
   headers: {
-    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
   }
-})
+});
  var url = "/admin/sem";
  var id='';
  var url2 = "/admin/sem/checkbox";
@@ -142,7 +142,6 @@ $(document).ready(function(){
     });
    });
     //create new task / update existing task
-    xhrPool = [];
     $("#btn-save").click(function () {
       $('#frmSem').parsley().destroy();
       if($('#frmSem').parsley().isValid())
@@ -163,9 +162,6 @@ $(document).ready(function(){
             my_url += '/' + id;
           }
           $.ajax({
-            beforeSend: function (jqXHR, settings) {
-              xhrPool.push(jqXHR);
-            },
             type: type,
             url: my_url,
             data: formData,
@@ -184,15 +180,13 @@ $(document).ready(function(){
             },
             error: function (data) {
               console.log('Error:', data.responseText);
-              try{
-                $('#strSemDesc').parsley().removeError('ferror', {updateClass: false});
-                $('#strSemDesc').parsley().addError('ferror', {message: data.responseText, updateClass: false}); 
-              }catch(err){}
-              finally{
-                $.each(xhrPool, function(idx, jqXHR) {
-                  jqXHR.abort();
-                });
-              }
+              $.notify({
+                message: data.responseText 
+              },{
+                type: 'warning',
+                z_index: 2000,
+                delay: 5000,
+              });
             }
           });
         }

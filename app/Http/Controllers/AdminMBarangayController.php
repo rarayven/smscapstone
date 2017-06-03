@@ -5,11 +5,12 @@ use App\Barangay;
 use App\District;
 use Response;
 use Datatables;
-use Input;
+use Validator;
 class AdminMBarangayController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('auth');
         $this->middleware('admin');
     }
     public function data()
@@ -37,8 +38,7 @@ class AdminMBarangayController extends Controller
     }
     public function checkbox($id)
     {
-        try
-        {
+        try {
             $barangay = Barangay::findorfail($id);
             if ($barangay->is_active) {
                 $barangay->is_active=0;
@@ -47,17 +47,8 @@ class AdminMBarangayController extends Controller
                 $barangay->is_active=1;
             }
             $barangay->save();
-        }
-        catch(\Exception $e) {
-            try{
-                if($e->errorInfo[1]==1062)
-                    return "This Data Already Exists";
-                else
-                    return var_dump($e->errorInfo[1]);
-            }
-            catch(\Exception $e){
-                return "Deleted";
-            }
+        } catch(\Exception $e) {
+            return "Deleted";
         } 
     }
     public function index()
@@ -67,46 +58,40 @@ class AdminMBarangayController extends Controller
     }
     public function store(Request $request)
     {
-        Input::merge(array_map('trim', Input::all()));
-        try
-        {
+        $validator = Validator::make($request->all(), Barangay::$storeRule);
+        if ($validator->fails()) {
+            return Response::json($validator->errors()->first(), 422);
+        }
+        try {
             $barangay = new Barangay;
             $barangay->district_id=$request->intDistID;
             $barangay->description=$request->strBaraDesc;
             $barangay->save();
             return Response::json($barangay);
+        } catch(\Exception $e) {
+            return var_dump($e->errorInfo[1]);
         }
-        catch(\Exception $e) {
-            if($e->errorInfo[1]==1062)
-                return "This Data Already Exists";
-            else if($e->errorInfo[1]==1452)
-                return "District Deleted";
-            else
-                return var_dump($e->errorInfo[1]);
-        } 
     }
     public function edit($id)
     {
-        try
-        {
+        try {
             $barangay = Barangay::join('districts', 'barangay.district_id','districts.id')
             ->select('barangay.*', 'districts.description as districts_description')
             ->where('barangay.id',$id)
             ->firstorfail();
             return Response::json($barangay);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }
     public function update(Request $request, $id)
     {
-        Input::merge(array_map('trim', Input::all()));
-        try
-        {
-            try
-            {
+        $validator = Validator::make($request->all(), Barangay::updateRule($id));
+        if ($validator->fails()) {
+            return Response::json($validator->errors()->first(), 422);
+        }
+        try {
+            try {
                 $barangay = Barangay::findorfail($id);
                 $barangay->district_id = $request->intDistID;
                 $barangay->description = $request->strBaraDesc;
@@ -118,34 +103,26 @@ class AdminMBarangayController extends Controller
                 return Response::json($barangay);
             }
             catch(\Exception $e) {
-                if($e->errorInfo[1]==1062)
-                    return "This Data Already Exists";
-                else
-                    return var_dump($e->errorInfo[1]);
-            } 
-        } 
-        catch(\Exception $e) {
-            return "Deleted";
+                return var_dump($e->errorInfo[1]);
+            }
+        } catch(\Exception $e) {
+            return Response::json("The record is invalid or deleted.", 422);
         }
     }
     public function destroy($id)
     {
-        try
-        {
+        try {
             $barangay = Barangay::findorfail($id);
-            try
-            {
+            try {
                 $barangay->delete();
                 return Response::json($barangay);
-            }
-            catch(\Exception $e) {
+            } catch(\Exception $e) {
                 if($e->errorInfo[1]==1451)
                     return Response::json(['true',$barangay]);
                 else
                     return Response::json(['true',$barangay,$e->errorInfo[1]]);
             }
-        } 
-        catch(\Exception $e) {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }

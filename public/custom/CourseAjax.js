@@ -1,13 +1,13 @@
 $(document).ready(function(){
-   $.ajaxSetup({
+ $.ajaxSetup({
     headers: {
-        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
-})
-   var url = "/admin/course";
-   var id='';
-   var url2 = "/admin/course/checkbox";
-   var table = $('#course-table').DataTable({
+});
+ var url = "/admin/course";
+ var id='';
+ var url2 = "/admin/course/checkbox";
+ var table = $('#course-table').DataTable({
     responsive: true,
     processing: true,
     serverSide: true,
@@ -22,13 +22,13 @@ $(document).ready(function(){
     {data: 'action', name: 'action', orderable: false, searchable: false}
     ]
 });
-   $('#add_course').on('hide.bs.modal', function(){
+ $('#add_course').on('hide.bs.modal', function(){
     $('#frmCourse').parsley().destroy();
     $('#frmCourse').trigger("reset");
 });
-   $('#course-list').on('change', '#isActive',function(){ 
-       var link_id = $(this).val();
-       $.ajax({
+ $('#course-list').on('change', '#isActive',function(){ 
+     var link_id = $(this).val();
+     $.ajax({
         url: url2 + '/' + link_id,
         type: "PUT",
         success: function (data) {
@@ -41,8 +41,8 @@ $(document).ready(function(){
             console.log('Error:', data);
         }
     });
-   });
-   function refresh(){
+ });
+ function refresh(){
     swal({
         title: "Record Deleted!",
         type: "warning",
@@ -87,8 +87,8 @@ $(document).ready(function(){
     });
     //delete task and remove it from list
     $('#course-list').on('click', '.btn-delete',function(){ 
-       var link_id = $(this).val();
-       swal({
+     var link_id = $(this).val();
+     swal({
         title: "Are you sure?",
         type: "warning",
         showCancelButton: true,
@@ -140,9 +140,8 @@ $(document).ready(function(){
         }
     }, 500);
     });
-   });
+ });
     //create new task / update existing task
-    xhrPool = [];
     $("#btn-save").click(function () {
         $('#frmCourse').parsley().destroy();
         if($('#frmCourse').parsley().isValid())
@@ -163,9 +162,6 @@ $(document).ready(function(){
             my_url += '/' + id;
         }
         $.ajax({
-            beforeSend: function (jqXHR, settings) {
-                xhrPool.push(jqXHR);
-            },
             type: type,
             url: my_url,
             data: formData,
@@ -184,15 +180,13 @@ $(document).ready(function(){
             },
             error: function (data) {
                 console.log('Error:', data.responseText);
-                try{
-                    $('#strCourDesc').parsley().removeError('ferror', {updateClass: false});
-                    $('#strCourDesc').parsley().addError('ferror', {message: data.responseText, updateClass: false});
-                }catch(err){}
-                finally{
-                    $.each(xhrPool, function(idx, jqXHR) {
-                        jqXHR.abort();
-                    });
-                }
+                $.notify({
+                    message: data.responseText 
+                },{
+                    type: 'warning',
+                    z_index: 2000,
+                    delay: 5000,
+                });
             }
         });
     }

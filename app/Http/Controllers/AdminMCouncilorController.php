@@ -8,13 +8,13 @@ use App\User;
 use Response;
 use DB;
 use Datatables;
-use Input;
 use Validator;
 use Hash;
 class AdminMCouncilorController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('auth');
         $this->middleware('admin');
     }
     public function data()
@@ -45,8 +45,7 @@ class AdminMCouncilorController extends Controller
     }
     public function checkbox($id)
     {
-        try
-        {
+        try {
             $councilor = Councilor::findorfail($id);
             if ($councilor->is_active) {
                 $councilor->is_active=0;
@@ -55,17 +54,8 @@ class AdminMCouncilorController extends Controller
                 $councilor->is_active=1;
             }
             $councilor->save();
-        }
-        catch(\Exception $e) {
-            try{
-                if($e->errorInfo[1]==1062)
-                    return "This Data Already Exists";
-                else
-                    return var_dump($e->errorInfo[1]);
-            }
-            catch(\Exception $e){
-                return "Deleted";
-            }
+        } catch(\Exception $e) {
+            return "Deleted";
         } 
     }
     public function index()
@@ -75,22 +65,24 @@ class AdminMCouncilorController extends Controller
     }
     public function store(Request $request)
     {
-        Input::merge(array_map('trim', Input::all()));
-        $validation = Validator::make(Input::all(), Councilor::$rules);
+        $validator = Validator::make($request->all(), Councilor::$storeRule);
+        if ($validator->fails()) {
+            return Response::json($validator->errors()->first(), 422);
+        }
+        $validation = Validator::make($request->all(), Councilor::$rules);
         if ($validation->fails()) {
             return "1";
         }
-        $validation2 = Validator::make(Input::all(), Councilor::$email);
+        $validation2 = Validator::make($request->all(), Councilor::$email);
         if ($validation2->fails()) {
             return "2";
         }
-        $validation3 = Validator::make(Input::all(), Councilor::$coordinator);
+        $validation3 = Validator::make($request->all(), Councilor::$coordinator);
         if ($validation3->fails()) {
             return "3";
         }
         DB::beginTransaction();
-        try
-        {
+        try {
             // $randompassword = str_random(25);
             $randompassword = Hash::make('password');
             $randomnumber = str_random(15);
@@ -117,34 +109,26 @@ class AdminMCouncilorController extends Controller
             $connection->save();
             DB::commit();
             return Response::json($councilor);
-        }
-        catch(\Exception $e) {
+        } catch(\Exception $e) {
             DB::rollBack();
-            if($e->errorInfo[1]==1062)
-                return "This Data Already Exists";
-            else
-                return var_dump($e->errorInfo[1]);
+            return var_dump($e->errorInfo[1]);
         } 
     }
     public function show($id)
     {
-        try
-        {
+        try {
             $councilor = Councilor::join('districts','councilors.district_id','districts.id')
             ->select('councilors.*','districts.description as district_description')
             ->where('councilors.id',$id)
             ->firstorfail();
             return Response::json($councilor);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }
     public function edit($id)
     {
-        try
-        {
+        try {
             $councilor = Councilor::join('districts', 'councilors.district_id','districts.id')
             ->join('connections','connections.councilor_id','councilors.id')
             ->join('users','users.id','connections.user_id')
@@ -152,43 +136,39 @@ class AdminMCouncilorController extends Controller
             ->where('councilors.id',$id)
             ->firstorfail();
             return Response::json($councilor);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }
     public function update(Request $request, $id)
     {
-        Input::merge(array_map('trim', Input::all()));
-        $validation = Validator::make(Input::all(), Councilor::updaterules($id));
+        $validator = Validator::make($request->all(), Councilor::$storeRule);
+        if ($validator->fails()) {
+            return Response::json($validator->errors()->first(), 422);
+        }
+        $validation = Validator::make($request->all(), Councilor::updaterules($id));
         if ($validation->fails()) {
             return "1";
         }
-        $validation2 = Validator::make(Input::all(), Councilor::updateemail($id));
+        $validation2 = Validator::make($request->all(), Councilor::updateemail($id));
         if ($validation2->fails()) {
             return "2";
         }
-        try
-        {
+        try {
             $connection = Connection::join('users','connections.user_id','users.id')
             ->select('users.id')
             ->where('connections.councilor_id',$id)
             ->where('users.type','Coordinator')
             ->first();
-        }
-        catch(\Exception $e){
+        } catch(\Exception $e){
             dd("Error");
         }
-        
-        $validation3 = Validator::make(Input::all(), Councilor::coordinator($connection->id));
+        $validation3 = Validator::make($request->all(), Councilor::coordinator($connection->id));
         if ($validation3->fails()) {
             return "3";
         }
-        try
-        {
-            try
-            {
+        try {
+            try {
                 $councilor = Councilor::findorfail($id);
                 $councilor->first_name=$request->strCounFirstName;
                 $councilor->middle_name=$request->strCounMiddleName;
@@ -203,36 +183,27 @@ class AdminMCouncilorController extends Controller
                 $users = User::where('id',$connections->user_id)->where('type','Coordinator')
                 ->update(['email' => $request->strUserEmail]);
                 return Response::json($councilor);
-            }
-            catch(\Exception $e) {
-                if($e->errorInfo[1]==1062)
-                    return "This Data Already Exists";
-                else
-                    return var_dump($e->errorInfo[1]);
+            } catch(\Exception $e) {
+                return var_dump($e->errorInfo[1]);
             } 
-        } 
-        catch(\Exception $e) {
-            return "Deleted";
+        } catch(\Exception $e) {
+            return Response::json("The record is invalid or deleted.", 422);
         }
     }
     public function destroy($id)
     {
-        try
-        {
+        try {
             $councilor = Councilor::findorfail($id);
-            try
-            {
+            try {
                 $councilor->delete();
                 return Response::json($councilor);
-            }
-            catch(\Exception $e) {
+            } catch(\Exception $e) {
                 if($e->errorInfo[1]==1451)
                     return Response::json(['true',$councilor]);
                 else
                     return Response::json(['true',$councilor,$e->errorInfo[1]]);
             }
-        } 
-        catch(\Exception $e) {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }

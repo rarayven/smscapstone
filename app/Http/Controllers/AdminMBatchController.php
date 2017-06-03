@@ -4,11 +4,12 @@ use Illuminate\Http\Request;
 use App\Batch;
 use Response;
 use Datatables;
-use Input;
+use Validator;
 class AdminMBatchController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('auth');
         $this->middleware('admin');
     }
     public function data()
@@ -35,8 +36,7 @@ class AdminMBatchController extends Controller
     }
     public function checkbox($id)
     {
-        try
-        {
+        try {
             $batch = Batch::findorfail($id);
             if ($batch->is_active) {
                 $batch->is_active=0;
@@ -45,17 +45,8 @@ class AdminMBatchController extends Controller
                 $batch->is_active=1;
             }
             $batch->save();
-        }
-        catch(\Exception $e) {
-            try{
-                if($e->errorInfo[1]==1062)
-                    return "This Data Already Exists";
-                else
-                    return var_dump($e->errorInfo[1]);
-            }
-            catch(\Exception $e){
-                return "Deleted";
-            }
+        } catch(\Exception $e) {
+            return "Deleted";
         } 
     }
     public function index()
@@ -64,74 +55,61 @@ class AdminMBatchController extends Controller
     }
     public function store(Request $request)
     {
-        Input::merge(array_map('trim', Input::all()));
-        try
-        {
+        $validator = Validator::make($request->all(), Batch::$storeRule);
+        if ($validator->fails()) {
+            return Response::json($validator->errors()->first(), 422);
+        }
+        try {
             $batch = new Batch;
             $batch->description=$request->strBatcDesc;
             $batch->save();
             return Response::json($batch);
-        }
-        catch(\Exception $e) {
-            if($e->errorInfo[1]==1062)
-                return "This Data Already Exists";
-            else
-                return var_dump($e->errorInfo[1]);
+        } catch(\Exception $e) {
+            return var_dump($e->errorInfo[1]);
         } 
     }
     public function edit($id)
     {
-        try
-        {
+        try {
             $batch = Batch::findorfail($id);
             return Response::json($batch);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }
     public function update(Request $request, $id)
     {
-        Input::merge(array_map('trim', Input::all()));
-        try
-        {
-            try
-            {
+        $validator = Validator::make($request->all(), Batch::updateRule($id));
+        if ($validator->fails()) {
+            return Response::json($validator->errors()->first(), 422);
+        }
+        try {
+            try {
                 $batch = Batch::findorfail($id);
                 $batch->description = $request->strBatcDesc;
                 $batch->save();
                 return Response::json($batch);
+            } catch(\Exception $e) {
+                return var_dump($e->errorInfo[1]);
             }
-            catch(\Exception $e) {
-                if($e->errorInfo[1]==1062)
-                    return "This Data Already Exists";
-                else
-                    return var_dump($e->errorInfo[1]);
-            } 
-        } 
-        catch(\Exception $e) {
-            return "Deleted";
+        } catch(\Exception $e) {
+            return Response::json("The record is invalid or deleted.", 422);
         }
     }
     public function destroy($id)
     {
-        try
-        {
+        try {
             $batch = Batch::findorfail($id);
-            try
-            {
+            try {
                 $batch->delete();
                 return Response::json($batch);
-            }
-            catch(\Exception $e) {
+            } catch(\Exception $e) {
                 if($e->errorInfo[1]==1451)
                     return Response::json(['true',$batch]);
                 else
                     return Response::json(['true',$batch,$e->errorInfo[1]]);
             }
-        } 
-        catch(\Exception $e) {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }

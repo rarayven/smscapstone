@@ -19,7 +19,7 @@
         <h3 style="color:white"><i class="fa fa-warning text-yellow"></i> Oops! Page not found.</h3>
         <p style="color:white">
           We could not find the page you were looking for.
-          Meanwhile, you may <a href="../../index.html">return to dashboard</a> or try using the search form.
+          Meanwhile, you may <a href="{{ url('/') }}">return to dashboard</a> or try using the search form.
         </p>
       </div>
       <!-- /.error-content -->

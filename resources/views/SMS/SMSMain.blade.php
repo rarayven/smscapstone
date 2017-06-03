@@ -57,18 +57,13 @@ desired effect
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top" role="navigation">
       <div class="container-fluid">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="fa fa-bars"></span>
-        </button>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="{{Request::path() == '/' ? 'active' : ''}}"><a href="{{ url('/') }}">Home</a></li>
             <li {{-- class="{{Request::path() == '/' ? 'active' : ''}} --}}"><a href="{{ url('/') }}">About Us</a></li>
             <li class="{{Request::path() == 'how-to-apply' ? 'active' : ''}}"><a href="{{ url('how-to-apply') }}">How to Apply</a></li>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li class="{{Request::path() == 'login' ? 'active' : ''}}"><a href="{{ url('/login') }}">Login</a></li>
-          </ul>
+          @yield('login')
         </div>
       </div>
     </nav>

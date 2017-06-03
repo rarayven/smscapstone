@@ -27,4 +27,10 @@ class Academicgrade extends Model
 		'strSystDesc' => 'unique:academic_gradings,description,'.$id
 		];
 	}
+	public static $storeRule = [
+	'strSystDesc' => 'required|max:25',
+	'dblSystHighGrade' => 'required|max:4',
+	'dblSystLowGrade' => 'required|max:4',
+	'strSystFailGrade' => 'required|max:4',
+	];
 }

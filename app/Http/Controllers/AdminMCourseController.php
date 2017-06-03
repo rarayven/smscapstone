@@ -4,11 +4,12 @@ use Illuminate\Http\Request;
 use App\Course;
 use Response;
 use Datatables;
-use Input;
+use Validator;
 class AdminMCourseController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('auth');
         $this->middleware('admin');
     }
     public function data()
@@ -35,8 +36,7 @@ class AdminMCourseController extends Controller
     }
     public function checkbox($id)
     {
-        try
-        {
+        try {
             $course = Course::findorfail($id);
             if ($course->is_active) {
                 $course->is_active=0;
@@ -45,17 +45,8 @@ class AdminMCourseController extends Controller
                 $course->is_active=1;
             }
             $course->save();
-        }
-        catch(\Exception $e) {
-            try{
-                if($e->errorInfo[1]==1062)
-                    return "This Data Already Exists";
-                else
-                    return var_dump($e->errorInfo[1]);
-            }
-            catch(\Exception $e){
-                return "Deleted";
-            }
+        } catch(\Exception $e) {
+            return "Deleted";
         } 
     }
     public function index()
@@ -64,74 +55,61 @@ class AdminMCourseController extends Controller
     }
     public function store(Request $request)
     {
-        Input::merge(array_map('trim', Input::all()));
-        try
-        {
+        $validator = Validator::make($request->all(), Course::$storeRule);
+        if ($validator->fails()) {
+            return Response::json($validator->errors()->first(), 422);
+        }
+        try {
             $course = new Course;
             $course->description=$request->strCourDesc;
             $course->save();
             return Response::json($course);
-        }
-        catch(\Exception $e) {
-            if($e->errorInfo[1]==1062)
-                return "This Data Already Exists";
-            else
-                return var_dump($e->errorInfo[1]);
+        } catch(\Exception $e) {
+            return var_dump($e->errorInfo[1]);
         } 
     }
     public function edit($id)
     {
-        try
-        {
+        try {
             $course = Course::findorfail($id);
             return Response::json($course);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }
     public function update(Request $request, $id)
     {
-        Input::merge(array_map('trim', Input::all()));
-        try
-        {
-            try
-            {
+        $validator = Validator::make($request->all(), Course::updateRule($id));
+        if ($validator->fails()) {
+            return Response::json($validator->errors()->first(), 422);
+        }
+        try {
+            try {
                 $course = Course::findorfail($id);
                 $course->description = $request->strCourDesc;
                 $course->save();
                 return Response::json($course);
-            }
-            catch(\Exception $e) {
-                if($e->errorInfo[1]==1062)
-                    return "This Data Already Exists";
-                else
-                    return var_dump($e->errorInfo[1]);
+            } catch(\Exception $e) {
+                return var_dump($e->errorInfo[1]);
             } 
-        } 
-        catch(\Exception $e) {
-            return "Deleted";
+        } catch(\Exception $e) {
+            return Response::json("The record is invalid or deleted.", 422);
         }
     }
     public function destroy($id)
     {
-        try
-        {
+        try {
             $course = Course::findorfail($id);
-            try
-            {
+            try {
                 $course->delete();
                 return Response::json($course);
-            }
-            catch(\Exception $e) {
+            } catch(\Exception $e) {
                 if($e->errorInfo[1]==1451)
                     return Response::json(['true',$course]);
                 else
                     return Response::json(['true',$course,$e->errorInfo[1]]);
             }
-        } 
-        catch(\Exception $e) {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }

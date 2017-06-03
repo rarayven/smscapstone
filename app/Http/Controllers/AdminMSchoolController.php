@@ -5,11 +5,12 @@ use App\School;
 use App\Academicgrade;
 use Response;
 use Datatables;
-use Input;
+use Validator;
 class AdminMSchoolController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('auth');
         $this->middleware('admin');
     }
     public function data()
@@ -37,8 +38,7 @@ class AdminMSchoolController extends Controller
     }
     public function checkbox($id)
     {
-        try
-        {
+        try {
             $school = School::findorfail($id);
             if ($school->is_active) {
                 $school->is_active=0;
@@ -47,17 +47,8 @@ class AdminMSchoolController extends Controller
                 $school->is_active=1;
             }
             $school->save();
-        }
-        catch(\Exception $e) {
-            try{
-                if($e->errorInfo[1]==1062)
-                    return "This Data Already Exists";
-                else
-                    return var_dump($e->errorInfo[1]);
-            }
-            catch(\Exception $e){
-                return "Deleted";
-            }
+        } catch(\Exception $e) {
+            return "Deleted";
         } 
     }
     public function index()
@@ -67,44 +58,40 @@ class AdminMSchoolController extends Controller
     }
     public function store(Request $request)
     {
-        Input::merge(array_map('trim', Input::all()));
-        try
-        {
+        $validator = Validator::make($request->all(), School::$storeRule);
+        if ($validator->fails()) {
+            return Response::json($validator->errors()->first(), 422);
+        }
+        try {
             $school = new School;
             $school->description=$request->strSchoDesc;
             $school->academic_grading_id=$request->intSystID;
             $school->save();
             return Response::json($school);
-        }
-        catch(\Exception $e) {
-            if($e->errorInfo[1]==1062)
-                return "This Data Already Exists";
-            else
-                return var_dump($e->errorInfo[1]);
+        } catch(\Exception $e) {
+            return var_dump($e->errorInfo[1]);
         } 
     }
     public function edit($id)
     {
-        try
-        {
+        try {
             $school = School::join('academic_gradings','schools.academic_grading_id','academic_gradings.id')
             ->select(['schools.*','academic_gradings.description as academic_gradings_description'])
             ->where('schools.id',$id)
             ->firstorfail();
             return Response::json($school);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }
     public function update(Request $request, $id)
     {
-        Input::merge(array_map('trim', Input::all()));
-        try
-        {
-            try
-            {
+        $validator = Validator::make($request->all(), School::updateRule($id));
+        if ($validator->fails()) {
+            return Response::json($validator->errors()->first(), 422);
+        }
+        try {
+            try {
                 $school = School::findorfail($id);
                 $school->description = $request->strSchoDesc;
                 $school->academic_grading_id = $request->intSystID;
@@ -114,36 +101,27 @@ class AdminMSchoolController extends Controller
                 ->where('schools.id',$id)
                 ->first();
                 return Response::json($school);
-            }
-            catch(\Exception $e) {
-                if($e->errorInfo[1]==1062)
-                    return "This Data Already Exists";
-                else
-                    return var_dump($e->errorInfo[1]);
+            } catch(\Exception $e) {
+                return var_dump($e->errorInfo[1]);
             } 
-        } 
-        catch(\Exception $e) {
-            return "Deleted";
+        } catch(\Exception $e) {
+            return Response::json("The record is invalid or deleted.", 422);
         }
     }
     public function destroy($id)
     {
-        try
-        {
+        try {
             $school = School::findorfail($id);
-            try
-            {
+            try {
                 $school->delete();
                 return Response::json($school);
-            }
-            catch(\Exception $e) {
+            } catch(\Exception $e) {
                 if($e->errorInfo[1]==1451)
                     return Response::json(['true',$school]);
                 else
                     return Response::json(['true',$school,$e->errorInfo[1]]);
             }
-        } 
-        catch(\Exception $e) {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }

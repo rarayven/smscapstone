@@ -6,6 +6,11 @@
 {!! Html::style("css/form-elementslogin.css") !!}
 {!! Html::style("css/stylelogin.css") !!}
 @endsection
+@section('login')
+<ul class="nav navbar-nav navbar-right">
+  <li class="{{Request::path() == 'login' ? 'active' : ''}}"><a href="{{ url('/login') }}">Login</a></li>
+</ul>
+@endsection
 @section('middlecontent')
 <div class="top-content">
   <div class="inner-bg">
@@ -46,20 +51,21 @@
                 </span>
                 @endif
               </div>
-              <div class="form-group">
-                <div class="checkbox">
+              <div class="row">
+                <div class="col-md-9">
+                  <button type="submit" class="btn">
+                    Sign in!
+                  </button>
+                </div>
+                <div class="col-md-3" style="padding: 0px;">
                   <label>
                     <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
+                    <a class="btn btn-link" style="margin-left: -10px; margin-top: -10px;" href="{{ route('password.request') }}">
+                      Forgot Password?
+                    </a>
                   </label>
+
                 </div>
-              </div>
-              <div class="form-group">
-                <button type="submit" class="btn">
-                  Sign in!
-                </button>
-                <a class="btn btn-link" href="{{ route('password.request') }}">
-                  Forgot Your Password?
-                </a>
               </div>
             </form>
           </div>

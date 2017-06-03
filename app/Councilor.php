@@ -1,13 +1,10 @@
 <?php
-
 namespace App;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 class Councilor extends Model
 {
 	public $timestamps = false;
-
 	public static $rules = [
 	'strCounFirstName' => 'unique_with:councilors, strCounMiddleName = middle_name, strCounLastName = last_name, strCounFirstName = first_name'
 	];
@@ -35,4 +32,13 @@ class Councilor extends Model
 		'strUserEmail' => 'unique:users,email,'.$id
 		];
 	} 
+	public static $storeRule = [
+	'strCounFirstName' => 'required|max:25',
+	'strCounMiddleName' => 'max:25',
+	'strCounLastName' => 'required|max:25',
+	'strCounEmail' => 'required|max:30',
+	'strCounCell' => 'required|max:15',
+	'strUserEmail' => 'required|max:30',
+	'intCounDistID' => 'exists:districts,id',
+	];
 }

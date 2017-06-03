@@ -14,6 +14,11 @@
     #questionappear, #college { display: none; }
 </style>
 @endsection
+@section('login')
+<ul class="nav navbar-nav navbar-right">
+  <li class="{{Request::path() == 'login' ? 'active' : ''}}"><a href="{{ url('/login') }}">Login</a></li>
+</ul>
+@endsection
 @section('middlecontent')
 <!-- Top content -->
 <div class="container">

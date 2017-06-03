@@ -39,21 +39,11 @@ class LoginController extends Controller
     }
     protected function credentials(Request $request)
     {
-        //return $request->only($this->username(), 'password');
         return ['email'=>$request{$this->username()},'password'=>$request->password,'is_active'=> 1];
     }
-    protected function sendLoginResponse(Request $request)
+
+    public function showLoginForm()
     {
-        $request->session()->regenerate();
-
-        $this->clearLoginAttempts($request);
-
-        $type = $this->guard()->user()->type;
-        if($type == 'Admin')
-            return redirect('admin/dashboard');
-        elseif($type == 'Coordinator')
-            return redirect('coordinator/dashboard');
-        elseif($type == 'Student')
-            return redirect('student/dashboard');
+        return view('SMS.Account.SMSAccountLogin');
     }
 }

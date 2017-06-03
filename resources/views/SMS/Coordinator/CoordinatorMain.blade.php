@@ -125,7 +125,7 @@ desired effect
         <li class="{{Request::path() == 'coordinator/dashboard' ? 'active' : ''}}"><a href="{{ url('coordinator/dashboard') }}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
         <li class="{{Request::path() == 'coordinator/applicants' ? 'active' : ''}}"><a href="{{ url('coordinator/applicants') }}"><i class="fa fa-fw fa-users"></i> <span>Applicants</span></a></li>
         <li class="treeview {{Request::path() == 'coordinator/list' ? 'active' : ''}} {{Request::path() == 'coordinator/progress' ? 'active' : ''}}">
-          <a href="#"><i class="fa  fa-graduation-cap"></i> <span>Students</span>
+          <a href="#"><i class="fa fa-graduation-cap"></i> <span>Students</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -136,7 +136,7 @@ desired effect
           </ul>
         </li>
         <li class="treeview {{Request::path() == 'coordinator/achievements' ? 'active' : ''}} {{Request::path() == 'coordinator/token' ? 'active' : ''}}">
-          <a href="#"><i class="fa  fa-trophy"></i> <span>Achievements</span>
+          <a href="#"><i class="fa fa-trophy"></i> <span>Achievements</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -164,9 +164,6 @@ desired effect
     <!-- /.sidebar -->
   </aside>
   @yield('content')
-  <!-- Main Footer -->
-  <!-- Add the sidebar's background. This div must be placed
-  immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->

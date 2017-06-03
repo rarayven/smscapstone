@@ -5,11 +5,11 @@ use App\District;
 use Response;
 use Datatables;
 use Validator;
-use Input;
 class AdminMDistrictController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('auth');
         $this->middleware('admin');
     }
     public function data()
@@ -36,8 +36,7 @@ class AdminMDistrictController extends Controller
     }
     public function checkbox($id)
     {
-        try
-        {
+        try {
             $district = District::findorfail($id);
             if ($district->is_active) {
                 $district->is_active=0;
@@ -46,17 +45,8 @@ class AdminMDistrictController extends Controller
                 $district->is_active=1;
             }
             $district->save();
-        }
-        catch(\Exception $e) {
-            try{
-                if($e->errorInfo[1]==1062)
-                    return "This Data Already Exists";
-                else
-                    return var_dump($e->errorInfo[1]);
-            }
-            catch(\Exception $e){
-                return "Deleted";
-            }
+        } catch(\Exception $e) {
+            return "Deleted";
         } 
     }
     public function index()
@@ -65,90 +55,61 @@ class AdminMDistrictController extends Controller
     }
     public function store(Request $request)
     {
-        // $messages = [
-        // 'required' => 'The description field is required.',
-        // ];
-        // $validator = Validator::make($request->all(), [
-        //     'strDistDesc' =>  'required|unique:districts,description|max:15',
-        //     ],$messages);
-        // if ($validator->fails()) {
-        //     dd($validator->errors()->all());
-        //     return "Required";
-        // }
-        Input::merge(array_map('trim', Input::all()));
-        $validator = Validator::make($request->all(), [
-            'strDistDesc' =>  'required|max:15|min:3',
-            ]);
+        $validator = Validator::make($request->all(), District::$storeRule);
         if ($validator->fails()) {
-            return "Required";
+            return Response::json($validator->errors()->first(), 422);
         }
-        try
-        {
+        try {
             $district = new District;
             $district->description=$request->strDistDesc;
             $district->save();
             return Response::json($district);
-        }
-        catch(\Exception $e) {
-            if($e->errorInfo[1]==1062)
-                return "This Data Already Exists";
-            else
-                return var_dump($e->errorInfo[1]);
+        } catch(\Exception $e) {
+            return var_dump($e->errorInfo[1]);
         } 
     }
     public function edit($id)
     {
-        try
-        {
+        try {
             $district = District::findorfail($id);
             return Response::json($district);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }
     public function update(Request $request, $id)
     {
-        Input::merge(array_map('trim', Input::all()));
-        try
-        {
-            try
-            {
+        $validator = Validator::make($request->all(), District::updateRule($id));
+        if ($validator->fails()) {
+            return Response::json($validator->errors()->first(), 422);
+        }
+        try {
+            try {
                 $district = District::findorfail($id);
                 $district->description = $request->strDistDesc;
                 $district->save();
                 return Response::json($district);
+            } catch(\Exception $e) {
+                return var_dump($e->errorInfo[1]);
             }
-            catch(\Exception $e) {
-                if($e->errorInfo[1]==1062)
-                    return "This Data Already Exists";
-                else
-                    return var_dump($e->errorInfo[1]);
-            } 
-        } 
-        catch(\Exception $e) {
-            return "Deleted";
+        } catch(\Exception $e) {
+            return Response::json("The record is invalid or deleted.", 422);
         }
     }
     public function destroy($id)
     {
-        try
-        {
+        try {
             $district = District::findorfail($id);
-            try
-            {
+            try {
                 $district->delete();
                 return Response::json($district);
-            }
-            catch(\Exception $e) {
+            } catch(\Exception $e) {
                 if($e->errorInfo[1]==1451)
                     return Response::json(['true',$district]);
                 else
                     return Response::json(['true',$district,$e->errorInfo[1]]);
             }
-        } 
-        catch(\Exception $e) {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }

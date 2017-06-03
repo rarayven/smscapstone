@@ -1,9 +1,9 @@
 $(document).ready(function(){
 	$.ajaxSetup({
 		headers: {
-			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		}
-	})
+	});
 	var url = "/admin/district";
 	var id='';
 	var url2 = "/admin/district/checkbox";
@@ -142,59 +142,52 @@ $('#district-list').on('click', '.btn-delete',function(){
 		}, 500);
 	});
 });
- //create new task / update existing task
- xhrPool = [];
- $("#btn-save").click(function () {
- 	$('#frmDistrict').parsley().destroy();
- 	if($('#frmDistrict').parsley().isValid())
- 	{
- 		$("#btn-save").attr('disabled','disabled');
- 		setTimeout(function(){
- 			$("#btn-save").removeAttr('disabled');
- 		}, 1000);
- 		var formData = {
- 			strDistDesc: $('#strDistDesc').parsley('data-parsley-whitespace','squish').getValue()
- 		}
- 		var state = $('#btn-save').val();
- 		var type = "POST"; 
- 		var my_url = url;
- 		if (state == "update"){
- 			type = "PUT";
- 			my_url += '/' + id;
- 		}
- 		$.ajax({
- 			beforeSend: function (jqXHR, settings) {
- 				xhrPool.push(jqXHR);
- 			},
- 			type: type,
- 			url: my_url,
- 			data: formData,
- 			dataType: 'json',
- 			success: function (data) {
- 				$('#add_district').modal('hide');
- 				table.draw();
- 				swal({
- 					title: "Success!",
- 					text: "<center>"+data.description+" is Stored</center>",
- 					type: "success",
- 					timer: 1000,
- 					showConfirmButton: false,
- 					html: true
- 				});
- 			},
- 			error: function (data) {
- 				console.log('Error:', data.responseText);
- 				try{
- 					$('#strDistDesc').parsley().removeError('ferror', {updateClass: false});
- 					$('#strDistDesc').parsley().addError('ferror', {message: data.responseText, updateClass: false});
- 				}catch(err){}
- 				finally{
- 					$.each(xhrPool, function(idx, jqXHR) {
- 						jqXHR.abort();
- 					});
- 				}
- 			}
- 		});
- 	}
- });
+$("#btn-save").click(function () {
+	$('#frmDistrict').parsley().destroy();
+	if($('#frmDistrict').parsley().isValid())
+	{
+		$("#btn-save").attr('disabled','disabled');
+		setTimeout(function(){
+			$("#btn-save").removeAttr('disabled');
+		}, 1000);
+		var formData = {
+			strDistDesc: $('#strDistDesc').parsley('data-parsley-whitespace','squish').getValue()
+		}
+		var state = $('#btn-save').val();
+		var type = "POST"; 
+		var my_url = url;
+		if (state == "update"){
+			type = "PUT";
+			my_url += '/' + id;
+		}
+		$.ajax({
+			type: type,
+			url: my_url,
+			data: formData,
+			dataType: 'json',
+			success: function (data) {
+				$('#add_district').modal('hide');
+				table.draw();
+				swal({
+					title: "Success!",
+					text: "<center>"+data.description+" is Stored</center>",
+					type: "success",
+					timer: 1000,
+					showConfirmButton: false,
+					html: true
+				});
+			},
+			error: function (data) {
+				console.log('Error:', data.responseText);
+				$.notify({
+					message: data.responseText 
+				},{
+					type: 'warning',
+					z_index: 2000,
+					delay: 5000,
+				});
+			}
+		});
+	}
+});
 });

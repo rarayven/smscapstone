@@ -1,16 +1,13 @@
 @extends('SMS.Admin.AdminMain')
 @section('content')
-<!-- CENTER -->
 <div class="content-wrapper">
-	<!-- Content Header (Page header) -->
 	<section class="content-header">
 		<h1>
 			Maintenance
 			<small>Batch</small>
 		</h1>
 		<ol class="breadcrumb">
-			<li><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li class="active">Maintenance</li>
+			<li><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
 			<li class="active">Batch</li>
 		</ol>
 	</section>
@@ -90,9 +87,6 @@
 		<!-- /.content -->
 	</div>
 	<!-- /.content-wrapper -->
-	@endsection
-	@section('meta')
-	<meta name="_token" content="{!! csrf_token() !!}" />
 	@endsection
 	@section('script')
 	{!! Html::script("custom/BatchAjax.js") !!}

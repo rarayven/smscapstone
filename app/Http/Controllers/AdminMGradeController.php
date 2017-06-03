@@ -4,12 +4,12 @@ use Illuminate\Http\Request;
 use App\Academicgrade;
 use Response;
 use Datatables;
-use Input;
 use Validator;
 class AdminMGradeController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('auth');
         $this->middleware('admin');
     }
     public function data()
@@ -36,8 +36,7 @@ class AdminMGradeController extends Controller
     }
     public function checkbox($id)
     {
-        try
-        {
+        try {
             $grade = Academicgrade::findorfail($id);
             if ($grade->is_active) {
                 $grade->is_active=0;
@@ -46,17 +45,8 @@ class AdminMGradeController extends Controller
                 $grade->is_active=1;
             }
             $grade->save();
-        }
-        catch(\Exception $e) {
-            try{
-                if($e->errorInfo[1]==1062)
-                    return "This Data Already Exists";
-                else
-                    return var_dump($e->errorInfo[1]);
-            }
-            catch(\Exception $e){
-                return "Deleted";
-            }
+        } catch(\Exception $e) {
+            return "Deleted";
         } 
     }
     public function index()
@@ -65,7 +55,10 @@ class AdminMGradeController extends Controller
     }
     public function store(Request $request)
     {
-        Input::merge(array_map('trim', Input::all()));
+        $validator = Validator::make($request->all(), Academicgrade::$storeRule);
+        if ($validator->fails()) {
+            return Response::json($validator->errors()->first(), 422);
+        }
         $validation = Validator::make(Input::all(), Academicgrade::$desc);
         if ($validation->fails()) {
             return "1";
@@ -74,8 +67,7 @@ class AdminMGradeController extends Controller
         if ($validation2->fails()) {
             return "2";
         }
-        try
-        {
+        try {
             $grade = new Academicgrade;
             $grade->description=$request->strSystDesc;
             $grade->highest_grade=$request->dblSystHighGrade;
@@ -83,29 +75,25 @@ class AdminMGradeController extends Controller
             $grade->failing_grade=$request->strSystFailGrade;
             $grade->save();
             return Response::json($grade);
-        }
-        catch(\Exception $e) {
-            if($e->errorInfo[1]==1062)
-                return "This Data Already Exists";
-            else
-                return var_dump($e->errorInfo[1]);
+        } catch(\Exception $e) {
+            return var_dump($e->errorInfo[1]);
         } 
     }
     public function edit($id)
     {
-        try
-        {
+        try {
             $grade = Academicgrade::findorfail($id);
             return Response::json($grade);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }
     public function update(Request $request, $id)
     {
-        Input::merge(array_map('trim', Input::all()));
+        $validator = Validator::make($request->all(), Academicgrade::$storeRule);
+        if ($validator->fails()) {
+            return Response::json($validator->errors()->first(), 422);
+        }
         $validation = Validator::make(Input::all(), Academicgrade::updatedesc($id));
         if ($validation->fails()) {
             return "1";
@@ -114,10 +102,8 @@ class AdminMGradeController extends Controller
         if ($validation2->fails()) {
             return "2";
         }
-        try
-        {
-            try
-            {
+        try {
+            try {
                 $grade = Academicgrade::findorfail($id);
                 $grade->description=$request->strSystDesc;
                 $grade->highest_grade=$request->dblSystHighGrade;
@@ -125,36 +111,27 @@ class AdminMGradeController extends Controller
                 $grade->failing_grade=$request->strSystFailGrade;
                 $grade->save();
                 return Response::json($grade);
-            }
-            catch(\Exception $e) {
-                if($e->errorInfo[1]==1062)
-                    return "This Data Already Exists";
-                else
-                    return var_dump($e->errorInfo[2]);
+            } catch(\Exception $e) {
+                return var_dump($e->errorInfo[2]);
             } 
-        } 
-        catch(\Exception $e) {
-            return "Deleted";
+        } catch(\Exception $e) {
+            return Response::json("The record is invalid or deleted.", 422);
         }
     }
     public function destroy($id)
     {
-        try
-        {
+        try {
             $grade = Academicgrade::findorfail($id);
-            try
-            {
+            try {
                 $grade->delete();
                 return Response::json($grade);
-            }
-            catch(\Exception $e) {
+            } catch(\Exception $e) {
                 if($e->errorInfo[1]==1451)
                     return Response::json(['true',$grade]);
                 else
                     return Response::json(['true',$grade,$e->errorInfo[1]]);
             }
-        } 
-        catch(\Exception $e) {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }

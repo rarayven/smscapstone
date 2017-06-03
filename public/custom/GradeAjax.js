@@ -1,35 +1,35 @@
 $(document).ready(function(){
- $.ajaxSetup({
-  headers: {
-    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-  }
-})
- var url = "/admin/grade";
- var id='';
- var url2 = "/admin/grade/checkbox";
- var table = $('#grade-table').DataTable({
-  responsive: true,
-  processing: true,
-  serverSide: true,
-  ajax: dataurl,
-  "columnDefs": [
-  { "width": "130px", "targets": 5 },
-  { "width": "70px", "targets": 4 }
-  ],
-  columns: [
-  {data: 'description', name: 'description'},
-  {data: 'highest_grade', name: 'highest_grade'},
-  {data: 'lowest_grade', name: 'lowest_grade'},
-  {data: 'failing_grade', name: 'failing_grade'},
-  {data: 'is_active', name: 'is_active', searchable: false},
-  {data: 'action', name: 'action', orderable: false, searchable: false}
-  ]
-});
- $('#add_grade').on('hide.bs.modal', function(){
-  $('#frmGrade').parsley().destroy();
-  $('#frmGrade').trigger("reset");
-});
- $('#grade-list').on('change', '#isActive',function(){ 
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+  var url = "/admin/grade";
+  var id='';
+  var url2 = "/admin/grade/checkbox";
+  var table = $('#grade-table').DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    ajax: dataurl,
+    "columnDefs": [
+    { "width": "130px", "targets": 5 },
+    { "width": "70px", "targets": 4 }
+    ],
+    columns: [
+    {data: 'description', name: 'description'},
+    {data: 'highest_grade', name: 'highest_grade'},
+    {data: 'lowest_grade', name: 'lowest_grade'},
+    {data: 'failing_grade', name: 'failing_grade'},
+    {data: 'is_active', name: 'is_active', searchable: false},
+    {data: 'action', name: 'action', orderable: false, searchable: false}
+    ]
+  });
+  $('#add_grade').on('hide.bs.modal', function(){
+    $('#frmGrade').parsley().destroy();
+    $('#frmGrade').trigger("reset");
+  });
+  $('#grade-list').on('change', '#isActive',function(){ 
    var link_id = $(this).val();
    $.ajax({
     url: url2 + '/' + link_id,
@@ -46,26 +46,26 @@ $(document).ready(function(){
     }
   });
  });
- function refresh(){
-  swal({
-    title: "Record Deleted!",
-    type: "warning",
-    text: "<center>Refresh Records?</center>",
-    html: true,
-    showCancelButton: true,
-    confirmButtonClass: "btn-success",
-    confirmButtonText: "Refresh",
-    cancelButtonText: "Cancel",
-    closeOnConfirm: true,
-    allowOutsideClick: true,
-    closeOnCancel: true
-  },
-  function(isConfirm) {
-    if (isConfirm) {
-      table.draw();
-    }
-  });
-}
+  function refresh(){
+    swal({
+      title: "Record Deleted!",
+      type: "warning",
+      text: "<center>Refresh Records?</center>",
+      html: true,
+      showCancelButton: true,
+      confirmButtonClass: "btn-success",
+      confirmButtonText: "Refresh",
+      cancelButtonText: "Cancel",
+      closeOnConfirm: true,
+      allowOutsideClick: true,
+      closeOnCancel: true
+    },
+    function(isConfirm) {
+      if (isConfirm) {
+        table.draw();
+      }
+    });
+  }
     //display modal form for task editing
     $('#grade-list').on('click', '.open-modal',function(){ 
       var link_id = $(this).val();
@@ -149,7 +149,6 @@ $(document).ready(function(){
     });
    });
     //create new task / update existing task 
-    xhrPool = [];
     $("#btn-save").click(function () {
       $('#frmGrade').parsley().destroy();
       if($('#frmGrade').parsley().isValid())
@@ -173,9 +172,6 @@ $(document).ready(function(){
             my_url += '/' + id;
           }
           $.ajax({
-            beforeSend: function (jqXHR, settings) {
-              xhrPool.push(jqXHR);
-            },
             type: type,
             url: my_url,
             data: formData,
@@ -205,15 +201,13 @@ $(document).ready(function(){
             },
             error: function (data) {
               console.log('Error:', data.responseText);
-              try{
-                $('#strSystDesc').parsley().removeError('ferror', {updateClass: false});
-                $('#strSystDesc').parsley().addError('ferror', {message: data.responseText, updateClass: false});
-              }catch(err){}
-              finally{
-                $.each(xhrPool, function(idx, jqXHR) {
-                  jqXHR.abort();
-                });
-              }
+              $.notify({
+                message: data.responseText 
+              },{
+                type: 'warning',
+                z_index: 2000,
+                delay: 5000,
+              });
             }
           });
         }

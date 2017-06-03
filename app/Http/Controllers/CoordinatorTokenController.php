@@ -21,6 +21,7 @@ class CoordinatorTokenController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('auth');
         $this->middleware('coordinator');
     }
     public function messages(Request $request)
