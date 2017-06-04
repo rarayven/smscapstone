@@ -45,6 +45,7 @@ class SMSAccountApplyController extends Controller
   }
   public function store(Request $request)
   {
+    $this->validate($request, Application::$storeRule);
     DB::beginTransaction();
     try
     {
@@ -59,6 +60,7 @@ class SMSAccountApplyController extends Controller
       //PDF Upload
       $pdf = $request->file('strApplGrades');
       $pdfname = md5($request->strUserEmail. time()).'.'.$pdf->getClientOriginalExtension();
+      //Insert in users
       $users = new User;
       $users->type='Student';
       $users->first_name=$request->strUserFirstName;
@@ -69,11 +71,14 @@ class SMSAccountApplyController extends Controller
       $users->cell_no=$request->strUserCell;
       $users->picture=$imagename;
       $users->save();
+      //Insert in user_councilor
       $connections = new Connection;
       $connections->user_id = $users->id;
       $connections->councilor_id = $request->intCounID;
       $connections->save();
+      //Get Max of batches
       $batch = Batch::where('is_active',1)->max('id');
+      //Insert in student_details
       $application = new Application;
       $application->user_id=$users->id;
       $application->house_no=$request->strApplHouseNo;
@@ -94,6 +99,7 @@ class SMSAccountApplyController extends Controller
       $application->position=$request->strPersPosition;
       $application->participation_date=$request->strPersDateParticipation;
       $application->save();
+      //Insert in family_data
       $familydata = new Familydata;
       $familydata->student_detail_user_id=$users->id;
       $familydata->last_name=$request->motherlname;
@@ -114,6 +120,7 @@ class SMSAccountApplyController extends Controller
       $familydata->monthly_income=$request->fatherincome;
       $familydata->member_type=1;
       $familydata->save();
+      //Insert in educational_backgrounds
       $educback = new Educback;
       $educback->student_detail_user_id=$users->id;
       $educback->level=0;
@@ -131,6 +138,7 @@ class SMSAccountApplyController extends Controller
       $educback->awards=$request->hshonor;
       $educback->save();
       if((($request->strSiblFirstName)!='')&&(($request->strSiblLastName)!='')&&(($request->strSiblDateFrom)!='')&&(($request->strSiblDateTo)!='')){
+        //Insert in siblings
         $siblings = new Siblings;
         $siblings->student_detail_user_id=$users->id; 
         $siblings->first_name=$request->strSiblFirstName;
@@ -139,6 +147,7 @@ class SMSAccountApplyController extends Controller
         $siblings->date_to=$request->strSiblDateTo;
         $siblings->save();
       }
+      //Insert in desired_courses
       $desiredcourses = new Desiredcourses;
       $desiredcourses->student_detail_user_id=$users->id;
       $desiredcourses->school_id=$request->school1;
@@ -155,12 +164,14 @@ class SMSAccountApplyController extends Controller
       $desiredcourses->course_id=$request->course3;
       $desiredcourses->save();
       if((($request->intPersCurrentSchool)!='')&&(($request->intPersCurrentCourse)!='')&&(($request->strPersGwa)!='')&&(($request->intYearID)!='')&&(($request->intSemID)!='')){
+        //Insert in current colleges
         $current = new Current;
         $current->student_detail_user_id=$users->id;
         $current->school_id=$request->intPersCurrentSchool;
         $current->course_id=$request->intPersCurrentCourse;
         $current->gwa=$request->strPersGwa;
         $current->save();
+        //Insert in grades
         $scholargrade = new Grade;
         $scholargrade->student_detail_user_id=$users->id;
         $scholargrade->year_id=$request->intYearID;
@@ -177,7 +188,6 @@ class SMSAccountApplyController extends Controller
     catch(\Exception $e)
     {
       DB::rollBack();
-      dd($e);
       return dd($e->errorInfo[2]);
     }  
   }
@@ -201,7 +211,7 @@ class SMSAccountApplyController extends Controller
     ->get();
     return Response::json($query);
   }
-  public function update(Request $request, $id)
+  public function update($id)
   {
     $grade = Academicgrade::find($id);
     return Response::json($grade);

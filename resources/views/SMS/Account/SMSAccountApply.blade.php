@@ -5,6 +5,10 @@
 @section('override')
 {!! Html::style("plugins/datepicker/datepicker3.css") !!}
 {!! Html::style("plugins/datatables/dataTables.bootstrap.min.css") !!}
+{!! Html::style("css/bootstrap-toggle.min.css") !!}
+{!! Html::style("css/style.css") !!}
+{!! Html::style("plugins/iCheck/flat/_all.css") !!}
+{!! Html::style("css/parsley.css") !!}
 <style type="text/css">
     [data-notify="container"] {
         width: 20%;
@@ -15,287 +19,300 @@
 </style>
 @endsection
 @section('login')
-<ul class="nav navbar-nav navbar-right">
-  <li class="{{Request::path() == 'login' ? 'active' : ''}}"><a href="{{ url('/login') }}">Login</a></li>
-</ul>
+<div class="navbar-custom-menu">
+    <ul class="nav navbar-nav">
+        <li class="{{Request::path() == 'login' ? 'active' : ''}}"><a href="{{ url('/login') }}">Login</a></li>
+    </ul>
+</div>
 @endsection
 @section('middlecontent')
 <!-- Top content -->
 <div class="container">
     <div class="row">
-        <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 form-box">
-            {{ Form::open([
-                'id' => 'frmApply',
-                'class' => 'f1',
-                'data-parsley-errors-messages-disabled' => '',
-                'enctype' => 'multipart/form-data',
-                'onsubmit' => "return confirm('Do you really want to submit the form?');"
-                ])
-            }}
-            <div id="top">
-                <h3>Apply Now</h3>
-                <p>Fill up the forms to apply for scholarship</p>
-                <div class="f1-steps">
-                    <div class="f1-progress">
-                        <div class="f1-progress-line" data-now-value="7.14" data-number-of-steps="6" style="width: 7.14%;"></div>
-                    </div>
-                    <div class="f1-step active">
-                        <div class="f1-step-icon"><i class="fa fa-map"></i></div>
-                        <p>District</p>
-                    </div>
-                    <div class="f1-step">
-                        <div class="f1-step-icon"><i class="fa fa-black-tie"></i></div>
-                        <p>Councilor</p>
-                    </div>
-                    <div class="f1-step">
-                        <div class="f1-step-icon"><i class="fa fa-user"></i></div>
-                        <p>Personal Data</p>
-                    </div>
-                    <div class="f1-step">
-                        <div class="f1-step-icon"><i class="fa fa-users"></i></div>
-                        <p>Family Data</p>
-                    </div>
-                    <div class="f1-step">
-                        <div class="f1-step-icon"><i class="fa fa-graduation-cap"></i></div>
-                        <p>Educational Background</p>
-                    </div>
-                    <div class="f1-step">
-                        <div class="f1-step-icon"><i class="fa fa-pencil"></i></div>
-                        <p>Essay</p>
-                    </div>
-                    <div class="f1-step">
-                        <div class="f1-step-icon"><i class="fa fa-fw fa-file-text"></i></div>
-                        <p>Summary</p>
-                    </div>
-                </div>
-            </div>
-            <div class="form-section">
-                <h3>Select District:</h3>
-                <div class="form-group row">
-                    @foreach ($district as $districts)
-                    <div class="col-md-4">
-                        <div class="box box-widget district widget-user-2 text-center" style="cursor: pointer; background-color: #FF9376; border-style: solid;" value={{$districts->id}}>
-                            <div class="widget-user-header">
-                                <h1 id="txt{{$districts->id}}">{{$districts->description}}</h1>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                    {{ Form::hidden('intDistID', null, [
-                      'id' => 'intDistID'
-                      ])
-                  }}
-              </div>
-          </div>
-          <div class="form-section">
-            <h3>Select Councilor:</h3>
-            <div class="form-group col-md-12 row">
-                <div id="councilor"></div>
-                {{ Form::hidden('intCounID', null, [
-                  'id' => 'intCounID'
-                  ])
-              }}
-          </div>
+      <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 form-box">
+        {{ Form::open([
+            'id' => 'frmApply',
+            'class' => 'f1',
+            'data-parsley-errors-messages-disabled' => '',
+            'enctype' => 'multipart/form-data',
+            'onsubmit' => "return confirm('Do you really want to submit the form?');"
+            ])
+        }}
+        @if (count($errors) > 0)
+        <div class="alert alert-danger alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <strong>Errors:</strong>
+          <ul>
+              @foreach ($errors as $error)
+              <li>{{$error}}</li>
+              @endforeach
+          </ul>
       </div>
-      <div class="form-section">
-        <h3>Input Personal Info:</h3>
-        <div class="row">
-            <div class="form-group col-md-4">
-                {{ Form::label('fname', 'First Name*', [
-                    'class' => 'control-label'
-                    ]) 
-                }}
-                {{ Form::text('strUserFirstName', null, [
-                    'id' => 'fname',
-                    'class' => 'form-control',
-                    'maxlength' => '25',
-                    'required' => 'required',
-                    'data-parsley-pattern' => '^[a-zA-Z. ]+$',
-                    'autocomplete' => 'off'
-                    ]) 
-                }}
+      @endif
+      <div id="top">
+        <h3>Apply Now</h3>
+        <p>Fill up the forms to apply for scholarship</p>
+        <div class="f1-steps">
+            <div class="f1-progress">
+                <div class="f1-progress-line" data-now-value="7.14" data-number-of-steps="6" style="width: 7.14%;"></div>
             </div>
-            <div class="form-group col-md-4">
-                {{ Form::label('mname', 'Middle Name', [
-                    'class' => 'control-label'
-                    ]) 
-                }}
-                {{ Form::text('strUserMiddleName', null, [
-                    'id' => 'mname',
-                    'class' => 'form-control',
-                    'maxlength' => '25',
-                    'data-parsley-pattern' => '^[a-zA-Z. ]+$',
-                    'autocomplete' => 'off'
-                    ]) 
-                }}
+            <div class="f1-step active">
+                <div class="f1-step-icon"><i class="fa fa-map"></i></div>
+                <p>District</p>
             </div>
-            <div class="form-group col-md-4">
-                {{ Form::label('lname', 'Last Name*', [
-                    'class' => 'control-label'
-                    ]) 
-                }}
-                {{ Form::text('strUserLastName', null, [
-                    'id' => 'lname',
-                    'class' => 'form-control',
-                    'maxlength' => '25',
-                    'required' => 'required',
-                    'data-parsley-pattern' => '^[a-zA-Z. ]+$',
-                    'autocomplete' => 'off'
-                    ]) 
-                }}
+            <div class="f1-step">
+                <div class="f1-step-icon"><i class="fa fa-black-tie"></i></div>
+                <p>Councilor</p>
             </div>
-            <div class="form-group col-md-2">
-                {{ Form::label('gender', 'Gender', [
-                    'class' => 'control-label'
-                    ]) 
-                }}
-                {{ Form::select('PersGender', [
-                    0 => 'Male',
-                    1 => 'Female'
-                    ], null, [
-                    'class' => 'form-control'])
-                }}
+            <div class="f1-step">
+                <div class="f1-step-icon"><i class="fa fa-user"></i></div>
+                <p>Personal Data</p>
             </div>
-            <div class="form-group col-md-2">
-                {{ Form::label('bday', 'Birth Date*', [
-                    'class' => 'control-label'
-                    ]) 
-                }}
-                <div class="input-group date">
-                  <div class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                </div>
-                {{ Form::text('datPersDOB', null, [
-                    'id' => 'datepicker',
-                    'class' => 'form-control pull-right',
-                    'required' => 'required'
-                    ]) 
-                }}
+            <div class="f1-step">
+                <div class="f1-step-icon"><i class="fa fa-users"></i></div>
+                <p>Family Data</p>
             </div>
-        </div>
-        <div class="form-group col-md-3">
-            {{ Form::label('pob', 'Place of Birth*', [
-                'class' => 'control-label'
-                ]) 
-            }}
-            {{ Form::text('strPersPOB', null, [
-                'id' => 'pob',
-                'class' => 'form-control',
-                'maxlength' => '25',
-                'required' => 'required',
-                'data-parsley-pattern' => '^[a-zA-Z. ]+$',
-                'autocomplete' => 'off'
-                ]) 
-            }}
-        </div>
-        <div class="form-group col-md-2">
-            {{ Form::label('religion', 'Religion*', [
-                'class' => 'control-label'
-                ]) 
-            }}
-            {{ Form::text('strPersReligion', null, [
-                'id' => 'strPersReligion',
-                'class' => 'form-control',
-                'maxlength' => '50',
-                'required' => 'required',
-                'data-parsley-pattern' => '^[a-zA-Z. ]+$',
-                'autocomplete' => 'off'
-                ]) 
-            }}
-        </div>
-        <div class="form-group col-md-3">
-            {{ Form::label('mobileno', 'Mobile Number*', [
-                'class' => 'control-label'
-                ]) 
-            }}
-            <div class="input-group">
-                <div class="input-group-addon">
-                    <i class="fa fa-phone"></i>
-                </div>
-                {{ Form::text('strUserCell', null, [
-                    'id' => 'strUserCell',
-                    'class' => 'form-control',
-                    'maxlength' => '3',
-                    'maxlength' => '15',
-                    'required' => 'required',
-                    'data-parsley-type' => 'number',
-                    'autocomplete' => 'off'
-                    ]) 
-                }}
+            <div class="f1-step">
+                <div class="f1-step-icon"><i class="fa fa-graduation-cap"></i></div>
+                <p>Educational Background</p>
             </div>
-        </div>
-        <div class="form-group col-md-2">
-            {{ Form::label('stname', 'House Number*', [
-                'class' => 'control-label'
-                ]) 
-            }}
-            {{ Form::text('strApplHouseNo', null, [
-                'id' => 'strApplHouseNo',
-                'class' => 'form-control',
-                'maxlength' => '4',
-                'required' => 'required',
-                'autocomplete' => 'off',
-                'data-parsley-type' => 'number'
-                ]) 
-            }}
-        </div>
-        <div class="form-group col-md-3">
-            {{ Form::label('stname', 'Street Name*', [
-                'class' => 'control-label'
-                ]) 
-            }}
-            {{ Form::text('strPersStreet', null, [
-                'id' => 'stname',
-                'class' => 'form-control',
-                'maxlength' => '25',
-                'required' => 'required',
-                'autocomplete' => 'off',
-                'data-parsley-pattern' => '^[a-zA-Z0-9. ]+$'
-                ]) 
-            }}
-        </div>
-        <div class="form-group col-md-2">
-            {{ Form::label('bgy', 'Barangay', [
-                'class' => 'control-label'
-                ]) 
-            }}
-            <select id="intBaraID" class="form-control" name="intBaraID">
-                @foreach($barangay as $barangay)
-                <option value={{$barangay->intBaraID}}>{{$barangay->strBaraDesc}}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group col-md-3">
-            {{ Form::label('email', 'Email Address*', [
-                'class' => 'control-label'
-                ]) 
-            }}
-            <div class="input-group">
-                <div class="input-group-addon">
-                    <i class="fa fa-envelope"></i>
-                </div>
-                {{ Form::email('strUserEmail', null, [
-                    'id' => 'email',
-                    'class' => 'form-control',
-                    'maxlength' => '30',
-                    'required' => 'required',
-                    'autocomplete' => 'off',
-                    'data-parsley-trigger-after-failure' => "focusout"
-                    ]) 
-                }}
+            <div class="f1-step">
+                <div class="f1-step-icon"><i class="fa fa-pencil"></i></div>
+                <p>Essay</p>
             </div>
-        </div>
-        <div class="form-group col-md-2" style="margin-top: -20px;">
-            <br>
-            <div class="btn btn-default btn-file images">
-                <i class="fa fa-paperclip"></i> Image
-                {{ Form::file('strApplPicture', [
-                    'required' => 'required'
-                    ]) 
-                }}
+            <div class="f1-step">
+                <div class="f1-step-icon"><i class="fa fa-fw fa-file-text"></i></div>
+                <p>Summary</p>
             </div>
         </div>
     </div>
+    <div class="form-section">
+        <h3>Select District:</h3>
+        <div class="form-group row">
+            @foreach ($district as $districts)
+            <div class="col-md-4">
+                <div class="box box-widget district widget-user-2 text-center" style="cursor: pointer; background-color: #FF9376; border-style: solid;" value={{$districts->id}}>
+                    <div class="widget-user-header">
+                        <h1 id="txt{{$districts->id}}">{{$districts->description}}</h1>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+            {{ Form::hidden('intDistID', null, [
+              'id' => 'intDistID'
+              ])
+          }}
+      </div>
+  </div>
+  <div class="form-section">
+    <h3>Select Councilor:</h3>
+    <div class="form-group col-md-12 row">
+        <div id="councilor"></div>
+        {{ Form::hidden('intCounID', null, [
+          'id' => 'intCounID'
+          ])
+      }}
+  </div>
+</div>
+<div class="form-section">
+    <h3>Input Personal Info:</h3>
+    <div class="row">
+        <div class="form-group col-md-4">
+            {{ Form::label('fname', 'First Name*', [
+                'class' => 'control-label'
+                ]) 
+            }}
+            {{ Form::text('strUserFirstName', null, [
+                'id' => 'fname',
+                'class' => 'form-control',
+                'maxlength' => '25',
+                'required' => 'required',
+                'data-parsley-pattern' => '^[a-zA-Z. ]+$',
+                'autocomplete' => 'off'
+                ]) 
+            }}
+        </div>
+        <div class="form-group col-md-4">
+            {{ Form::label('mname', 'Middle Name', [
+                'class' => 'control-label'
+                ]) 
+            }}
+            {{ Form::text('strUserMiddleName', null, [
+                'id' => 'mname',
+                'class' => 'form-control',
+                'maxlength' => '25',
+                'data-parsley-pattern' => '^[a-zA-Z. ]+$',
+                'autocomplete' => 'off'
+                ]) 
+            }}
+        </div>
+        <div class="form-group col-md-4">
+            {{ Form::label('lname', 'Last Name*', [
+                'class' => 'control-label'
+                ]) 
+            }}
+            {{ Form::text('strUserLastName', null, [
+                'id' => 'lname',
+                'class' => 'form-control',
+                'maxlength' => '25',
+                'required' => 'required',
+                'data-parsley-pattern' => '^[a-zA-Z. ]+$',
+                'autocomplete' => 'off'
+                ]) 
+            }}
+        </div>
+        <div class="form-group col-md-2">
+            {{ Form::label('gender', 'Gender', [
+                'class' => 'control-label'
+                ]) 
+            }}
+            {{ Form::select('PersGender', [
+                0 => 'Male',
+                1 => 'Female'
+                ], null, [
+                'class' => 'form-control'])
+            }}
+        </div>
+        <div class="form-group col-md-2">
+            {{ Form::label('bday', 'Birth Date*', [
+                'class' => 'control-label'
+                ]) 
+            }}
+            <div class="input-group date">
+              <div class="input-group-addon">
+                <i class="fa fa-calendar"></i>
+            </div>
+            {{ Form::text('datPersDOB', null, [
+                'id' => 'datepicker',
+                'class' => 'form-control pull-right',
+                'required' => 'required'
+                ]) 
+            }}
+        </div>
+    </div>
+    <div class="form-group col-md-3">
+        {{ Form::label('pob', 'Place of Birth*', [
+            'class' => 'control-label'
+            ]) 
+        }}
+        {{ Form::text('strPersPOB', null, [
+            'id' => 'pob',
+            'class' => 'form-control',
+            'maxlength' => '25',
+            'required' => 'required',
+            'data-parsley-pattern' => '^[a-zA-Z. ]+$',
+            'autocomplete' => 'off'
+            ]) 
+        }}
+    </div>
+    <div class="form-group col-md-2">
+        {{ Form::label('religion', 'Religion*', [
+            'class' => 'control-label'
+            ]) 
+        }}
+        {{ Form::text('strPersReligion', null, [
+            'id' => 'strPersReligion',
+            'class' => 'form-control',
+            'maxlength' => '50',
+            'required' => 'required',
+            'data-parsley-pattern' => '^[a-zA-Z. ]+$',
+            'autocomplete' => 'off'
+            ]) 
+        }}
+    </div>
+    <div class="form-group col-md-3">
+        {{ Form::label('mobileno', 'Mobile Number*', [
+            'class' => 'control-label'
+            ]) 
+        }}
+        <div class="input-group">
+            <div class="input-group-addon">
+                <i class="fa fa-phone"></i>
+            </div>
+            {{ Form::text('strUserCell', null, [
+                'id' => 'strUserCell',
+                'class' => 'form-control',
+                'maxlength' => '3',
+                'maxlength' => '15',
+                'required' => 'required',
+                'data-parsley-type' => 'number',
+                'autocomplete' => 'off'
+                ]) 
+            }}
+        </div>
+    </div>
+    <div class="form-group col-md-2">
+        {{ Form::label('stname', 'House Number*', [
+            'class' => 'control-label'
+            ]) 
+        }}
+        {{ Form::text('strApplHouseNo', null, [
+            'id' => 'strApplHouseNo',
+            'class' => 'form-control',
+            'maxlength' => '4',
+            'required' => 'required',
+            'autocomplete' => 'off',
+            'data-parsley-type' => 'number'
+            ]) 
+        }}
+    </div>
+    <div class="form-group col-md-3">
+        {{ Form::label('stname', 'Street Name*', [
+            'class' => 'control-label'
+            ]) 
+        }}
+        {{ Form::text('strPersStreet', null, [
+            'id' => 'stname',
+            'class' => 'form-control',
+            'maxlength' => '25',
+            'required' => 'required',
+            'autocomplete' => 'off',
+            'data-parsley-pattern' => '^[a-zA-Z0-9. ]+$'
+            ]) 
+        }}
+    </div>
+    <div class="form-group col-md-2">
+        {{ Form::label('bgy', 'Barangay', [
+            'class' => 'control-label'
+            ]) 
+        }}
+        <select id="intBaraID" class="form-control" name="intBaraID">
+            @foreach($barangay as $barangay)
+            <option value={{$barangay->intBaraID}}>{{$barangay->strBaraDesc}}</option>
+            @endforeach
+        </select>
+    </div>
+    <div class="form-group col-md-3">
+        {{ Form::label('email', 'Email Address*', [
+            'class' => 'control-label'
+            ]) 
+        }}
+        <div class="input-group">
+            <div class="input-group-addon">
+                <i class="fa fa-envelope"></i>
+            </div>
+            {{ Form::email('strUserEmail', null, [
+                'id' => 'email',
+                'class' => 'form-control',
+                'maxlength' => '30',
+                'required' => 'required',
+                'autocomplete' => 'off',
+                'data-parsley-trigger-after-failure' => "focusout"
+                ]) 
+            }}
+        </div>
+    </div>
+    <div class="form-group col-md-2" style="margin-top: -20px;">
+        <br>
+        <div class="btn btn-default btn-file images">
+            <i class="fa fa-paperclip"></i> Image
+            {{ Form::file('strApplPicture', [
+                'required' => 'required'
+                ]) 
+            }}
+        </div>
+    </div>
+</div>
 </div>
 <div class="form-section">
     <h3>Input Family Info:</h3>
@@ -540,7 +557,7 @@
         <label class="radio-inline"><input type="radio" name="rad" id="no" value="no" checked> No</label>
     </div>
     <div id="questionappear">
-     <div class="row">
+       <div class="row">
         <div class="container col-md-6 col-sm-12">
             <div class="form-group">
                 {{ Form::label('name', "Name", [
@@ -1190,9 +1207,17 @@
 <meta name="_token" content="{!! csrf_token() !!}" />
 @endsection
 @section('endscript')
+{!! Html::script("plugins/jQueryUI/jquery-ui.min.js") !!}
+{!! Html::script("plugins/input-mask/jquery.inputmask.js") !!} 
+{!! Html::script("plugins/input-mask/jquery.inputmask.date.extensions.js") !!} 
+{!! Html::script("plugins/input-mask/jquery.inputmask.extensions.js") !!}
+{!! Html::script("js/jquery.backstretch.min.js") !!} 
+{!! Html::script("js/retina-1.1.0.min.js") !!} 
 {!! Html::script("plugins/datepicker/bootstrap-datepicker.js") !!}
 {!! Html::script("plugins/datatables/jquery.dataTables.min.js") !!}
 {!! Html::script("plugins/datatables/dataTables.bootstrap.min.js") !!}
-{!! Html::script("custom/ApplyAjax.js") !!}
+{!! Html::script("plugins/iCheck/icheck.min.js") !!}
+{!! Html::script("js/parsley.min.js") !!}  
 {!! Html::script("js/bootstrap-notify.min.js") !!} 
+{!! Html::script("custom/ApplyAjax.js") !!}
 @endsection

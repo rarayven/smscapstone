@@ -46,4 +46,12 @@ class LoginController extends Controller
     {
         return view('SMS.Account.SMSAccountLogin');
     }
+
+    protected function validateLogin(Request $request)
+    {
+        $this->validate($request, [
+            $this->username() => 'required|max:30',
+            'password' => 'required|max:61',
+            ]);
+    }
 }

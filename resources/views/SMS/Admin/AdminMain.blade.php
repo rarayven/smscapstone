@@ -6,6 +6,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <title>Scholarship MS</title>
+  {!! Html::style("plugins/pace/pace.min.css") !!}
   {!! Html::style("css/bootstrap.min.css") !!}
   {!! Html::style("css/font-awesome.css") !!}
   {!! Html::style("css/bootstrap-toggle.min.css") !!}
@@ -129,6 +130,7 @@
 </aside>
 @yield('content')
 </div>
+{!! Html::script("plugins/pace/pace.min.js") !!}
 {!! Html::script("plugins/jQuery/jquery-3.1.1.min.js") !!}
 {!! Html::script("plugins/jQueryUI/jquery-ui.min.js") !!}
 {!! Html::script("js/bootstrap.min.js") !!} 
@@ -141,7 +143,8 @@
 {!! Html::script("plugins/datatables/dataTables.bootstrap.min.js") !!}
 {!! Html::script("plugins/sweetalert/sweetalert.min.js") !!}
 {!! Html::script("js/bootstrap-notify.min.js") !!} 
+{!! Html::script("js/ajax-expired-session.js") !!} 
 @yield('script')
-{!! Html::script("js/app.min.js") !!} 
+{!! Html::script("js/app.min.js") !!}
 </body>
 </html>

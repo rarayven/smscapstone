@@ -46,6 +46,10 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException)
             return response(view('SMS.SMSNotFound'), 404);
+        elseif ($exception instanceof \Illuminate\Session\TokenMismatchException)
+        {
+            return response('Session Expired! Please try again.',401);
+        }
         return parent::render($request, $exception);
     }
 

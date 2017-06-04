@@ -9,9 +9,9 @@ textarea.form-control {
     vertical-align: middle;
     background: #fff;
     border: 3px solid #fff;
-    font-family: 'Roboto', sans-serif;
+    /*font-family: 'Roboto', sans-serif;
     font-size: 16px;
-    font-weight: 300;
+    font-weight: 300;*/
     line-height: 50px;
     color: #888;
     -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
@@ -54,9 +54,9 @@ button.btn {
     vertical-align: middle;
     background: #de615e;
     border: 0;
-    font-family: 'Roboto', sans-serif;
+    /*font-family: 'Roboto', sans-serif;
     font-size: 16px;
-    font-weight: 300;
+    font-weight: 300;*/
     line-height: 50px;
     color: #fff;
     -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;

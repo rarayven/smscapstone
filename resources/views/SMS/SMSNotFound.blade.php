@@ -2,10 +2,6 @@
 @section('title')
 <title>404 Page Not Found!</title>
 @endsection
-@section('override')
-{!! Html::style("css/stylesheet.css") !!}
-{!! Html::style("css/style.css") !!}
-@endsection
 @section('topcontent')
 </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -29,6 +25,7 @@
   <!-- /.content -->
   @endsection
   @section('endscript')
+  {!! Html::script("js/jquery.backstretch.min.js") !!}
   <script type="text/javascript">
     $.backstretch("../../img/backgrounds/1apply.jpg");
   </script>

@@ -1,12 +1,12 @@
 body {
-	font-family: 'Roboto', sans-serif;
+	/*font-family: 'Roboto', sans-serif;
 	font-size: 16px;
-	font-weight: 300;
+	font-weight: 300;*/
 	color: #888;
 	line-height: 30px;
 	text-align: center;
 }
-strong { font-weight: 500; }
+/*strong { font-weight: 500; }*/
 a, a:hover, a:focus {
 	color: #de615e;
 	text-decoration: none;
@@ -14,14 +14,14 @@ a, a:hover, a:focus {
 }
 h1, h2 {
 	margin-top: 10px;
-	font-size: 38px;
-	font-weight: 100;
+	/*font-size: 38px;
+	font-weight: 100;*/
 	color: #555;
 	line-height: 50px;
 }
 h3 {
-	font-size: 22px;
-	font-weight: 300;
+	/*font-size: 22px;
+	font-weight: 300;*/
 	color: #555;
 	line-height: 30px;
 }
@@ -34,8 +34,8 @@ img { max-width: 100%; }
 	margin: 5px;
 	padding: 16px 20px 0 20px;
 	background: #de615e;
-	font-size: 16px;
-	font-weight: 300;
+	/*font-size: 16px;
+	font-weight: 300;*/
 	line-height: 16px;
 	color: #fff;
 	-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
@@ -47,7 +47,7 @@ img { max-width: 100%; }
 .btn-link-1 i {
 	padding-right: 5px;
 	vertical-align: middle;
-	font-size: 20px;
+	/*font-size: 20px;*/
 	line-height: 20px;
 }
 .btn-link-2 {
@@ -57,8 +57,8 @@ img { max-width: 100%; }
 	padding: 15px 20px 0 20px;
 	background: rgba(0, 0, 0, 0.3);
 	border: 1px solid #fff;
-	font-size: 16px;
-	font-weight: 300;
+	/*font-size: 16px;
+	font-weight: 300;*/
 	line-height: 16px;
 	color: #fff;
 	-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;

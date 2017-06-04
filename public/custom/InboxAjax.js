@@ -10,7 +10,7 @@ $(document).ready(function(){
 		serverSide: true,
 		ajax: dataurl,
 		"columnDefs": [
-		{ "width": "200px", "targets": 5 },
+		{ "width": "220px", "targets": 5 },
 		{ "width": "70px", "targets": 4 },
 		{ "width": "150px", "targets": 3 }
 		],

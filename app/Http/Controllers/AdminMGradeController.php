@@ -59,11 +59,11 @@ class AdminMGradeController extends Controller
         if ($validator->fails()) {
             return Response::json($validator->errors()->first(), 422);
         }
-        $validation = Validator::make(Input::all(), Academicgrade::$desc);
+        $validation = Validator::make($request->all(), Academicgrade::$desc);
         if ($validation->fails()) {
             return "1";
         }
-        $validation2 = Validator::make(Input::all(), Academicgrade::$value);
+        $validation2 = Validator::make($request->all(), Academicgrade::$value);
         if ($validation2->fails()) {
             return "2";
         }
@@ -94,11 +94,11 @@ class AdminMGradeController extends Controller
         if ($validator->fails()) {
             return Response::json($validator->errors()->first(), 422);
         }
-        $validation = Validator::make(Input::all(), Academicgrade::updatedesc($id));
+        $validation = Validator::make($request->all(), Academicgrade::updatedesc($id));
         if ($validation->fails()) {
             return "1";
         }
-        $validation2 = Validator::make(Input::all(), Academicgrade::updatevalue($id));
+        $validation2 = Validator::make($request->all(), Academicgrade::updatevalue($id));
         if ($validation2->fails()) {
             return "2";
         }

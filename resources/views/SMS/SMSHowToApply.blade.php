@@ -3,15 +3,20 @@
 <title>Quezon City Council Scholarship Management System</title>
 @section('override')
 {!! Html::style("css/stylesheet.css") !!}
-{!! Html::style("css/style.css") !!}
+<style type="text/css">
+  .btn-default{
+   position: bottom; 
+ }
+</style>
 @endsection
 @section('login')
-<ul class="nav navbar-nav navbar-right">
-  <li class="{{Request::path() == 'login' ? 'active' : ''}}"><a href="{{ url('/login') }}">Login</a></li>
-</ul>
+<div class="navbar-custom-menu">
+  <ul class="nav navbar-nav">
+    <li class="{{Request::path() == 'login' ? 'active' : ''}}"><a href="{{ url('/login') }}">Login</a></li>
+  </ul>
+</div>
 @endsection
 @section('middlecontent')
-<!--contents here-->
 <div class="content">
  <div class="container">
   <div class="row equal">
@@ -192,13 +197,14 @@
 </div>
 </div>
 </div>
-</div> <!-- end of column-->
+</div>
 </div>
 </div>
 </div>
 </div>
 @endsection
 @section('endscript')
+{!! Html::script("js/jquery.backstretch.min.js") !!}
 <script type="text/javascript">
  $.backstretch("../../img/backgrounds/1apply.jpg");
 </script>

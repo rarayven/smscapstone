@@ -5,11 +5,15 @@
 @section('override')
 {!! Html::style("css/form-elementslogin.css") !!}
 {!! Html::style("css/stylelogin.css") !!}
+{!! Html::style("css/style.css") !!}
+{!! Html::style("css/parsley.css") !!}
 @endsection
 @section('login')
-<ul class="nav navbar-nav navbar-right">
-  <li class="{{Request::path() == 'login' ? 'active' : ''}}"><a href="{{ url('/login') }}">Login</a></li>
-</ul>
+<div class="navbar-custom-menu">
+  <ul class="nav navbar-nav">
+    <li class="{{Request::path() == 'login' ? 'active' : ''}}"><a href="{{ url('/login') }}">Login</a></li>
+  </ul>
+</div>
 @endsection
 @section('middlecontent')
 <div class="top-content">
@@ -52,19 +56,18 @@
                 @endif
               </div>
               <div class="row">
-                <div class="col-md-9">
-                  <button type="submit" class="btn">
-                    Sign in!
-                  </button>
-                </div>
-                <div class="col-md-3" style="padding: 0px;">
+                <div class="col-xs-3">
                   <label>
                     <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
                     <a class="btn btn-link" style="margin-left: -10px; margin-top: -10px;" href="{{ route('password.request') }}">
-                      Forgot Password?
+                      Forgot Your Password?
                     </a>
                   </label>
-
+                </div>
+                <div class="col-xs-9">
+                  <button type="submit" class="btn">
+                    Login!
+                  </button>
                 </div>
               </div>
             </form>
@@ -78,4 +81,5 @@
 @section('endscript')
 {!! Html::script("js/jquery.backstretch.min.js") !!}
 {!! Html::script("js/scriptslogin.js") !!}
+{!! Html::script("js/parsley.min.js") !!} 
 @endsection
