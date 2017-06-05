@@ -125,6 +125,7 @@
         </ul>
       </li>
       <li class="{{Request::path() == 'admin/budgtype' ? 'active' : ''}}"><a href="{{ url('admin/budgtype') }}"><i class="fa fa-fw fa-money"></i> <span>Budget Type</span></a></li>
+      <li class="{{Request::path() == 'admin/users' ? 'active' : ''}}"><a href="{{ url('admin/users') }}"><i class="fa fa-fw fa-users"></i> <span>User Accounts</span></a></li>
     </ul>
   </section>
 </aside>

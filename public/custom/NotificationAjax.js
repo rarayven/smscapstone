@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	var interval = setInterval(getUnread, 1000);
+	// var interval = setInterval(getUnread, 5000);
 	function getUnread(){
 		$.get(notif, function (data) {
 			if (data!=0) {
@@ -15,5 +15,6 @@ $(document).ready(function(){
 	Pace.on('done', function() {
 		$("link[rel=stylesheet][href='"+url+"/plugins/pace/pace.min.css']").remove();
 		$("script[src='"+url+"/plugins/pace/pace.min.js']").remove();
+		getUnread();
 	});
 });

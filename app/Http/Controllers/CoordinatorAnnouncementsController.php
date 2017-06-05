@@ -37,8 +37,7 @@ class CoordinatorAnnouncementsController extends Controller
     public function store(Request $request)
     {
         DB::beginTransaction();
-        try
-        {
+        try {
             $dtm = Carbon::now('Asia/Manila');
             $announcement = new Announcement;
             $announcement->user_id = Auth::id();
@@ -56,9 +55,7 @@ class CoordinatorAnnouncementsController extends Controller
             }
             DB::commit();
             return Response::json($announcement);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             DB::rollBack();
             dd($e);
             return dd($e->errorInfo[2]);

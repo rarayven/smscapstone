@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Middleware;
-
 use Closure;
 use Auth;
 class AdminMiddleware
@@ -19,6 +17,6 @@ class AdminMiddleware
             if(Auth::user()->type == 'Admin')
                 return $next($request);
         }
-        return redirect('/login');
+        return redirect('login');
     }
 }

@@ -9,6 +9,7 @@
 {!! Html::style("css/style.css") !!}
 {!! Html::style("plugins/iCheck/flat/_all.css") !!}
 {!! Html::style("css/parsley.css") !!}
+{!! Html::style("plugins/sweetalert/sweetalert.min.css") !!}
 <style type="text/css">
     [data-notify="container"] {
         width: 20%;
@@ -43,7 +44,7 @@
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
           <strong>Errors:</strong>
           <ul>
-              @foreach ($errors as $error)
+              @foreach ($errors->all() as $error)
               <li>{{$error}}</li>
               @endforeach
           </ul>
@@ -1219,5 +1220,6 @@
 {!! Html::script("plugins/iCheck/icheck.min.js") !!}
 {!! Html::script("js/parsley.min.js") !!}  
 {!! Html::script("js/bootstrap-notify.min.js") !!} 
+{!! Html::script("plugins/sweetalert/sweetalert.min.js") !!}
 {!! Html::script("custom/ApplyAjax.js") !!}
 @endsection

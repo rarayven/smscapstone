@@ -135,6 +135,7 @@
 @yield('script')
 {!! Html::script("js/app.min.js") !!}
 {!! Html::script("js/ajax-expired-session.js") !!} 
+{!! Html::script("js/bootstrap-notify.min.js") !!} 
 <script type="text/javascript">
   var notif = "{!! route('coordinatormessage.unreadmessage') !!}";
   var url = "{!! route('sms.index') !!}";

@@ -34,16 +34,16 @@ class CoordinatorAchievementsController extends Controller
     }
     public function store(Request $request)
     {
-        $connections = Connection::join('users','connections.user_id','users.id')
-        ->join('councilors','connections.councilor_id','councilors.id')
+        $connections = Connection::join('users','user_councilor.user_id','users.id')
+        ->join('councilors','user_councilor.councilor_id','councilors.id')
         ->select('councilors.id')
-        ->where('connections.user_id',Auth::id())
+        ->where('user_councilor.user_id',Auth::id())
         ->first();
         $users = User::join('achievements','users.id','achievements.user_id')
-        ->join('connections','users.id','connections.user_id')
+        ->join('user_councilor','users.id','user_councilor.user_id')
         ->join('student_details','users.id','student_details.user_id')
-        ->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',users.middle_name) as strStudName"),'users.*','student_details.*','achievements.*'])
-        ->where('connections.councilor_id',$connections->id)
+        ->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',IFNULL(users.middle_name,'')) as strStudName"),'users.*','student_details.*','achievements.*'])
+        ->where('user_councilor.councilor_id',$connections->id)
         ->where('achievements.status','Pending')
         ->where('users.type','Student')
         ->get();
@@ -63,51 +63,41 @@ class CoordinatorAchievementsController extends Controller
         })
         ->rawColumns(['strStudName','action']);
         if ($keyword = $request->get('search')['value']) {
-            $datatables->filterColumn('user_id', 'where', 'like', "$keyword%");
             $datatables->filterColumn('strStudName', 'whereRaw', "CONCAT(users.last_name
-                ,', ',users.first_name,' ',users.middle_name) like ? ", ["%$keyword%"]);
+                ,', ',users.first_name,' ',IFNULL(users.middle_name,'')) like ? ", ["%$keyword%"]);
         }
         return $datatables->make(true);
     }
     public function edit($id)
     {
-        try
-        {
+        try {
             $achievement = Achievement::findorfail($id);
             $achievement->status = "Pending";
             $achievement->save();
             return Response::json($achievement);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }
     public function update(Request $request, $id)
     {
-        try
-        {
+        try {
             $achievement = Achievement::findorfail($id);
             $achievement->status = "Accepted";
             $achievement->save();
             return Response::json($achievement);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }
     public function destroy($id)
     {
-        try
-        {
+        try {
             $achievement = Achievement::findorfail($id);
             $achievement->status = "Declined";
             $achievement->save();
             return Response::json($achievement);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }

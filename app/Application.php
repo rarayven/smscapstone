@@ -29,7 +29,7 @@ class Application extends Model
 	'strPersEssay2' => 'required|string',
 	'strPersOrganization' => 'nullable|max:50',
 	'strPersPosition' => 'nullable|max:25',
-	'strPersDateParticipation' => 'nullable|max:4|numeric',
+	'strPersDateParticipation' => 'nullable|max:4',
 	'motherlname' => 'required|max:25',
 	'motherfname' => 'required|max:25',
 	'mothercitizen' => 'required|max:25',

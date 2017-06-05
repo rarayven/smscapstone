@@ -19,36 +19,26 @@ class StudentMessagesController extends Controller
     }
     public function checkbox($id)
     {
-        try
-        {
+        try {
             $receiver = Receiver::findorfail($id);
             if ($receiver->is_read) {
                 $receiver->is_read=0;
             }
-            else{
+            else {
                 $receiver->is_read=1;
             }
             $receiver->save();
-        }
-        catch(\Exception $e) {
-            try{
-                if($e->errorInfo[1]==1062)
-                    return "This Data Already Exists";
-                else
-                    return var_dump($e->errorInfo[1]);
-            }
-            catch(\Exception $e){
-                return "Deleted";
-            }
+        } catch(\Exception $e) {
+            return "Deleted";
         } 
     }
     public function inboxdata()
     {
-        $message = Message::join('receivers','messages.id','receivers.message_id')
+        $message = Message::join('user_message','messages.id','user_message.message_id')
         ->join('users','messages.user_id','users.id')
-        ->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',users.middle_name) as strStudName"),'users.*','messages.*','receivers.id as receivers_id','receivers.is_read'])
-        ->where('receivers.is_deleted',0)
-        ->where('receivers.user_id',Auth::id());
+        ->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',users.middle_name) as strStudName"),'users.*','messages.*','user_message.id as receivers_id','user_message.is_read'])
+        ->where('user_message.is_deleted',0)
+        ->where('user_message.user_id',Auth::id());
         $datatables = Datatables::of($message)
         ->addColumn('action', function ($data) {
             return "<a href=".route('studentmessage.reply',$data->user_id)."><button class='btn btn-success btn-xs btn-view' value='$data->id'><i class='fa fa-reply'></i> Reply</button></a> <a href=".route('studentmessage.show',$data->receivers_id)."><button class='btn btn-info btn-xs btn-view' value='$data->receivers_id'><i class='fa fa-eye'></i> View</button></a> <button class='btn btn-danger btn-xs btn-delete' value='$data->receivers_id'><i class='fa fa-trash-o'></i> Delete</button>";
@@ -121,14 +111,14 @@ class StudentMessagesController extends Controller
     }
     public function create()
     {
-        $user = User::join('connections','users.id','connections.user_id')
-        ->select('connections.councilor_id')
-        ->where('connections.user_id',Auth::id())
+        $user = User::join('user_councilor','users.id','user_councilor.user_id')
+        ->select('user_councilor.councilor_id')
+        ->where('user_councilor.user_id',Auth::id())
         ->where('users.type','Student')
         ->first();
-        $users = User::join('connections','users.id','connections.user_id')
+        $users = User::join('user_councilor','users.id','user_councilor.user_id')
         ->select('users.*')
-        ->where('connections.councilor_id',$user->councilor_id)
+        ->where('user_councilor.councilor_id',$user->councilor_id)
         ->whereIn('users.type',['Student','Coordinator'])
         ->where('users.id','!=',Auth::id())
         ->where('users.is_active',1)
@@ -138,8 +128,7 @@ class StudentMessagesController extends Controller
     public function store(Request $request)
     {
         DB::beginTransaction();
-        try
-        {
+        try {
             $dtm = Carbon::now('Asia/Manila');
             $message = new Message;
             $message->user_id = Auth::id();
@@ -164,9 +153,7 @@ class StudentMessagesController extends Controller
             Session::flash('success','Message successfully sent!');
             DB::commit();
             return redirect(route('studentmessage.index'));
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             DB::rollBack();
             dd($e);
             return dd($e->errorInfo[2]);
@@ -174,8 +161,7 @@ class StudentMessagesController extends Controller
     }
     public function show($id)
     {
-        try
-        {
+        try {
             $receiver = Receiver::where('id',$id)
             ->where('is_deleted',0)
             ->where('user_id',Auth::id())
@@ -187,71 +173,62 @@ class StudentMessagesController extends Controller
             ->where('messages.id',$receiver->message_id)
             ->first();
             return view('SMS.Student.Messages.StudentRead')->withMessage($message);
-        }catch(\Exception $e){
+        } catch(\Exception $e) {
             return redirect(route('studentmessage.index'));
         }
     }
     public function destroy($id)
     {
-        try
-        {
+        try {
             $receiver = Receiver::findorfail($id);
-            try
-            {
+            try {
                 $receiver->is_deleted = 1;
                 $receiver->save();
                 $message = Message::find($receiver->message_id);
                 return Response::json($message);
-            }
-            catch(\Exception $e) {
+            } catch(\Exception $e) {
                 if($e->errorInfo[1]==1451)
                     return Response::json(['true',$receiver]);
                 else
                     return Response::json(['true',$receiver,$e->errorInfo[1]]);
             }
-        } 
-        catch(\Exception $e) {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }
     public function showsent($id)
     {
-        try
-        {
+        try {
             $message = Message::join('users','messages.user_id','users.id')
             ->select('messages.*','users.*')
             ->where('messages.id',$id)
             ->where('user_id',Auth::id())
             ->where('messages.is_deleted',0)
             ->firstorfail();
-            $users = User::join('receivers','users.id','receivers.user_id')
+            $users = User::join('user_message','users.id','user_message.user_id')
             ->select('users.*')
-            ->where('receivers.message_id',$id)
+            ->where('user_message.message_id',$id)
             ->get();
             return view('SMS.Student.Messages.StudentSentRead')->withMessage($message)->withUsers($users);
-        }catch(\Exception $e){
+        } catch(\Exception $e) {
             return redirect(route('studentmessage.sent'));
         }
     }
     public function destroysent($id)
     {
-        try
-        {
+        try {
             $message = Message::findorfail($id);
-            try
-            {
+            try {
                 $message->is_deleted = 1;
                 $message->save();
                 return Response::json($message);
-            }
-            catch(\Exception $e) {
+            } catch(\Exception $e) {
                 if($e->errorInfo[1]==1451)
                     return Response::json(['true',$message]);
                 else
                     return Response::json(['true',$message,$e->errorInfo[1]]);
             }
-        } 
-        catch(\Exception $e) {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }

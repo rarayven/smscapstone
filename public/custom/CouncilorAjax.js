@@ -28,8 +28,8 @@ $(document).ready(function(){
         $('#frmCouncilor').trigger("reset");
     });
     $('#councilor-list').on('change', '#isActive',function(){ 
-     var link_id = $(this).val();
-     $.ajax({
+       var link_id = $(this).val();
+       $.ajax({
         url: url2 + '/' + link_id,
         type: "PUT",
         success: function (data) {
@@ -42,7 +42,7 @@ $(document).ready(function(){
             console.log('Error:', data);
         }
     });
- });
+   });
     function refresh(){
         swal({
             title: "Record Deleted!",
@@ -121,29 +121,37 @@ $(document).ready(function(){
     });
     //delete task and remove it from list
     $('#councilor-list').on('click', '.btn-delete',function(){ 
-       var link_id = $(this).val();
-       swal({
-          title: "Are you sure?",
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonClass: "btn-danger",
-          confirmButtonText: "Delete",
-          cancelButtonText: "Cancel",
-          closeOnConfirm: false,
-          allowOutsideClick: true,
-          showLoaderOnConfirm: true,
-          closeOnCancel: true
-      },
-      function(isConfirm) {
-        setTimeout(function () {
-          if (isConfirm) {
-            $.ajax({
-              url: url + '/' + link_id,
-              type: "DELETE",
-              success: function (data) {
-                console.log(data);
-                if(data=="Deleted"){
-                    refresh();
+     var link_id = $(this).val();
+     swal({
+      title: "Are you sure?",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonClass: "btn-danger",
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+      closeOnConfirm: false,
+      allowOutsideClick: true,
+      showLoaderOnConfirm: true,
+      closeOnCancel: true
+  },
+  function(isConfirm) {
+    setTimeout(function () {
+      if (isConfirm) {
+        $.ajax({
+          url: url + '/' + link_id,
+          type: "DELETE",
+          success: function (data) {
+            console.log(data);
+            if(data[0]=="Failed"){
+                    // refresh();
+                    swal({
+                        title: "Failed!",
+                        text: "<center>"+data[1].last_name+" is in use</center>",
+                        type: "error",
+                        showConfirmButton: false,
+                        allowOutsideClick: true,
+                        html: true
+                    });
                 }else{
                     if(data[0]=="true"){
                       swal({
@@ -158,7 +166,7 @@ $(document).ready(function(){
                       table.draw();
                       swal({
                         title: "Deleted!",
-                        text: "<center>"+data.last_name+", "+data.first_name+" "+data.middle_name+" is Deleted</center>",
+                        text: "<center>"+data.last_name+" is Deleted</center>",
                         type: "success",
                         timer: 1000,
                         showConfirmButton: false,
@@ -171,10 +179,10 @@ $(document).ready(function(){
             console.log(data);
         }
     });
-        }
-    }, 500);
-    });
-   });
+    }
+}, 500);
+});
+ });
     //create new task / update existing task
     $("#btn-save").click(function () {
       $('#frmCouncilor').parsley().destroy();

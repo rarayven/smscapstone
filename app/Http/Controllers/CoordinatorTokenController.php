@@ -27,8 +27,7 @@ class CoordinatorTokenController extends Controller
     public function messages(Request $request)
     {
         DB::beginTransaction();
-        try
-        {
+        try {
             $dtm = Carbon::now('Asia/Manila');
             $message = new Message;
             $message->user_id = Auth::id();
@@ -42,9 +41,7 @@ class CoordinatorTokenController extends Controller
             $receiver->save();
             DB::commit();
             return Response::json($message);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             DB::rollBack();
             dd($e);
             return dd($e->errorInfo[2]);
@@ -63,16 +60,16 @@ class CoordinatorTokenController extends Controller
     }
     public function store(Request $request)
     {
-        $connections = Connection::join('users','connections.user_id','users.id')
-        ->join('councilors','connections.councilor_id','councilors.id')
+        $connections = Connection::join('users','user_councilor.user_id','users.id')
+        ->join('councilors','user_councilor.councilor_id','councilors.id')
         ->select('councilors.id')
-        ->where('connections.user_id',Auth::id())
+        ->where('user_councilor.user_id',Auth::id())
         ->first();
         $users = User::join('achievements','users.id','achievements.user_id')
-        ->join('connections','users.id','connections.user_id')
+        ->join('user_councilor','users.id','user_councilor.user_id')
         ->join('student_details','users.id','student_details.user_id')
-        ->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',users.middle_name) as strStudName"),'users.*','student_details.*','achievements.*','users.id as user_id'])
-        ->where('connections.councilor_id',$connections->id)
+        ->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',IFNULL(users.middle_name,'')) as strStudName"),'users.*','student_details.*','achievements.*','users.id as user_id'])
+        ->where('user_councilor.councilor_id',$connections->id)
         ->where('users.type','Student')
         ->where('achievements.status','Accepted')
         ->get();
@@ -92,51 +89,41 @@ class CoordinatorTokenController extends Controller
         })
         ->rawColumns(['strStudName','action']);
         if ($keyword = $request->get('search')['value']) {
-            $datatables->filterColumn('user_id', 'where', 'like', "$keyword%");
             $datatables->filterColumn('strStudName', 'whereRaw', "CONCAT(users.last_name
-                ,', ',users.first_name,' ',users.middle_name) like ? ", ["%$keyword%"]);
+                ,', ',users.first_name,' ',IFNULL(users.middle_name,'')) like ? ", ["%$keyword%"]);
         }
         return $datatables->make(true);
     }
     public function edit($id)
     {
-        try
-        {
+        try {
             $achievement = Achievement::findorfail($id);
             $achievement->token_process = "Pending";
             $achievement->save();
             return Response::json($achievement);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }
     public function update(Request $request, $id)
     {
-        try
-        {
+        try {
             $achievement = Achievement::findorfail($id);
             $achievement->token_process = "Received";
             $achievement->save();
             return Response::json($achievement);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }
     public function destroy($id)
     {
-        try
-        {
+        try {
             $achievement = Achievement::findorfail($id);
             $achievement->token_process = "Cancelled";
             $achievement->save();
             return Response::json($achievement);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }

@@ -47,8 +47,7 @@ class SMSAccountApplyController extends Controller
   {
     $this->validate($request, Application::$storeRule);
     DB::beginTransaction();
-    try
-    {
+    try {
       $randompassword = Hash::make('password');
       $dtm = Carbon::now('Asia/Manila');
       $date = $request->datPersDOB;
@@ -184,9 +183,7 @@ class SMSAccountApplyController extends Controller
       $pdf->move(base_path().'/public/docs/', $pdfname);
       DB::commit();
       return redirect('/');
-    } 
-    catch(\Exception $e)
-    {
+    } catch(\Exception $e) {
       DB::rollBack();
       return dd($e->errorInfo[2]);
     }  

@@ -37,18 +37,18 @@ class CoordinatorStudentsController extends Controller
 	}
 	public function store(Request $request)
 	{
-		$connections = Connection::join('users','connections.user_id','users.id')
-		->join('councilors','connections.councilor_id','councilors.id')
+		$connections = Connection::join('users','user_councilor.user_id','users.id')
+		->join('councilors','user_councilor.councilor_id','councilors.id')
 		->select('councilors.id')
-		->where('connections.user_id',Auth::id())
+		->where('user_councilor.user_id',Auth::id())
 		->first();
 		$application = Application::join('users','student_details.user_id','users.id')
-		->join('connections','users.id','connections.user_id')
+		->join('user_councilor','users.id','user_councilor.user_id')
 		->join('student_steps','student_steps.user_id','users.id')
 		->join('steps','student_steps.step_id','steps.id')
-		->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',users.middle_name) as strStudName"),'users.*','student_steps.step_id','steps.description','steps.order','student_details.*'])
+		->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',IFNULL(users.middle_name,'')) as strStudName"),'users.*','student_steps.step_id','steps.description','steps.order','student_details.*'])
 		->where('users.type','Student')
-		->where('connections.councilor_id',$connections->id)
+		->where('user_councilor.councilor_id',$connections->id)
 		->where('student_details.is_steps_done',0);
 		$datatables = Datatables::of($application)
 		->editColumn('intStepOrder', function ($data) {
@@ -107,14 +107,14 @@ class CoordinatorStudentsController extends Controller
 		if ($keyword = $request->get('search')['value']) {
 			$datatables->filterColumn('user_id', 'where', 'like', "$keyword%");
 			$datatables->filterColumn('strStudName', 'whereRaw', "CONCAT(users.last_name
-				,', ',users.first_name,' ',users.middle_name) like ? ", ["%$keyword%"]);
+				,', ',users.first_name,' ',IFNULL(users.middle_name,'')) like ? ", ["%$keyword%"]);
 		}
 		return $datatables->make(true);
 	}
 	public function show($id)
 	{
 		DB::beginTransaction();
-		try{
+		try {
 			$steps = Step::where('is_active',1)->count();
 			$student = Studentsteps::join('steps','student_steps.step_id','steps.id')
 			->select('steps.order')
@@ -126,8 +126,7 @@ class CoordinatorStudentsController extends Controller
             	$users = Studentsteps::find($id);
             	$users->step_id=$intStepOrder;
             	$users->save();
-            }
-            else{
+            } else {
                 $step_id=1;//order when 0
             }
             $studentsteps = Studentsteps::join('steps','student_steps.step_id','steps.id')
@@ -137,16 +136,14 @@ class CoordinatorStudentsController extends Controller
             ->first();
             DB::commit();
             return Response::json($studentsteps);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
         	DB::rollBack();
         }
     }
     public function edit($id)
     {
     	DB::beginTransaction();
-    	try{
+    	try {
     		$steps = Step::where('is_active',1)->count();
     		$userssteps = Studentsteps::find($id);
     		$userssteps->step_id=$steps;
@@ -161,29 +158,26 @@ class CoordinatorStudentsController extends Controller
     		->first();
     		DB::commit();
     		return Response::json($studentsteps);
-    	}
-    	catch(\Exception $e)
-    	{
+    	} catch(\Exception $e) {
     		DB::rollBack();
     	}
     }
     public function update(Request $request, $id)
     {
     	DB::beginTransaction();
-    	try{
+    	try {
     		$steps = Step::where('is_active',1)->count();
     		$student = Studentsteps::join('steps','student_steps.step_id','steps.id')
     		->select('steps.order')
     		->where('student_steps.user_id',$id)
     		->first();
             $intStepOrder = $student->order;//get the order number
-            if($intStepOrder>=$steps){//check if lower the sum of active steps
+            if($intStepOrder>=$steps) {//check if lower the sum of active steps
                 $intStepOrder=1;//value if = steps
                 $users = Application::find($id);
                 $users->is_steps_done=1;
                 $users->save();
-            }
-            else{
+            } else {
                 $intStepOrder+=1;//increment if < steps
             }
             $studsteps = Step::where('order',$intStepOrder)->first();
@@ -197,9 +191,7 @@ class CoordinatorStudentsController extends Controller
             ->first();
             DB::commit();
             return Response::json($studentsteps);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
         	DB::rollBack();
         }
     }

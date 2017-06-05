@@ -28,7 +28,7 @@
               <!-- Widget: user widget style 1 -->
               <div class="box box-widget widget-user-2" id="{{$users->id}}">
                 <!-- Add the bg color to the header using any of the bg-* classes -->
-                <div class="widget-user-header" style="height: 150px;">
+                <div class="widget-user-header bg-green" style="height: 150px;">
                   <div class="widget-user-image">
                     <img class="img-circle" src="{{ asset('images/'.$users->picture) }}" alt="User Avatar">
                   </div>

@@ -25,7 +25,7 @@
         <div class="timeline-item">
           <span class="time"><i class="fa fa-clock-o"></i> {{$announcements->date_post->diffForHumans()}}</span>
           <h4 class="timeline-header">Subject: <strong>{{$announcements->title}}</strong><br><br>
-            From: <small>{{$announcements->last_name}} {{$announcements->middle_name}}</small></h4>
+            From: <small>{{$announcements->last_name}}, {{$announcements->first_name}} {{$announcements->middle_name}}</small></h4>
             <div class="timeline-body">
               {{$announcements->description}}
             </div>

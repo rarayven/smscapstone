@@ -25,7 +25,7 @@ class CoordinatorApplicantsDetailsController extends Controller
     }
     public function show($id)
     {
-        try{
+        try {
             $application = Application::join('users','student_details.user_id','users.id')
             ->join('districts','student_details.district_id','districts.id')
             ->join('barangay','student_details.barangay_id','barangay.id')
@@ -53,16 +53,14 @@ class CoordinatorApplicantsDetailsController extends Controller
             ->where('desired_courses.student_detail_user_id',$id)
             ->get();
             return view('SMS.Coordinator.Scholar.CoordinatorApplicantsDetails')->withApplication($application)->withMother($mother)->withFather($father)->withDesiredcourses($desiredcourses)->withElem($elem)->withHs($hs)->withSiblings($siblings)->withExist($exist)->withCurrschool($currschool)->withGetschool($getschool);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             return redirect(route('applicants.index'));
         }
     }
     public function edit($id)
     {
         DB::beginTransaction();
-        try{
+        try {
             $current = Carbon::now();
             $current = new Carbon();
             $application = Application::find($id);
@@ -80,9 +78,7 @@ class CoordinatorApplicantsDetailsController extends Controller
             $user->save();
             DB::commit();
             return redirect(route('applicants.index'));
-        } 
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             DB::rollBack();
             return dd('steps null');
         }

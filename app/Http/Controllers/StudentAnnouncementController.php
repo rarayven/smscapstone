@@ -14,13 +14,13 @@ class StudentAnnouncementController extends Controller
     }
     public function index()
     {
-        $connection = Connection::join('users','connections.user_id','users.id')
-        ->select('connections.councilor_id')
-        ->where('connections.user_id',Auth::id())
+        $connection = Connection::join('users','user_councilor.user_id','users.id')
+        ->select('user_councilor.councilor_id')
+        ->where('user_councilor.user_id',Auth::id())
         ->first();
-        $users = User::join('connections','users.id','connections.user_id')
+        $users = User::join('user_councilor','users.id','user_councilor.user_id')
         ->select('users.id')
-        ->where('connections.councilor_id',$connection->councilor_id)
+        ->where('user_councilor.councilor_id',$connection->councilor_id)
         ->where('users.type','Coordinator')
         ->first();
         $announcement = Announcement::join('users','announcements.user_id','users.id')

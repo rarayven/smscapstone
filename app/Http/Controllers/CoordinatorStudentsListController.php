@@ -33,16 +33,16 @@ class CoordinatorStudentsListController extends Controller
     }
     public function store(Request $request)
     {
-        $connections = Connection::join('users','connections.user_id','users.id')
-        ->join('councilors','connections.councilor_id','councilors.id')
+        $connections = Connection::join('users','user_councilor.user_id','users.id')
+        ->join('councilors','user_councilor.councilor_id','councilors.id')
         ->select('councilors.id')
-        ->where('connections.user_id',Auth::id())
+        ->where('user_councilor.user_id',Auth::id())
         ->first();
         $application = Application::join('users','student_details.user_id','users.id')
-        ->join('connections','users.id','connections.user_id')
-        ->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',users.middle_name) as strStudName"),'student_details.*','users.*'])
+        ->join('user_councilor','users.id','user_councilor.user_id')
+        ->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',IFNULL(users.middle_name,'')) as strStudName"),'student_details.*','users.*'])
         ->where('users.type','Student')
-        ->where('connections.councilor_id',$connections->id)
+        ->where('user_councilor.councilor_id',$connections->id)
         ->where('student_details.application_status','Accepted');
         $datatables = Datatables::of($application)
         ->editColumn('checkbox', function ($data) {
@@ -73,7 +73,8 @@ class CoordinatorStudentsListController extends Controller
         })
         ->setRowId(function ($data) {
             return $data = 'id'.$data->user_id;
-        })->rawColumns(['strStudName','student_status','checkbox','action']);
+        })
+        ->rawColumns(['strStudName','student_status','checkbox','action']);
         if ($strUserFirstName = $request->get('strUserFirstName')) {
             $datatables->where('users.first_name', 'like', '%'.$strUserFirstName.'%');
         }
@@ -99,34 +100,23 @@ class CoordinatorStudentsListController extends Controller
             $datatables->where('student_details.religion', 'like', '%'.$strPersReligion.'%');
         }
         if ($keyword = $request->get('search')['value']) {
-            $datatables->filterColumn('user_id', 'where', 'like', "$keyword%");
-            $datatables->filterColumn('strStudName', 'whereRaw', "CONCAT(users.last_name,', ',users.first_name,' ',users.middle_name) like ? ", ["%$keyword%"]);
+            $datatables->filterColumn('strStudName', 'whereRaw', "CONCAT(users.last_name,', ',users.first_name,' ',IFNULL(users.middle_name,'')) like ? ", ["%$keyword%"]);
         }
         return $datatables->make(true);
     }
     public function update(Request $request, $id)
     {
-        try
-        {
+        try {
             $user = User::findorfail($id);
             if ($user->is_active) {
                 $user->is_active=0;
             }
-            else{
+            else {
                 $user->is_active=1;
             }
             $user->save();
-        }
-        catch(\Exception $e) {
-            try{
-                if($e->errorInfo[1]==1062)
-                    return "This Data Already Exists";
-                else
-                    return var_dump($e->errorInfo[1]);
-            }
-            catch(\Exception $e){
-                return "Deleted";
-            }
+        } catch(\Exception $e) {
+            return "Deleted";
         } 
     }
 }

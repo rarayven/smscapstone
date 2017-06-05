@@ -57,8 +57,7 @@ class StudentAchievementsController extends Controller
     public function store(Request $request)
     {
         DB::beginTransaction();
-        try
-        {
+        try {
             $pdf = $request->file('pdf');
             $pdfname = md5(Auth::user()->email. time()).'.'.$pdf->getClientOriginalExtension();
             $achievement = new Achievement;
@@ -71,9 +70,7 @@ class StudentAchievementsController extends Controller
             $pdf->move(base_path().'/public/docs/', $pdfname);
             DB::commit();
             return Response::json($achievement);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             DB::rollBack();
             dd($e);
             return dd($e->errorInfo[2]);

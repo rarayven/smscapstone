@@ -20,10 +20,14 @@ class AdminMCouncilorController extends Controller
     public function data()
     {   
         $councilor = Councilor::join('districts', 'councilors.district_id','districts.id')
-        ->select([DB::raw("CONCAT(councilors.last_name,', ',councilors.first_name,' ',councilors.middle_name) as strCounName"),'councilors.*', 'districts.description as district_description']);
+        ->select([DB::raw("CONCAT(councilors.last_name,', ',councilors.first_name,' ',IFNULL(councilors.middle_name,'')) as strCounName"),'councilors.*', 'districts.description as district_description']);
         return Datatables::of($councilor)
         ->filterColumn('strCounName', function($query, $keyword) {
-            $query->whereRaw("CONCAT(councilors.last_name,', ',councilors.first_name,' ',councilors.middle_name) like ?", ["%{$keyword}%"]);
+            $query->whereRaw("CONCAT(councilors.last_name,', ',councilors.first_name,' ',IFNULL(councilors.middle_name,'')) like ?", ["%{$keyword}%"]);
+            $query->whereRaw("districts.description like ?", ["%{$keyword}%"]);
+        })
+        ->editColumn('strCounName', function ($data) {
+            return "$data->last_name, $data->first_name $data->middle_name";
         })
         ->addColumn('action', function ($data) {
             return "<button class='btn btn-info btn-xs btn-view' value='$data->id'><i class='fa fa-eye'></i> View</button> <button class='btn btn-warning btn-xs btn-detail open-modal' value='$data->id'><i class='fa fa-edit'></i> Edit</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->id'><i class='fa fa-trash-o'></i> Delete</button>";
@@ -130,8 +134,8 @@ class AdminMCouncilorController extends Controller
     {
         try {
             $councilor = Councilor::join('districts', 'councilors.district_id','districts.id')
-            ->join('connections','connections.councilor_id','councilors.id')
-            ->join('users','users.id','connections.user_id')
+            ->join('user_councilor','user_councilor.councilor_id','councilors.id')
+            ->join('users','users.id','user_councilor.user_id')
             ->select('councilors.*', 'districts.description as district_description', 'users.email as user_email')
             ->where('councilors.id',$id)
             ->firstorfail();
@@ -155,9 +159,9 @@ class AdminMCouncilorController extends Controller
             return "2";
         }
         try {
-            $connection = Connection::join('users','connections.user_id','users.id')
+            $connection = Connection::join('users','user_councilor.user_id','users.id')
             ->select('users.id')
-            ->where('connections.councilor_id',$id)
+            ->where('user_councilor.councilor_id',$id)
             ->where('users.type','Coordinator')
             ->first();
         } catch(\Exception $e){
@@ -193,8 +197,16 @@ class AdminMCouncilorController extends Controller
     public function destroy($id)
     {
         try {
-            $councilor = Councilor::findorfail($id);
+            $connection = Connection::join('users','user_councilor.user_id','users.id')
+            ->where('user_councilor.councilor_id',$id)
+            ->where('users.type','Coordinator')
+            ->where('users.deleted_at','!=',null)
+            ->select('users.id')
+            ->firstorfail();
             try {
+                $councilor = Councilor::findorfail($id);
+                $councilor->is_active = 0;
+                $councilor->save();
                 $councilor->delete();
                 return Response::json($councilor);
             } catch(\Exception $e) {
@@ -204,7 +216,8 @@ class AdminMCouncilorController extends Controller
                     return Response::json(['true',$councilor,$e->errorInfo[1]]);
             }
         } catch(\Exception $e) {
-            return "Deleted";
+            $councilor = Councilor::find($id);
+            return Response::json(['Failed',$councilor]);
         }
     }
 }

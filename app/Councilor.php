@@ -2,9 +2,12 @@
 namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Councilor extends Model
 {
 	public $timestamps = false;
+	use SoftDeletes;
+	protected $dates = ['deleted_at'];
 	public static $rules = [
 	'strCounFirstName' => 'unique_with:councilors, strCounMiddleName = middle_name, strCounLastName = last_name, strCounFirstName = first_name'
 	];

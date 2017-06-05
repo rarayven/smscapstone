@@ -46,7 +46,10 @@ Route::group(['prefix' => 'student/'], function () {
 });
 //Coordinator Route List
 Route::group(['prefix' => 'coordinator/'], function () {
-	//Student Notification
+	//Coordinator First Login
+	Route::get('register', ['uses' => 'FirstLoginController@index', 'as' => 'register.index']);
+	Route::post('register', ['uses' => 'FirstLoginController@store', 'as' => 'register.store']);
+	//Coordinator Notification
 	Route::get('messages/notification', ['uses' => 'CoordinatorMessagesController@unreadmessage', 'as' => 'coordinatormessage.unreadmessage']);
 	//Coordinator DataTable
 	Route::get('messages/sentdata', ['uses' => 'CoordinatorMessagesController@sentdata', 'as' => 'coordinatorsent.data']);
@@ -120,6 +123,7 @@ Route::group(['prefix' => 'coordinator/'], function () {
 // Admin Route List
 Route::group(['prefix' => 'admin/'], function () {
 	//Admin DataTable
+	Route::get('users/data', ['uses' => 'AdminMAccountController@data', 'as' => 'users.data']);
 	Route::get('budgtype/data', ['uses' => 'AdminMBudgtypeController@data', 'as' => 'budgtype.data']);
 	Route::get('grade/data', ['uses' => 'AdminMGradeController@data', 'as' => 'grade.data']);
 	Route::get('steps/data', ['uses' => 'AdminMStepsController@data', 'as' => 'steps.data']);
@@ -132,6 +136,7 @@ Route::group(['prefix' => 'admin/'], function () {
 	Route::get('school/data', ['uses' => 'AdminMSchoolController@data', 'as' => 'school.data']);
 	Route::get('district/data', ['uses' => 'AdminMDistrictController@data', 'as' => 'district.data']);
 	//Admin Checkbox Route List
+	Route::put('users/checkbox/{id}', ['uses' => 'AdminMAccountController@checkbox', 'as' => 'users.checkbox']);
 	Route::put('budgtype/checkbox/{id}', ['uses' => 'AdminMBudgtypeController@checkbox', 'as' => 'budgtype.checkbox']);
 	Route::put('grade/checkbox/{id}', ['uses' => 'AdminMGradeController@checkbox', 'as' => 'grade.checkbox']);
 	Route::put('sem/checkbox/{id}', ['uses' => 'AdminMSemController@checkbox', 'as' => 'sem.checkbox']);
@@ -143,6 +148,9 @@ Route::group(['prefix' => 'admin/'], function () {
 	Route::put('barangay/checkbox/{id}', ['uses' => 'AdminMBarangayController@checkbox', 'as' => 'barangay.checkbox']);
 	Route::put('course/checkbox/{id}', ['uses' => 'AdminMCourseController@checkbox', 'as' => 'course.checkbox']);
 	Route::put('councilor/checkbox/{id}', ['uses' => 'AdminMCouncilorController@checkbox', 'as' => 'councilor.checkbox']);
+	//Admin User Accounts
+	Route::get('users', ['uses' => 'AdminMAccountController@index', 'as' => 'users.index']);
+	Route::delete('users/{id}', ['uses' => 'AdminMAccountController@destroy', 'as' => 'users.destroy']);
 	//Admin Budget Type
 	Route::get('budgtype', ['uses' => 'AdminMBudgtypeController@index', 'as' => 'budgtype.index']);
 	Route::post('budgtype', ['uses' => 'AdminMBudgtypeController@store', 'as' => 'budgtype.store']);

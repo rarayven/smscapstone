@@ -14,27 +14,17 @@ class CoordinatorEventsController extends Controller
     }
     public function checkbox($id)
     {
-        try
-        {
+        try {
             $event = Event::findorfail($id);
             if ($event->status=='Ongoing') {
                 $event->status='Cancelled';
             }
-            else{
+            else {
                 $event->status='Ongoing';
             }
             $event->save();
-        }
-        catch(\Exception $e) {
-            try{
-                if($e->errorInfo[1]==1062)
-                    return "This Data Already Exists";
-                else
-                    return var_dump($e->errorInfo[1]);
-            }
-            catch(\Exception $e){
-                return "Deleted";
-            }
+        } catch(\Exception $e) {
+            return "Deleted";
         } 
     }
     public function index()
@@ -56,7 +46,7 @@ class CoordinatorEventsController extends Controller
     }
     public function store(Request $request)
     {
-        try{
+        try {
             $time_from = date("H:i:s", strtotime($request->time_from));
             $time_to = date("H:i:s", strtotime($request->time_to));
             $date_held = Carbon::createFromFormat('Y-m-d', $request->date_held);
@@ -70,44 +60,35 @@ class CoordinatorEventsController extends Controller
             $event->time_to = $time_to;
             $event->save();
             return Response::json($event);
-        }catch(\Exception $e){
-            if($e->errorInfo[1]==1062)
-                return "This Data Already Exists";
-            else
-                return var_dump($e->errorInfo[1]);
+        } catch(\Exception $e) {
+            return var_dump($e->errorInfo[1]);
         }
     }
     public function show($id)
     {
-        try
-        {
+        try {
             $events = Event::where('id',$id)
             ->where('user_id',Auth::id())
             ->first();
             return Response::json($events);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }
     public function edit($id)
     {
-        try
-        {
+        try {
             $events = Event::where('id',$id)
             ->where('user_id',Auth::id())
             ->first();
             return Response::json($events);
-        }
-        catch(\Exception $e)
-        {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }
     public function update(Request $request, $id)
     {
-        try{
+        try {
             $time_from = date("H:i:s", strtotime($request->time_from));
             $time_to = date("H:i:s", strtotime($request->time_to));
             $date_held = Carbon::createFromFormat('Y-m-d', $request->date_held);
@@ -121,31 +102,24 @@ class CoordinatorEventsController extends Controller
             $event->time_to = $time_to;
             $event->save();
             return Response::json($event);
-        }catch(\Exception $e){
-            if($e->errorInfo[1]==1062)
-                return "This Data Already Exists";
-            else
-                return var_dump($e->errorInfo[1]);
+        } catch(\Exception $e) {
+            return var_dump($e->errorInfo[1]);
         }
     }
     public function destroy($id)
     {
-        try
-        {
+        try {
             $event = Event::findorfail($id);
-            try
-            {
+            try {
                 $event->delete();
                 return Response::json($event);
-            }
-            catch(\Exception $e) {
+            } catch(\Exception $e) {
                 if($e->errorInfo[1]==1451)
                     return Response::json(['true',$event]);
                 else
                     return Response::json(['true',$event,$e->errorInfo[1]]);
             }
-        } 
-        catch(\Exception $e) {
+        } catch(\Exception $e) {
             return "Deleted";
         }
     }
