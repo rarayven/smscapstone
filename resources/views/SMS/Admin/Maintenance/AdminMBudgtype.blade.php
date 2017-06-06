@@ -1,8 +1,6 @@
 @extends('SMS.Admin.AdminMain')
 @section('content')
-<!-- CENTER -->
 <div class="content-wrapper">
-	<!-- Content Header (Page header) -->
 	<section class="content-header">
 		<h1>
 			Maintenance
@@ -13,9 +11,7 @@
 			<li class="active">Budget Type</li>
 		</ol>
 	</section>
-	<!-- Main content -->
 	<section class="content">
-		<!-- Your Page Content Here -->
 		<div class="row">
 			<div class="container col-sm-12">
 				<div class="box box-danger">

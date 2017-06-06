@@ -12,7 +12,6 @@
 		</ol>
 	</section>
 	<section class="content">
-		<!-- Your Page Content Here -->
 		<div class="row">
 			<div class="container col-sm-12">
 				<div class="box box-danger">
@@ -59,7 +58,6 @@
 							</div>
 						</div>
 					</div>
-					<!-- /.box-header -->
 					<div class="box-body table-responsive">
 						{{ Form::button("<i class='fa fa-plus'></i> Add Batch", [
 							'id' => 'btn-add',
@@ -79,14 +77,10 @@
 							</tbody>
 						</table>
 					</div>
-					<!-- /.box-body -->
 				</div>
 			</div>
-			<!-- /.box -->
 		</section>
-		<!-- /.content -->
 	</div>
-	<!-- /.content-wrapper -->
 	@endsection
 	@section('script')
 	{!! Html::script("custom/BatchAjax.js") !!}

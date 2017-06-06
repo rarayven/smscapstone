@@ -2,11 +2,9 @@
 @section('override')
 {!! Html::style("plugins/datatables/dataTables.bootstrap.min.css") !!}
 {!! Html::style("plugins/datepicker/datepicker3.css") !!}
-{!! Html::style("plugins/sweetalert/sweetalert.min.css") !!}
 @endsection
 @section('content')
 <div class="content-wrapper">
-  <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
       Achievements
@@ -119,16 +117,12 @@
         </table>
       </div>
     </div>
-    <!-- /.content -->
   </div>
 </section>
-<!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
 @endsection
 @section('script')
 {!! Html::script("plugins/datatables/dataTables.bootstrap.min.js") !!}
-{!! Html::script("plugins/sweetalert/sweetalert.min.js") !!}
 {!! Html::script("plugins/datepicker/bootstrap-datepicker.js") !!}
 {!! Html::script("custom/StudentAchievementAjax.js") !!}
 <script type="text/javascript">

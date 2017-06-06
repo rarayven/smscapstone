@@ -1,8 +1,6 @@
 @extends('SMS.Coordinator.CoordinatorMain')
 @section('content')
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-  <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
       Queries
@@ -12,11 +10,7 @@
       <li class="active">Queries</li>
     </ol>
   </section>
-  <!-- Main content -->
   <section class="content">
-    <!-- Your Page Content Here -->
-      </section>
-      <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-    @endsection
+  </section>
+</div>
+@endsection

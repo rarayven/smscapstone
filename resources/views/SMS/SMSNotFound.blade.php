@@ -7,7 +7,6 @@
 <ul class="nav navbar-nav navbar-right">
   @endsection
   @section('middlecontent')
-  <!-- Main content -->
   <section class="content" style="margin-top: 150px">
     <div class="error-page">
       <h2 class="headline text-yellow"> 404</h2>
@@ -18,11 +17,8 @@
           Meanwhile, you may <a href="{{ url('/') }}">return to dashboard</a> or try using the search form.
         </p>
       </div>
-      <!-- /.error-content -->
     </div>
-    <!-- /.error-page -->
   </section>
-  <!-- /.content -->
   @endsection
   @section('endscript')
   {!! Html::script("js/jquery.backstretch.min.js") !!}

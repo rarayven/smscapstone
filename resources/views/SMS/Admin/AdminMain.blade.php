@@ -18,6 +18,10 @@
   @yield('head')
   {!! Html::style("css/AdminLTE.min.css") !!}
   {!! Html::style("css/_all-skins.min.css") !!}
+  {!! Html::script("plugins/jQuery/jquery-3.1.1.min.js") !!}
+  {!! Html::script("plugins/jQueryUI/jquery-ui.min.js") !!}
+  {!! Html::script("js/bootstrap.min.js") !!} 
+  {!! Html::script("plugins/pace/pace.min.js") !!}
   <style type="text/css">
     [data-notify="container"] {
       width: 25%;
@@ -131,21 +135,15 @@
 </aside>
 @yield('content')
 </div>
-{!! Html::script("plugins/jQuery/jquery-3.1.1.min.js") !!}
-{!! Html::script("plugins/jQueryUI/jquery-ui.min.js") !!}
-{!! Html::script("plugins/pace/pace.min.js") !!}
-{!! Html::script("js/bootstrap.min.js") !!} 
 {!! Html::script("js/bootstrap-toggle.min.js") !!} 
+{!! Html::script("js/bootstrap-notify.min.js") !!} 
 {!! Html::script("js/script.js") !!}
-{!! Html::script("plugins/fastclick/fastclick.min.js") !!} 
-{!! Html::script("plugins/slimScroll/jquery.slimscroll.min.js") !!}
 {!! Html::script("js/parsley.min.js") !!}
 {!! Html::script("plugins/datatables/jquery.dataTables.min.js") !!}
 {!! Html::script("plugins/datatables/dataTables.bootstrap.min.js") !!}
 {!! Html::script("plugins/sweetalert/sweetalert.min.js") !!}
 @yield('script')
 {!! Html::script("js/app.min.js") !!}
-{!! Html::script("js/bootstrap-notify.min.js") !!} 
 {!! Html::script("js/ajax-expired-session.js") !!} 
 </body>
 </html>

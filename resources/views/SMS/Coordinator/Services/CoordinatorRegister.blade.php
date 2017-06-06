@@ -5,13 +5,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  {!! Html::style("plugins/pace/pace.min.css") !!}
   {!! Html::style("css/bootstrap.min.css") !!}
   {!! Html::style("css/font-awesome.css") !!}
   {!! Html::style("css/AdminLTE.min.css") !!}
   {!! Html::style("css/_all-skins.min.css") !!}
   {!! Html::style("css/parsley.css") !!}
   <link rel="icon" href="{{ asset('img/logo.ico') }}">
-  {!! Html::style("plugins/pace/pace.min.css") !!}
+  {!! Html::script("plugins/jQuery/jquery-3.1.1.min.js") !!}
+  {!! Html::script("js/bootstrap.min.js") !!} 
+  {!! Html::script("plugins/pace/pace.min.js") !!}
   <style type="text/css">
     .navbar-toggle {
       background:#DD4B39 !important;
@@ -140,12 +143,7 @@
   </div>
 </div>
 </section>
-{!! Html::script("plugins/jQuery/jquery-3.1.1.min.js") !!}
-{!! Html::script("js/bootstrap.min.js") !!}  
-{!! Html::script("plugins/fastclick/fastclick.min.js") !!} 
-{!! Html::script("plugins/slimScroll/jquery.slimscroll.min.js") !!}
 {!! Html::script("js/parsley.min.js") !!}
-{!! Html::script("plugins/pace/pace.min.js") !!}
 </script>
 </body>
 </html>

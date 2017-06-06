@@ -12,6 +12,10 @@
   {!! Html::style("css/font-awesome.css") !!}
   {!! Html::style("css/AdminLTE.min.css") !!}
   {!! Html::style("css/_all-skins.min.css") !!}
+  {!! Html::script("plugins/jQuery/jquery-3.1.1.min.js") !!}
+  {!! Html::script("plugins/jQueryUI/jquery-ui.min.js") !!}
+  {!! Html::script("js/bootstrap.min.js") !!} 
+  {!! Html::script("plugins/pace/pace.min.js") !!}
   <link rel="icon" href="{{ asset('img/logo.ico') }}">
   @yield('override')
   <style type="text/css">
@@ -50,11 +54,6 @@
     </nav>
   </header>
   @yield('middlecontent')
-  {!! Html::script("plugins/jQuery/jquery-3.1.1.min.js") !!}
-  {!! Html::script("plugins/pace/pace.min.js") !!}
-  {!! Html::script("js/bootstrap.min.js") !!} 
-  {!! Html::script("plugins/fastclick/fastclick.min.js") !!} 
-  {!! Html::script("plugins/slimScroll/jquery.slimscroll.min.js") !!} 
   @yield('endscript')
 </body>
 </html>

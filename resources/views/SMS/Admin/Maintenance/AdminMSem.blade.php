@@ -1,8 +1,6 @@
 @extends('SMS.Admin.AdminMain')
 @section('content')
-<!-- CENTER -->
 <div class="content-wrapper">
-	<!-- Content Header (Page header) -->
 	<section class="content-header">
 		<h1>
 			Maintenance
@@ -13,9 +11,7 @@
 			<li class="active">Semester</li>
 		</ol>
 	</section>
-	<!-- Main content -->
 	<section class="content">
-		<!-- Your Page Content Here -->
 		<div class="row">
 			<div class="container col-sm-12">
 				<div class="box box-danger">
@@ -61,7 +57,6 @@
 						</div>
 					</div>
 				</div>
-				<!-- /.box-header -->
 				<div class="box-body table-responsive">
 					{{ Form::button("<i class='fa fa-plus'></i> Add Semester", [
 						'id' => 'btn-add',
@@ -81,17 +76,10 @@
 						</tbody>
 					</table>
 				</div>
-				<!-- /.box-body -->
 			</div>
 		</div>
-		<!-- /.box -->
 	</section>
-	<!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
-@endsection
-@section('meta')
-<meta name="_token" content="{!! csrf_token() !!}" />
 @endsection
 @section('script')
 {!! Html::script("custom/SemAjax.js") !!}

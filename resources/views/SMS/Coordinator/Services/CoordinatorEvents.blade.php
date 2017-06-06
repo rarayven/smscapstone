@@ -4,9 +4,7 @@
 {!! Html::style("plugins/timepicker/bootstrap-timepicker.min.css") !!}
 @endsection
 @section('content')
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-  <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
       Events
@@ -24,7 +22,6 @@
       <li class="active">Events</li>
     </ol>
   </section>
-  <!-- Main content -->
   <section class="content">
     <div class="modal fade" id="add_event">
       <div class="modal-dialog">

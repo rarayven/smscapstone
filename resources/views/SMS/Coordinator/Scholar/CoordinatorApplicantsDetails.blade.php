@@ -3,9 +3,7 @@
 <div id="overlay">
   <div class="loader"></div>
 </div>
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-  <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
       Applicant's Details
@@ -16,9 +14,7 @@
       <li class="active">Applicant's Details</li>
     </ol>
   </section>
-  <!-- Main content -->
   <section class="content">
-    <!-- Your Page Content Here -->
     <div class="box box-danger">
       <div class="modal fade" id="remarks">
         <div class="modal-dialog">
@@ -272,7 +268,7 @@
           <div class="form-group col-md-2 col-sm-1">
             <br>
             <div class="btn btn-default btn-file">
-              <i class="fa fa-external-link"></i> View Grades <!-- tapos mapupunta sa ibang tab kapag kinlick to, nandun sa tab nayun yung pdf ng grade -->
+              <i class="fa fa-external-link"></i> View Grades
               <button type="button"></button>
             </div>
           </div>
@@ -341,8 +337,6 @@
       </div>
     </section>
   </div>
-  <!-- /.content -->
-  <!-- /.content-wrapper -->
   @endsection
   @section('script')
   <script type="text/javascript">

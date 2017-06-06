@@ -1,8 +1,6 @@
 @extends('SMS.Student.StudentMain')
 @section('content')
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-  <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
       Upcoming Events
@@ -12,7 +10,6 @@
       <li class="active">Events</li>
     </ol>
   </section>
-  <!-- Main content -->
   <section class="content">
     <div class="modal fade" id="details_events">
       <div class="modal-dialog">
@@ -31,8 +28,6 @@
         </div>
       </div>
     </div>
-    <!-- Your Page Content Here -->
-    <!-- Custom Tabs -->
     <div class="nav-tabs-custom">
       <ul class="nav nav-tabs">
         <li class="active"><a href="#tab_1" data-toggle="tab">Upcoming</a></li>
@@ -102,12 +97,9 @@
       </div>
     </div>
   </section>
-  <!-- /.content -->
 </div>
 </section>
-<!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
 @endsection
 @section('script')
 {!! Html::script("custom/StudentEventsAjax.js") !!}

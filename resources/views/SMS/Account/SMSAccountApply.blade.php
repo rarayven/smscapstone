@@ -27,7 +27,6 @@
 </div>
 @endsection
 @section('middlecontent')
-<!-- Top content -->
 <div class="container">
     <div class="row">
       <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 form-box">
@@ -558,7 +557,7 @@
         <label class="radio-inline"><input type="radio" name="rad" id="no" value="no" checked> No</label>
     </div>
     <div id="questionappear">
-     <div class="row">
+       <div class="row">
         <div class="container col-md-6 col-sm-12">
             <div class="form-group">
                 {{ Form::label('name', "Name", [
@@ -1205,7 +1204,6 @@
 </div>
 @endsection
 @section('endscript')
-{!! Html::script("plugins/jQueryUI/jquery-ui.min.js") !!}
 {!! Html::script("js/jquery.backstretch.min.js") !!} 
 {!! Html::script("js/retina-1.1.0.min.js") !!} 
 {!! Html::script("plugins/datepicker/bootstrap-datepicker.js") !!}
