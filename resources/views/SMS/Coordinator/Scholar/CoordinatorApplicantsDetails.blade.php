@@ -344,9 +344,6 @@
   <!-- /.content -->
   <!-- /.content-wrapper -->
   @endsection
-  @section('meta')
-  <meta name="_token" content="{!! csrf_token() !!}" />
-  @endsection
   @section('script')
   <script type="text/javascript">
     $('.btn-accept').click(function(){

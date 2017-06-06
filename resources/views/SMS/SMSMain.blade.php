@@ -3,16 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   @yield('meta')
   @yield('title')
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  {!! Html::style("plugins/pace/pace.min.css") !!}
   {!! Html::style("css/bootstrap.min.css") !!}
   {!! Html::style("css/font-awesome.css") !!}
   {!! Html::style("css/AdminLTE.min.css") !!}
   {!! Html::style("css/_all-skins.min.css") !!}
   <link rel="icon" href="{{ asset('img/logo.ico') }}">
   @yield('override')
-  {!! Html::style("plugins/pace/pace.min.css") !!}
   <style type="text/css">
     .navbar-toggle {
       background:#DD4B39 !important;
@@ -45,16 +46,15 @@
           </ul>
         </div>
         @yield('login')
-
       </div>
     </nav>
   </header>
   @yield('middlecontent')
+  {!! Html::script("plugins/pace/pace.min.js") !!}
   {!! Html::script("plugins/jQuery/jquery-3.1.1.min.js") !!}
-  {!! Html::script("js/bootstrap.min.js") !!}  
+  {!! Html::script("js/bootstrap.min.js") !!} 
   {!! Html::script("plugins/fastclick/fastclick.min.js") !!} 
   {!! Html::script("plugins/slimScroll/jquery.slimscroll.min.js") !!} 
   @yield('endscript')
-  {!! Html::script("plugins/pace/pace.min.js") !!}
 </body>
 </html>

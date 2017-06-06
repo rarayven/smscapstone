@@ -1,11 +1,11 @@
-$(document).ready(function(){
+$(document).ready(function() {
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
     var url = "/admin/councilor";
-    var id='';
+    var id = '';
     var url2 = "/admin/councilor/checkbox";
     var table = $('#councilor-table').DataTable({
         responsive: true,
@@ -17,33 +17,34 @@ $(document).ready(function(){
         { "width": "70px", "targets": 2 }
         ],
         columns: [
-        {data: 'strCounName', name: 'strCounName'},
-        {data: 'district_description', name: 'districts.description'},
-        {data: 'is_active', name: 'councilors.is_active', searchable: false},
-        {data: 'action', name: 'action', orderable: false, searchable: false}
+        { data: 'strCounName', name: 'strCounName' },
+        { data: 'district_description', name: 'districts.description' },
+        { data: 'is_active', name: 'councilors.is_active', searchable: false },
+        { data: 'action', name: 'action', orderable: false, searchable: false }
         ]
     });
-    $('#add_councilor').on('hide.bs.modal', function(){
+    $('#add_councilor').on('hide.bs.modal', function() {
         $('#frmCouncilor').parsley().destroy();
         $('#frmCouncilor').trigger("reset");
     });
-    $('#councilor-list').on('change', '#isActive',function(){ 
-       var link_id = $(this).val();
-       $.ajax({
-        url: url2 + '/' + link_id,
-        type: "PUT",
-        success: function (data) {
-            console.log(data);
-            if(data=="Deleted"){
-                refresh();
+    $('#councilor-list').on('change', '#isActive', function() {
+        var link_id = $(this).val();
+        $.ajax({
+            url: url2 + '/' + link_id,
+            type: "PUT",
+            success: function(data) {
+                console.log(data);
+                if (data == "Deleted") {
+                    refresh();
+                }
+            },
+            error: function(data) {
+                console.log('Error:', data);
             }
-        },
-        error: function (data) {
-            console.log('Error:', data);
-        }
+        });
     });
-   });
-    function refresh(){
+
+    function refresh() {
         swal({
             title: "Record Deleted!",
             type: "warning",
@@ -64,14 +65,14 @@ $(document).ready(function(){
         });
     }
     //display modal form for task editing
-    $('#councilor-list').on('click', '.open-modal',function(){ 
+    $('#councilor-list').on('click', '.open-modal', function() {
         var link_id = $(this).val();
         id = link_id;
-        $.get(url + '/' + link_id + '/edit', function (data) {
+        $.get(url + '/' + link_id + '/edit', function(data) {
             console.log(data);
-            if(data=="Deleted"){
+            if (data == "Deleted") {
                 refresh();
-            }else{
+            } else {
                 var textToFind = data.district_description;
                 var dd = document.getElementById('intCounDistID');
                 for (var i = 0; i < dd.options.length; i++) {
@@ -92,20 +93,20 @@ $(document).ready(function(){
             }
         })
     });
-    $('#councilor-list').on('click', '.btn-view',function(){ 
+    $('#councilor-list').on('click', '.btn-view', function() {
         var link_id = $(this).val();
-        $.get(url + '/' + link_id, function (data) {
-            if(data=="Deleted"){
+        $.get(url + '/' + link_id, function(data) {
+            if (data == "Deleted") {
                 refresh();
-            }else{
+            } else {
                 console.log(data);
                 $('#details').empty();
-                var modalbody = 
-                "<label>ID</label><br>"+ data.id +
-                "<br><label>District</label><br>"+ data.district_description +
-                "<br><label>Name</label><br>"+ data.last_name + ", " + data.first_name + " " +data.middle_name+
-                "<br><label>Email</label><br>"+ data.email +
-                "<br><label>Contact Number</label><br>"+ data.cell_no;
+                var modalbody =
+                "<label>ID</label><br>" + data.id +
+                "<br><label>District</label><br>" + data.district_description +
+                "<br><label>Name</label><br>" + data.last_name + ", " + data.first_name + " " + data.middle_name +
+                "<br><label>Email</label><br>" + data.email +
+                "<br><label>Contact Number</label><br>" + data.cell_no;
                 $('h4').text('View Councilor');
                 $('#details').append(modalbody);
                 $('#details_councilor').modal('show');
@@ -113,147 +114,133 @@ $(document).ready(function(){
         })
     });
     //display modal form for creating new task
-    $('#btn-add').click(function(){
+    $('#btn-add').click(function() {
         $('h4').text('Add Councilor');
         $('#btn-save').val("add");
         $('#frmCouncilor').trigger("reset");
         $('#add_councilor').modal('show');
     });
     //delete task and remove it from list
-    $('#councilor-list').on('click', '.btn-delete',function(){ 
-     var link_id = $(this).val();
-     swal({
-      title: "Are you sure?",
-      type: "warning",
-      showCancelButton: true,
-      confirmButtonClass: "btn-danger",
-      confirmButtonText: "Delete",
-      cancelButtonText: "Cancel",
-      closeOnConfirm: false,
-      allowOutsideClick: true,
-      showLoaderOnConfirm: true,
-      closeOnCancel: true
-  },
-  function(isConfirm) {
-    setTimeout(function () {
-      if (isConfirm) {
-        $.ajax({
-          url: url + '/' + link_id,
-          type: "DELETE",
-          success: function (data) {
-            console.log(data);
-            if(data[0]=="Failed"){
-                    // refresh();
-                    swal({
-                        title: "Failed!",
-                        text: "<center>"+data[1].last_name+" is in use</center>",
-                        type: "error",
-                        showConfirmButton: false,
-                        allowOutsideClick: true,
-                        html: true
+    $('#councilor-list').on('click', '.btn-delete', function() {
+        var link_id = $(this).val();
+        swal({
+            title: "Are you sure?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Delete",
+            cancelButtonText: "Cancel",
+            closeOnConfirm: false,
+            allowOutsideClick: true,
+            showLoaderOnConfirm: true,
+            closeOnCancel: true
+        },
+        function(isConfirm) {
+            setTimeout(function() {
+                if (isConfirm) {
+                    $.ajax({
+                        url: url + '/' + link_id,
+                        type: "DELETE",
+                        success: function(data) {
+                            console.log(data);
+                            if (data[0] == "true") {
+                                swal({
+                                    title: "Failed!",
+                                    text: "<center>" + data[1].last_name + " is in use</center>",
+                                    type: "error",
+                                    showConfirmButton: false,
+                                    allowOutsideClick: true,
+                                    html: true
+                                });
+                            } else {
+                                table.draw();
+                                swal({
+                                    title: "Deleted!",
+                                    text: "<center>" + data.last_name + " is Deleted</center>",
+                                    type: "success",
+                                    timer: 1000,
+                                    showConfirmButton: false,
+                                    html: true
+                                });
+                            }
+                        },
+                        error: function(data) {
+                            console.log(data);
+                        }
                     });
-                }else{
-                    if(data[0]=="true"){
-                      swal({
-                        title: "Failed!",
-                        text: "<center>"+data[1].last_name+" is in use</center>",
-                        type: "error",
-                        showConfirmButton: false,
-                        allowOutsideClick: true,
-                        html: true
+                }
+            }, 500);
+        });
+    });
+    //create new task / update existing task
+    $("#btn-save").click(function() {
+        $('#frmCouncilor').parsley().destroy();
+        if ($('#frmCouncilor').parsley().isValid()) {
+            $("#btn-save").attr('disabled', 'disabled');
+            setTimeout(function() {
+                $("#btn-save").removeAttr('disabled');
+            }, 1000);
+            var formData = {
+                strCounFirstName: $('#strCounFirstName').parsley('data-parsley-whitespace', 'squish').getValue(),
+                strCounMiddleName: $('#strCounMiddleName').parsley('data-parsley-whitespace', 'squish').getValue(),
+                strCounLastName: $('#strCounLastName').parsley('data-parsley-whitespace', 'squish').getValue(),
+                intCounDistID: $('#intCounDistID').val(),
+                strCounEmail: $('#strCounEmail').parsley('data-parsley-whitespace', 'squish').getValue(),
+                strCounCell: $('#strCounCell').parsley('data-parsley-whitespace', 'squish').getValue(),
+                strUserEmail: $('#strUserEmail').parsley('data-parsley-whitespace', 'squish').getValue()
+            }
+                //used to determine the http verb to use [add=POST], [update=PUT]
+                var state = $('#btn-save').val();
+            var type = "POST"; //for creating new resource
+            var my_url = url;
+            if (state == "update") {
+                type = "PUT"; //for updating existing resource
+                my_url += '/' + id;
+            }
+            $.ajax({
+                type: type,
+                url: my_url,
+                data: formData,
+                dataType: 'json',
+                success: function(data) {
+                    console.log(data);
+                    if (data == 1) {
+                        $('#strCounFirstName').parsley().removeError('ferror', { updateClass: false });
+                        $('#strCounFirstName').parsley().addError('ferror', { message: "The Combination of Name Exists", updateClass: false });
+                        $('#strCounMiddleName').parsley().removeError('ferror', { updateClass: false });
+                        $('#strCounMiddleName').parsley().addError('ferror', { message: "The Combination of Name Exists", updateClass: false });
+                        $('#strCounLastName').parsley().removeError('ferror', { updateClass: false });
+                        $('#strCounLastName').parsley().addError('ferror', { message: "The Combination of Name Exists", updateClass: false });
+                    } else if (data == 2) {
+                        $('#strCounEmail').parsley().removeError('ferror', { updateClass: false });
+                        $('#strCounEmail').parsley().addError('ferror', { message: "This Data Already Exists", updateClass: false });
+                    } else if (data == 3) {
+                        $('#strUserEmail').parsley().removeError('ferror', { updateClass: false });
+                        $('#strUserEmail').parsley().addError('ferror', { message: "This Data Already Exists", updateClass: false });
+                    } else {
+                        $('#add_councilor').modal('hide');
+                        table.draw();
+                        swal({
+                            title: "Success!",
+                            text: "<center>" + data.last_name + ", " + data.first_name + " " + data.middle_name + " is Stored</center>",
+                            type: "success",
+                            timer: 1000,
+                            showConfirmButton: false,
+                            html: true
+                        });
+                    }
+                },
+                error: function(data) {
+                    console.log('Error:', data.responseText);
+                    $.notify({
+                        message: data.responseText
+                    }, {
+                        type: 'warning',
+                        z_index: 2000,
+                        delay: 5000,
                     });
-                  }else{
-                      table.draw();
-                      swal({
-                        title: "Deleted!",
-                        text: "<center>"+data.last_name+" is Deleted</center>",
-                        type: "success",
-                        timer: 1000,
-                        showConfirmButton: false,
-                        html: true
-                    });
-                  }
-              }
-          },
-          error: function (data) {
-            console.log(data);
+                }
+            });
         }
     });
-    }
-}, 500);
-});
- });
-    //create new task / update existing task
-    $("#btn-save").click(function () {
-      $('#frmCouncilor').parsley().destroy();
-      if($('#frmCouncilor').parsley().isValid())
-      {
-        $("#btn-save").attr('disabled','disabled');
-        setTimeout(function(){
-            $("#btn-save").removeAttr('disabled');
-        }, 1000);
-        var formData = {
-            strCounFirstName: $('#strCounFirstName').parsley('data-parsley-whitespace','squish').getValue(),
-            strCounMiddleName: $('#strCounMiddleName').parsley('data-parsley-whitespace','squish').getValue(),
-            strCounLastName: $('#strCounLastName').parsley('data-parsley-whitespace','squish').getValue(),
-            intCounDistID: $('#intCounDistID').val(),
-            strCounEmail: $('#strCounEmail').parsley('data-parsley-whitespace','squish').getValue(),
-            strCounCell: $('#strCounCell').parsley('data-parsley-whitespace','squish').getValue(),
-            strUserEmail: $('#strUserEmail').parsley('data-parsley-whitespace','squish').getValue()
-        }
-        //used to determine the http verb to use [add=POST], [update=PUT]
-        var state = $('#btn-save').val();
-        var type = "POST"; //for creating new resource
-        var my_url = url;
-        if (state == "update"){
-            type = "PUT"; //for updating existing resource
-            my_url += '/' + id;
-        }
-        $.ajax({
-            type: type,
-            url: my_url,
-            data: formData,
-            dataType: 'json',
-            success: function (data) {
-                console.log(data);
-                if(data==1){
-                    $('#strCounFirstName').parsley().removeError('ferror', {updateClass: false});
-                    $('#strCounFirstName').parsley().addError('ferror', {message: "The Combination of Name Exists", updateClass: false});
-                    $('#strCounMiddleName').parsley().removeError('ferror', {updateClass: false});
-                    $('#strCounMiddleName').parsley().addError('ferror', {message: "The Combination of Name Exists", updateClass: false});
-                    $('#strCounLastName').parsley().removeError('ferror', {updateClass: false});
-                    $('#strCounLastName').parsley().addError('ferror', {message: "The Combination of Name Exists", updateClass: false});
-                }else if(data==2){
-                    $('#strCounEmail').parsley().removeError('ferror', {updateClass: false});
-                    $('#strCounEmail').parsley().addError('ferror', {message: "This Data Already Exists", updateClass: false});
-                }else if(data==3){
-                    $('#strUserEmail').parsley().removeError('ferror', {updateClass: false});
-                    $('#strUserEmail').parsley().addError('ferror', {message: "This Data Already Exists", updateClass: false});
-                }
-                else{
-                    $('#add_councilor').modal('hide');
-                    table.draw();
-                    swal({
-                        title: "Success!",
-                        text: "<center>"+data.last_name+", "+data.first_name+" "+data.middle_name+" is Stored</center>",
-                        type: "success",
-                        timer: 1000,
-                        showConfirmButton: false,
-                        html: true
-                    });
-                }
-            },
-            error: function (data) {
-                console.log('Error:', data.responseText);
-                $.notify({
-                    message: data.responseText 
-                },{
-                    type: 'warning',
-                    z_index: 2000,
-                    delay: 5000,
-                });
-            }
-        });
-    }
-});
 });

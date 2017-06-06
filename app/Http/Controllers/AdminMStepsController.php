@@ -104,6 +104,30 @@ class AdminMStepsController extends Controller
             return var_dump($e->errorInfo[1]);
         } 
     }
+    public function order(Request $request)
+    {
+        $steps = Step::all();
+        $ctr = 0;
+        foreach ($steps as $id) {
+            $step = Step::find($id->id);
+            $step->order = 0;
+            $step->save();
+        }
+        foreach ($request->order as $id) {
+            $ctr++;
+            $step = Step::find($id);
+            $step->order = $ctr;
+            $step->save();
+        }
+        return Response::json('Steps Ordered',200);
+    }
+    public function showOrder()
+    {
+        $steps = Step::where('is_active',1)
+        ->orderBy('order','asc')
+        ->get();
+        return Response::json($steps);
+    }
     public function edit($id)
     {
         try {

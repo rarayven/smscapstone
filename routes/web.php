@@ -161,6 +161,8 @@ Route::group(['prefix' => 'admin/'], function () {
 	Route::get('steps', ['uses' => 'AdminMStepsController@index', 'as' => 'steps.index']);
 	Route::get('steps/create ', ['uses' => 'AdminMStepsController@create', 'as' => 'steps.create']);
 	Route::post('steps', ['uses' => 'AdminMStepsController@store', 'as' => 'steps.store']);
+	Route::post('steps/order', ['uses' => 'AdminMStepsController@order', 'as' => 'steps.order']);
+	Route::get('steps/order', ['uses' => 'AdminMStepsController@showOrder', 'as' => 'steps.showOrder']);
 	Route::get('steps/{id}/edit ', ['uses' => 'AdminMStepsController@edit', 'as' => 'steps.edit']);
 	Route::put('steps/{id}', ['uses' => 'AdminMStepsController@update', 'as' => 'steps.update']);
 	Route::delete('steps/{id}', ['uses' => 'AdminMStepsController@destroy', 'as' => 'steps.destroy']);

@@ -236,9 +236,6 @@
 </section>
 </div>
 @endsection
-@section('meta')
-<meta name="_token" content="{!! csrf_token() !!}" />
-@endsection
 @section('script')
 {!! Html::script("plugins/datepicker/bootstrap-datepicker.js") !!}
 {!! Html::script("plugins/timepicker/bootstrap-timepicker.min.js") !!}

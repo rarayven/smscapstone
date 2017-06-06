@@ -217,7 +217,7 @@ class AdminMCouncilorController extends Controller
             }
         } catch(\Exception $e) {
             $councilor = Councilor::find($id);
-            return Response::json(['Failed',$councilor]);
+            return Response::json(['true',$councilor]);
         }
     }
 }

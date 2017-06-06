@@ -23,4 +23,4 @@
   <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-@endsection('content')
+@endsection

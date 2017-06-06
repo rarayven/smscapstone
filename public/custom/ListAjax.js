@@ -1,10 +1,10 @@
-$(document).ready(function(){
+$(document).ready(function() {
     var url = '/coordinator/scholar/list';
     $.ajaxSetup({
         headers: {
-            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-    })
+    });
     var table = $('#student-table').DataTable({
         processing: true,
         serverSide: true,
@@ -16,7 +16,7 @@ $(document).ready(function(){
         ajax: {
             type: 'POST',
             url: dataurl,
-            data: function (d) {
+            data: function(d) {
                 d.strUserFirstName = $('#strUserFirstName').val(),
                 d.strUserMiddleName = $('#strUserMiddleName').val(),
                 d.strUserLastName = $('#strUserLastName').val(),
@@ -29,24 +29,24 @@ $(document).ready(function(){
             }
         },
         columns: [
-        {data: 'strStudName', name: 'strStudName'},
-        {data: 'student_status', name: 'student_details.student_status', searchable: false},
-        {data: 'checkbox', name: 'users.is_active', searchable: false},
-        {data: 'action', name: 'action', orderable: false, searchable: false}
+        { data: 'strStudName', name: 'strStudName' },
+        { data: 'student_status', name: 'student_details.student_status', searchable: false },
+        { data: 'checkbox', name: 'users.is_active', searchable: false },
+        { data: 'action', name: 'action', orderable: false, searchable: false }
         ]
     });
-    $('#student-list').on('change', '#isActive',function(){ 
+    $('#student-list').on('change', '#isActive', function() {
         var link_id = $(this).val();
         $.ajax({
             url: dataurl + '/' + link_id,
             type: "PUT",
-            success: function (data) {
+            success: function(data) {
                 console.log(data);
-                if(data=="Deleted"){
+                if (data == "Deleted") {
                     refresh();
                 }
             },
-            error: function (data) {
+            error: function(data) {
                 console.log(url + '/' + link_id);
                 console.log('Error:', data);
             }
@@ -58,14 +58,14 @@ $(document).ready(function(){
         $('#frmAdv').trigger("reset");
         $('#advanced_search').modal('hide')
     });
-    $('#advanced_search').on('hide.bs.modal', function(){
+    $('#advanced_search').on('hide.bs.modal', function() {
         $('#frmAdv').trigger("reset");
     });
-    $('#student-list').on('click', '.open-modal',function(){ 
+    $('#student-list').on('click', '.open-modal', function() {
         var link_id = $(this).val();
         $('#view_details').modal('show');
     });
-    $('#advsearch').click(function(){
+    $('#advsearch').click(function() {
         $('#advanced_search').modal('show');
     });
 });

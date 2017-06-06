@@ -116,9 +116,6 @@
 </div>
 <!-- /.content-wrapper -->
 @endsection
-@section('meta')
-<meta name="_token" content="{!! csrf_token() !!}" />
-@endsection
 @section('script')
 {!! Html::script("custom/CoordinatorAchievementAjax.js") !!}
 @endsection

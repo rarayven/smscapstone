@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   {!! Html::style("css/bootstrap.min.css") !!}
   {!! Html::style("css/font-awesome.css") !!}
@@ -65,8 +66,8 @@
       </ul>
     </div>
     @endif
-    <div class="container">
-      <h3 class="box-title">Input User Information</h3>
+    <div class="box-header">
+      <h3>Input User Information</h3>
     </div>
     {{Form::open([
       'data-parsley-whitespace' => 'squish',
@@ -75,6 +76,19 @@
       ])
     }}
     <div class="box-body">
+      <div class="col-md-3">
+        <div class="box-body box-profile">
+          <div class="form-group">
+            <img class="profile-user-img img-responsive img-circle" src="{{ asset('images/'.Auth::user()->picture) }}" alt="User profile picture">
+          </div>
+          <div class="form-group row">
+            <div class="btn btn-default btn-file btn-block">
+              <i class="fa fa-image"></i> Change Photo..
+              <input type="file" name="image" value="{{ old('image') }}">
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="col-md-9">
         <div class="form-group">
           <label for="firstName" class="control-label">First Name*</label>
@@ -87,19 +101,6 @@
         <div class="form-group">
           <label for="lastName" class="control-label">Last Name*</label>
           <input type="text" class="form-control" name="last_name" value="{{ old('last_name') }}" placeholder="Last Name" required="required" maxlength="25">
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="box-body box-profile">
-          <div class="form-group">
-            <img class="profile-user-img img-responsive img-circle" src="{{ asset('images/'.Auth::user()->picture) }}" alt="User profile picture">
-          </div>
-          <div class="form-group">
-            <div class="btn btn-default btn-file btn-block">
-              <i class="fa fa-image"></i> Change Photo..
-              <input type="file" name="image" id="img" value="{{ old('image') }}">
-            </div>
-          </div>
         </div>
       </div>
       <div class="col-md-12">

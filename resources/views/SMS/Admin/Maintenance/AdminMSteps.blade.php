@@ -90,12 +90,60 @@
 							</div>
 						</div>
 					</div>
+					<div class="modal fade" id="order_steps">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									{{ Form::button('&times;', [
+										'class' => 'close',
+										'type' => '',
+										'data-dismiss' => 'modal'
+										]) 
+									}}
+									<h4>Order Steps</h4>
+								</div>
+								<div class="modal-body">
+									{{ Form::open([
+										'id' => 'frmOrder'
+										])
+									}}
+									<div class="form-group">
+										<div class="col-xs-1" >
+											<ul id="count" class="list-unstyled">
+											</ul>
+										</div>
+										<div class="cols-xs-11">
+											<ul class="todo-list">
+											</ul>
+										</div>
+									</div>
+									<div class="form-group">
+										{{ Form::button('Submit', [
+											'id' => 'btn-submit',
+											'class' => 'btn btn-success btn-block',
+											'value' => 'add',
+											'type' => ''
+											]) 
+										}}
+									</div>
+									{{ Form::close() }}
+								</div>
+							</div>
+						</div>
+					</div>
 					<!-- /.box-header -->
 					<div class="box-body table-responsive">
 						{{ Form::button("<i class='fa fa-plus'></i> Add Steps", [
 							'id' => 'btn-add',
 							'class' => 'btn btn-primary btn-sm',
 							'value' => 'add',
+							'type' => '',
+							'style' => 'margin-bottom: 10px;'
+							]) 
+						}}
+						{{ Form::button("<i class='fa fa-sort'></i> Order Steps", [
+							'id' => 'btn-order',
+							'class' => 'btn btn-info btn-sm',
 							'type' => '',
 							'style' => 'margin-bottom: 10px;'
 							]) 
@@ -125,6 +173,12 @@
 	{!! Html::script("custom/StepsAjax.js") !!}
 	<script type="text/javascript">
 		var dataurl = "{!! route('steps.data') !!}";
+		$(".todo-list").sortable({
+			placeholder: "sort-highlight",
+			handle: ".handle",
+			forcePlaceholderSize: true,
+			zIndex: 999999
+		});
 	</script>
 	{!! Html::script("js/comparison.js") !!}
 	@endsection

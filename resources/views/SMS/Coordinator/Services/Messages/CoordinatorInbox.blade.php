@@ -84,9 +84,6 @@
   </div>
   <!-- /.content-wrapper -->
   @endsection
-  @section('meta')
-  <meta name="_token" content="{!! csrf_token() !!}" />
-  @endsection
   @section('script')
   {!! Html::script("plugins/datatables/jquery.dataTables.min.js") !!}
   {!! Html::script("plugins/datatables/dataTables.bootstrap.min.js") !!}

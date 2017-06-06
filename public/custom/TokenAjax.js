@@ -1,71 +1,71 @@
-$(document).ready(function(){
+$(document).ready(function() {
 	$.ajaxSetup({
 		headers: {
-			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		}
-	})
-	$('#message').on('hide.bs.modal', function(){
+	});
+	$('#message').on('hide.bs.modal', function() {
 		$('#frmMessage').trigger("reset");
 	});
 	var messageId = '';
-	$('#list').on('click', '.btn-view',function(){ 
+	$('#list').on('click', '.btn-view', function() {
 		var link_id = $(this).val();
 		messageId = link_id;
 		$('#message').modal('show');
 	});
-	$('#list').on('click', '.open-modal',function(){ 
+	$('#list').on('click', '.open-modal', function() {
 		if (confirm("Are you sure?")) {
 			var link_id = $(this).val();
 			$.ajax({
 				url: dataurl + '/' + link_id,
 				type: "PUT",
-				success: function (data) {
+				success: function(data) {
 					console.log(data);
-					if(data=="Deleted"){
+					if (data == "Deleted") {
 						refresh();
-					}else{
-						var btn = "<div id=dp"+data.id+"><button class='btn btn-warning btn-xs back' value="+
-						data.id+"><i class='fa fa-undo'></i> Undo</button></div>";
-						$('#dp'+data.id).replaceWith(btn);
+					} else {
+						var btn = "<div id=dp" + data.id + "><button class='btn btn-warning btn-xs back' value=" +
+						data.id + "><i class='fa fa-undo'></i> Undo</button></div>";
+						$('#dp' + data.id).replaceWith(btn);
 					}
 				},
-				error: function (data) {
+				error: function(data) {
 					console.log(url + '/' + link_id);
 					console.log('Error:', data);
 				}
 			});
 		}
 	});
-	$('#list').on('click', '.btn-delete',function(){  
+	$('#list').on('click', '.btn-delete', function() {
 		var link_id = $(this).val();
 		if (confirm("Are you Sure?")) {
 			$.ajax({
 				url: dataurl + '/' + link_id,
 				type: "DELETE",
-				success: function (data) {
+				success: function(data) {
 					console.log(data);
-					if(data=="Deleted"){
+					if (data == "Deleted") {
 						refresh();
-					}else{
-						var btn = "<div id=dp"+data.id+"><button class='btn btn-warning btn-xs back' value="+
-						data.id+"><i class='fa fa-undo'></i> Undo</button></div>";
-						$('#dp'+data.id).replaceWith(btn);
+					} else {
+						var btn = "<div id=dp" + data.id + "><button class='btn btn-warning btn-xs back' value=" +
+						data.id + "><i class='fa fa-undo'></i> Undo</button></div>";
+						$('#dp' + data.id).replaceWith(btn);
 					}
 				},
-				error: function (data) {
+				error: function(data) {
 					console.log(data);
 				}
 			});
 		}
 	});
-	$('#list').on('click', '.back',function(){
+	$('#list').on('click', '.back', function() {
 		var link_id = $(this).val();
 		var id = $(this).attr('id');
-		if(confirm("Are you sure you want to proceed?")){
-			$.get(dataurl + '/' + link_id + '/edit' , function (data) {
+		if (confirm("Are you sure you want to proceed?")) {
+			$.get(dataurl + '/' + link_id + '/edit', function(data) {
 				console.log(data);
-				var btn = "<div id=dp"+data.id+"><button class='btn btn-primary btn-xs btn-view' value="+data.id+"><i class='fa fa-envelope'></i> Message</button> <button class='btn btn-success btn-xs btn-detail open-modal' value="+data.id+"><i class='fa fa-share'></i> Receive</button> <button class='btn btn-danger btn-xs btn-delete' value="+data.id+"><i class='fa fa-remove'></i> Cancel</button></div>";
-				$('#dp'+data.id).replaceWith(btn);
+				var btn = "<div id=dp" + data.id + "><button class='btn btn-primary btn-xs btn-view' value=" + data.id + "><i class='fa fa-envelope'></i> Message</button> <button class='btn btn-success btn-xs btn-detail open-modal' value=" + data.id + "><i class='fa fa-share'></i> Receive</button> <button class='btn btn-danger btn-xs btn-delete' value=" + data.id + "><i class='fa fa-remove'></i> Cancel</button></div>";
+				$('#dp' + data.id).replaceWith(btn);
 			})
 		}
 	});
@@ -81,7 +81,7 @@ $(document).ready(function(){
 		ajax: {
 			type: 'POST',
 			url: dataurl,
-			data: function (d) {
+			data: function(d) {
 				d.strUserFirstName = $('#strUserFirstName').val(),
 				d.strUserMiddleName = $('#strUserMiddleName').val(),
 				d.strUserLastName = $('#strUserLastName').val(),
@@ -94,11 +94,11 @@ $(document).ready(function(){
 			}
 		},
 		columns: [
-		{data: 'strStudName', name: 'strStudName'},
-		{data: 'description', name: 'achievements.description'},
-		{data: 'place_held', name: 'achievements.place_held'},
-		{data: 'date_held', name: 'achievements.date_held'},
-		{data: 'action', name: 'action', orderable: false, searchable: false}
+		{ data: 'strStudName', name: 'strStudName' },
+		{ data: 'description', name: 'achievements.description' },
+		{ data: 'place_held', name: 'achievements.place_held' },
+		{ data: 'date_held', name: 'achievements.date_held' },
+		{ data: 'action', name: 'action', orderable: false, searchable: false }
 		]
 	});
 	$('#btn-advSearch').on('click', function(e) {
@@ -107,54 +107,52 @@ $(document).ready(function(){
 		$('#frmAdv').trigger("reset");
 		$('#advanced_search').modal('hide')
 	});
-	$('#advanced_search').on('hide.bs.modal', function(){
+	$('#advanced_search').on('hide.bs.modal', function() {
 		$('#frmAdv').trigger("reset");
 	});
-	$('#advsearch').click(function(){
+	$('#advsearch').click(function() {
 		$('#advanced_search').modal('show');
 	});
 	xhrPool = [];
-	$("#btn-message").click(function () {
+	$("#btn-message").click(function() {
 		$('#frmMessage').parsley().destroy();
-		if($('#frmMessage').parsley().isValid())
-		{
-			$("#btn-message").attr('disabled','disabled');
-			setTimeout(function(){
+		if ($('#frmMessage').parsley().isValid()) {
+			$("#btn-message").attr('disabled', 'disabled');
+			setTimeout(function() {
 				$("#btn-message").removeAttr('disabled');
 			}, 1000);
 			var formData = {
-				title: $('#title').parsley('data-parsley-whitespace','squish').getValue(),
-				description: $('#description').parsley('data-parsley-whitespace','squish').getValue(),
+				title: $('#title').parsley('data-parsley-whitespace', 'squish').getValue(),
+				description: $('#description').parsley('data-parsley-whitespace', 'squish').getValue(),
 				id: messageId
 			}
-			var type = "POST"; 
+			var type = "POST";
 			var my_url = url2;
 			$.ajax({
-				beforeSend: function (jqXHR, settings) {
+				beforeSend: function(jqXHR, settings) {
 					xhrPool.push(jqXHR);
 				},
 				type: type,
 				url: my_url,
 				data: formData,
 				dataType: 'json',
-				success: function (data) {
+				success: function(data) {
 					$('#message').modal('hide');
 					table.draw();
 					swal({
 						title: "Success!",
-						text: "<center>"+data.title+" is Stored</center>",
+						text: "<center>" + data.title + " is Stored</center>",
 						type: "success",
 						timer: 1000,
 						showConfirmButton: false,
 						html: true
 					});
 				},
-				error: function (data) {
+				error: function(data) {
 					console.log('Error:', data.responseText);
-					try{
+					try {
 						alert("Something went wrong!");
-					}catch(err){}
-					finally{
+					} catch (err) {} finally {
 						$.each(xhrPool, function(idx, jqXHR) {
 							jqXHR.abort();
 						});

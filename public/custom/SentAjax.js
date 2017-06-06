@@ -1,9 +1,9 @@
-$(document).ready(function(){
+$(document).ready(function() {
 	$.ajaxSetup({
 		headers: {
-			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		}
-	})
+	});
 	var table = $('#table').DataTable({
 		responsive: true,
 		processing: true,
@@ -14,13 +14,13 @@ $(document).ready(function(){
 		{ "width": "150px", "targets": 2 }
 		],
 		columns: [
-		{data: 'title', name: 'messages.title'},
-		{data: 'description', name: 'messages.description'},
-		{data: 'date_created', name: 'messages.date_created'},
-		{data: 'action', name: 'action', orderable: false, searchable: false}
+		{ data: 'title', name: 'messages.title' },
+		{ data: 'description', name: 'messages.description' },
+		{ data: 'date_created', name: 'messages.date_created' },
+		{ data: 'action', name: 'action', orderable: false, searchable: false }
 		]
 	});
-	$('#list').on('click', '.btn-delete',function(){  
+	$('#list').on('click', '.btn-delete', function() {
 		var link_id = $(this).val();
 		swal({
 			title: "Are you sure?",
@@ -35,30 +35,30 @@ $(document).ready(function(){
 			closeOnCancel: true
 		},
 		function(isConfirm) {
-			setTimeout(function () {
+			setTimeout(function() {
 				if (isConfirm) {
 					$.ajax({
 						url: url + '/' + link_id,
 						type: "DELETE",
-						success: function (data) {
+						success: function(data) {
 							console.log(data);
-							if(data=="Deleted"){
+							if (data == "Deleted") {
 								refresh();
-							}else{
-								if(data[0]=="true"){
+							} else {
+								if (data[0] == "true") {
 									swal({
 										title: "Failed!",
-										text: "<center>"+data[1].title+" is in use</center>",
+										text: "<center>" + data[1].title + " is in use</center>",
 										type: "error",
 										showConfirmButton: false,
 										allowOutsideClick: true,
 										html: true
 									});
-								}else{
+								} else {
 									table.draw();
 									swal({
 										title: "Deleted!",
-										text: "<center>"+data.title+" is Deleted</center>",
+										text: "<center>" + data.title + " is Deleted</center>",
 										type: "success",
 										timer: 1000,
 										showConfirmButton: false,
@@ -67,7 +67,7 @@ $(document).ready(function(){
 								}
 							}
 						},
-						error: function (data) {
+						error: function(data) {
 							console.log(data);
 						}
 					});

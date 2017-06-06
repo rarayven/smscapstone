@@ -1,62 +1,62 @@
-$(document).ready(function(){
+$(document).ready(function() {
 	$.ajaxSetup({
 		headers: {
-			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		}
-	})
-	$('#district-list').on('click', '.open-modal',function(){ 
+	});
+	$('#district-list').on('click', '.open-modal', function() {
 		if (confirm("Are you sure?")) {
 			var link_id = $(this).val();
 			$.ajax({
 				url: dataurl + '/' + link_id,
 				type: "PUT",
-				success: function (data) {
+				success: function(data) {
 					console.log(data);
-					if(data=="Deleted"){
+					if (data == "Deleted") {
 						refresh();
-					}else{
-						var btn = "<div id=dp"+data.id+"><button class='btn btn-warning btn-xs back' value="+
-						data.id+"><i class='fa fa-undo'></i> Undo</button></div>";
-						$('#dp'+data.id).replaceWith(btn);
+					} else {
+						var btn = "<div id=dp" + data.id + "><button class='btn btn-warning btn-xs back' value=" +
+						data.id + "><i class='fa fa-undo'></i> Undo</button></div>";
+						$('#dp' + data.id).replaceWith(btn);
 					}
 				},
-				error: function (data) {
+				error: function(data) {
 					console.log(url + '/' + link_id);
 					console.log('Error:', data);
 				}
 			});
 		}
 	});
-	$('#district-list').on('click', '.btn-delete',function(){  
+	$('#district-list').on('click', '.btn-delete', function() {
 		var link_id = $(this).val();
 		if (confirm("Are you Sure?")) {
 			$.ajax({
 				url: dataurl + '/' + link_id,
 				type: "DELETE",
-				success: function (data) {
+				success: function(data) {
 					console.log(data);
-					if(data=="Deleted"){
+					if (data == "Deleted") {
 						refresh();
-					}else{
-						var btn = "<div id=dp"+data.id+"><button class='btn btn-warning btn-xs back' value="+
-						data.id+"><i class='fa fa-undo'></i> Undo</button></div>";
-						$('#dp'+data.id).replaceWith(btn);
+					} else {
+						var btn = "<div id=dp" + data.id + "><button class='btn btn-warning btn-xs back' value=" +
+						data.id + "><i class='fa fa-undo'></i> Undo</button></div>";
+						$('#dp' + data.id).replaceWith(btn);
 					}
 				},
-				error: function (data) {
+				error: function(data) {
 					console.log(data);
 				}
 			});
 		}
 	});
-	$('#district-list').on('click', '.back',function(){
+	$('#district-list').on('click', '.back', function() {
 		var link_id = $(this).val();
 		var id = $(this).attr('id');
-		if(confirm("Are you sure you want to proceed?")){
-			$.get(dataurl + '/' + link_id + '/edit' , function (data) {
+		if (confirm("Are you sure you want to proceed?")) {
+			$.get(dataurl + '/' + link_id + '/edit', function(data) {
 				console.log(data);
-				var btn = "<div id=dp"+data.id+"><button class='btn btn-info btn-xs btn-view' value="+data.id+"><i class='fa fa-eye'></i> View</button> <button class='btn btn-success btn-xs btn-detail open-modal' value="+data.id+"><i class='fa fa-check'></i> Accept</button> <button class='btn btn-danger btn-xs btn-delete' value="+data.id+"><i class='fa fa-trash-o'></i> Decline</button></div>";
-				$('#dp'+data.id).replaceWith(btn);
+				var btn = "<div id=dp" + data.id + "><button class='btn btn-info btn-xs btn-view' value=" + data.id + "><i class='fa fa-eye'></i> View</button> <button class='btn btn-success btn-xs btn-detail open-modal' value=" + data.id + "><i class='fa fa-check'></i> Accept</button> <button class='btn btn-danger btn-xs btn-delete' value=" + data.id + "><i class='fa fa-trash-o'></i> Decline</button></div>";
+				$('#dp' + data.id).replaceWith(btn);
 			})
 		}
 	});
@@ -71,7 +71,7 @@ $(document).ready(function(){
 		ajax: {
 			type: 'POST',
 			url: dataurl,
-			data: function (d) {
+			data: function(d) {
 				d.strUserFirstName = $('#strUserFirstName').val(),
 				d.strUserMiddleName = $('#strUserMiddleName').val(),
 				d.strUserLastName = $('#strUserLastName').val(),
@@ -84,11 +84,11 @@ $(document).ready(function(){
 			}
 		},
 		columns: [
-		{data: 'strStudName', name: 'strStudName'},
-		{data: 'description', name: 'achievements.description'},
-		{data: 'place_held', name: 'achievements.place_held'},
-		{data: 'date_held', name: 'achievements.date_held'},
-		{data: 'action', name: 'action', orderable: false, searchable: false}
+		{ data: 'strStudName', name: 'strStudName' },
+		{ data: 'description', name: 'achievements.description' },
+		{ data: 'place_held', name: 'achievements.place_held' },
+		{ data: 'date_held', name: 'achievements.date_held' },
+		{ data: 'action', name: 'action', orderable: false, searchable: false }
 		]
 	});
 	$('#btn-advSearch').on('click', function(e) {
@@ -97,10 +97,10 @@ $(document).ready(function(){
 		$('#frmAdv').trigger("reset");
 		$('#advanced_search').modal('hide')
 	});
-	$('#advanced_search').on('hide.bs.modal', function(){
+	$('#advanced_search').on('hide.bs.modal', function() {
 		$('#frmAdv').trigger("reset");
 	});
-	$('#advsearch').click(function(){
+	$('#advsearch').click(function() {
 		$('#advanced_search').modal('show');
 	});
 });

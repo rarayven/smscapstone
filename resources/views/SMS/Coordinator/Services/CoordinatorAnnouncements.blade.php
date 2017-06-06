@@ -84,9 +84,6 @@
       </section>
     </div>
     @endsection
-    @section('meta')
-    <meta name="_token" content="{!! csrf_token() !!}" />
-    @endsection
     @section('script')
     {!! Html::script("custom/CoordinatorAnnouncementAjax.js") !!}
     <script type="text/javascript">

@@ -7,7 +7,7 @@
 {!! Html::style("plugins/datatables/dataTables.bootstrap.min.css") !!}
 {!! Html::style("css/bootstrap-toggle.min.css") !!}
 {!! Html::style("css/style.css") !!}
-{!! Html::style("plugins/iCheck/flat/_all.css") !!}
+{!! Html::style("plugins/iCheck/flat/red.css") !!}
 {!! Html::style("css/parsley.css") !!}
 {!! Html::style("plugins/sweetalert/sweetalert.min.css") !!}
 <style type="text/css">
@@ -558,7 +558,7 @@
         <label class="radio-inline"><input type="radio" name="rad" id="no" value="no" checked> No</label>
     </div>
     <div id="questionappear">
-       <div class="row">
+     <div class="row">
         <div class="container col-md-6 col-sm-12">
             <div class="form-group">
                 {{ Form::label('name', "Name", [
@@ -1203,9 +1203,6 @@
 </div>
 </div>        
 </div>
-@endsection
-@section('meta')
-<meta name="_token" content="{!! csrf_token() !!}" />
 @endsection
 @section('endscript')
 {!! Html::script("plugins/jQueryUI/jquery-ui.min.js") !!}
