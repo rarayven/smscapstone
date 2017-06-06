@@ -61,8 +61,8 @@
                   <thead>
                     <th>Sender</th>
                     <th>Title</th>
-                    <th>Description</th>
                     <th>Date</th>
+                    <th>Type</th>
                     <th>Status</th>
                     <th>Action</th>
                   </thead>

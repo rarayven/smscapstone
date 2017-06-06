@@ -59,13 +59,23 @@ class CoordinatorMessagesController extends Controller
         ->editColumn('date_created', function ($data) {
             return $data->date_created ? with(new Carbon($data->date_created))->format('M d, Y - h:i A ') : '';
         })
-        ->editColumn('description', function($data){
-            return str_limit($data->description, 20);
+        // ->editColumn('description', function($data){
+        //     return str_limit($data->description, 20);
+        // })
+        ->editColumn('type', function ($data) {
+            if ($data->type == 'Student') {
+                $color = 'success';
+            }elseif ($data->type == 'Admin') {
+                $color = 'danger';
+            }else {
+                $color = 'warning';
+            }
+            return "<small class='label label-$color'>$data->type</small>";
         })
         ->setRowId(function ($data) {
             return $data = 'id'.$data->receivers_id;
         })
-        ->rawColumns(['is_read','strStudName','action']);
+        ->rawColumns(['is_read','strStudName','type','action']);
         return $datatables->make(true);
     }
     public function sentdata()

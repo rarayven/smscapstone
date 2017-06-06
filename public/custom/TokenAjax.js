@@ -8,33 +8,13 @@ $(document).ready(function() {
 		$('#frmMessage').trigger("reset");
 	});
 	var messageId = '';
-	$('#list').on('click', '.btn-view', function() {
+	var a = '';
+	$('#list').on('click', '.open-modal', function() {
 		var link_id = $(this).val();
+		var id = $(this).attr('id');
+		a = id;
 		messageId = link_id;
 		$('#message').modal('show');
-	});
-	$('#list').on('click', '.open-modal', function() {
-		if (confirm("Are you sure?")) {
-			var link_id = $(this).val();
-			$.ajax({
-				url: dataurl + '/' + link_id,
-				type: "PUT",
-				success: function(data) {
-					console.log(data);
-					if (data == "Deleted") {
-						refresh();
-					} else {
-						var btn = "<div id=dp" + data.id + "><button class='btn btn-warning btn-xs back' value=" +
-						data.id + "><i class='fa fa-undo'></i> Undo</button></div>";
-						$('#dp' + data.id).replaceWith(btn);
-					}
-				},
-				error: function(data) {
-					console.log(url + '/' + link_id);
-					console.log('Error:', data);
-				}
-			});
-		}
 	});
 	$('#list').on('click', '.btn-delete', function() {
 		var link_id = $(this).val();
@@ -69,7 +49,6 @@ $(document).ready(function() {
 			})
 		}
 	});
-	var url2 = "/coordinator/token/messages"
 	var dataurl = "/coordinator/token";
 	var table = $('#achievement-table').DataTable({
 		processing: true,
@@ -113,7 +92,6 @@ $(document).ready(function() {
 	$('#advsearch').click(function() {
 		$('#advanced_search').modal('show');
 	});
-	xhrPool = [];
 	$("#btn-message").click(function() {
 		$('#frmMessage').parsley().destroy();
 		if ($('#frmMessage').parsley().isValid()) {
@@ -124,14 +102,11 @@ $(document).ready(function() {
 			var formData = {
 				title: $('#title').parsley('data-parsley-whitespace', 'squish').getValue(),
 				description: $('#description').parsley('data-parsley-whitespace', 'squish').getValue(),
-				id: messageId
+				id: a
 			}
-			var type = "POST";
-			var my_url = url2;
+			var type = "PUT";
+			var my_url = dataurl+'/'+messageId;
 			$.ajax({
-				beforeSend: function(jqXHR, settings) {
-					xhrPool.push(jqXHR);
-				},
 				type: type,
 				url: my_url,
 				data: formData,
@@ -150,13 +125,13 @@ $(document).ready(function() {
 				},
 				error: function(data) {
 					console.log('Error:', data.responseText);
-					try {
-						alert("Something went wrong!");
-					} catch (err) {} finally {
-						$.each(xhrPool, function(idx, jqXHR) {
-							jqXHR.abort();
-						});
-					}
+					$.notify({
+						message: data.responseText
+					}, {
+						type: 'warning',
+						z_index: 2000,
+						delay: 5000,
+					});
 				}
 			});
 		}

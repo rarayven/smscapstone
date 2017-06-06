@@ -349,7 +349,6 @@ $('.district').on('click', function() {
   })
   $('.form-navigation .next').click();
 });
-$("#datemask2").inputmask("mm/dd/yyyy", { "placeholder": "mm/dd/yyyy" });
 $("#frmApply").bind("keypress", function(e) {
   if (e.keyCode == 13) {
     $('#btn-next').click();

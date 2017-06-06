@@ -32,11 +32,12 @@
                     {{ Form::open([
                       'id' => 'frmAnnouncement', 'data-parsley-whitespace' => 'squish'])
                     }}
-
                     <div class="form-group">
+                      {{ Form::label('name', 'Subject') }}
                       <input class="form-control" type="text" name="title" placeholder="Subject:">
                     </div>
                     <div class="form-group">
+                      {{ Form::label('name', 'Message') }}
                       <textarea id="compose-textarea" name="description" class="form-control" style="resize: none; height: 300px"></textarea>
                     </div>
                     <div class="form-group">

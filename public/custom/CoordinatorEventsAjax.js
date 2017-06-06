@@ -97,7 +97,6 @@ $(document).ready(function() {
     		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     	}
     });
-    xhrPool = [];
     $("#btn-save").click(function() {
     	$('#frmEvent').parsley().destroy();
     	if ($('#frmEvent').parsley().isValid()) {
@@ -121,9 +120,6 @@ $(document).ready(function() {
                 my_url += '/' + id;
             }
             $.ajax({
-            	beforeSend: function(jqXHR, settings) {
-            		xhrPool.push(jqXHR);
-            	},
             	type: type,
             	url: my_url,
             	data: formData,
@@ -134,14 +130,14 @@ $(document).ready(function() {
             	},
             	error: function(data) {
             		console.log('Error:', data.responseText);
-            		try {
-            			alert("Oops! Something went wrong!");
-            		} catch (err) {} finally {
-            			$.each(xhrPool, function(idx, jqXHR) {
-            				jqXHR.abort();
-            			});
-            		}
-            	}
+                    $.notify({
+                        message: data.responseText
+                    }, {
+                        type: 'warning',
+                        z_index: 2000,
+                        delay: 5000,
+                    });
+                }
             });
         }
     });

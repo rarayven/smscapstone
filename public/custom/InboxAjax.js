@@ -10,15 +10,15 @@ $(document).ready(function() {
 		serverSide: true,
 		ajax: dataurl,
 		"columnDefs": [
-		{ "width": "220px", "targets": 5 },
+		{ "width": "200px", "targets": 5 },
 		{ "width": "70px", "targets": 4 },
-		{ "width": "150px", "targets": 3 }
+		{ "width": "150px", "targets": 2 }
 		],
 		columns: [
 		{ data: 'strStudName', name: 'strStudName' },
 		{ data: 'title', name: 'messages.title' },
-		{ data: 'description', name: 'messages.description' },
 		{ data: 'date_created', name: 'messages.date_created' },
+		{ data: 'type', name: 'user.type' },
 		{ data: 'is_read', name: 'receivers.is_read', searchable: false },
 		{ data: 'action', name: 'action', orderable: false, searchable: false }
 		]

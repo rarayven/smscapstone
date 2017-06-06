@@ -15,6 +15,7 @@ use Response;
 use App\Studentsteps;
 use App\Connection;
 use Auth;
+use Carbon\Carbon;
 use Datatables;
 class CoordinatorStudentsController extends Controller
 {
@@ -123,8 +124,10 @@ class CoordinatorStudentsController extends Controller
             $intStepOrder = $student->order;//get the order number
             if($intStepOrder>1){//check if higher than 0
             	$intStepOrder--;
+            	$getId = Step::where('order',$intStepOrder)
+            	->first();
             	$users = Studentsteps::find($id);
-            	$users->step_id=$intStepOrder;
+            	$users->step_id=$getId->id;
             	$users->save();
             } else {
                 $step_id=1;//order when 0
@@ -144,9 +147,11 @@ class CoordinatorStudentsController extends Controller
     {
     	DB::beginTransaction();
     	try {
-    		$steps = Step::where('is_active',1)->count();
+    		$steps = Step::where('is_active',1)->max('order');
+    		$getId = Step::where('order',$steps)
+    		->first();
     		$userssteps = Studentsteps::find($id);
-    		$userssteps->step_id=$steps;
+    		$userssteps->step_id=$getId->id;
     		$userssteps->save();
     		$users = Application::find($id);
     		$users->is_steps_done=0;
@@ -162,7 +167,7 @@ class CoordinatorStudentsController extends Controller
     		DB::rollBack();
     	}
     }
-    public function update(Request $request, $id)
+    public function update($id)
     {
     	DB::beginTransaction();
     	try {
@@ -180,9 +185,11 @@ class CoordinatorStudentsController extends Controller
             } else {
                 $intStepOrder+=1;//increment if < steps
             }
+            $dtm = Carbon::now('Asia/Manila');
             $studsteps = Step::where('order',$intStepOrder)->first();
             $studentsteps = Studentsteps::find($id);//save the result
             $studentsteps->step_id = $studsteps->id;
+            $studentsteps->completion_date = $dtm;
             $studentsteps->save();
             $studentsteps = Studentsteps::join('steps','student_steps.step_id','steps.id')
             ->join('student_details','student_steps.user_id','student_details.user_id')

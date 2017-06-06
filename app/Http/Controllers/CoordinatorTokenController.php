@@ -24,30 +24,6 @@ class CoordinatorTokenController extends Controller
         $this->middleware('auth');
         $this->middleware('coordinator');
     }
-    public function messages(Request $request)
-    {
-        DB::beginTransaction();
-        try {
-            $dtm = Carbon::now('Asia/Manila');
-            $message = new Message;
-            $message->user_id = Auth::id();
-            $message->title = $request->title;
-            $message->description = $request->description;
-            $message->date_created = $dtm;
-            $message->save();
-            $receiver = new Receiver;
-            $receiver->message_id = $message->id;
-            $receiver->user_id = $request->id;
-            $receiver->save();
-            DB::commit();
-            return Response::json($message);
-        } catch(\Exception $e) {
-            DB::rollBack();
-            dd($e);
-            return dd($e->errorInfo[2]);
-        }
-
-    }
     public function index()
     {
         $district = District::where('is_active',1)->get();
@@ -68,14 +44,15 @@ class CoordinatorTokenController extends Controller
         $users = User::join('achievements','users.id','achievements.user_id')
         ->join('user_councilor','users.id','user_councilor.user_id')
         ->join('student_details','users.id','student_details.user_id')
-        ->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',IFNULL(users.middle_name,'')) as strStudName"),'users.*','student_details.*','achievements.*','users.id as user_id'])
+        ->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',IFNULL(users.middle_name,'')) as strStudName"),'users.*','student_details.*','achievements.*','achievements.id as achievements_id','users.id as user_id'])
         ->where('user_councilor.councilor_id',$connections->id)
         ->where('users.type','Student')
         ->where('achievements.status','Accepted')
+        ->where('achievements.token_process','Pending')
         ->get();
         $datatables = Datatables::of($users)
         ->addColumn('action', function ($data) {
-            return "<div id=dp$data->user_id><button class='btn btn-info btn-xs btn-view' value='$data->user_id'><i class='fa fa-file-pdf-o'></i> PDF</button> <button class='btn btn-primary btn-xs btn-view' value='$data->user_id'><i class='fa fa-envelope'></i> Message</button> <button class='btn btn-success btn-xs btn-detail open-modal' value='$data->user_id'><i class='fa fa-share'></i> Receive</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->user_id'><i class='fa fa-remove'></i> Cancel</button></div>";
+            return "<div id=dp$data->user_id><button class='btn btn-info btn-xs btn-view' value='$data->user_id'><i class='fa fa-file-pdf-o'></i> PDF</button> <button class='btn btn-success btn-xs btn-detail open-modal' id= '$data->achievements_id' value='$data->user_id'><i class='fa fa-share'></i> Receive</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->user_id'><i class='fa fa-remove'></i> Cancel</button></div>";
         })
         ->editColumn('date_held', function ($data) {
             return $data->date_held ? with(new Carbon($data->date_held))->format('M d, Y - h:i A ') : '';
@@ -107,13 +84,28 @@ class CoordinatorTokenController extends Controller
     }
     public function update(Request $request, $id)
     {
+        DB::beginTransaction();
         try {
-            $achievement = Achievement::findorfail($id);
+            $dtm = Carbon::now('Asia/Manila');
+            $message = new Message;
+            $message->user_id = Auth::id();
+            $message->title = $request->title;
+            $message->description = $request->description;
+            $message->date_created = $dtm;
+            $message->save();
+            $receiver = new Receiver;
+            $receiver->message_id = $message->id;
+            $receiver->user_id = $id;
+            $receiver->save();
+            $achievement = Achievement::findorfail($request->id);
             $achievement->token_process = "Received";
             $achievement->save();
-            return Response::json($achievement);
+            DB::commit();
+            return Response::json($message);
         } catch(\Exception $e) {
-            return "Deleted";
+            DB::rollBack();
+            dd($e);
+            return dd($e->errorInfo[2]);
         }
     }
     public function destroy($id)

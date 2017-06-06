@@ -108,7 +108,7 @@
   <div class="form-section">
     <h3>Select Councilor:</h3>
     <div class="form-group col-md-12 row">
-        <div id="councilor"></div>
+        <div id="councilor" class="row"></div>
         {{ Form::hidden('intCounID', null, [
           'id' => 'intCounID'
           ])
@@ -1206,9 +1206,6 @@
 @endsection
 @section('endscript')
 {!! Html::script("plugins/jQueryUI/jquery-ui.min.js") !!}
-{!! Html::script("plugins/input-mask/jquery.inputmask.js") !!} 
-{!! Html::script("plugins/input-mask/jquery.inputmask.date.extensions.js") !!} 
-{!! Html::script("plugins/input-mask/jquery.inputmask.extensions.js") !!}
 {!! Html::script("js/jquery.backstretch.min.js") !!} 
 {!! Html::script("js/retina-1.1.0.min.js") !!} 
 {!! Html::script("plugins/datepicker/bootstrap-datepicker.js") !!}

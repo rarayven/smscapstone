@@ -23,9 +23,14 @@
       <li>
         <i class="fa fa-bullhorn bg-blue"></i>
         <div class="timeline-item">
-          <span class="time"><i class="fa fa-clock-o"></i> {{$announcements->date_post->diffForHumans()}}</span>
-          <h4 class="timeline-header">Subject: <strong>{{$announcements->title}}</strong><br><br>
-            From: <small>{{$announcements->last_name}}, {{$announcements->first_name}} {{$announcements->middle_name}}</small></h4>
+          <?php
+          $circle = '-o';
+          if(!$announcements->is_read)
+            $circle = '';
+          ?>
+          <span class="time"><i class="fa fa-clock-o"></i> {{$announcements->date_post->diffForHumans()}} <button type="button" class="btn btn-box-tool" value="{{$announcements->user_announcement_id}}" data-toggle="tooltip" title="Mark as read">
+            <i id="btn-circle{{$announcements->user_announcement_id}}" class="fa fa-circle{{$circle}}"></i></button></span>
+            <h4 class="timeline-header">Subject: <strong>{{$announcements->title}}</strong></h4>
             <div class="timeline-body">
               {{$announcements->description}}
             </div>
@@ -43,4 +48,7 @@
       </div>
     </section>
   </div>
+  @endsection
+  @section('script')
+  {!! Html::script("custom/StudentAnnouncementAjax.js") !!}
   @endsection

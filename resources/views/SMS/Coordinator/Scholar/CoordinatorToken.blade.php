@@ -139,9 +139,7 @@
     </div>
   </div>
 </section>
-<!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
 @endsection
 @section('script')
 {!! Html::script("custom/TokenAjax.js") !!}

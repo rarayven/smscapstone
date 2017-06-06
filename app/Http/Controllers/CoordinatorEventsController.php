@@ -91,7 +91,12 @@ class CoordinatorEventsController extends Controller
         try {
             $time_from = date("H:i:s", strtotime($request->time_from));
             $time_to = date("H:i:s", strtotime($request->time_to));
-            $date_held = Carbon::createFromFormat('Y-m-d', $request->date_held);
+            $date_held = '';
+            try {
+                $date_held = Carbon::createFromFormat('Y-m-d H:i:s', $request->date_held);
+            } catch(\Exception $e) {
+                $date_held = Carbon::createFromFormat('Y-m-d', $request->date_held);
+            }
             $event = Event::findorfail($id);
             $event->user_id = Auth::id();
             $event->title = $request->title;
@@ -103,6 +108,7 @@ class CoordinatorEventsController extends Controller
             $event->save();
             return Response::json($event);
         } catch(\Exception $e) {
+            dd($e);
             return var_dump($e->errorInfo[1]);
         }
     }

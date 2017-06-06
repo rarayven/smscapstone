@@ -6,6 +6,8 @@ use Datatables;
 use Auth;
 use DB;
 use Response;
+use App\Connection;
+use App\Notification;
 use Carbon\Carbon;
 class CoordinatorAnnouncementsController extends Controller
 {
@@ -38,6 +40,14 @@ class CoordinatorAnnouncementsController extends Controller
     {
         DB::beginTransaction();
         try {
+            $connection = Connection::where('user_id',Auth::id())
+            ->select('councilor_id')
+            ->first();
+            $getScholar = Connection::join('users','user_councilor.user_id','users.id')
+            ->where('user_councilor.councilor_id',$connection->councilor_id)
+            ->where('users.type','Student')
+            ->select('users.id')
+            ->get();
             $dtm = Carbon::now('Asia/Manila');
             $announcement = new Announcement;
             $announcement->user_id = Auth::id();
@@ -50,6 +60,12 @@ class CoordinatorAnnouncementsController extends Controller
                 $announcement->pdf = $pdfname;
             }
             $announcement->save();
+            foreach ($getScholar as $data) {
+                $notification = new Notification;
+                $notification->user_id = $data->id;
+                $notification->announcement_id = $announcement->id;
+                $notification->save();
+            }
             if ($request->file('pdf')!='') {
                 $pdf->move(base_path().'/public/docs/', $pdfname);
             }
@@ -58,7 +74,6 @@ class CoordinatorAnnouncementsController extends Controller
         } catch(\Exception $e) {
             DB::rollBack();
             dd($e);
-            return dd($e->errorInfo[2]);
         }  
     }
 }

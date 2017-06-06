@@ -44,7 +44,6 @@ $(document).ready(function() {
 		$('#frmAchivement').parsley().destroy();
 	});
     //create new task / update existing task
-    xhrPool = [];
     $("#btn-save").click(function() {
     	$('#frmAchivement').parsley().destroy();
     	if ($('#frmAchivement').parsley().isValid()) {
@@ -67,9 +66,6 @@ $(document).ready(function() {
             	my_url += '/' + id;
             }
             $.ajax({
-            	beforeSend: function(jqXHR, settings) {
-            		xhrPool.push(jqXHR);
-            	},
             	type: type,
             	url: my_url,
             	data: formData,
@@ -89,16 +85,15 @@ $(document).ready(function() {
             		});
             	},
             	error: function(data) {
-            		console.log('Error:', data.responseText);
-            		try {
-            			$('#description').parsley().removeError('ferror', { updateClass: false });
-            			$('#description').parsley().addError('ferror', { message: data.responseText, updateClass: false });
-            		} catch (err) {} finally {
-            			$.each(xhrPool, function(idx, jqXHR) {
-            				jqXHR.abort();
-            			});
-            		}
-            	}
+                    console.log('Error:', data.responseText);
+                    $.notify({
+                        message: data.responseText
+                    }, {
+                        type: 'warning',
+                        z_index: 2000,
+                        delay: 5000,
+                    });
+                }
             });
         }
     });

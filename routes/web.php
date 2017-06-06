@@ -14,6 +14,7 @@ Route::group(['prefix' => 'student/'], function () {
 	//Student Notification
 	Route::get('messages/notification', ['uses' => 'StudentMessagesController@unreadmessage', 'as' => 'studentmessage.unreadmessage']);
 	//Student Checkbox Route List
+	Route::put('announcements/checkbox/{id}', ['uses' => 'StudentAnnouncementController@checkbox', 'as' => 'studentannouncements.checkbox']);
 	Route::put('messages/checkbox/{id}', ['uses' => 'StudentMessagesController@checkbox', 'as' => 'studentinbox.checkbox']);
 	//Student DataTable
 	Route::get('messages/sentdata', ['uses' => 'StudentMessagesController@sentdata', 'as' => 'studentsent.data']);
@@ -28,6 +29,7 @@ Route::group(['prefix' => 'student/'], function () {
 	Route::post('achievements', ['uses' => 'StudentAchievementsController@store', 'as' => 'studentachievements.store']);
 	//Student Events
 	Route::get('events', ['uses' => 'StudentEventsController@index', 'as' => 'studentevents.index']);
+	Route::get('events/upcome', ['uses' => 'StudentEventsController@upcome', 'as' => 'studentevents.upcome']);
 	Route::get('events/{id}', ['uses' => 'StudentEventsController@show', 'as' => 'studentevents.show']);
 	//Student Messages
 	Route::get('messages/sent', ['uses' => 'StudentMessagesController@sent', 'as' => 'studentmessage.sent']);
@@ -41,6 +43,7 @@ Route::group(['prefix' => 'student/'], function () {
 	Route::get('messages/reply/{id}', ['uses' => 'StudentMessagesController@reply', 'as' => 'studentmessage.reply']);
 	//Student Announcements
 	Route::get('announcements', ['uses' => 'StudentAnnouncementController@index', 'as' => 'studentannouncements.index']);
+	Route::get('announcements/unread', ['uses' => 'StudentAnnouncementController@unread', 'as' => 'studentannouncements.unread']);
 	//Student Dashboard
 	Route::get('dashboard', ['uses' => 'StudentIndexController@index', 'as' => 'student.index']);
 });
@@ -67,7 +70,6 @@ Route::group(['prefix' => 'coordinator/'], function () {
 	//Coordinator Budget
 	Route::resource('budget', 'CoordinatorBudgetController');
 	//Coordinator Token
-	Route::post('token/messages', ['uses' => 'CoordinatorTokenController@messages', 'as' => 'token.messages']);
 	Route::get('token', ['uses' => 'CoordinatorTokenController@index', 'as' => 'token.index']);
 	Route::post('token', ['uses' => 'CoordinatorTokenController@store', 'as' => 'token.store']);
 	Route::get('token/{id}/edit', ['uses' => 'CoordinatorTokenController@edit', 'as' => 'token.edit']);

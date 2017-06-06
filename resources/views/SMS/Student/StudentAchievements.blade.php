@@ -127,7 +127,6 @@
 <!-- /.content-wrapper -->
 @endsection
 @section('script')
-{!! Html::script("plugins/datatables/jquery.dataTables.min.js") !!}
 {!! Html::script("plugins/datatables/dataTables.bootstrap.min.js") !!}
 {!! Html::script("plugins/sweetalert/sweetalert.min.js") !!}
 {!! Html::script("plugins/datepicker/bootstrap-datepicker.js") !!}

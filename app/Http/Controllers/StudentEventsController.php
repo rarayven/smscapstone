@@ -5,6 +5,7 @@ use App\Event;
 use App\Connection;
 use Auth;
 use Response;
+use Carbon\Carbon;
 class StudentEventsController extends Controller
 {
     public function __construct()
@@ -14,16 +15,15 @@ class StudentEventsController extends Controller
     }
     public function index()
     {
-        $connect = Connection::join('users','user_councilor.user_id','users.id')
-        ->select('user_councilor.councilor_id')
-        ->where('user_councilor.user_id',Auth::id())
+        $connect = Connection::where('user_id',Auth::id())
+        ->select('councilor_id')
         ->first();
         $connection = Connection::join('users','user_councilor.user_id','users.id')
         ->join('councilors','user_councilor.councilor_id','councilors.id')
         ->select('users.id')
         ->where('users.type', 'Coordinator')
         ->where('user_councilor.councilor_id',$connect->councilor_id)
-        ->where('users.is_deleted',0)
+        ->where('users.is_active',1)
         ->first();
         $events = Event::where('user_id',$connection->id)
         ->whereIn('status',['Ongoing','Cancelled'])
@@ -41,5 +41,23 @@ class StudentEventsController extends Controller
         } catch(\Exception $e) {
             return "Deleted";
         }
+    }
+    public function upcome()
+    {
+        $connect = Connection::where('user_id',Auth::id())
+        ->select('councilor_id')
+        ->first();
+        $connection = Connection::join('users','user_councilor.user_id','users.id')
+        ->join('councilors','user_councilor.councilor_id','councilors.id')
+        ->select('users.id')
+        ->where('users.type', 'Coordinator')
+        ->where('user_councilor.councilor_id',$connect->councilor_id)
+        ->where('users.is_active',1)
+        ->first();
+        $events = Event::where('user_id',$connection->id)
+        ->where('date_held','>',Carbon::now('Asia/Manila'))
+        ->where('status', 'Ongoing')
+        ->count();
+        return Response::json($events);
     }
 }

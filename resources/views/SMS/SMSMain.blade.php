@@ -50,8 +50,8 @@
     </nav>
   </header>
   @yield('middlecontent')
-  {!! Html::script("plugins/pace/pace.min.js") !!}
   {!! Html::script("plugins/jQuery/jquery-3.1.1.min.js") !!}
+  {!! Html::script("plugins/pace/pace.min.js") !!}
   {!! Html::script("js/bootstrap.min.js") !!} 
   {!! Html::script("plugins/fastclick/fastclick.min.js") !!} 
   {!! Html::script("plugins/slimScroll/jquery.slimscroll.min.js") !!} 

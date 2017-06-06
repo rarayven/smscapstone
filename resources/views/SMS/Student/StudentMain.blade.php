@@ -77,9 +77,9 @@
       <ul class="sidebar-menu">
         <li class="header">NAVIGATION</li>
         <li class="{{Request::path() == 'student/dashboard' ? 'active' : ''}}"><a href="{{ url('student/dashboard') }}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
-        <li class="{{Request::path() == 'student/announcements' ? 'active' : ''}}"><a href="{{ url('student/announcements') }}"><i class="fa fa-bullhorn"></i><span>Announcements</span></a></li>
+        <li class="{{Request::path() == 'student/announcements' ? 'active' : ''}}"><a href="{{ url('student/announcements') }}"><i class="fa fa-bullhorn"></i><span>Announcements</span><small class="label pull-right bg-green panelanno"></small></a></li>
         <li class="{{Request::path() == 'student/messages' ? 'active' : ''}} {{Request::path() == 'student/messages/create' ? 'active' : ''}} {{Request::path() == 'student/messages/sent' ? 'active' : ''}}"><a href="{{ url('student/messages') }}"><i class="fa fa-envelope"></i><span>Messages</span><small class="label pull-right bg-green panelnotif"></small></a></li>
-        <li class="{{Request::path() == 'student/events' ? 'active' : ''}}"><a href="{{ url('student/events') }}"><i class="fa fa-flag"></i><span>Events</span></a></li>
+        <li class="{{Request::path() == 'student/events' ? 'active' : ''}}"><a href="{{ url('student/events') }}"><i class="fa fa-flag"></i><span>Events</span><small class="label pull-right bg-yellow panelevent"></small></a></li>
         <li class="{{Request::path() == 'student/achievements' ? 'active' : ''}}"><a href="{{ url('student/achievements') }}"><i class="fa fa-trophy"></i><span>Achievements</span></a></li>
         <li class="{{Request::path() == 'student/renewal' ? 'active' : ''}}"><a href="{{ url('student/renewal') }}"><i class="fa fa-refresh"></i><span>Renewal</span></a></li>
       </ul>
@@ -88,23 +88,27 @@
   @yield('content')
 </div>
 @yield('meta')
-{!! Html::script("plugins/pace/pace.min.js") !!}
 {!! Html::script("plugins/jQuery/jquery-3.1.1.min.js") !!}
 {!! Html::script("plugins/jQueryUI/jquery-ui.min.js") !!}
+{!! Html::script("plugins/pace/pace.min.js") !!}
 {!! Html::script("js/bootstrap.min.js") !!} 
 {!! Html::script("js/bootstrap-toggle.min.js") !!}
 {!! Html::script("js/script.js") !!}
 {!! Html::script("plugins/fastclick/fastclick.min.js") !!}
 {!! Html::script("plugins/slimScroll/jquery.slimscroll.min.js") !!}
 {!! Html::script("js/parsley.min.js") !!}
-{!! Html::script("custom/NotificationAjax.js") !!}
-{!! Html::script("js/ajax-expired-session.js") !!} 
+{!! Html::script("plugins/datatables/jquery.dataTables.min.js") !!}
 @yield('script')
 {!! Html::script("js/app.min.js") !!}
 {!! Html::script("js/bootstrap-notify.min.js") !!} 
 <script type="text/javascript">
   var notif = "{!! route('studentmessage.unreadmessage') !!}";
+  var anno = "{!! route('studentannouncements.unread') !!}";
   var url = "{!! route('sms.index') !!}";
+  var event = "{!! route('studentevents.upcome') !!}";
 </script>
+{!! Html::script("custom/NotificationAjax.js") !!}
+{!! Html::script("custom/NotificationAEAjax.js") !!}
+{!! Html::script("js/ajax-expired-session.js") !!} 
 </body>
 </html>
