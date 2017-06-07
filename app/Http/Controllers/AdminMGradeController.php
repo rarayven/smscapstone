@@ -76,7 +76,7 @@ class AdminMGradeController extends Controller
             $grade->save();
             return Response::json($grade);
         } catch(\Exception $e) {
-            return var_dump($e->errorInfo[1]);
+            return var_dump($e->getMessage());
         } 
     }
     public function edit($id)
@@ -126,10 +126,10 @@ class AdminMGradeController extends Controller
                 $grade->delete();
                 return Response::json($grade);
             } catch(\Exception $e) {
-                if($e->errorInfo[1]==1451)
+                if($e->getCode()==1451)
                     return Response::json(['true',$grade]);
                 else
-                    return Response::json(['true',$grade,$e->errorInfo[1]]);
+                    return Response::json(['true',$grade,$e->getMessage()]);
             }
         } catch(\Exception $e) {
             return "Deleted";

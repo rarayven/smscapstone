@@ -6,8 +6,9 @@
 			Students
 		</h1>
 		<ol class="breadcrumb">
-			<li><a href="{{ url('coordinator/index') }}"><i class="fa fa-dashboard"></i> Coordinator</a></li>
-			<li class="active">Students</li>
+			<li><a href="{{ url('coordinator/index') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li><i class="fa fa-graduation-cap"></i> Scholar</li>
+			<li class="active"><i class="fa fa-list-ul"></i> List</li>
 		</ol>
 	</section>
 	<section class="content">
@@ -108,7 +109,7 @@
 										<div class="col-md-3">
 											<div class="box box-danger">
 												<div class="box-body box-profile">
-													<img class="profile-user-img img-responsive img-circle" src="../../img/user2-160x160.jpg" alt="User profile picture">
+													<img class="profile-user-img img-responsive img-circle" src="{{ asset('images/Default.png') }}" alt="User profile picture">
 													<h3 class="profile-username text-center">Sample Student One</h3>
 													<a href="#" class="btn btn-default btn-block"><b>Change Profile Photo</b></a>
 												</div>

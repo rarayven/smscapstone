@@ -17,6 +17,7 @@ use App\Connection;
 use Auth;
 use Carbon\Carbon;
 use Datatables;
+use Config;
 class CoordinatorStudentsController extends Controller
 {
 	public function __construct()
@@ -185,7 +186,7 @@ class CoordinatorStudentsController extends Controller
             } else {
                 $intStepOrder+=1;//increment if < steps
             }
-            $dtm = Carbon::now('Asia/Manila');
+            $dtm = Carbon::now(Config::get('app.timezone'));
             $studsteps = Step::where('order',$intStepOrder)->first();
             $studentsteps = Studentsteps::find($id);//save the result
             $studentsteps->step_id = $studsteps->id;

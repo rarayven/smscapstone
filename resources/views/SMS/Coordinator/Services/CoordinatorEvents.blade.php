@@ -18,8 +18,8 @@
       }}
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('coordinator/index') }}"><i class="fa fa-dashboard"></i> Coordinator</a></li>
-      <li class="active">Events</li>
+      <li><a href="{{ url('coordinator/index') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+      <li class="active"><i class="fa fa-flag"></i> Events</li>
     </ol>
   </section>
   <section class="content">

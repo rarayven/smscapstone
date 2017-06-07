@@ -553,8 +553,8 @@
         ]) 
     }}
     <div class="form-group">
-        <label class="radio-inline"><input type="radio" name="rad" id="yes" value="yes"> Yes</label>
-        <label class="radio-inline"><input type="radio" name="rad" id="no" value="no" checked> No</label>
+        <label class="radio-inline">{{ Form::radio('rad', 'yes', false, ['id' => 'yes']) }} Yes</label>
+        <label class="radio-inline">{{ Form::radio('rad', 'no', true, ['id' => 'no']) }} No</label>
     </div>
     <div id="questionappear">
        <div class="row">
@@ -805,8 +805,8 @@
         ]) 
     }}
     <div class="form-group">
-        <label class="radio-inline"><input type="radio" name="col" id="yes" value="yes" checked> Yes</label>
-        <label class="radio-inline"><input type="radio" name="col" id="no" value="no"> No</label>
+        <label class="radio-inline">{{ Form::radio('col', 'yes', true, ['id' => 'yes']) }} Yes</label>
+        <label class="radio-inline">{{ Form::radio('col', 'no', false, ['id' => 'no']) }} No</label>
     </div>
     <div id="college">
         <h3>College</h3>

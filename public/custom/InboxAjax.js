@@ -18,19 +18,18 @@ $(document).ready(function() {
 		{ data: 'strStudName', name: 'strStudName' },
 		{ data: 'title', name: 'messages.title' },
 		{ data: 'date_created', name: 'messages.date_created' },
-		{ data: 'type', name: 'user.type' },
+		{ data: 'type', name: 'users.type' },
 		{ data: 'is_read', name: 'receivers.is_read', searchable: false },
 		{ data: 'action', name: 'action', orderable: false, searchable: false }
 		]
 	});
 	$('#list').on('change', '#isActive', function() {
-		Pace.restart();
 		var link_id = $(this).val();
 		$.ajax({
 			url: url2 + '/' + link_id,
 			type: "PUT",
 			success: function(data) {
-				console.log(data);
+				Pace.restart();
 				if (data == "Deleted") {
 					refresh();
 				}
@@ -59,7 +58,7 @@ $(document).ready(function() {
 			setTimeout(function() {
 				if (isConfirm) {
 					$.ajax({
-						url: url + '/' + link_id,
+						url: urldelete + '/' + link_id,
 						type: "DELETE",
 						success: function(data) {
 							console.log(data);

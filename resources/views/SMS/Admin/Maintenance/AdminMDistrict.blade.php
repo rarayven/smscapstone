@@ -3,12 +3,12 @@
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>
-			Maintenance
-			<small>District</small>
+			District
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-			<li class="active">District</li>
+			<li><i class="fa fa-sitemap"></i> Municipality</li>
+			<li class="active"><i class="fa fa-bank"></i> District</li>
 		</ol>
 	</section>
 	<section class="content">

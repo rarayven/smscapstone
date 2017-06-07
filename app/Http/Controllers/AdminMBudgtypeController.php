@@ -65,7 +65,7 @@ class AdminMBudgtypeController extends Controller
             $budgtype->save();
             return Response::json($budgtype);
         } catch(\Exception $e) {
-            return var_dump($e->errorInfo[1]);
+            return var_dump($e->getMessage());
         } 
     }
     public function edit($id)
@@ -90,7 +90,7 @@ class AdminMBudgtypeController extends Controller
                 $budgtype->save();
                 return Response::json($budgtype);
             } catch(\Exception $e) {
-                return var_dump($e->errorInfo[1]);
+                return var_dump($e->getMessage());
             }
         } catch(\Exception $e) {
             return Response::json("The record is invalid or deleted.", 422);
@@ -104,10 +104,10 @@ class AdminMBudgtypeController extends Controller
                 $budgtype->delete();
                 return Response::json($budgtype);
             } catch(\Exception $e) {
-                if($e->errorInfo[1]==1451)
+                if($e->getCode()==1451)
                     return Response::json(['true',$budgtype]);
                 else
-                    return Response::json(['true',$budgtype,$e->errorInfo[1]]);
+                    return Response::json(['true',$budgtype,$e->getMessage()]);
             }
         } catch(\Exception $e) {
             return "Deleted";

@@ -3,11 +3,11 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      Messages
+      Inbox
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('coordinator/dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Here</li>
+      <li><a href="{{ url('coordinator/index') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+      <li class="active"><i class="fa fa-envelope"></i> Inbox</li>
     </ol>
   </section>
   <section class="content">
@@ -68,7 +68,7 @@
   {!! Html::script("custom/InboxAjax.js") !!}
   <script type="text/javascript">
     var dataurl = "{!! route('coordinatorinbox.data') !!}";
-    var url = "/coordinator/messages/delete";
+    var urldelete = "/coordinator/messages/delete";
     var url2 = "/coordinator/messages/checkbox";
   </script>
   @endsection

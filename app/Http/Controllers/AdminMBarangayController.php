@@ -69,7 +69,7 @@ class AdminMBarangayController extends Controller
             $barangay->save();
             return Response::json($barangay);
         } catch(\Exception $e) {
-            return var_dump($e->errorInfo[1]);
+            return var_dump($e->getMessage());
         }
     }
     public function edit($id)
@@ -103,7 +103,7 @@ class AdminMBarangayController extends Controller
                 return Response::json($barangay);
             }
             catch(\Exception $e) {
-                return var_dump($e->errorInfo[1]);
+                return var_dump($e->getMessage());
             }
         } catch(\Exception $e) {
             return Response::json("The record is invalid or deleted.", 422);
@@ -117,10 +117,10 @@ class AdminMBarangayController extends Controller
                 $barangay->delete();
                 return Response::json($barangay);
             } catch(\Exception $e) {
-                if($e->errorInfo[1]==1451)
+                if($e->getCode()==1451)
                     return Response::json(['true',$barangay]);
                 else
-                    return Response::json(['true',$barangay,$e->errorInfo[1]]);
+                    return Response::json(['true',$barangay,$e->getMessage()]);
             }
         } catch(\Exception $e) {
             return "Deleted";

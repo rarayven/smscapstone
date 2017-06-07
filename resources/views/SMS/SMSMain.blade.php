@@ -34,7 +34,7 @@
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="{{ url('/') }}" style="background-color: #DD4B39; margin-top: -5px;">
+          <a class="navbar-brand" href="{{ url('/') }}" style="margin-top: -5px;">
             <img src="{{ asset('img/logo.png') }}" width="35" height="35" style="display: inline-block;">
             <span style="display: inline-block;"><b>Scholar</b>MS</span>
           </a>

@@ -4,12 +4,10 @@
     <section class="content-header">
       <h1>
         Announcements
-        <small></small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="{{ url('coordinator/index') }}"><i class="fa fa-dashboard"></i> Coordinator</a></li>
-        <li>Mail</li>
-        <li class="active">Announcements</li>
+        <li><a href="{{ url('coordinator/index') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active"><i class="fa fa-bullhorn"></i> Announcements</li>
       </ol>
     </section>
     <section class="content">
@@ -30,15 +28,16 @@
                   </div>
                   <div class="modal-body">
                     {{ Form::open([
-                      'id' => 'frmAnnouncement', 'data-parsley-whitespace' => 'squish'])
+                      'id' => 'frmAnnouncement',
+                      'data-parsley-whitespace' => 'squish'])
                     }}
                     <div class="form-group">
                       {{ Form::label('name', 'Subject') }}
-                      <input class="form-control" type="text" name="title" placeholder="Subject:">
+                      <input class="form-control" type="text" name="title" placeholder="Subject:" required="required">
                     </div>
                     <div class="form-group">
                       {{ Form::label('name', 'Message') }}
-                      <textarea id="compose-textarea" name="description" class="form-control" style="resize: none; height: 300px"></textarea>
+                      <textarea id="compose-textarea" name="description" class="form-control" style="resize: none; height: 300px" required="required"></textarea>
                     </div>
                     <div class="form-group">
                       <div class="btn btn-default btn-file">
@@ -73,10 +72,11 @@
               <table id="district-table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
                 <thead>
                   <th>Title</th>
+                  <th>Description</th>
                   <th>Date Posted</th>
                   <th>Action</th>
                 </thead>
-                <tbody id="district-list">
+                <tbody id="list">
                 </tbody>
               </table>
             </div>

@@ -61,7 +61,7 @@ class CoordinatorEventsController extends Controller
             $event->save();
             return Response::json($event);
         } catch(\Exception $e) {
-            return var_dump($e->errorInfo[1]);
+            return var_dump($e->getMessage());
         }
     }
     public function show($id)
@@ -109,7 +109,7 @@ class CoordinatorEventsController extends Controller
             return Response::json($event);
         } catch(\Exception $e) {
             dd($e);
-            return var_dump($e->errorInfo[1]);
+            return var_dump($e->getMessage());
         }
     }
     public function destroy($id)
@@ -120,10 +120,10 @@ class CoordinatorEventsController extends Controller
                 $event->delete();
                 return Response::json($event);
             } catch(\Exception $e) {
-                if($e->errorInfo[1]==1451)
+                if($e->getCode()==1451)
                     return Response::json(['true',$event]);
                 else
-                    return Response::json(['true',$event,$e->errorInfo[1]]);
+                    return Response::json(['true',$event,$e->getMessage()]);
             }
         } catch(\Exception $e) {
             return "Deleted";

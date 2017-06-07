@@ -73,7 +73,7 @@ class StudentAchievementsController extends Controller
         } catch(\Exception $e) {
             DB::rollBack();
             dd($e);
-            return dd($e->errorInfo[2]);
+            return dd($e->getMessage());
         }  
     }
 }

@@ -3,11 +3,11 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      Messages
+      Reply
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('student/dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Here</li>
+      <li><a href="{{ url('student/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+      <li class="active"><i class="fa fa-envelope"></i> Reply</li>
     </ol>
   </section>
   <section class="content">
@@ -34,12 +34,25 @@
         <div class="col-md-10">
           <div class="box box-danger">
             <div class="box-header with-border">
+              @if (count($errors) > 0)
+              <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <strong>Errors:</strong>
+                <ul>
+                  @foreach ($errors->all() as $error)
+                  <li>{{$error}}</li>
+                  @endforeach
+                </ul>
+              </div>
+              @endif
               <h3 class="box-title">Compose New Message</h3>
             </div>
             <div class="box-body">
               {{ Form::open([
                 'method' => 'Post',
                 'enctype' => 'multipart/form-data',
+                'data-parsley-whitespace' => 'squish',
+                'data-parsley-validate' => '',
                 'route' => 'studentmessage.store'])
               }}
               <div class="form-group">
@@ -48,11 +61,11 @@
               </div>
               <div class="form-group">
                 <label>Subject:</label>
-                <input class="form-control" type="text" name="title" placeholder="Subject:">
+                <input class="form-control" type="text" name="title" placeholder="Subject:" required="required">
               </div>
               <div class="form-group">
                 <label>Message:</label>
-                <textarea id="compose-textarea" name="description" class="form-control" style="height: 300px; resize: none;"></textarea>
+                <textarea id="compose-textarea" name="description" class="form-control" style="height: 300px; resize: none;" required="required"></textarea>
               </div>
               <div class="form-group">
                 <div class="btn btn-default btn-file">

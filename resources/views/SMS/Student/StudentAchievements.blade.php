@@ -10,8 +10,8 @@
       Achievements
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('student/index') }}"><i class="fa fa-dashboard"></i> Student</a></li>
-      <li class="active">Achievements</li>
+      <li><a href="{{ url('student/index') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+      <li class="active"><i class="fa fa-trophy"></i> Achievements</li>
     </ol>
   </section>
   <section class="content">

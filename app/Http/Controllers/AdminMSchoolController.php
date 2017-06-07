@@ -69,7 +69,7 @@ class AdminMSchoolController extends Controller
             $school->save();
             return Response::json($school);
         } catch(\Exception $e) {
-            return var_dump($e->errorInfo[1]);
+            return var_dump($e->getMessage());
         } 
     }
     public function edit($id)
@@ -102,7 +102,7 @@ class AdminMSchoolController extends Controller
                 ->first();
                 return Response::json($school);
             } catch(\Exception $e) {
-                return var_dump($e->errorInfo[1]);
+                return var_dump($e->getMessage());
             } 
         } catch(\Exception $e) {
             return Response::json("The record is invalid or deleted.", 422);
@@ -116,10 +116,10 @@ class AdminMSchoolController extends Controller
                 $school->delete();
                 return Response::json($school);
             } catch(\Exception $e) {
-                if($e->errorInfo[1]==1451)
+                if($e->getCode()==1451)
                     return Response::json(['true',$school]);
                 else
-                    return Response::json(['true',$school,$e->errorInfo[1]]);
+                    return Response::json(['true',$school,$e->getMessage()]);
             }
         } catch(\Exception $e) {
             return "Deleted";

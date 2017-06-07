@@ -11,7 +11,7 @@ $(document).ready(function() {
         "columnDefs": [
         { "width": "130px", "targets": 3 },
         { "width": "70px", "targets": 2 },
-        { "width": "70px", "targets": 1 }
+        { "width": "100px", "targets": 1 }
         ],
         ajax: {
             type: 'POST',
@@ -35,16 +35,43 @@ $(document).ready(function() {
         { data: 'action', name: 'action', orderable: false, searchable: false }
         ]
     });
+    var url2 = "/coordinator/list/checkbox";
     $('#student-list').on('change', '#isActive', function() {
         var link_id = $(this).val();
         $.ajax({
-            url: dataurl + '/' + link_id,
+            url: url2 + '/' + link_id,
             type: "PUT",
             success: function(data) {
-                console.log(data);
+                Pace.restart();
                 if (data == "Deleted") {
                     refresh();
                 }
+            },
+            error: function(data) {
+                console.log(url + '/' + link_id);
+                console.log('Error:', data);
+            }
+        });
+    });
+    $('#student-list').on('change', '#student_status', function() {
+        var link_id =  $(this).attr('selectedbox');
+        var thisbox = $(this);
+        var formData = {
+            student_status : $(this).val()
+        }
+        $.ajax({
+            url: dataurl + '/' + link_id,
+            type: "PUT",
+            data: formData,
+            dataType: 'json',
+            success: function(data) {
+                Pace.restart();
+                if (data.student_status == 'Continuing')
+                    thisbox.attr('class', 'btn-xs btn-warning');
+                else if (data.student_status == 'Graduated')
+                    thisbox.attr('class', 'btn-xs btn-success');
+                else
+                    thisbox.attr('class', 'btn-xs btn-danger');
             },
             error: function(data) {
                 console.log(url + '/' + link_id);

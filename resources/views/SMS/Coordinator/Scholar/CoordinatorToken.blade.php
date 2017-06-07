@@ -3,11 +3,12 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      Student Achievements
+      Token Processing
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('coordinator/index') }}"><i class="fa fa-dashboard"></i> Coordinator</a></li>
-      <li class="active">Student Achievements</li>
+      <li><a href="{{ url('coordinator/index') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+      <li><i class="fa fa-graduation-cap"></i> Scholar</li>
+      <li class="active"><i class="fa fa-gift"></i> Token Processing</li>
     </ol>
   </section>
   <section class="content">

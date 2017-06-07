@@ -6,12 +6,13 @@ use App\User;
 use Image;
 use Carbon\Carbon;
 use Hash;
-class FirstLoginController extends Controller
+use Config;
+class CoordinatorFirstUseController extends Controller
 {
 	public function __construct()
 	{
 		$this->middleware('auth');
-		$this->middleware('first_login');
+		$this->middleware('first_use');
 	}
 	public function index()
 	{
@@ -21,7 +22,7 @@ class FirstLoginController extends Controller
 	{
 		$this->validate($request, User::$storeRegister);
 		try {
-			$dtm = Carbon::now('Asia/Manila');
+			$dtm = Carbon::now(Config::get('app.timezone'));
 			$password = Hash::make($request->password);
 			$user = User::find(Auth::id());
 			$user->first_name = $request->first_name;

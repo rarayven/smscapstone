@@ -38,7 +38,7 @@ $(document).ready(function() {
 			setTimeout(function() {
 				if (isConfirm) {
 					$.ajax({
-						url: url + '/' + link_id,
+						url: urldelete + '/' + link_id,
 						type: "DELETE",
 						success: function(data) {
 							console.log(data);

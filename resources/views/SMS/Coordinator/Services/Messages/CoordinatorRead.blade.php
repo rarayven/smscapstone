@@ -3,11 +3,11 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      Messages
+      Read
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('coordinator/dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Here</li>
+      <li><a href="{{ url('coordinator/index') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+      <li class="active"><i class="fa fa-envelope"></i> Read</li>
     </ol>
   </section>
   <section class="content">
@@ -35,7 +35,7 @@
           <div class="box box-danger">
             <div class="box-header with-border">
               <h3 class="box-title">Read Mail</h3>
-              <span class="mailbox-read-time pull-right">{{$message->date_created->format('M d, Y - h:i A ')}}</span>
+              <span class="mailbox-read-time pull-right"><i class="fa fa-clock-o"></i> {{$message->date_created->format('M d, Y - h:i A ')}}</span>
             </div>
             <div class="box-body no-padding">
               <div class="mailbox-read-info">

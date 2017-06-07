@@ -21,6 +21,11 @@
   {!! Html::script("plugins/jQueryUI/jquery-ui.min.js") !!}
   {!! Html::script("js/bootstrap.min.js") !!}
   {!! Html::script("plugins/pace/pace.min.js") !!}
+  <style type="text/css">
+    [data-notify="container"] {
+      width: 25%;
+    }
+  </style>
   <link rel="icon" href="{{ asset('img/logo.ico') }}">
 </head>
 <body class="hold-transition skin-red sidebar-mini">
@@ -51,12 +56,12 @@
                 </li>
                 <li class="user-footer">
                   <div class="pull-left">
-                    <a href="{{ url('coordinator/profile') }}" class="btn btn-default btn-flat">Profile</a>
+                    <a href="{{ url('coordinator/profile') }}" class="btn btn-default btn-flat"><i class="fa fa-user"></i> Profile</a>
                   </div>
                   <div class="pull-right">
                     <a href="{{ route('logout') }}" class="btn btn-default btn-flat"
                     onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();">
+                    document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i> 
                     Sign out
                   </a>
                   <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -83,41 +88,35 @@
       <ul class="sidebar-menu">
         <li class="header">NAVIGATION</li>
         <li class="{{Request::path() == 'coordinator/dashboard' ? 'active' : ''}}"><a href="{{ url('coordinator/dashboard') }}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
-        <li class="{{Request::path() == 'coordinator/applicants' ? 'active' : ''}}"><a href="{{ url('coordinator/applicants') }}"><i class="fa fa-fw fa-users"></i> <span>Applicants</span></a></li>
-        <li class="treeview {{Request::path() == 'coordinator/list' ? 'active' : ''}} {{Request::path() == 'coordinator/progress' ? 'active' : ''}}">
-          <a href="#"><i class="fa fa-graduation-cap"></i> <span>Students</span>
+        <li class="{{Request::path() == 'coordinator/applicants' ? 'active' : ''}}"><a href="{{ url('coordinator/applicants') }}"><i class="fa fa-users"></i><span>Applicants</span></a></li>
+        <li class="treeview {{Request::path() == 'coordinator/list' ? 'active' : ''}} {{Request::path() == 'coordinator/progress' ? 'active' : ''}} {{Request::path() == 'coordinator/achievements' ? 'active' : ''}} {{Request::path() == 'coordinator/token' ? 'active' : ''}}">
+          <a href="#"><i class="fa fa-graduation-cap"></i><span>Scholar</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="{{Request::path() == 'coordinator/list' ? 'active' : ''}}"><a href="{{ url('coordinator/list') }}"><i class="fa fa-list-ul"></i>Student List</a></li>
-            <li class="{{Request::path() == 'coordinator/progress' ? 'active' : ''}}"><a href="{{ url('coordinator/progress') }}"><i class="fa fa-tasks"></i>Step Progress</a></li>
+            <li class="{{Request::path() == 'coordinator/list' ? 'active' : ''}}"><a href="{{ url('coordinator/list') }}"><i class="fa fa-list-ul"></i><span>List</span></a></li>
+            <li class="{{Request::path() == 'coordinator/progress' ? 'active' : ''}}"><a href="{{ url('coordinator/progress') }}"><i class="fa fa-tasks"></i><span>Step Progress</span></a></li>
+            <li class="{{Request::path() == 'coordinator/achievements' ? 'active' : ''}}"><a href="{{ url('coordinator/achievements') }}"><i class="fa fa-star"></i><span>Achievements</span></a></li>
+            <li class="{{Request::path() == 'coordinator/token' ? 'active' : ''}}"><a href="{{ url('coordinator/token') }}"><i class="fa fa-gift"></i><span>Token Processing</span></a></li>
           </ul>
         </li>
-        <li class="treeview {{Request::path() == 'coordinator/achievements' ? 'active' : ''}} {{Request::path() == 'coordinator/token' ? 'active' : ''}}">
-          <a href="#"><i class="fa fa-trophy"></i> <span>Achievements</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="{{Request::path() == 'coordinator/achievements' ? 'active' : ''}}"><a href="{{ url('coordinator/achievements') }}"><i class="fa fa-star"></i>Student Achievements</a></li>
-            <li class="{{Request::path() == 'coordinator/token' ? 'active' : ''}}"><a href="{{ url('coordinator/token') }}"><i class="fa fa-gift"></i>Token Processing</a></li>
-          </ul>
-        </li>
-        <li class="{{Request::path() == 'coordinator/messages' ? 'active' : ''}}{{Request::path() == 'coordinator/messages/create' ? 'active' : ''}} {{Request::path() == 'coordinator/messages/sent' ? 'active' : ''}}"><a href="{{ url('coordinator/messages') }}"><i class="fa fa-envelope"></i> <span>Messages</span><small class="label pull-right bg-green panelnotif"></small></a></li>
-        <li class="{{Request::path() == 'coordinator/announcements' ? 'active' : ''}}"><a href="{{ url('coordinator/announcements') }}"><i class="fa fa-bullhorn"></i> <span>Announcements</span></a></li>
-        <li class="{{Request::path() == 'coordinator/events' ? 'active' : ''}}"><a href="{{ url('coordinator/events') }}"><i class="fa fa-flag"></i> <span>Events</span></a></li>
-        <li class="{{Request::path() == 'coordinator/budget' ? 'active' : ''}}"><a href="{{ url('coordinator/budget') }}"><i class="fa fa-fw fa-money"></i> <span>Budget</span></a></li>
+        <li class="{{Request::path() == 'coordinator/messages' ? 'active' : ''}}{{Request::path() == 'coordinator/messages/create' ? 'active' : ''}} {{Request::path() == 'coordinator/messages/sent' ? 'active' : ''}}"><a href="{{ url('coordinator/messages') }}"><i class="fa fa-envelope"></i><span>Messages</span><small class="label pull-right bg-green panelnotif"></small></a></li>
+        <li class="{{Request::path() == 'coordinator/announcements' ? 'active' : ''}}"><a href="{{ url('coordinator/announcements') }}"><i class="fa fa-bullhorn"></i><span>Announcements</span></a></li>
+        <li class="{{Request::path() == 'coordinator/events' ? 'active' : ''}}"><a href="{{ url('coordinator/events') }}"><i class="fa fa-flag"></i><span>Events</span></a></li>
+        <li class="{{Request::path() == 'coordinator/budget' ? 'active' : ''}}"><a href="{{ url('coordinator/budget') }}"><i class="fa fa-money"></i><span>Budget</span></a></li>
         <li class="treeview {{Request::path() == 'coordinator/reports' ? 'active' : ''}} {{Request::path() == 'coordinator/reports' ? 'active' : ''}}">
-          <a href="#"><i class="fa  fa-trophy"></i> <span>Reports</span>
+          <a href="#"><i class="fa  fa-trophy"></i><span>Reports</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
           <ul class="treeview-menu">
-            <li class="{{Request::path() == 'coordinator/reports' ? 'active' : ''}}"><a href="{{ url('coordinator/reports') }}"><i class="fa fa-star"></i>Students</a></li>
+            <li class="{{Request::path() == 'coordinator/reports' ? 'active' : ''}}"><a href="{{ url('coordinator/reports') }}"><i class="fa fa-star"></i><span>Students</span></a></li>
           </ul>
         </li>
-        <li class="{{Request::path() == 'coordinator/queries' ? 'active' : ''}}"><a href="{{ url('coordinator/queries') }}"><i class="fa fa-fw fa-list"></i> <span>Queries</span></a></li>
+        <li class="{{Request::path() == 'coordinator/queries' ? 'active' : ''}}"><a href="{{ url('coordinator/queries') }}"><i class="fa fa-list"></i><span>Queries</span></a></li>
       </ul>
     </section>
   </aside>
@@ -134,7 +133,6 @@
 {!! Html::script("js/app.min.js") !!} 
 <script type="text/javascript">
   var notif = "{!! route('coordinatormessage.unreadmessage') !!}";
-  var url = "{!! route('sms.index') !!}";
 </script>
 {!! Html::script("custom/NotificationAjax.js") !!}
 {!! Html::script("js/ajax-expired-session.js") !!}

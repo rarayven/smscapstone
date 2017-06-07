@@ -49,9 +49,9 @@ Route::group(['prefix' => 'student/'], function () {
 });
 //Coordinator Route List
 Route::group(['prefix' => 'coordinator/'], function () {
-	//Coordinator First Login
-	Route::get('register', ['uses' => 'FirstLoginController@index', 'as' => 'register.index']);
-	Route::post('register', ['uses' => 'FirstLoginController@store', 'as' => 'register.store']);
+	//Coordinator First Use
+	Route::get('register', ['uses' => 'CoordinatorFirstUseController@index', 'as' => 'register.index']);
+	Route::post('register', ['uses' => 'CoordinatorFirstUseController@store', 'as' => 'register.store']);
 	//Coordinator Notification
 	Route::get('messages/notification', ['uses' => 'CoordinatorMessagesController@unreadmessage', 'as' => 'coordinatormessage.unreadmessage']);
 	//Coordinator DataTable
@@ -61,6 +61,7 @@ Route::group(['prefix' => 'coordinator/'], function () {
 	//Coordinator Checkbox Route List
 	Route::put('messages/checkbox/{id}', ['uses' => 'CoordinatorMessagesController@checkbox', 'as' => 'coordinatorinbox.checkbox']);
 	Route::put('events/checkbox/{id}', ['uses' => 'CoordinatorEventsController@checkbox', 'as' => 'coordinatorevents.checkbox']);
+	Route::put('list/checkbox/{id}', ['uses' => 'CoordinatorStudentsListController@checkbox', 'as' => 'list.checkbox']);
 	//Coordinator Profile
 	Route::resource('profile', 'CoordinatorProfileController');
 	//Coordinator Queries
@@ -92,6 +93,7 @@ Route::group(['prefix' => 'coordinator/'], function () {
 	//Coordinator Announcements
 	Route::get('announcements', ['uses' => 'CoordinatorAnnouncementsController@index', 'as' => 'coordinatorannouncements.index']);
 	Route::post('announcements', ['uses' => 'CoordinatorAnnouncementsController@store', 'as' => 'coordinatorannouncements.store']);
+	Route::delete('announcements/{id}', ['uses' => 'CoordinatorAnnouncementsController@destroy', 'as' => 'coordinatorannouncements.destroy']);
 	//Coordinator Message
 	Route::get('messages/sent', ['uses' => 'CoordinatorMessagesController@sent', 'as' => 'coordinatormessage.sent']);
 	Route::get('messages', ['uses' => 'CoordinatorMessagesController@index', 'as' => 'coordinatormessage.index']);

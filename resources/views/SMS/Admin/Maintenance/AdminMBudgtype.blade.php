@@ -3,12 +3,11 @@
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>
-			Maintenance
-			<small>Budget Type</small>
+			Budget Type
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-			<li class="active">Budget Type</li>
+			<li class="active"><i class="fa fa-fw fa-money"></i> Budget Type</li>
 		</ol>
 	</section>
 	<section class="content">

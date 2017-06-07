@@ -3,12 +3,12 @@
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>
-			Maintenance
-			<small>Year</small>
+			Year
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-			<li class="active">Year</li>
+			<li><i class="fa fa-pencil-square-o"></i> Education</li>
+			<li class="active"><i class="fa fa-fw fa-table"></i> Year</li>
 		</ol>
 	</section>
 	<section class="content">

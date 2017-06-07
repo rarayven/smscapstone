@@ -65,7 +65,7 @@ class AdminMDistrictController extends Controller
             $district->save();
             return Response::json($district);
         } catch(\Exception $e) {
-            return var_dump($e->errorInfo[1]);
+            return var_dump($e->getMessage());
         } 
     }
     public function edit($id)
@@ -90,7 +90,7 @@ class AdminMDistrictController extends Controller
                 $district->save();
                 return Response::json($district);
             } catch(\Exception $e) {
-                return var_dump($e->errorInfo[1]);
+                return var_dump($e->getMessage());
             }
         } catch(\Exception $e) {
             return Response::json("The record is invalid or deleted.", 422);
@@ -104,10 +104,10 @@ class AdminMDistrictController extends Controller
                 $district->delete();
                 return Response::json($district);
             } catch(\Exception $e) {
-                if($e->errorInfo[1]==1451)
+                if($e->getCode()==1451)
                     return Response::json(['true',$district]);
                 else
-                    return Response::json(['true',$district,$e->errorInfo[1]]);
+                    return Response::json(['true',$district,$e->getMessage()]);
             }
         } catch(\Exception $e) {
             return "Deleted";

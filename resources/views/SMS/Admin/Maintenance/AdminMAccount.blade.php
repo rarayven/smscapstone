@@ -3,12 +3,11 @@
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>
-			Maintenance
-			<small>User Accounts</small>
+			User Accounts
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-			<li class="active">User Accounts</li>
+			<li class="active"><i class="fa fa-fw fa-users"></i> User Accounts</li>
 		</ol>
 	</section>
 	<section class="content">

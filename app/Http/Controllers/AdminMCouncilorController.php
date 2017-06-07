@@ -24,7 +24,7 @@ class AdminMCouncilorController extends Controller
         return Datatables::of($councilor)
         ->filterColumn('strCounName', function($query, $keyword) {
             $query->whereRaw("CONCAT(councilors.last_name,', ',councilors.first_name,' ',IFNULL(councilors.middle_name,'')) like ?", ["%{$keyword}%"]);
-            $query->whereRaw("districts.description like ?", ["%{$keyword}%"]);
+            $query->whereRaw("districts.description like ?", ["%{$keyword}%"]);//mali to
         })
         ->editColumn('strCounName', function ($data) {
             return "$data->last_name, $data->first_name $data->middle_name";
@@ -115,7 +115,7 @@ class AdminMCouncilorController extends Controller
             return Response::json($councilor);
         } catch(\Exception $e) {
             DB::rollBack();
-            return var_dump($e->errorInfo[1]);
+            return var_dump($e->getMessage());
         } 
     }
     public function show($id)
@@ -188,7 +188,7 @@ class AdminMCouncilorController extends Controller
                 ->update(['email' => $request->strUserEmail]);
                 return Response::json($councilor);
             } catch(\Exception $e) {
-                return var_dump($e->errorInfo[1]);
+                return var_dump($e->getMessage());
             } 
         } catch(\Exception $e) {
             return Response::json("The record is invalid or deleted.", 422);
@@ -210,10 +210,10 @@ class AdminMCouncilorController extends Controller
                 $councilor->delete();
                 return Response::json($councilor);
             } catch(\Exception $e) {
-                if($e->errorInfo[1]==1451)
+                if($e->getCode()==1451)
                     return Response::json(['true',$councilor]);
                 else
-                    return Response::json(['true',$councilor,$e->errorInfo[1]]);
+                    return Response::json(['true',$councilor,$e->getMessage()]);
             }
         } catch(\Exception $e) {
             $councilor = Councilor::find($id);

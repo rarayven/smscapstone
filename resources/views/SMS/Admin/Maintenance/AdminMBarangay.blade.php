@@ -3,12 +3,12 @@
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>
-			Maintenance
-			<small>Barangay</small>
+			Barangay
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-			<li class="active">Barangay</li>
+			<li><i class="fa fa-sitemap"></i> Municipality</li>
+			<li class="active"><i class="fa fa-fw fa-map-o"></i> Barangay</li>
 		</ol>
 	</section>
 	<section class="content">

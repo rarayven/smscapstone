@@ -3,12 +3,12 @@
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>
-			Maintenance
-			<small>Steps</small>
+			Steps
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-			<li class="active">Steps</li>
+			<li><i class="fa fa-sticky-note-o"></i> Scholarship</li>
+			<li class="active"><i class="fa fa-fw fa-line-chart"></i> Steps</li>
 		</ol>
 	</section>
 	<section class="content">

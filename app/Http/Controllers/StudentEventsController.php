@@ -6,6 +6,7 @@ use App\Connection;
 use Auth;
 use Response;
 use Carbon\Carbon;
+use Config;
 class StudentEventsController extends Controller
 {
     public function __construct()
@@ -55,7 +56,7 @@ class StudentEventsController extends Controller
         ->where('users.is_active',1)
         ->first();
         $events = Event::where('user_id',$connection->id)
-        ->where('date_held','>',Carbon::now('Asia/Manila'))
+        ->where('date_held','>',Carbon::now(Config::get('app.timezone')))
         ->where('status', 'Ongoing')
         ->count();
         return Response::json($events);

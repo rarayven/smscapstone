@@ -59,6 +59,6 @@ class Kernel extends HttpKernel
     'student' => \App\Http\Middleware\StudentMiddleware::class,
     'admin' => \App\Http\Middleware\AdminMiddleware::class,
     'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-    'first_login' => \App\Http\Middleware\FirstLoginMiddleware::class,
+    'first_use' => \App\Http\Middleware\FirstUseMiddleware::class,
     ];
 }

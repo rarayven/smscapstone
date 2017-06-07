@@ -9,6 +9,8 @@ use Response;
 use App\Connection;
 use App\Notification;
 use Carbon\Carbon;
+use Config;
+use Validator;
 class CoordinatorAnnouncementsController extends Controller
 {
     public function __construct()
@@ -26,6 +28,9 @@ class CoordinatorAnnouncementsController extends Controller
         ->editColumn('date_post', function ($data) {
             return $data->date_post ? with(new Carbon($data->date_post))->format('M d, Y - h:i A ') : '';
         })
+        ->editColumn('description', function ($data) {
+            return str_limit($data->description,30);
+        })
         ->setRowId(function ($data) {
             return $data = 'id'.$data->id;
         })
@@ -38,6 +43,10 @@ class CoordinatorAnnouncementsController extends Controller
     }
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), Announcement::$storeRule);
+        if ($validator->fails()) {
+            return Response::json($validator->errors()->first(), 422);
+        }
         DB::beginTransaction();
         try {
             $connection = Connection::where('user_id',Auth::id())
@@ -48,7 +57,7 @@ class CoordinatorAnnouncementsController extends Controller
             ->where('users.type','Student')
             ->select('users.id')
             ->get();
-            $dtm = Carbon::now('Asia/Manila');
+            $dtm = Carbon::now(Config::get('app.timezone'));
             $announcement = new Announcement;
             $announcement->user_id = Auth::id();
             $announcement->title = $request->title;
@@ -75,5 +84,11 @@ class CoordinatorAnnouncementsController extends Controller
             DB::rollBack();
             dd($e);
         }  
+    }
+    public function destroy($id)
+    {
+        $announcement = Announcement::find($id);
+        $announcement->delete();
+        return Response::json($announcement);
     }
 }

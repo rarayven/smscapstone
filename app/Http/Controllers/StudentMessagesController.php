@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Datatables;
 use Session;
 use Response;
+use Config;
 class StudentMessagesController extends Controller
 {
     public function __construct()
@@ -34,12 +35,16 @@ class StudentMessagesController extends Controller
     }
     public function inboxdata()
     {
-        $message = Message::join('user_message','messages.id','user_message.message_id')
+        $message = Message::withTrashed()
+        ->join('user_message','messages.id','user_message.message_id')
         ->join('users','messages.user_id','users.id')
-        ->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',users.middle_name) as strStudName"),'users.*','messages.*','user_message.id as receivers_id','user_message.is_read'])
-        ->where('user_message.is_deleted',0)
+        ->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',IFNULL(users.middle_name,'')) as strStudName"),'users.*','messages.*','user_message.id as receivers_id','user_message.is_read'])
+        ->where('user_message.deleted_at',null)
         ->where('user_message.user_id',Auth::id());
         $datatables = Datatables::of($message)
+        ->filterColumn('strStudName', function($query, $keyword) {
+            $query->whereRaw("CONCAT(users.last_name,', ',users.first_name,' ',IFNULL(users.middle_name,'')) like ?", ["%{$keyword}%"]);
+        })
         ->addColumn('action', function ($data) {
             return "<a href=".route('studentmessage.reply',$data->user_id)."><button class='btn btn-success btn-xs btn-view' value='$data->id'><i class='fa fa-reply'></i> Reply</button></a> <a href=".route('studentmessage.show',$data->receivers_id)."><button class='btn btn-info btn-xs btn-view' value='$data->receivers_id'><i class='fa fa-eye'></i> View</button></a> <button class='btn btn-danger btn-xs btn-delete' value='$data->receivers_id'><i class='fa fa-trash-o'></i> Delete</button>";
         })
@@ -59,9 +64,6 @@ class StudentMessagesController extends Controller
         ->editColumn('date_created', function ($data) {
             return $data->date_created ? with(new Carbon($data->date_created))->format('M d, Y - h:i A ') : '';
         })
-        // ->editColumn('description', function($data){
-        //     return str_limit($data->description, 20);
-        // })
         ->editColumn('type', function ($data) {
             if ($data->type == 'Student') {
                 $color = 'success';
@@ -80,8 +82,7 @@ class StudentMessagesController extends Controller
     }
     public function sentdata()
     {
-        $message = Message::where('user_id',Auth::id())
-        ->where('is_deleted',0);
+        $message = Message::where('user_id',Auth::id());
         $datatables = Datatables::of($message)
         ->addColumn('action', function ($data) {
             return "<a href=".route('studentmessage.showsent',$data->id)."><button class='btn btn-info btn-xs btn-view' value='$data->id'><i class='fa fa-eye'></i> View</button></a> <button class='btn btn-danger btn-xs btn-delete' value='$data->id'><i class='fa fa-trash-o'></i> Delete</button>";
@@ -101,8 +102,7 @@ class StudentMessagesController extends Controller
     public function unreadmessage()
     {
         $count = Receiver::where('is_read',0)
-        ->where('user_id',Auth::id())
-        ->where('is_deleted',0)
+        ->where('user_id',Auth::id())        
         ->count();
         return Response::json($count);
     }
@@ -137,9 +137,10 @@ class StudentMessagesController extends Controller
     }
     public function store(Request $request)
     {
+        $this->validate($request, Message::$storeRule);
         DB::beginTransaction();
         try {
-            $dtm = Carbon::now('Asia/Manila');
+            $dtm = Carbon::now(Config::get('app.timezone'));
             $message = new Message;
             $message->user_id = Auth::id();
             $message->title = $request->title;
@@ -166,14 +167,12 @@ class StudentMessagesController extends Controller
         } catch(\Exception $e) {
             DB::rollBack();
             dd($e);
-            return dd($e->errorInfo[2]);
         }
     }
     public function show($id)
     {
         try {
             $receiver = Receiver::where('id',$id)
-            ->where('is_deleted',0)
             ->where('user_id',Auth::id())
             ->firstorfail();
             $receiver->is_read = 1;
@@ -189,22 +188,12 @@ class StudentMessagesController extends Controller
     }
     public function destroy($id)
     {
-        try {
-            $receiver = Receiver::findorfail($id);
-            try {
-                $receiver->is_deleted = 1;
-                $receiver->save();
-                $message = Message::find($receiver->message_id);
-                return Response::json($message);
-            } catch(\Exception $e) {
-                if($e->errorInfo[1]==1451)
-                    return Response::json(['true',$receiver]);
-                else
-                    return Response::json(['true',$receiver,$e->errorInfo[1]]);
-            }
-        } catch(\Exception $e) {
-            return "Deleted";
-        }
+        $receiver = Receiver::find($id);
+        $receiver->is_read = 1;
+        $receiver->save();
+        $receiver->delete();
+        $message = Message::find($receiver->message_id);
+        return Response::json($message);
     }
     public function showsent($id)
     {
@@ -226,20 +215,8 @@ class StudentMessagesController extends Controller
     }
     public function destroysent($id)
     {
-        try {
-            $message = Message::findorfail($id);
-            try {
-                $message->is_deleted = 1;
-                $message->save();
-                return Response::json($message);
-            } catch(\Exception $e) {
-                if($e->errorInfo[1]==1451)
-                    return Response::json(['true',$message]);
-                else
-                    return Response::json(['true',$message,$e->errorInfo[1]]);
-            }
-        } catch(\Exception $e) {
-            return "Deleted";
-        }
+        $message = Message::find($id);
+        $message->delete();
+        return Response::json($message);
     }
 }

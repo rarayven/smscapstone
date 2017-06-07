@@ -3,11 +3,11 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      Upcoming Events
+      Events
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('student/index') }}"><i class="fa fa-dashboard"></i> Student</a></li>
-      <li class="active">Events</li>
+      <li><a href="{{ url('student/index') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+      <li class="active"><i class="fa fa-flag"></i> Events</li>
     </ol>
   </section>
   <section class="content">

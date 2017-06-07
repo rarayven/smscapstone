@@ -1,11 +1,8 @@
 <?php
-
 namespace App\Exceptions;
-
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-
 class Handler extends ExceptionHandler
 {
     /**
@@ -21,7 +18,6 @@ class Handler extends ExceptionHandler
     \Illuminate\Session\TokenMismatchException::class,
     \Illuminate\Validation\ValidationException::class,
     ];
-
     /**
      * Report or log an exception.
      *
@@ -34,7 +30,6 @@ class Handler extends ExceptionHandler
     {
         parent::report($exception);
     }
-
     /**
      * Render an exception into an HTTP response.
      *
@@ -45,14 +40,15 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException)
-            return response(view('SMS.SMSNotFound'), 404);
+            return response(view('errors.404'), 404);
         elseif ($exception instanceof \Illuminate\Session\TokenMismatchException)
-        {
             return response('Session Expired! Please try again.',401);
+        elseif ($exception instanceof \PDOException) {
+            if ($exception->getCode() == 2002)
+                return response(view('errors.db'), 500);
         }
         return parent::render($request, $exception);
     }
-
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
@@ -65,7 +61,6 @@ class Handler extends ExceptionHandler
         if ($request->expectsJson()) {
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
-
         return redirect()->guest(route('login'));
     }
 }

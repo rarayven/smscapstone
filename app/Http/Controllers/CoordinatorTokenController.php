@@ -17,6 +17,7 @@ use App\Message;
 use App\Receiver;
 use Response;
 use Carbon\Carbon;
+use Config;
 class CoordinatorTokenController extends Controller
 {
     public function __construct()
@@ -86,7 +87,7 @@ class CoordinatorTokenController extends Controller
     {
         DB::beginTransaction();
         try {
-            $dtm = Carbon::now('Asia/Manila');
+            $dtm = Carbon::now(Config::get('app.timezone'));
             $message = new Message;
             $message->user_id = Auth::id();
             $message->title = $request->title;
@@ -105,7 +106,7 @@ class CoordinatorTokenController extends Controller
         } catch(\Exception $e) {
             DB::rollBack();
             dd($e);
-            return dd($e->errorInfo[2]);
+            return dd($e->getMessage());
         }
     }
     public function destroy($id)

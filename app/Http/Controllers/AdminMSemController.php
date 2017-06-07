@@ -65,7 +65,7 @@ class AdminMSemController extends Controller
             $sem->save();
             return Response::json($sem);
         } catch(\Exception $e) {
-            return var_dump($e->errorInfo[1]);
+            return var_dump($e->getMessage());
         } 
     }
     public function edit($id)
@@ -90,7 +90,7 @@ class AdminMSemController extends Controller
                 $sem->save();
                 return Response::json($sem);
             } catch(\Exception $e) {
-                return var_dump($e->errorInfo[1]);
+                return var_dump($e->getMessage());
             }
         } catch(\Exception $e) {
             return Response::json("The record is invalid or deleted.", 422);
@@ -104,10 +104,10 @@ class AdminMSemController extends Controller
                 $sem->delete();
                 return Response::json($sem);
             } catch(\Exception $e) {
-                if($e->errorInfo[1]==1451)
+                if($e->getCode()==1451)
                     return Response::json(['true',$sem]);
                 else
-                    return Response::json(['true',$sem,$e->errorInfo[1]]);
+                    return Response::json(['true',$sem,$e->getMessage()]);
             }
         } catch(\Exception $e) {
             return "Deleted";

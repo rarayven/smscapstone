@@ -195,7 +195,10 @@ return [
     'strPersGwa' => 'gwa',
     'intYearID' => 'year',
     'intSemID' => 'sem',
-    'strApplGrades' => 'grade upload'
+    'strApplGrades' => 'grade upload',
+    'title' => 'subject',
+    'description' => 'message',
+    'receiver' => 'send to'
 
     ],
 

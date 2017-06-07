@@ -4,11 +4,11 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Renewal Form
+      Renewal
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i>Student</a></li>
-      <li class="active">Renewal</li>
+      <li><a href="{{ url('student/index') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+      <li class="active"><i class="fa fa-refresh"></i> Renewal</li>
     </ol>
   </section>
   <!-- Main content -->

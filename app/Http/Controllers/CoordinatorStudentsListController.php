@@ -55,14 +55,23 @@ class CoordinatorStudentsListController extends Controller
             $('[data-toggle=\'toggle\']').bootstrapToggle();</script>";
         })
         ->editColumn('student_status', function ($data) {
-            if ($data->student_status == 'Graduated') {
-                $color = 'success';
-            }elseif ($data->student_status == 'Forfeit') {
-                $color = 'danger';
-            }else {
+            $selected1 = '';
+            $selected2 = '';
+            $selected3 = '';
+            if ($data->student_status == 'Continuing') {
                 $color = 'warning';
+                $selected1 = 'selected';
+            }elseif ($data->student_status == 'Graduated') {
+                $color = 'success';
+                $selected2 = 'selected';
+            }else {
+                $color = 'danger';
+                $selected3 = 'selected';
             }
-            return "<small class='label label-$color'>$data->student_status</small>";
+            return "<select id='student_status' selectedbox = '$data->id' class='btn-xs btn-$color' name='student_status'>
+            <option value='Continuing' class='btn-warning' $selected1> Continuing</option>
+            <option value='Graduated' class='btn-success' $selected2><i class='fa fa-edit'></i> Graduated</option>
+            <option value='Forfeit' class='btn-danger' $selected3><i class='fa fa-edit'></i> Forfeit</option></select>";
         })
         ->addColumn('action', function ($data) {
             return "<button class='btn btn-warning btn-xs'><i class='fa fa-edit'></i> Edit</button> <button class='btn btn-info btn-xs open-modal'><i class='fa fa-eye'></i> View</button>";
@@ -104,7 +113,7 @@ class CoordinatorStudentsListController extends Controller
         }
         return $datatables->make(true);
     }
-    public function update(Request $request, $id)
+    public function checkbox($id)
     {
         try {
             $user = User::findorfail($id);
@@ -115,6 +124,17 @@ class CoordinatorStudentsListController extends Controller
                 $user->is_active=1;
             }
             $user->save();
+        } catch(\Exception $e) {
+            return "Deleted";
+        } 
+    }
+    public function update(Request $request, $id)
+    {
+        try {
+            $application = Application::findorfail($id);
+            $application->student_status = $request->student_status;
+            $application->save();
+            return Response::json($application);
         } catch(\Exception $e) {
             return "Deleted";
         } 

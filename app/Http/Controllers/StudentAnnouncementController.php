@@ -14,31 +14,6 @@ class StudentAnnouncementController extends Controller
         $this->middleware('auth');
         $this->middleware('student');
     }
-    public function index()
-    {
-        $connection = Connection::join('users','user_councilor.user_id','users.id')
-        ->select('user_councilor.councilor_id')
-        ->where('user_councilor.user_id',Auth::id())
-        ->first();
-        $users = User::join('user_councilor','users.id','user_councilor.user_id')
-        ->select('users.id')
-        ->where('user_councilor.councilor_id',$connection->councilor_id)
-        ->where('users.type','Coordinator')
-        ->first();
-        $announcement = Announcement::join('user_announcement','announcements.id','user_announcement.user_id')
-        ->select('announcements.*','user_announcement.id as user_announcement_id','user_announcement.is_read')
-        ->where('announcements.user_id',$users->id)
-        ->orderBy('announcements.id','desc')
-        ->paginate(10);
-        return view('SMS.Student.StudentAnnouncement')->withAnnouncement($announcement);
-    }
-    public function unread()
-    {
-        $notification = Notification::where('is_read',0)
-        ->where('user_id',Auth::id())
-        ->count();
-        return Response::json($notification);
-    }
     public function checkbox($id)
     {
         try {
@@ -54,5 +29,32 @@ class StudentAnnouncementController extends Controller
         } catch(\Exception $e) {
             return "Deleted";
         } 
+    }
+    public function index()
+    {
+        $connection = Connection::join('users','user_councilor.user_id','users.id')
+        ->select('user_councilor.councilor_id')
+        ->where('user_councilor.user_id',Auth::id())
+        ->first();
+        $users = User::join('user_councilor','users.id','user_councilor.user_id')
+        ->select('users.id')
+        ->where('user_councilor.councilor_id',$connection->councilor_id)
+        ->where('users.type','Coordinator')
+        ->first();
+        $announcement = Announcement::join('user_announcement','announcements.id','user_announcement.announcement_id')
+        ->select('announcements.*','user_announcement.id as user_announcement_id','user_announcement.is_read')
+        ->where('announcements.user_id',$users->id)
+        ->orderBy('announcements.id','desc')
+        ->paginate(10);
+        return view('SMS.Student.StudentAnnouncement')->withAnnouncement($announcement);
+    }
+    public function unread()
+    {
+        $notification = Notification::join('announcements','user_announcement.announcement_id','announcements.id')
+        ->where('user_announcement.is_read',0)
+        ->where('announcements.deleted_at',null)
+        ->where('user_announcement.user_id',Auth::id())
+        ->count();
+        return Response::json($notification);
     }
 }

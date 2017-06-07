@@ -126,7 +126,7 @@ $(document).ready(function() {
 				error: function(data) {
 					console.log('Error:', data.responseText);
 					$.notify({
-						message: data.responseText
+						message: data.responseText.replace(/['"]+/g, '')
 					}, {
 						type: 'warning',
 						z_index: 2000,

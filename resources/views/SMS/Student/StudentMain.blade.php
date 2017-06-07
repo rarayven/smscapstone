@@ -20,6 +20,11 @@
   {!! Html::script("plugins/jQueryUI/jquery-ui.min.js") !!}
   {!! Html::script("js/bootstrap.min.js") !!}
   {!! Html::script("plugins/pace/pace.min.js") !!}
+  <style type="text/css">
+    [data-notify="container"] {
+      width: 25%;
+    }
+  </style>
   <link rel="icon" href="{{ asset('img/logo.ico') }}">
 </head>
 <body class="hold-transition skin-red sidebar-mini">
@@ -50,12 +55,12 @@
                 </li>
                 <li class="user-footer">
                   <div class="pull-left">
-                    <a href="{{ url('student/profile') }}" class="btn btn-default btn-flat">Profile</a>
+                    <a href="{{ url('student/profile') }}" class="btn btn-default btn-flat"><i class="fa fa-user"></i> Profile</a>
                   </div>
                   <div class="pull-right">
                     <a href="{{ route('logout') }}" class="btn btn-default btn-flat"
                     onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();">
+                    document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i> 
                     Sign out
                   </a>
                   <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -103,7 +108,6 @@
 <script type="text/javascript">
   var notif = "{!! route('studentmessage.unreadmessage') !!}";
   var anno = "{!! route('studentannouncements.unread') !!}";
-  var url = "{!! route('sms.index') !!}";
   var event = "{!! route('studentevents.upcome') !!}";
 </script>
 {!! Html::script("custom/NotificationAjax.js") !!}

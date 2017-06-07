@@ -2,7 +2,7 @@
 namespace App\Http\Middleware;
 use Closure;
 use Auth;
-class FirstLoginMiddleware
+class FirstUseMiddleware
 {
     /**
      * Handle an incoming request.

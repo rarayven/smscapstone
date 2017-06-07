@@ -6,11 +6,11 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      Messages
+      Sent
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('student/dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Here</li>
+      <li><a href="{{ url('student/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+      <li class="active"><i class="fa fa-envelope"></i> Sent</li>
     </ol>
   </section>
   <section class="content">
@@ -64,6 +64,6 @@
 {!! Html::script("custom/SentAjax.js") !!}
 <script type="text/javascript">
   var dataurl = "{!! route('studentsent.data') !!}";
-  var url = "/student/messages/sent/delete";
+  var urldelete = "/student/messages/sent/delete";
 </script>
 @endsection

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use App\Allocation;
 use Carbon\Carbon;
 use Response;
+use Config;
 class CoordinatorBudgetController extends Controller
 {
     public function __construct()
@@ -39,7 +40,7 @@ class CoordinatorBudgetController extends Controller
      */
     public function store(Request $request)
     {
-        $current = Carbon::now('Asia/Manila');
+        $current = Carbon::now(Config::get('app.timezone'));
         $allocation = new Allocation;
         $allocation->intAlloCoorID=$request->intAlloCoorID;
         $allocation->dblAlloBudgetAmount=$request->dblAlloBudgetAmount;

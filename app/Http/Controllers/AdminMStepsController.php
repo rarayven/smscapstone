@@ -101,7 +101,7 @@ class AdminMStepsController extends Controller
             $steps->save();
             return Response::json($steps);
         } catch(\Exception $e) {
-            return var_dump($e->errorInfo[1]);
+            return var_dump($e->getMessage());
         } 
     }
     public function order(Request $request)
@@ -152,7 +152,7 @@ class AdminMStepsController extends Controller
                 $steps->save();
                 return Response::json($steps);
             } catch(\Exception $e) {
-                return var_dump($e->errorInfo[1]);
+                return var_dump($e->getMessage());
             }
         } catch(\Exception $e) {
             return Response::json("The record is invalid or deleted.", 422);
@@ -166,10 +166,10 @@ class AdminMStepsController extends Controller
                 $steps->delete();
                 return Response::json($steps);
             } catch(\Exception $e) {
-                if($e->errorInfo[1]==1451)
+                if($e->getCode()==1451)
                     return Response::json(['true',$steps]);
                 else
-                    return Response::json(['true',$steps,$e->errorInfo[1]]);
+                    return Response::json(['true',$steps,$e->getMessage()]);
             }
         } catch(\Exception $e) {
             return "Deleted";

@@ -6,8 +6,8 @@
       Applicants
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('coordinator/index') }}"><i class="fa fa-dashboard"></i> Coordinator</a></li>
-      <li class="active">Applicants</li>
+      <li><a href="{{ url('coordinator/index') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+      <li class="active"><i class="fa fa-fw fa-users"></i> Applicants</li>
     </ol>
   </section>
   <section class="content">

@@ -30,6 +30,7 @@ $(document).ready(function() {
 			url: url2 + '/' + link_id,
 			type: "PUT",
 			success: function(data) {
+				Pace.restart();
 				console.log(data);
 				if (data == "Deleted") {
 					refresh();

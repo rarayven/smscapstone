@@ -25,6 +25,7 @@ use App\Connection;
 use App\Grade;
 use Auth;
 use Hash;
+use Config;
 class SMSAccountApplyController extends Controller
 {
   public function __construct()
@@ -49,7 +50,7 @@ class SMSAccountApplyController extends Controller
     DB::beginTransaction();
     try {
       $randompassword = Hash::make('password');
-      $dtm = Carbon::now('Asia/Manila');
+      $dtm = Carbon::now(Config::get('app.timezone'));
       $date = $request->datPersDOB;
       $dob = Carbon::createFromFormat('Y-m-d', $date);
       //Image Upload
@@ -185,7 +186,7 @@ class SMSAccountApplyController extends Controller
       return redirect('/');
     } catch(\Exception $e) {
       DB::rollBack();
-      return dd($e->errorInfo[2]);
+      return dd($e->getMessage());
     }  
   }
   public function show($id)

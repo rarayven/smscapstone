@@ -2,12 +2,11 @@
 @section('content')
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Maintenance
-			<small>Councilor</small>
+		<h1>Councilor
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-			<li class="active">Councilor</li>
+			<li class="active"><i class="fa fa-fw fa-gavel"></i> Councilor</li>
 		</ol>
 	</section>
 	<section class="content">

@@ -57,12 +57,12 @@
               </li>
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="#" class="btn btn-default btn-flat"><i class="fa fa-user"></i> Profile</a>
                 </div>
                 <div class="pull-right">
                   <a href="{{ route('logout') }}" class="btn btn-default btn-flat"
                   onclick="event.preventDefault();
-                  document.getElementById('logout-form').submit();">
+                  document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i> 
                   Sign out
                 </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -92,44 +92,44 @@
       <li class="header">MAINTENANCE</li>
       <!-- Optionally, you can add icons to the links -->
       <li class="treeview {{Request::path() == 'admin/district' ? 'active' : ''}} {{Request::path() == 'admin/barangay' ? 'active' : ''}}">
-        <a href="#"><i class="fa fa-sitemap"></i> <span>Municipality</span>
+        <a href="#"><i class="fa fa-sitemap"></i><span>Municipality</span>
           <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
           </span>
         </a>
         <ul class="treeview-menu">
-          <li class="{{Request::path() == 'admin/district' ? 'active' : ''}}"><a href="{{ url('admin/district') }}"><i class="fa fa-bank"></i> <span>District</span></a></li>
-          <li class="{{Request::path() == 'admin/barangay' ? 'active' : ''}}"><a href="{{ url('admin/barangay') }}"><i class="fa fa-fw fa-map-o"></i> <span>Barangay</span></a></li>
+          <li class="{{Request::path() == 'admin/district' ? 'active' : ''}}"><a href="{{ url('admin/district') }}"><i class="fa fa-bank"></i><span>District</span></a></li>
+          <li class="{{Request::path() == 'admin/barangay' ? 'active' : ''}}"><a href="{{ url('admin/barangay') }}"><i class="fa fa-map-o"></i><span>Barangay</span></a></li>
         </ul>
       </li>
-      <li class="{{Request::path() == 'admin/councilor' ? 'active' : ''}}"><a href="{{ url('admin/councilor') }}"><i class="fa fa-fw fa-gavel"></i> <span>Councilor</span></a></li>
+      <li class="{{Request::path() == 'admin/councilor' ? 'active' : ''}}"><a href="{{ url('admin/councilor') }}"><i class="fa fa-gavel"></i><span>Councilor</span></a></li>
       <li class="treeview {{Request::path() == 'admin/grade' ? 'active' : ''}} {{Request::path() == 'admin/school' ? 'active' : ''}} {{Request::path() == 'admin/course' ? 'active' : ''}} {{Request::path() == 'admin/sem' ? 'active' : ''}} {{Request::path() == 'admin/year' ? 'active' : ''}}">
-        <a href="#"><i class="fa fa-pencil-square-o"></i> <span>Educational</span>
+        <a href="#"><i class="fa fa-pencil-square-o"></i><span>Education</span>
           <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
           </span>
         </a>
         <ul class="treeview-menu">
-          <li class="{{Request::path() == 'admin/grade' ? 'active' : ''}}"><a href="{{ url('admin/grade') }}"><i class="fa fa-fw fa-level-up"></i> <span>Academic Grading</span></a></li>
-          <li class="{{Request::path() == 'admin/school' ? 'active' : ''}}"><a href="{{ url('admin/school') }}"><i class="fa fa-fw fa-graduation-cap"></i> <span>School</span></a></li>
-          <li class="{{Request::path() == 'admin/course' ? 'active' : ''}}"><a href="{{ url('admin/course') }}"><i class="fa fa-fw fa-book"></i> <span>Courses</span></a></li>
-          <li class="{{Request::path() == 'admin/sem' ? 'active' : ''}}"><a href="{{ url('admin/sem') }}"><i class="fa fa-fw fa-slack"></i> <span>Semester</span></a></li>
-          <li class="{{Request::path() == 'admin/year' ? 'active' : ''}}"><a href="{{ url('admin/year') }}"><i class="fa fa-fw fa-table"></i> <span>Year</span></a></li>
+          <li class="{{Request::path() == 'admin/grade' ? 'active' : ''}}"><a href="{{ url('admin/grade') }}"><i class="fa fa-level-up"></i><span>Academic Grading</span></a></li>
+          <li class="{{Request::path() == 'admin/school' ? 'active' : ''}}"><a href="{{ url('admin/school') }}"><i class="fa fa-graduation-cap"></i><span>School</span></a></li>
+          <li class="{{Request::path() == 'admin/course' ? 'active' : ''}}"><a href="{{ url('admin/course') }}"><i class="fa fa-book"></i><span>Course</span></a></li>
+          <li class="{{Request::path() == 'admin/sem' ? 'active' : ''}}"><a href="{{ url('admin/sem') }}"><i class="fa fa-slack"></i><span>Semester</span></a></li>
+          <li class="{{Request::path() == 'admin/year' ? 'active' : ''}}"><a href="{{ url('admin/year') }}"><i class="fa fa-table"></i><span>Year</span></a></li>
         </ul>
       </li>
       <li class="treeview {{Request::path() == 'admin/batch' ? 'active' : ''}} {{Request::path() == 'admin/steps' ? 'active' : ''}}">
-        <a href="#"><i class="fa fa-sticky-note"></i> <span>Scholarship</span>
+        <a href="#"><i class="fa fa-sticky-note-o"></i><span>Scholarship</span>
           <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
           </span>
         </a>
         <ul class="treeview-menu">
-          <li class="{{Request::path() == 'admin/batch' ? 'active' : ''}}"><a href="{{ url('admin/batch') }}"><i class="fa fa-fw fa-stack-overflow"></i> <span>Batch</span></a></li>
-          <li class="{{Request::path() == 'admin/steps' ? 'active' : ''}}"><a href="{{ url('admin/steps') }}"><i class="fa fa-fw fa-line-chart"></i> <span>Steps</span></a></li>
+          <li class="{{Request::path() == 'admin/batch' ? 'active' : ''}}"><a href="{{ url('admin/batch') }}"><i class="fa fa-stack-overflow"></i><span>Batch</span></a></li>
+          <li class="{{Request::path() == 'admin/steps' ? 'active' : ''}}"><a href="{{ url('admin/steps') }}"><i class="fa fa-line-chart"></i><span>Steps</span></a></li>
         </ul>
       </li>
-      <li class="{{Request::path() == 'admin/budgtype' ? 'active' : ''}}"><a href="{{ url('admin/budgtype') }}"><i class="fa fa-fw fa-money"></i> <span>Budget Type</span></a></li>
-      <li class="{{Request::path() == 'admin/users' ? 'active' : ''}}"><a href="{{ url('admin/users') }}"><i class="fa fa-fw fa-users"></i> <span>User Accounts</span></a></li>
+      <li class="{{Request::path() == 'admin/budgtype' ? 'active' : ''}}"><a href="{{ url('admin/budgtype') }}"><i class="fa fa-money"></i><span>Budget Type</span></a></li>
+      <li class="{{Request::path() == 'admin/users' ? 'active' : ''}}"><a href="{{ url('admin/users') }}"><i class="fa fa-users"></i><span>User Accounts</span></a></li>
     </ul>
   </section>
 </aside>
