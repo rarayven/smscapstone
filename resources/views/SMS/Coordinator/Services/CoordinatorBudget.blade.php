@@ -91,5 +91,5 @@
 </div>
 @endsection
 @section('script')
-{!! Html::script("custom/BudgetAjax.js") !!}
+{!! Html::script("custom/BudgetAjax.min.js") !!}
 @endsection

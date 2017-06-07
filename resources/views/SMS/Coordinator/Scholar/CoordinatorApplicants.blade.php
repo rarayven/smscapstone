@@ -46,5 +46,5 @@
 </div>
 @endsection
 @section('script')
-{!! Html::script("custom/ApplicantsAjax.js") !!}
+{!! Html::script("custom/ApplicantsAjax.min.js") !!}
 @endsection

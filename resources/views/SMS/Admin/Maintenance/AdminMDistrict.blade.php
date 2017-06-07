@@ -82,7 +82,7 @@
 	</div>
 	@endsection
 	@section('script')
-	{!! Html::script("custom/DistrictAjax.js") !!}
+	{!! Html::script("custom/DistrictAjax.min.js") !!}
 	<script type="text/javascript">
 		var dataurl = "{!! route('district.data') !!}";
 	</script>

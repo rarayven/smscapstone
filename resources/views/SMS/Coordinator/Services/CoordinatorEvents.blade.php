@@ -236,5 +236,5 @@
 @section('script')
 {!! Html::script("plugins/datepicker/bootstrap-datepicker.js") !!}
 {!! Html::script("plugins/timepicker/bootstrap-timepicker.min.js") !!}
-{!! Html::script("custom/CoordinatorEventsAjax.js") !!}
+{!! Html::script("custom/CoordinatorEventsAjax.min.js") !!}
 @endsection

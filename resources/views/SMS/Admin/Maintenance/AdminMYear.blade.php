@@ -83,7 +83,7 @@
 	</div>
 	@endsection
 	@section('script')
-	{!! Html::script("custom/YearAjax.js") !!}
+	{!! Html::script("custom/YearAjax.min.js") !!}
 	<script type="text/javascript">
 		var dataurl = "{!! route('year.data') !!}";
 	</script>

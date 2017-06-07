@@ -91,7 +91,7 @@
 	</div>
 	@endsection
 	@section('script')
-	{!! Html::script("custom/BarangayAjax.js") !!}
+	{!! Html::script("custom/BarangayAjax.min.js") !!}
 	<script type="text/javascript">
 		var dataurl = "{!! route('barangay.data') !!}";
 	</script>

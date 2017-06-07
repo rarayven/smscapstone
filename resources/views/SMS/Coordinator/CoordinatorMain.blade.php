@@ -134,7 +134,7 @@
 <script type="text/javascript">
   var notif = "{!! route('coordinatormessage.unreadmessage') !!}";
 </script>
-{!! Html::script("custom/NotificationAjax.js") !!}
+{!! Html::script("custom/NotificationAjax.min.js") !!}
 {!! Html::script("js/ajax-expired-session.js") !!}
 </body>
 </html>

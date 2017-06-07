@@ -50,5 +50,5 @@
 </div>
 @endsection
 @section('script')
-{!! Html::script("custom/StudentAnnouncementAjax.js") !!}
+{!! Html::script("custom/StudentAnnouncementAjax.min.js") !!}
 @endsection

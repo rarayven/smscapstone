@@ -65,7 +65,7 @@
   </div>
   @endsection
   @section('script')
-  {!! Html::script("custom/InboxAjax.js") !!}
+  {!! Html::script("custom/InboxAjax.min.js") !!}
   <script type="text/javascript">
     var dataurl = "{!! route('coordinatorinbox.data') !!}";
     var urldelete = "/coordinator/messages/delete";

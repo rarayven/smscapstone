@@ -557,7 +557,7 @@
         <label class="radio-inline">{{ Form::radio('rad', 'no', true, ['id' => 'no']) }} No</label>
     </div>
     <div id="questionappear">
-       <div class="row">
+     <div class="row">
         <div class="container col-md-6 col-sm-12">
             <div class="form-group">
                 {{ Form::label('name', "Name", [
@@ -1213,5 +1213,5 @@
 {!! Html::script("js/parsley.min.js") !!}  
 {!! Html::script("js/bootstrap-notify.min.js") !!} 
 {!! Html::script("plugins/sweetalert/sweetalert.min.js") !!}
-{!! Html::script("custom/ApplyAjax.js") !!}
+{!! Html::script("custom/ApplyAjax.min.js") !!}
 @endsection

@@ -82,7 +82,7 @@
 </div>
 @endsection
 @section('script')
-{!! Html::script("custom/SemAjax.js") !!}
+{!! Html::script("custom/SemAjax.min.js") !!}
 <script type="text/javascript">
 	var dataurl = "{!! route('sem.data') !!}";
 </script>

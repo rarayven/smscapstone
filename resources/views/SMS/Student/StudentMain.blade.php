@@ -102,7 +102,6 @@
 {!! Html::script("plugins/sweetalert/sweetalert.min.js") !!}
 {!! Html::script("js/script.js") !!}
 {!! Html::script("js/parsley.min.js") !!}
-{!! Html::script("plugins/datatables/jquery.dataTables.min.js") !!}
 @yield('script')
 {!! Html::script("js/app.min.js") !!}
 <script type="text/javascript">
@@ -110,8 +109,8 @@
   var anno = "{!! route('studentannouncements.unread') !!}";
   var event = "{!! route('studentevents.upcome') !!}";
 </script>
-{!! Html::script("custom/NotificationAjax.js") !!}
-{!! Html::script("custom/NotificationAEAjax.js") !!}
+{!! Html::script("custom/NotificationAjax.min.js") !!}
+{!! Html::script("custom/NotificationAEAjax.min.js") !!}
 {!! Html::script("js/ajax-expired-session.js") !!} 
 </body>
 </html>

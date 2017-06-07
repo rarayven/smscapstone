@@ -114,5 +114,5 @@
 </div>
 @endsection
 @section('script')
-{!! Html::script("custom/CoordinatorAchievementAjax.js") !!}
+{!! Html::script("custom/CoordinatorAchievementAjax.min.js") !!}
 @endsection

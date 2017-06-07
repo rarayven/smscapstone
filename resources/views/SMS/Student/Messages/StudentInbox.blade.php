@@ -68,8 +68,9 @@
 </div>
 @endsection
 @section('script')
+{!! Html::script("plugins/datatables/jquery.dataTables.min.js") !!}
 {!! Html::script("plugins/datatables/dataTables.bootstrap.min.js") !!}
-{!! Html::script("custom/InboxAjax.js") !!}
+{!! Html::script("custom/InboxAjax.min.js") !!}
 <script type="text/javascript">
   var dataurl = "{!! route('studentinbox.data') !!}";
   var urldelete = "/student/messages/delete";

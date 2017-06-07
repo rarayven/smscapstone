@@ -34,7 +34,7 @@
 	</div>
 	@endsection
 	@section('script')
-	{!! Html::script("custom/UserAjax.js") !!}
+	{!! Html::script("custom/UserAjax.min.js") !!}
 	<script type="text/javascript">
 		var dataurl = "{!! route('users.data') !!}";
 	</script>

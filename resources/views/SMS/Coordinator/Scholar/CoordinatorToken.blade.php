@@ -141,5 +141,5 @@
 </div>
 @endsection
 @section('script')
-{!! Html::script("custom/TokenAjax.js") !!}
+{!! Html::script("custom/TokenAjax.min.js") !!}
 @endsection

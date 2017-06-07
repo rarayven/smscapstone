@@ -122,9 +122,10 @@
 </div>
 @endsection
 @section('script')
+{!! Html::script("plugins/datatables/jquery.dataTables.min.js") !!}
 {!! Html::script("plugins/datatables/dataTables.bootstrap.min.js") !!}
 {!! Html::script("plugins/datepicker/bootstrap-datepicker.js") !!}
-{!! Html::script("custom/StudentAchievementAjax.js") !!}
+{!! Html::script("custom/StudentAchievementAjax.min.js") !!}
 <script type="text/javascript">
   var dataurl = "{!! route('studentachievement.data') !!}";
 </script>

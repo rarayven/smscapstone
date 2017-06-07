@@ -60,8 +60,9 @@
 </div>
 @endsection
 @section('script')
+{!! Html::script("plugins/datatables/jquery.dataTables.min.js") !!}
 {!! Html::script("plugins/datatables/dataTables.bootstrap.min.js") !!}
-{!! Html::script("custom/SentAjax.js") !!}
+{!! Html::script("custom/SentAjax.min.js") !!}
 <script type="text/javascript">
   var dataurl = "{!! route('studentsent.data') !!}";
   var urldelete = "/student/messages/sent/delete";

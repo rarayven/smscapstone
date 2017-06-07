@@ -185,7 +185,7 @@
 </div>
 @endsection
 @section('script')
-{!! Html::script("custom/ProgressAjax.js") !!}
+{!! Html::script("custom/ProgressAjax.min.js") !!}
 <script type="text/javascript">
 	var dataurl = "{!! route('progress.store') !!}";
 </script>

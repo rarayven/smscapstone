@@ -91,7 +91,7 @@
 	</div>
 	@endsection
 	@section('script')
-	{!! Html::script("custom/SchoolAjax.js") !!}
+	{!! Html::script("custom/SchoolAjax.min.js") !!}
 	<script type="text/javascript">
 		var dataurl = "{!! route('school.data') !!}";
 	</script>

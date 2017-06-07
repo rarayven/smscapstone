@@ -57,7 +57,7 @@
   </div>
   @endsection
   @section('script')
-  {!! Html::script("custom/SentAjax.js") !!}
+  {!! Html::script("custom/SentAjax.min.js") !!}
   <script type="text/javascript">
     var dataurl = "{!! route('coordinatorsent.data') !!}";
     var urldelete = "/coordinator/messages/sent/delete";

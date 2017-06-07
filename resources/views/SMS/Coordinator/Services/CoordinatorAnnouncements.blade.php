@@ -86,7 +86,7 @@
     </div>
     @endsection
     @section('script')
-    {!! Html::script("custom/CoordinatorAnnouncementAjax.js") !!}
+    {!! Html::script("custom/CoordinatorAnnouncementAjax.min.js") !!}
     <script type="text/javascript">
       var dataurl = "{!! route('coordinatorannouncements.data') !!}";
     </script>

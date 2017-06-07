@@ -83,7 +83,7 @@
 	</div>
 	@endsection
 	@section('script')
-	{!! Html::script("custom/BatchAjax.js") !!}
+	{!! Html::script("custom/BatchAjax.min.js") !!}
 	<script type="text/javascript">
 		var dataurl = "{!! route('batch.data') !!}";
 	</script>

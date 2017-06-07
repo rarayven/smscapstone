@@ -169,7 +169,7 @@
 	</div>
 	@endsection
 	@section('script')
-	{!! Html::script("custom/CouncilorAjax.js") !!}
+	{!! Html::script("custom/CouncilorAjax.min.js") !!}
 	<script type="text/javascript">
 		var dataurl = "{!! route('councilor.data') !!}";
 	</script>

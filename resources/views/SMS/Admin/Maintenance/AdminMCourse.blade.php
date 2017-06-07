@@ -83,7 +83,7 @@
 	</div>
 	@endsection
 	@section('script')
-	{!! Html::script("custom/CourseAjax.js") !!}
+	{!! Html::script("custom/CourseAjax.min.js") !!}
 	<script type="text/javascript">
 		var dataurl = "{!! route('course.data') !!}";
 	</script>

@@ -82,7 +82,7 @@
 	</div>
 	@endsection
 	@section('script')
-	{!! Html::script("custom/BudgtypeAjax.js") !!}
+	{!! Html::script("custom/BudgtypeAjax.min.js") !!}
 	<script type="text/javascript">
 		var dataurl = "{!! route('budgtype.data') !!}";
 	</script>

@@ -187,7 +187,7 @@
 </div>
 @endsection
 @section('script')
-{!! Html::script("custom/ListAjax.js") !!}
+{!! Html::script("custom/ListAjax.min.js") !!}
 <script type="text/javascript">
 	var dataurl = "{!! route('list.store') !!}";
 </script>

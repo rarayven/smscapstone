@@ -162,7 +162,7 @@
 	</div>
 	@endsection
 	@section('script')
-	{!! Html::script("custom/StepsAjax.js") !!}
+	{!! Html::script("custom/StepsAjax.min.js") !!}
 	<script type="text/javascript">
 		var dataurl = "{!! route('steps.data') !!}";
 		$(".todo-list").sortable({
