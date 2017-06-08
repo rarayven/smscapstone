@@ -24,7 +24,6 @@ class AdminMCouncilorController extends Controller
         return Datatables::of($councilor)
         ->filterColumn('strCounName', function($query, $keyword) {
             $query->whereRaw("CONCAT(councilors.last_name,', ',councilors.first_name,' ',IFNULL(councilors.middle_name,'')) like ?", ["%{$keyword}%"]);
-            $query->whereRaw("districts.description like ?", ["%{$keyword}%"]);//mali to
         })
         ->editColumn('strCounName', function ($data) {
             return "$data->last_name, $data->first_name $data->middle_name";
@@ -72,18 +71,6 @@ class AdminMCouncilorController extends Controller
         $validator = Validator::make($request->all(), Councilor::$storeRule);
         if ($validator->fails()) {
             return Response::json($validator->errors()->first(), 422);
-        }
-        $validation = Validator::make($request->all(), Councilor::$rules);
-        if ($validation->fails()) {
-            return "1";
-        }
-        $validation2 = Validator::make($request->all(), Councilor::$email);
-        if ($validation2->fails()) {
-            return "2";
-        }
-        $validation3 = Validator::make($request->all(), Councilor::$coordinator);
-        if ($validation3->fails()) {
-            return "3";
         }
         DB::beginTransaction();
         try {
@@ -146,18 +133,6 @@ class AdminMCouncilorController extends Controller
     }
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), Councilor::$storeRule);
-        if ($validator->fails()) {
-            return Response::json($validator->errors()->first(), 422);
-        }
-        $validation = Validator::make($request->all(), Councilor::updaterules($id));
-        if ($validation->fails()) {
-            return "1";
-        }
-        $validation2 = Validator::make($request->all(), Councilor::updateemail($id));
-        if ($validation2->fails()) {
-            return "2";
-        }
         try {
             $connection = Connection::join('users','user_councilor.user_id','users.id')
             ->select('users.id')
@@ -167,9 +142,9 @@ class AdminMCouncilorController extends Controller
         } catch(\Exception $e){
             dd("Error");
         }
-        $validation3 = Validator::make($request->all(), Councilor::coordinator($connection->id));
-        if ($validation3->fails()) {
-            return "3";
+        $validator = Validator::make($request->all(), Councilor::updaterules($id, $connection->id));
+        if ($validator->fails()) {
+            return Response::json($validator->errors()->first(), 422);
         }
         try {
             try {

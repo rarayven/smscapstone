@@ -20,8 +20,6 @@ $(document).ready(function() {
 				$('.btn-box-tool').blur();
 			},
 			error: function(data) {
-				console.log(url + '/' + link_id);
-				console.log('Error:', data);
 			}
 		});
 	});

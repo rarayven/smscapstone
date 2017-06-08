@@ -40,11 +40,11 @@
           if($event->status=='Ongoing'){
             $status = 'success';
           }else{
-            $status = 'danger';
+            $status = 'warning';
           }
           ?>
           <div class="col-md-4">
-            <div class="small-box bg-orange">
+            <div class="small-box bg-red">
               <div class="box-body">
                 <div class="pull-right">
                   <span class='label label-{{$status}}'>{{$event->status}}</span>

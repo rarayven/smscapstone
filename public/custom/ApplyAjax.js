@@ -32,12 +32,6 @@ $(document).ready(function() {
     autoclose: true,
     format: 'yyyy-mm-dd'
   });
-  $('input[type="text"], textarea').on('blur', function(event) {
-    var $this = $(this),
-    val = $this.val();
-    val = val.substr(0, 1).toUpperCase() + val.substr(1).toLowerCase();
-    $this.val(val);
-  });
   window.Parsley.on('field:error', function(fieldInstance) {
     if (fieldInstance.$element[0].type == 'file') {
       var instanceName;
@@ -82,14 +76,12 @@ $(document).ready(function() {
     }
     fieldInstance.$element.removeAttr('placeholder');
   });
-
   function scroll_to_class(element_class, removed_height) {
     var scroll_to = $(element_class).offset().top - removed_height;
     if ($(window).scrollTop() != scroll_to) {
       $('html, body').stop().animate({ scrollTop: scroll_to }, 0);
     }
   }
-
   function bar_progress(progress_line_object, direction) {
     var number_of_steps = progress_line_object.data('number-of-steps');
     var now_value = progress_line_object.data('now-value');
@@ -105,7 +97,6 @@ $(document).ready(function() {
   $.backstretch("../../img/backgrounds/1apply.jpg");
   $('.f1 .form-section:first').fadeIn('slow');
   scroll_to_class($('.f1'), 20);
-
   function navigateTo(index) {
     $sections
     .removeClass('current')
@@ -119,7 +110,6 @@ $(document).ready(function() {
       $('.form-navigation .next').toggle(!atTheEnd);
     }
   }
-
   function curIndex() {
     return $sections.index($sections.filter('.current'));
   }
@@ -365,7 +355,6 @@ $('#intPersCurrentSchool').on('change', function() {
       $('#view').val(data.intSystID);
     },
     error: function(data) {
-      console.log('Error:', data);
     }
   });
 });
@@ -390,7 +379,6 @@ $('#view').on('click', function() {
         $('#details_grade').modal('show');
       },
       error: function(data) {
-        console.log('Error:', data);
       }
     });
   }

@@ -59,14 +59,6 @@ class AdminMGradeController extends Controller
         if ($validator->fails()) {
             return Response::json($validator->errors()->first(), 422);
         }
-        $validation = Validator::make($request->all(), Academicgrade::$desc);
-        if ($validation->fails()) {
-            return "1";
-        }
-        $validation2 = Validator::make($request->all(), Academicgrade::$value);
-        if ($validation2->fails()) {
-            return "2";
-        }
         try {
             $grade = new Academicgrade;
             $grade->description=$request->strSystDesc;
@@ -90,17 +82,9 @@ class AdminMGradeController extends Controller
     }
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), Academicgrade::$storeRule);
+        $validator = Validator::make($request->all(), Academicgrade::updateRule($id));
         if ($validator->fails()) {
             return Response::json($validator->errors()->first(), 422);
-        }
-        $validation = Validator::make($request->all(), Academicgrade::updatedesc($id));
-        if ($validation->fails()) {
-            return "1";
-        }
-        $validation2 = Validator::make($request->all(), Academicgrade::updatevalue($id));
-        if ($validation2->fails()) {
-            return "2";
         }
         try {
             try {

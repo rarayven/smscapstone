@@ -34,13 +34,11 @@ $(document).ready(function() {
             type: "PUT",
             success: function(data) {
                 Pace.restart();
-                console.log(data);
                 if (data == "Deleted") {
                     refresh();
                 }
             },
             error: function(data) {
-                console.log('Error:', data);
             }
         });
     });
@@ -69,7 +67,6 @@ $(document).ready(function() {
         var link_id = $(this).val();
         id = link_id;
         $.get(url + '/' + link_id + '/edit', function(data) {
-            console.log(data);
             if (data == "Deleted") {
                 refresh();
             } else {
@@ -99,7 +96,6 @@ $(document).ready(function() {
             if (data == "Deleted") {
                 refresh();
             } else {
-                console.log(data);
                 $('#details').empty();
                 var modalbody =
                 "<label>ID</label><br>" + data.id +
@@ -142,7 +138,6 @@ $(document).ready(function() {
                         url: url + '/' + link_id,
                         type: "DELETE",
                         success: function(data) {
-                            console.log(data);
                             if (data[0] == "true") {
                                 swal({
                                     title: "Failed!",
@@ -165,7 +160,6 @@ $(document).ready(function() {
                             }
                         },
                         error: function(data) {
-                            console.log(data);
                         }
                     });
                 }
@@ -189,8 +183,7 @@ $(document).ready(function() {
                 strCounCell: $('#strCounCell').parsley('data-parsley-whitespace', 'squish').getValue(),
                 strUserEmail: $('#strUserEmail').parsley('data-parsley-whitespace', 'squish').getValue()
             }
-                //used to determine the http verb to use [add=POST], [update=PUT]
-                var state = $('#btn-save').val();
+            var state = $('#btn-save').val();
             var type = "POST"; //for creating new resource
             var my_url = url;
             if (state == "update") {
@@ -203,35 +196,18 @@ $(document).ready(function() {
                 data: formData,
                 dataType: 'json',
                 success: function(data) {
-                    console.log(data);
-                    if (data == 1) {
-                        $('#strCounFirstName').parsley().removeError('ferror', { updateClass: false });
-                        $('#strCounFirstName').parsley().addError('ferror', { message: "The Combination of Name Exists", updateClass: false });
-                        $('#strCounMiddleName').parsley().removeError('ferror', { updateClass: false });
-                        $('#strCounMiddleName').parsley().addError('ferror', { message: "The Combination of Name Exists", updateClass: false });
-                        $('#strCounLastName').parsley().removeError('ferror', { updateClass: false });
-                        $('#strCounLastName').parsley().addError('ferror', { message: "The Combination of Name Exists", updateClass: false });
-                    } else if (data == 2) {
-                        $('#strCounEmail').parsley().removeError('ferror', { updateClass: false });
-                        $('#strCounEmail').parsley().addError('ferror', { message: "This Data Already Exists", updateClass: false });
-                    } else if (data == 3) {
-                        $('#strUserEmail').parsley().removeError('ferror', { updateClass: false });
-                        $('#strUserEmail').parsley().addError('ferror', { message: "This Data Already Exists", updateClass: false });
-                    } else {
-                        $('#add_councilor').modal('hide');
-                        table.draw();
-                        swal({
-                            title: "Success!",
-                            text: "<center>" + data.last_name + ", " + data.first_name + " " + data.middle_name + " is Stored</center>",
-                            type: "success",
-                            timer: 1000,
-                            showConfirmButton: false,
-                            html: true
-                        });
-                    }
+                    $('#add_councilor').modal('hide');
+                    table.draw();
+                    swal({
+                        title: "Success!",
+                        text: "<center>" + data.last_name + " is Stored</center>",
+                        type: "success",
+                        timer: 1000,
+                        showConfirmButton: false,
+                        html: true
+                    });
                 },
                 error: function(data) {
-                    console.log('Error:', data.responseText);
                     $.notify({
                         message: data.responseText.replace(/['"]+/g, '')
                     }, {

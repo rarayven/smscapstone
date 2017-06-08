@@ -17,9 +17,9 @@ $(document).ready(function() {
     { "width": "70px", "targets": 3 }
     ],
     columns: [
+    { data: 'order', name: 'order' },
     { data: 'description', name: 'description' },
     { data: 'deadline', name: 'deadline' },
-    { data: 'order', name: 'order' },
     { data: 'is_active', name: 'is_active', searchable: false },
     { data: 'action', name: 'action', orderable: false, searchable: false }
     ]
@@ -35,7 +35,6 @@ $(document).ready(function() {
       type: "PUT",
       success: function(data) {
         Pace.restart();
-        console.log(data);
         if (data == "Deleted") {
           refresh();
         } else {
@@ -43,7 +42,6 @@ $(document).ready(function() {
         }
       },
       error: function(data) {
-        console.log('Error:', data);
       }
     });
   });
@@ -73,7 +71,6 @@ $(document).ready(function() {
       var link_id = $(this).val();
       id = link_id;
       $.get(url + '/' + link_id + '/edit', function(data) {
-        console.log(data);
         if (data == "Deleted") {
           refresh();
         } else {
@@ -142,7 +139,6 @@ $(document).ready(function() {
               url: url + '/' + link_id,
               type: "DELETE",
               success: function(data) {
-                console.log(data);
                 if (data == "Deleted") {
                   refresh();
                 } else {
@@ -169,7 +165,6 @@ $(document).ready(function() {
                 }
               },
               error: function(data) {
-                console.log(data);
               }
             });
           }
@@ -215,7 +210,6 @@ $(document).ready(function() {
                   });
                 },
                 error: function(data) {
-                  console.log('Error:', data.responseText);
                   $.notify({
                     message: data.responseText.replace(/['"]+/g, '')
                   }, {
@@ -254,7 +248,6 @@ $(document).ready(function() {
           });
         },
         error: function(data) {
-          console.log('Error:', data.responseText);
           $.notify({
             message: data.responseText.replace(/['"]+/g, '')
           }, {
@@ -264,5 +257,11 @@ $(document).ready(function() {
           });
         }
       });
+    });
+    $(".todo-list").sortable({
+      placeholder: "sort-highlight",
+      handle: ".handle",
+      forcePlaceholderSize: true,
+      zIndex: 999999
     });
   });

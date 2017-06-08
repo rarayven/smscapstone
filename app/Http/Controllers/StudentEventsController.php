@@ -27,17 +27,22 @@ class StudentEventsController extends Controller
         ->where('users.is_active',1)
         ->first();
         $events = Event::where('user_id',$connection->id)
+        ->where('date_held','>=',Carbon::today(Config::get('app.timezone')))
         ->whereIn('status',['Ongoing','Cancelled'])
+        ->orderBy('date_held','asc')
+        ->orderBy('time_from','asc')
         ->get();
         $done = Event::where('user_id',$connection->id)
         ->where('status','Done')
+        ->orderBy('date_held','desc')
+        ->orderBy('time_from','desc')
         ->get();
         return view('SMS.Student.StudentEvents')->withEvents($events)->withDone($done);
     }
     public function show($id)
     {
         try {
-            $events = Event::find($id);
+            $events = Event::findorfail($id);
             return Response::json($events);
         } catch(\Exception $e) {
             return "Deleted";

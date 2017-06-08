@@ -39,7 +39,7 @@
               {{ csrf_field() }}
               <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                 <label for="email" class="sr-only">E-Mail Address</label>
-                <input id="email" type="text" placeholder="Email..." class="form-username form-control" name="email" value="{{ old('email') }}" required autofocus>
+                <input id="email" type="email" placeholder="Email..." class="form-username form-control" name="email" value="{{ old('email') }}" required autofocus>
                 @if ($errors->has('email'))
                 <span class="help-block">
                   <strong>{{ $errors->first('email') }}</strong>

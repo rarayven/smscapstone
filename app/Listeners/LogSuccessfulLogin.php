@@ -6,6 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use App\User;
 use Auth;
 use Carbon\Carbon;
+use Config;
 class LogSuccessfulLogin
 {
     /**
@@ -26,7 +27,7 @@ class LogSuccessfulLogin
     public function handle(Login $event)
     {
         $type = Auth::user()->type;
-        $dtm = Carbon::now('Asia/Manila');
+        $dtm = Carbon::now(Config::get('app.timezone'));
         $user = User::find(Auth::id());
         $user->last_login = $dtm;
         if ($type == 'Admin' || $type == 'Student') {

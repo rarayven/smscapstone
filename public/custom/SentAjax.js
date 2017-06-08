@@ -9,6 +9,7 @@ $(document).ready(function() {
 		processing: true,
 		serverSide: true,
 		ajax: dataurl,
+		"order": [2, 'desc'],
 		"columnDefs": [
 		{ "width": "130px", "targets": 3 },
 		{ "width": "150px", "targets": 2 }
@@ -41,7 +42,6 @@ $(document).ready(function() {
 						url: urldelete + '/' + link_id,
 						type: "DELETE",
 						success: function(data) {
-							console.log(data);
 							if (data == "Deleted") {
 								refresh();
 							} else {
@@ -68,7 +68,6 @@ $(document).ready(function() {
 							}
 						},
 						error: function(data) {
-							console.log(data);
 						}
 					});
 				}

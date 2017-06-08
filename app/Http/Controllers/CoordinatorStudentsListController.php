@@ -14,6 +14,7 @@ use Response;
 use App\Connection;
 use Auth;
 use Datatables;
+use Carbon\Carbon;
 class CoordinatorStudentsListController extends Controller
 {
     public function __construct()
@@ -79,6 +80,9 @@ class CoordinatorStudentsListController extends Controller
         ->editColumn('strStudName', function ($data) {
             $images = url('images/'.$data->picture);
             return "<table><tr><td><div class='col-md-2'><img src='$images' class='img-circle' alt='User Image' height='40'></div></td><td>$data->last_name, $data->first_name $data->middle_name</td></tr></table>";
+        })
+        ->editColumn('application_date', function ($data) {
+            return $data->application_date ? with(new Carbon($data->application_date))->format('M d, Y') : '';
         })
         ->setRowId(function ($data) {
             return $data = 'id'.$data->user_id;

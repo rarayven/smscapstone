@@ -34,13 +34,11 @@ $(document).ready(function() {
             type: "PUT",
             success: function(data) {
                 Pace.restart();
-                console.log(data);
                 if (data == "Deleted") {
                     refresh();
                 }
             },
             error: function(data) {
-                console.log('Error:', data);
             }
         });
     });
@@ -70,7 +68,6 @@ $(document).ready(function() {
         var link_id = $(this).val();
         id = link_id;
         $.get(url + '/' + link_id + '/edit', function(data) {
-            console.log(data);
             if (data == "Deleted") {
                 refresh();
             } else {
@@ -118,7 +115,6 @@ $(document).ready(function() {
                         url: url + '/' + link_id,
                         type: "DELETE",
                         success: function(data) {
-                            console.log(data);
                             if (data == "Deleted") {
                                 refresh();
                             } else {
@@ -145,7 +141,6 @@ $(document).ready(function() {
                             }
                         },
                         error: function(data) {
-                            console.log(data);
                         }
                     });
                 }
@@ -190,7 +185,6 @@ $(document).ready(function() {
                     });
                 },
                 error: function(data) {
-                    console.log('Error:', data.responseText);
                     $.notify({
                         message: data.responseText.replace(/['"]+/g, '')
                     }, {

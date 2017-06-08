@@ -31,13 +31,11 @@ $(document).ready(function() {
 			type: "PUT",
 			success: function(data) {
 				Pace.restart();
-				console.log(data);
 				if (data == "Deleted") {
 					refresh();
 				}
 			},
 			error: function(data) {
-				console.log('Error:', data);
 			}
 		});
 	});
@@ -84,7 +82,6 @@ $(document).ready(function() {
     					url: url + '/' + link_id,
     					type: "DELETE",
     					success: function(data) {
-    						console.log(data);
     						if (data == "Deleted") {
     							refresh();
     						} else {
@@ -111,7 +108,6 @@ $(document).ready(function() {
     						}
     					},
     					error: function(data) {
-    						console.log(data);
     					}
     				});
     			}

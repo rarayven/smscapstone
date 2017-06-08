@@ -36,14 +36,11 @@ $(document).ready(function() {
       type: "PUT",
       success: function(data) {
         Pace.restart();
-        console.log(data);
         if (data == "Deleted") {
           refresh();
         }
       },
       error: function(data) {
-        console.log(url + '/' + link_id);
-        console.log('Error:', data);
       }
     });
   });
@@ -72,7 +69,6 @@ $(document).ready(function() {
       var link_id = $(this).val();
       id = link_id;
       $.get(url + '/' + link_id + '/edit', function(data) {
-        console.log(data);
         if (data == "Deleted") {
           refresh();
         } else {
@@ -115,7 +111,6 @@ $(document).ready(function() {
               url: url + '/' + link_id,
               type: "DELETE",
               success: function(data) {
-                console.log(data);
                 if (data == "Deleted") {
                   refresh();
                 } else {
@@ -142,7 +137,6 @@ $(document).ready(function() {
                 }
               },
               error: function(data) {
-                console.log(data);
               }
             });
           }
@@ -163,8 +157,8 @@ $(document).ready(function() {
           strSystFailGrade: $('#strSystFailGrade').parsley('data-parsley-whitespace', 'squish').getValue(),
           dblSystHighGrade: $('#dblSystHighGrade').parsley('data-parsley-whitespace', 'squish').getValue()
         }
-                //used to determine the http verb to use [add=POST], [update=PUT]
-                var state = $('#btn-save').val();
+            //used to determine the http verb to use [add=POST], [update=PUT]
+            var state = $('#btn-save').val();
             var type = "POST"; //for creating new resource
             var my_url = url;
             if (state == "update") {
@@ -177,30 +171,18 @@ $(document).ready(function() {
                 data: formData,
                 dataType: 'json',
                 success: function(data) {
-                  console.log(data);
-                  if (data == 1) {
-                    $('#strSystDesc').parsley().removeError('ferror', { updateClass: false });
-                    $('#strSystDesc').parsley().addError('ferror', { message: "This Data Already Exists", updateClass: false });
-                  } else if (data == 2) {
-                    $('#dblSystHighGrade').parsley().removeError('ferror', { updateClass: false });
-                    $('#dblSystHighGrade').parsley().addError('ferror', { message: "The Combination of Fields Exist", updateClass: false });
-                    $('#dblSystLowGrade').parsley().removeError('ferror', { updateClass: false });
-                    $('#dblSystLowGrade').parsley().addError('ferror', { message: "The Combination of Fields Exist", updateClass: false });
-                  } else {
-                    $('#add_grade').modal('hide');
-                    table.draw();
-                    swal({
-                      title: "Success!",
-                      text: "<center>" + data.description + " is Stored</center>",
-                      type: "success",
-                      timer: 1000,
-                      showConfirmButton: false,
-                      html: true
-                    });
-                  }
+                  $('#add_grade').modal('hide');
+                  table.draw();
+                  swal({
+                    title: "Success!",
+                    text: "<center>" + data.description + " is Stored</center>",
+                    type: "success",
+                    timer: 1000,
+                    showConfirmButton: false,
+                    html: true
+                  });
                 },
                 error: function(data) {
-                  console.log('Error:', data.responseText);
                   $.notify({
                     message: data.responseText.replace(/['"]+/g, '')
                   }, {

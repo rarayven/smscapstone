@@ -5,60 +5,126 @@ $(document).ready(function() {
 		}
 	});
 	$('#district-list').on('click', '.open-modal', function() {
-		if (confirm("Are you sure?")) {
-			var link_id = $(this).val();
-			$.ajax({
-				url: dataurl + '/' + link_id,
-				type: "PUT",
-				success: function(data) {
-					console.log(data);
-					if (data == "Deleted") {
-						refresh();
-					} else {
-						var btn = "<div id=dp" + data.id + "><button class='btn btn-warning btn-xs back' value=" +
-						data.id + "><i class='fa fa-undo'></i> Undo</button></div>";
-						$('#dp' + data.id).replaceWith(btn);
-					}
-				},
-				error: function(data) {
-					console.log(url + '/' + link_id);
-					console.log('Error:', data);
+		var link_id = $(this).val();
+		swal({
+			title: "Are you sure?",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonClass: "btn-success",
+			confirmButtonText: "Accept",
+			cancelButtonText: "Cancel",
+			closeOnConfirm: false,
+			allowOutsideClick: true,
+			showLoaderOnConfirm: true,
+			closeOnCancel: true
+		},
+		function(isConfirm) {
+			setTimeout(function() {
+				if (isConfirm) {
+					$.ajax({
+						url: dataurl + '/' + link_id,
+						type: "PUT",
+						success: function(data) {
+							if (data == "Deleted") {
+								refresh();
+							} else {
+								var btn = "<div id=dp" + data.id + "><button class='btn btn-warning btn-xs back' value=" +
+								data.id + "><i class='fa fa-undo'></i> Undo</button></div>";
+								$('#dp' + data.id).replaceWith(btn);
+								swal({
+									title: "Accepted!",
+									text: "<center>" + data.description + " is Accepted</center>",
+									type: "success",
+									timer: 1000,
+									showConfirmButton: false,
+									html: true
+								});
+							}
+						},
+						error: function(data) {
+						}
+					});
 				}
-			});
-		}
+			}, 500);
+		});
 	});
 	$('#district-list').on('click', '.btn-delete', function() {
 		var link_id = $(this).val();
-		if (confirm("Are you Sure?")) {
-			$.ajax({
-				url: dataurl + '/' + link_id,
-				type: "DELETE",
-				success: function(data) {
-					console.log(data);
-					if (data == "Deleted") {
-						refresh();
-					} else {
-						var btn = "<div id=dp" + data.id + "><button class='btn btn-warning btn-xs back' value=" +
-						data.id + "><i class='fa fa-undo'></i> Undo</button></div>";
-						$('#dp' + data.id).replaceWith(btn);
-					}
-				},
-				error: function(data) {
-					console.log(data);
+		swal({
+			title: "Are you sure?",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonClass: "btn-danger",
+			confirmButtonText: "Decline",
+			cancelButtonText: "Cancel",
+			closeOnConfirm: false,
+			allowOutsideClick: true,
+			showLoaderOnConfirm: true,
+			closeOnCancel: true
+		},
+		function(isConfirm) {
+			setTimeout(function() {
+				if (isConfirm) {
+					$.ajax({
+						url: dataurl + '/' + link_id,
+						type: "DELETE",
+						success: function(data) {
+							if (data == "Deleted") {
+								refresh();
+							} else {
+								var btn = "<div id=dp" + data.id + "><button class='btn btn-warning btn-xs back' value=" +
+								data.id + "><i class='fa fa-undo'></i> Undo</button></div>";
+								$('#dp' + data.id).replaceWith(btn);
+								swal({
+									title: "Declined!",
+									text: "<center>" + data.description + " is Declined</center>",
+									type: "success",
+									timer: 1000,
+									showConfirmButton: false,
+									html: true
+								});
+							}
+						},
+						error: function(data) {
+						}
+					});
 				}
-			});
-		}
+			}, 500);
+		});
 	});
 	$('#district-list').on('click', '.back', function() {
 		var link_id = $(this).val();
 		var id = $(this).attr('id');
-		if (confirm("Are you sure you want to proceed?")) {
-			$.get(dataurl + '/' + link_id + '/edit', function(data) {
-				console.log(data);
-				var btn = "<div id=dp" + data.id + "><button class='btn btn-info btn-xs btn-view' value=" + data.id + "><i class='fa fa-eye'></i> View</button> <button class='btn btn-success btn-xs btn-detail open-modal' value=" + data.id + "><i class='fa fa-check'></i> Accept</button> <button class='btn btn-danger btn-xs btn-delete' value=" + data.id + "><i class='fa fa-trash-o'></i> Decline</button></div>";
-				$('#dp' + data.id).replaceWith(btn);
-			})
-		}
+		swal({
+			title: "Are you sure?",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonClass: "btn-danger",
+			confirmButtonText: "Undo",
+			cancelButtonText: "Cancel",
+			closeOnConfirm: false,
+			allowOutsideClick: true,
+			showLoaderOnConfirm: true,
+			closeOnCancel: true
+		},
+		function(isConfirm) {
+			setTimeout(function() {
+				if (isConfirm) {
+					$.get(dataurl + '/' + link_id + '/edit', function(data) {
+						var btn = "<div id=dp" + data.id + "><button class='btn btn-info btn-xs btn-view' value=" + data.id + "><i class='fa fa-eye'></i> View</button> <button class='btn btn-success btn-xs btn-detail open-modal' value=" + data.id + "><i class='fa fa-check'></i> Accept</button> <button class='btn btn-danger btn-xs btn-delete' value=" + data.id + "><i class='fa fa-trash-o'></i> Decline</button></div>";
+						$('#dp' + data.id).replaceWith(btn);
+						swal({
+							title: "Undo!",
+							text: "<center>" + data.description + " is Undo</center>",
+							type: "success",
+							timer: 1000,
+							showConfirmButton: false,
+							html: true
+						});
+					})
+				}
+			}, 500);
+		});
 	});
 	var dataurl = "/coordinator/achievements";
 	var table = $('#achievement-table').DataTable({

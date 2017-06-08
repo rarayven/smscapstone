@@ -85,7 +85,6 @@ $(document).ready(function() {
             		});
             	},
             	error: function(data) {
-                    console.log('Error:', data.responseText);
                     $.notify({
                         message: data.responseText.replace(/['"]+/g, '')
                     }, {

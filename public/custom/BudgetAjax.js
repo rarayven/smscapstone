@@ -23,7 +23,6 @@ $(document).ready(function() {
         data: formData,
         dataType: 'json',
         success: function(data) {
-          console.log(data);
           var row = "<tr id='id" + data.intAlloID + "'>" +
           "<td>" + data.intAlloID + "</td>" +
           "<td>" + data.dblAlloBudgetAmount + "</td>" +
@@ -37,7 +36,6 @@ $(document).ready(function() {
           $('#add_budget').modal('hide')
         },
         error: function(data) {
-          console.log('Error:', data);
         }
       });
     }
@@ -57,7 +55,6 @@ $(document).ready(function() {
       texttwo = parseFloat($('#txtPerStudent').val());
       var result = textone / texttwo;
       $('#result').val(Math.floor(result));
-      console.log(Math.floor(result) + "/" + textone + "/" + texttwo);
     }
   });
   $('#dblAlloStudAllowance').keyup(function() {

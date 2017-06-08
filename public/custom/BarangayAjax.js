@@ -34,13 +34,11 @@ $(document).ready(function() {
       type: "PUT",
       success: function(data) {
         Pace.restart();
-        console.log(data);
         if (data == "Deleted") {
           refresh();
         }
       },
       error: function(data) {
-        console.log('Error:', data);
       }
     });
   });
@@ -83,11 +81,9 @@ $(document).ready(function() {
             }
           }
           $('h4').text('Edit Barangay');
-          console.log(data);
           $('#strBaraDesc').val(data.description);
           $('#btn-save').val("update");
           $('#add_barangay').modal('show');
-          console.log(id + " / " + data);
         }
       })
     });
@@ -121,7 +117,6 @@ $(document).ready(function() {
               url: url + '/' + link_id,
               type: "DELETE",
               success: function(data) {
-                console.log(data);
                 if (data == "Deleted") {
                   refresh();
                 } else {
@@ -148,7 +143,6 @@ $(document).ready(function() {
                 }
               },
               error: function(data) {
-                console.log(data);
               }
             });
           }
@@ -192,7 +186,6 @@ $(document).ready(function() {
             });
           },
           error: function(data) {
-            console.log('Error:', data.responseText);
             $.notify({
               message: data.responseText.replace(/['"]+/g, '')
             }, {

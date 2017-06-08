@@ -5,6 +5,8 @@ use App\Event;
 use Auth;
 use Carbon\Carbon;
 use Response;
+use Validator;
+use Config;
 class CoordinatorEventsController extends Controller
 {
     public function __construct()
@@ -29,11 +31,17 @@ class CoordinatorEventsController extends Controller
     }
     public function index()
     {
+        $dtm = Carbon::now(Config::get('app.timezone'));
         $events = Event::where('user_id',Auth::id())
+        ->where('date_held','>',$dtm)
         ->whereIn('status',['Ongoing','Cancelled'])
+        ->orderBy('date_held','desc')
+        ->orderBy('time_from','desc')
         ->get();
         $done = Event::where('user_id',Auth::id())
         ->where('status','Done')
+        ->orderBy('date_held','desc')
+        ->orderBy('time_from','desc')
         ->get();
         return view('SMS.Coordinator.Services.CoordinatorEvents')->withEvents($events)->withDone($done);
     }
@@ -41,11 +49,17 @@ class CoordinatorEventsController extends Controller
     {
         $events = Event::where('user_id',Auth::id())
         ->whereIn('status',['Ongoing','Cancelled'])
+        ->orderBy('date_held','desc')
+        ->orderBy('time_from','desc')
         ->get();
         return Response::json($events);
     }
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), Event::$storeRule, Event::$messages);
+        if ($validator->fails()) {
+            return Response::json($validator->errors()->first(), 422);
+        }
         try {
             $time_from = date("H:i:s", strtotime($request->time_from));
             $time_to = date("H:i:s", strtotime($request->time_to));
@@ -88,6 +102,10 @@ class CoordinatorEventsController extends Controller
     }
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), Event::updateRule($id), Event::$messages);
+        if ($validator->fails()) {
+            return Response::json($validator->errors()->first(), 422);
+        }
         try {
             $time_from = date("H:i:s", strtotime($request->time_from));
             $time_to = date("H:i:s", strtotime($request->time_to));
@@ -114,19 +132,10 @@ class CoordinatorEventsController extends Controller
     }
     public function destroy($id)
     {
-        try {
-            $event = Event::findorfail($id);
-            try {
-                $event->delete();
-                return Response::json($event);
-            } catch(\Exception $e) {
-                if($e->getCode()==1451)
-                    return Response::json(['true',$event]);
-                else
-                    return Response::json(['true',$event,$e->getMessage()]);
-            }
-        } catch(\Exception $e) {
-            return "Deleted";
-        }
+        $event = Event::find($id);
+        $event->status = 'Done';
+        $event->save();
+        $event->delete();
+        return Response::json($event);
     }
 }

@@ -53,7 +53,7 @@ class CoordinatorTokenController extends Controller
         ->get();
         $datatables = Datatables::of($users)
         ->addColumn('action', function ($data) {
-            return "<div id=dp$data->user_id><button class='btn btn-info btn-xs btn-view' value='$data->user_id'><i class='fa fa-file-pdf-o'></i> PDF</button> <button class='btn btn-success btn-xs btn-detail open-modal' id= '$data->achievements_id' value='$data->user_id'><i class='fa fa-share'></i> Receive</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->user_id'><i class='fa fa-remove'></i> Cancel</button></div>";
+            return "<div id=dp$data->achievements_id><button class='btn btn-info btn-xs btn-view' value='$data->user_id'><i class='fa fa-file-pdf-o'></i> PDF</button> <button class='btn btn-success btn-xs btn-detail open-modal' id= '$data->achievements_id' value='$data->user_id'><i class='fa fa-share'></i> Receive</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->achievements_id'><i class='fa fa-remove'></i> Remove</button></div>";
         })
         ->editColumn('date_held', function ($data) {
             return $data->date_held ? with(new Carbon($data->date_held))->format('M d, Y - h:i A ') : '';

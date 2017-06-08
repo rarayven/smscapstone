@@ -8,10 +8,11 @@ $(document).ready(function() {
     var table = $('#student-table').DataTable({
         processing: true,
         serverSide: true,
+        "order": [1,'desc'],
         "columnDefs": [
-        { "width": "130px", "targets": 3 },
-        { "width": "70px", "targets": 2 },
-        { "width": "100px", "targets": 1 }
+        { "width": "130px", "targets": 4 },
+        { "width": "70px", "targets": 3 },
+        { "width": "100px", "targets": 2 }
         ],
         ajax: {
             type: 'POST',
@@ -30,6 +31,7 @@ $(document).ready(function() {
         },
         columns: [
         { data: 'strStudName', name: 'strStudName' },
+        { data: 'application_date', name: 'student_details.application_date', searchable: false },
         { data: 'student_status', name: 'student_details.student_status', searchable: false },
         { data: 'checkbox', name: 'users.is_active', searchable: false },
         { data: 'action', name: 'action', orderable: false, searchable: false }
@@ -48,8 +50,6 @@ $(document).ready(function() {
                 }
             },
             error: function(data) {
-                console.log(url + '/' + link_id);
-                console.log('Error:', data);
             }
         });
     });
@@ -74,8 +74,6 @@ $(document).ready(function() {
                     thisbox.attr('class', 'btn-xs btn-danger');
             },
             error: function(data) {
-                console.log(url + '/' + link_id);
-                console.log('Error:', data);
             }
         });
     });

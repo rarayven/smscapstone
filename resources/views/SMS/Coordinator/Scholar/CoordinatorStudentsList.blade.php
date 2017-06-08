@@ -172,6 +172,7 @@
 						<table id="student-table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
 							<thead>
 								<th>Student</th>
+								<th>Application Date</th>	
 								<th>Condition</th>			
 								<th>Status</th>
 								<th >Action</th>

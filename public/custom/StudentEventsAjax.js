@@ -6,7 +6,6 @@ $(document).ready(function() {
 			if (data == "Deleted") {
 				refresh();
 			} else {
-				console.log(data);
 				$('#details').empty();
 				var modalbody =
 				"<label>Event Name</label><br>" + data.title +

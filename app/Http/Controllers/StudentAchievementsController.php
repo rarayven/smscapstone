@@ -6,6 +6,7 @@ use App\Achievement;
 use Response;
 use Auth;
 use Carbon\Carbon;
+use Validator;
 use DB;
 class StudentAchievementsController extends Controller
 {
@@ -56,7 +57,10 @@ class StudentAchievementsController extends Controller
     }
     public function store(Request $request)
     {
-        DB::beginTransaction();
+        $validator = Validator::make($request->all(), Achievement::$storeRule);
+        if ($validator->fails()) {
+            return Response::json($validator->errors()->first(), 422);
+        }
         try {
             $pdf = $request->file('pdf');
             $pdfname = md5(Auth::user()->email. time()).'.'.$pdf->getClientOriginalExtension();
@@ -68,12 +72,14 @@ class StudentAchievementsController extends Controller
             $achievement->pdf = $pdfname;
             $achievement->save();
             $pdf->move(base_path().'/public/docs/', $pdfname);
-            DB::commit();
             return Response::json($achievement);
         } catch(\Exception $e) {
-            DB::rollBack();
             dd($e);
             return dd($e->getMessage());
-        }  
+        }
+        // $validator = Validator::make($request->all(), Achievement::updateRule($id));
+        // if ($validator->fails()) {
+        //     return Response::json($validator->errors()->first(), 422);
+        // }
     }
 }

@@ -11,6 +11,7 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         ajax: dataurl,
+        "order": [2, 'desc'],
         "columnDefs": [
         { "width": "200px", "targets": 3 },
         { "width": "150px", "targets": 2 }
@@ -59,7 +60,7 @@ $(document).ready(function() {
                     table.draw();
                     swal({
                         title: "Success!",
-                        text: "<center>" + data.description + " is Stored</center>",
+                        text: "<center>" + data.title + " is Stored</center>",
                         type: "success",
                         timer: 1000,
                         showConfirmButton: false,
@@ -67,7 +68,6 @@ $(document).ready(function() {
                     });
                 },
                 error: function(data) {
-                    console.log('Error:', data.responseText);
                     $.notify({
                         message: data.responseText.replace(/['"]+/g, '')
                     }, {
@@ -111,7 +111,6 @@ $(document).ready(function() {
                             });
                         },
                         error: function(data) {
-                            console.log(data);
                         }
                     });
                 }

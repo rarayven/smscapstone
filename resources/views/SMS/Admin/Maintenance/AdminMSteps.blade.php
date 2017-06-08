@@ -146,9 +146,9 @@
 						}}
 						<table id="steps-table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
 							<thead>
+								<th>Order No.</th>
 								<th>Steps Description</th>
 								<th>Days of Completion</th>
-								<th>Order No.</th>
 								<th>Status</th>
 								<th>Action</th>
 							</thead>
@@ -162,15 +162,10 @@
 	</div>
 	@endsection
 	@section('script')
+	{!! Html::script("plugins/jQueryUI/jquery-ui.min.js") !!}
 	{!! Html::script("custom/StepsAjax.min.js") !!}
 	<script type="text/javascript">
 		var dataurl = "{!! route('steps.data') !!}";
-		$(".todo-list").sortable({
-			placeholder: "sort-highlight",
-			handle: ".handle",
-			forcePlaceholderSize: true,
-			zIndex: 999999
-		});
 	</script>
 	{!! Html::script("js/comparison.js") !!}
 	@endsection

@@ -18,36 +18,81 @@ $(document).ready(function() {
 	});
 	$('#list').on('click', '.btn-delete', function() {
 		var link_id = $(this).val();
-		if (confirm("Are you Sure?")) {
-			$.ajax({
-				url: dataurl + '/' + link_id,
-				type: "DELETE",
-				success: function(data) {
-					console.log(data);
-					if (data == "Deleted") {
-						refresh();
-					} else {
-						var btn = "<div id=dp" + data.id + "><button class='btn btn-warning btn-xs back' value=" +
-						data.id + "><i class='fa fa-undo'></i> Undo</button></div>";
-						$('#dp' + data.id).replaceWith(btn);
-					}
-				},
-				error: function(data) {
-					console.log(data);
+		swal({
+			title: "Are you sure?",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonClass: "btn-warning",
+			confirmButtonText: "Remove",
+			cancelButtonText: "Cancel",
+			closeOnConfirm: false,
+			allowOutsideClick: true,
+			showLoaderOnConfirm: true,
+			closeOnCancel: true
+		},
+		function(isConfirm) {
+			setTimeout(function() {
+				if (isConfirm) {
+					$.ajax({
+						url: dataurl + '/' + link_id,
+						type: "DELETE",
+						success: function(data) {
+							if (data == "Deleted") {
+								refresh();
+							} else {
+								var btn = "<div id=dp" + data.id + "><button class='btn btn-warning btn-xs back' value=" +
+								data.id + "><i class='fa fa-undo'></i> Undo</button></div>";
+								$('#dp' + data.id).replaceWith(btn);
+								swal({
+									title: "Removed!",
+									text: "<center>" + data.description + " is Removed</center>",
+									type: "success",
+									timer: 1000,
+									showConfirmButton: false,
+									html: true
+								});
+							}
+						},
+						error: function(data) {
+						}
+					});
 				}
-			});
-		}
+			}, 500);
+		});
 	});
 	$('#list').on('click', '.back', function() {
 		var link_id = $(this).val();
 		var id = $(this).attr('id');
-		if (confirm("Are you sure you want to proceed?")) {
-			$.get(dataurl + '/' + link_id + '/edit', function(data) {
-				console.log(data);
-				var btn = "<div id=dp" + data.id + "><button class='btn btn-primary btn-xs btn-view' value=" + data.id + "><i class='fa fa-envelope'></i> Message</button> <button class='btn btn-success btn-xs btn-detail open-modal' value=" + data.id + "><i class='fa fa-share'></i> Receive</button> <button class='btn btn-danger btn-xs btn-delete' value=" + data.id + "><i class='fa fa-remove'></i> Cancel</button></div>";
-				$('#dp' + data.id).replaceWith(btn);
-			})
-		}
+		swal({
+			title: "Are you sure?",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonClass: "btn-danger",
+			confirmButtonText: "Undo",
+			cancelButtonText: "Cancel",
+			closeOnConfirm: false,
+			allowOutsideClick: true,
+			showLoaderOnConfirm: true,
+			closeOnCancel: true
+		},
+		function(isConfirm) {
+			setTimeout(function() {
+				if (isConfirm) {
+					$.get(dataurl + '/' + link_id + '/edit', function(data) {
+						var btn = "<div id=dp" + data.id + "><button class='btn btn-info btn-xs btn-view' value=" + data.id + "><i class='fa fa-file-pdf-o'></i> PDF</button> <button class='btn btn-success btn-xs btn-detail open-modal' value=" + data.id + "><i class='fa fa-share'></i> Receive</button> <button class='btn btn-danger btn-xs btn-delete' value=" + data.id + "><i class='fa fa-remove'></i> Cancel</button></div>";
+						$('#dp' + data.id).replaceWith(btn);
+						swal({
+							title: "Cancelled!",
+							text: "<center>" + data.description + " is Cancelled</center>",
+							type: "success",
+							timer: 1000,
+							showConfirmButton: false,
+							html: true
+						});
+					})
+				}
+			}, 500);
+		});
 	});
 	var dataurl = "/coordinator/token";
 	var table = $('#achievement-table').DataTable({
@@ -124,7 +169,6 @@ $(document).ready(function() {
 					});
 				},
 				error: function(data) {
-					console.log('Error:', data.responseText);
 					$.notify({
 						message: data.responseText.replace(/['"]+/g, '')
 					}, {

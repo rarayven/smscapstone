@@ -197,9 +197,12 @@ return [
     'intSemID' => 'sem',
     'strApplGrades' => 'grade upload',
     'title' => 'subject',
-    'description' => 'message',
-    'receiver' => 'send to'
-
+    // 'description' => 'message',
+    'receiver' => 'send to',
+    'time_from' => 'from',
+    'time_to' => 'to',
+    'date_held' => 'date',
+    'place_held' => 'place',
     ],
 
     ];
