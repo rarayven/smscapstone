@@ -1,4 +1,4 @@
-@extends('SMS.Coordinator.CoordinatorMain')
+@extends('SMS.Admin.AdminMain')
 @section('content')
 <div class="content-wrapper">
   <section class="content-header">
@@ -6,7 +6,7 @@
       Profile
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('coordinator/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+      <li><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
       <li class="active"><i class="fa fa-user"></i> Profile</li>
     </ol>
   </section>
@@ -128,10 +128,10 @@
 @section('script')
 {!! Html::script("custom/ProfileAjax.min.js") !!}
 <script type="text/javascript">
-  var urlimage = "{!! route('coordinatorimage.store') !!}";
-  var urlname = "{!! route('coordinatorname.store') !!}";
-  var urlemail = "{!! route('coordinatoremail.store') !!}";
-  var urlcontact = "{!! route('coordinatorcontact.store') !!}";
-  var urlpassword = "{!! route('coordinatorpassword.store') !!}";
+  var urlimage = "{!! route('adminimage.store') !!}";
+  var urlname = "{!! route('adminname.store') !!}";
+  var urlemail = "{!! route('adminemail.store') !!}";
+  var urlcontact = "{!! route('admincontact.store') !!}";
+  var urlpassword = "{!! route('adminpassword.store') !!}";
 </script>
 @endsection

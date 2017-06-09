@@ -6,6 +6,7 @@ class Application extends Model
 	protected $table = 'student_details';
 	protected $primaryKey = 'user_id';
 	public $timestamps = false;
+	protected $dates = ['birthday'];
 	public static $storeRule = [
 	'strUserFirstName' => 'unique_with:users, strUserMiddleName = middle_name, strUserLastName = last_name, strUserFirstName = first_name',
 	'strUserFirstName' => 'required|max:25',
@@ -64,5 +65,9 @@ class Application extends Model
 	'intPersCurrentSchool' => 'required_with:intPersCurrentCourse,strPersGwa,intYearID,intSemID',
 	'strPersGwa' => 'max:4',
 	'strApplGrades' => 'required|file',
+	];
+	public static $updateSiblings = [
+	'intPersBrothers' => 'required|numeric',
+	'intPersSisters' => 'required|numeric',
 	];
 }

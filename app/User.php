@@ -11,11 +11,37 @@ class User extends Authenticatable
     public $timestamps = false;
     public static $storeRegister = [
     'first_name' => 'unique_with:users, middle_name, last_name',
-    'middle_name' => 'max:25',
+    'first_name' => 'required|max:25',
+    'middle_name' => 'nullable|max:25',
     'last_name' => 'required|max:25',
     'cell_no' => 'required|max:15',
     'password' => 'required|confirmed|max:61',
-    'image' => 'image'
+    'image' => 'image',
+    ];
+    public static function updateName($id)
+    {
+        return $rules = [
+        'first_name' => 'unique_with:users, middle_name, last_name,'.$id,
+        'first_name' => 'required|max:25',
+        'middle_name' => 'nullable|max:25',
+        'last_name' => 'required|max:25',
+        ];
+    } 
+    public static function updateEmail($id)
+    {
+        return $rules = [
+        'email' => 'required|max:30|unique_with:users,'.$id,
+        ];
+    } 
+    public static $updateImage = [
+    'image' => 'required|image'
+    ];
+    public static $updateCell = [
+    'cell_no' => 'required|max:15'
+    ];
+    public static $updatePassword = [
+    'current_password' => 'required|max:61',
+    'password' => 'required|confirmed|max:61',
     ];
     /**
      * The attributes that are mass assignable.

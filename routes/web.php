@@ -21,7 +21,17 @@ Route::group(['prefix' => 'student/'], function () {
 	Route::get('messages/inboxdata', ['uses' => 'StudentMessagesController@inboxdata', 'as' => 'studentinbox.data']);
 	Route::get('achievements/data', ['uses' => 'StudentAchievementsController@data', 'as' => 'studentachievement.data']);
 	//Student Profile
-	Route::resource('profile', 'StudentProfileController');
+	Route::get('profile', ['uses' => 'StudentProfileController@index', 'as' => 'studentprofile.index']);
+	Route::post('name', ['uses' => 'StudentProfileController@name', 'as' => 'studentname.store']);
+	Route::post('email', ['uses' => 'StudentProfileController@email', 'as' => 'studentemail.store']);
+	Route::post('contact', ['uses' => 'StudentProfileController@contact', 'as' => 'studentcontact.store']);
+	Route::post('password', ['uses' => 'StudentProfileController@password', 'as' => 'studentpassword.store']);
+	Route::post('image', ['uses' => 'StudentProfileController@image', 'as' => 'studentimage.store']);
+	Route::post('minfo', ['uses' => 'StudentProfileController@minfo', 'as' => 'studentminfo.store']);
+	Route::post('moccu', ['uses' => 'StudentProfileController@moccu', 'as' => 'studentmoccu.store']);
+	Route::post('finfo', ['uses' => 'StudentProfileController@finfo', 'as' => 'studentfinfo.store']);
+	Route::post('foccu', ['uses' => 'StudentProfileController@foccu', 'as' => 'studentfoccu.store']);
+	Route::post('siblings', ['uses' => 'StudentProfileController@siblings', 'as' => 'studentsiblings.store']);
 	//Student Renewal
 	Route::resource('renewal', 'StudentRenewalController');
 	//Student Achievements
@@ -63,7 +73,12 @@ Route::group(['prefix' => 'coordinator/'], function () {
 	Route::put('events/checkbox/{id}', ['uses' => 'CoordinatorEventsController@checkbox', 'as' => 'coordinatorevents.checkbox']);
 	Route::put('list/checkbox/{id}', ['uses' => 'CoordinatorStudentsListController@checkbox', 'as' => 'list.checkbox']);
 	//Coordinator Profile
-	Route::resource('profile', 'CoordinatorProfileController');
+	Route::get('profile', ['uses' => 'CoordinatorProfileController@index', 'as' => 'coordinatorprofile.index']);
+	Route::post('name', ['uses' => 'CoordinatorProfileController@name', 'as' => 'coordinatorname.store']);
+	Route::post('email', ['uses' => 'CoordinatorProfileController@email', 'as' => 'coordinatoremail.store']);
+	Route::post('contact', ['uses' => 'CoordinatorProfileController@contact', 'as' => 'coordinatorcontact.store']);
+	Route::post('password', ['uses' => 'CoordinatorProfileController@password', 'as' => 'coordinatorpassword.store']);
+	Route::post('image', ['uses' => 'CoordinatorProfileController@image', 'as' => 'coordinatorimage.store']);
 	//Coordinator Queries
 	Route::resource('queries', 'CoordinatorQueriesController');
 	//Coordinator Reports
@@ -152,6 +167,13 @@ Route::group(['prefix' => 'admin/'], function () {
 	Route::put('barangay/checkbox/{id}', ['uses' => 'AdminMBarangayController@checkbox', 'as' => 'barangay.checkbox']);
 	Route::put('course/checkbox/{id}', ['uses' => 'AdminMCourseController@checkbox', 'as' => 'course.checkbox']);
 	Route::put('councilor/checkbox/{id}', ['uses' => 'AdminMCouncilorController@checkbox', 'as' => 'councilor.checkbox']);
+	//Admin Profile
+	Route::get('profile', ['uses' => 'AdminProfileController@index', 'as' => 'adminprofile.index']);
+	Route::post('name', ['uses' => 'AdminProfileController@name', 'as' => 'adminname.store']);
+	Route::post('email', ['uses' => 'AdminProfileController@email', 'as' => 'adminemail.store']);
+	Route::post('contact', ['uses' => 'AdminProfileController@contact', 'as' => 'admincontact.store']);
+	Route::post('password', ['uses' => 'AdminProfileController@password', 'as' => 'adminpassword.store']);
+	Route::post('image', ['uses' => 'AdminProfileController@image', 'as' => 'adminimage.store']);
 	//Admin User Accounts
 	Route::get('users', ['uses' => 'AdminMAccountController@index', 'as' => 'users.index']);
 	Route::delete('users/{id}', ['uses' => 'AdminMAccountController@destroy', 'as' => 'users.destroy']);

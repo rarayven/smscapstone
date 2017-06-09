@@ -33,7 +33,8 @@ class StudentEventsController extends Controller
         ->orderBy('time_from','asc')
         ->get();
         $done = Event::where('user_id',$connection->id)
-        ->where('status','Done')
+        ->where('date_held','<',Carbon::today(Config::get('app.timezone')))
+        ->whereIn('status',['Done','Cancelled'])
         ->orderBy('date_held','desc')
         ->orderBy('time_from','desc')
         ->get();
@@ -61,7 +62,7 @@ class StudentEventsController extends Controller
         ->where('users.is_active',1)
         ->first();
         $events = Event::where('user_id',$connection->id)
-        ->where('date_held','>',Carbon::now(Config::get('app.timezone')))
+        ->where('date_held','>',Carbon::today(Config::get('app.timezone')))
         ->where('status', 'Ongoing')
         ->count();
         return Response::json($events);

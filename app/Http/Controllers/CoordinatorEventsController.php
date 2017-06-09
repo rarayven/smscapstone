@@ -31,15 +31,15 @@ class CoordinatorEventsController extends Controller
     }
     public function index()
     {
-        $dtm = Carbon::now(Config::get('app.timezone'));
         $events = Event::where('user_id',Auth::id())
-        ->where('date_held','>',$dtm)
+        ->where('date_held','>=',Carbon::today(Config::get('app.timezone')))
         ->whereIn('status',['Ongoing','Cancelled'])
         ->orderBy('date_held','desc')
         ->orderBy('time_from','desc')
         ->get();
         $done = Event::where('user_id',Auth::id())
-        ->where('status','Done')
+        ->where('date_held','<',Carbon::today(Config::get('app.timezone')))
+        ->whereIn('status',['Done','Cancelled'])
         ->orderBy('date_held','desc')
         ->orderBy('time_from','desc')
         ->get();
@@ -48,6 +48,7 @@ class CoordinatorEventsController extends Controller
     public function create()
     {
         $events = Event::where('user_id',Auth::id())
+        ->where('date_held','>=',Carbon::today(Config::get('app.timezone')))
         ->whereIn('status',['Ongoing','Cancelled'])
         ->orderBy('date_held','desc')
         ->orderBy('time_from','desc')

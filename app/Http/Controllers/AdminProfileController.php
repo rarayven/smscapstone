@@ -7,16 +7,16 @@ use App\User;
 use Image;
 use Validator;
 use Hash;
-class CoordinatorProfileController extends Controller
+class AdminProfileController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('coordinator');
+        $this->middleware('admin');
     }
     public function index()
     {
-        return view('SMS.Coordinator.Services.CoordinatorProfile');
+        return view('SMS.Admin.Services.AdminProfile');
     }
     public function name(Request $request)
     {
