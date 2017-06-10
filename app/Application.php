@@ -8,11 +8,10 @@ class Application extends Model
 	public $timestamps = false;
 	protected $dates = ['birthday'];
 	public static $storeRule = [
-	'strUserFirstName' => 'unique_with:users, strUserMiddleName = middle_name, strUserLastName = last_name, strUserFirstName = first_name',
-	'strUserFirstName' => 'required|max:25',
+	'strUserFirstName' => 'required|max:25|unique_with:users, strUserMiddleName = middle_name, strUserLastName = last_name, strUserFirstName = first_name',
 	'strUserMiddleName' => 'nullable|max:25',
 	'strUserLastName' => 'required|max:25',
-	'strUserEmail' => 'required|max:30|unique:users,email',
+	'strUserEmail' => 'required|email|max:30|unique:users,email',
 	'strUserCell' => 'required|max:15',
 	'strApplPicture' => 'required|image',
 	'datPersDOB' => 'required|date',
@@ -51,8 +50,7 @@ class Application extends Model
 	'hsenrolled' => 'required|max:4',
 	'hsgrad' => 'required|max:4',
 	'hshonor' => 'nullable|max:50',
-	'strSiblFirstName' => 'required_with:strSiblLastName,strSiblDateFromar,strSiblDateTo',
-	'strSiblFirstName' => 'max:25',
+	'strSiblFirstName' => 'max:25|required_with:strSiblLastName,strSiblDateFromar,strSiblDateTo',
 	'strSiblLastName' => 'max:25',
 	'strSiblDateFrom' => 'max:4',
 	'strSiblDateTo' => 'max:4',
@@ -69,5 +67,8 @@ class Application extends Model
 	public static $updateSiblings = [
 	'intPersBrothers' => 'required|numeric',
 	'intPersSisters' => 'required|numeric',
+	];
+	public static $updateBirthday = [
+	'birthday' => 'required',
 	];
 }

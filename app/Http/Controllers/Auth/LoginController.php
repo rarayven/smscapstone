@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use Session;
 class LoginController extends Controller
 {
     /*
@@ -53,5 +53,15 @@ class LoginController extends Controller
             $this->username() => 'required|max:30',
             'password' => 'required|max:61',
             ]);
+    }
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->flush();
+
+        $request->session()->regenerate();
+        Session::flash('success','You have successfully logged out.');
+        return redirect(route('login'));
     }
 }

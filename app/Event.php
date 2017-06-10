@@ -11,10 +11,9 @@ class Event extends Model
 	'time_from' => 'required',
 	'time_to' => 'required',
 	'date_held' => 'required',
-	'title' => 'required|max:20',
 	'description' => 'required|string',
 	'place_held' => 'required|max:45',
-	'title' => 'unique_with:events, title, user_id, place_held, date_held, status, deleted_at',
+	'title' => 'required|max:20|unique_with:events, title, user_id, place_held, date_held, status, deleted_at',
 	];
 	public static function updateRule($id)
 	{
@@ -22,10 +21,9 @@ class Event extends Model
 		'time_from' => 'required',
 		'time_to' => 'required',
 		'date_held' => 'required',
-		'title' => 'required|max:20',
 		'description' => 'required|string',
 		'place_held' => 'required|max:45',
-		'title' => 'unique_with:events, title, user_id, place_held, date_held, status, deleted_at,'.$id,
+		'title' => 'required|max:20|unique_with:events, title, user_id, place_held, date_held, status, deleted_at,'.$id,
 		];
 	} 
 	public static $messages = [

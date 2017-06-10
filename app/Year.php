@@ -12,5 +12,5 @@ class Year extends Model
 		return $rules = [
 		'strYearDesc' => 'required|unique:years,description,'.$id.'|max:20',
 		];
-	} 
+	}
 }

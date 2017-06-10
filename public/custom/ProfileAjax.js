@@ -81,30 +81,30 @@ $(document).ready(function() {
 		});
 	}
 	$(".editname").on('click', '.btn-success', function(e) {
-		e.preventDefault();
 		formData = $('#' + $(this).val()).serialize();
 		if ($('#' + $(this).val()).parsley().isValid()) {
+			e.preventDefault();
 			call(urlname, formData);
 		}
 	});
 	$(".editcontact").on('click', '.btn-success', function(e) {
-		e.preventDefault();
 		formData = $('#' + $(this).val()).serialize();
 		if ($('#' + $(this).val()).parsley().isValid()) {
+			e.preventDefault();
 			call(urlcontact, formData);
 		}
 	});
 	$(".editemail").on('click', '.btn-success', function(e) {
-		e.preventDefault();
 		formData = $('#' + $(this).val()).serialize();
 		if ($('#' + $(this).val()).parsley().isValid()) {
+			e.preventDefault();
 			call(urlemail, formData);
 		}
 	});
 	$(".editpassword").on('click', '.btn-success', function(e) {
-		e.preventDefault();
 		formData = $('#frmpassword').serialize();
 		if ($('#frmpassword').parsley().isValid()) {
+			e.preventDefault();
 			call(urlpassword, formData);
 		}
 	});

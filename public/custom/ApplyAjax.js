@@ -354,8 +354,7 @@ $('#intPersCurrentSchool').on('change', function() {
       $('#strSystDesc').val(data.strSystDesc);
       $('#view').val(data.intSystID);
     },
-    error: function(data) {
-    }
+    error: function(data) {}
   });
 });
 $('#view').on('click', function() {
@@ -378,8 +377,7 @@ $('#view').on('click', function() {
         $('#details_system').replaceWith(details);
         $('#details_grade').modal('show');
       },
-      error: function(data) {
-      }
+      error: function(data) {}
     });
   }
 });
@@ -420,5 +418,27 @@ $('#btn-grade').on('click', function(e) {
 });
 $('#grade-list').on('click', '.btn-delete', function() {
   table.row('#' + $(this).val()).remove().draw();
+});
+$('.btn-submit').on('click',function(e){  
+  e.preventDefault();
+  swal({
+    title: "Are you sure?",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonClass: "btn-success",
+    confirmButtonText: "Apply",
+    cancelButtonText: "Cancel",
+    closeOnConfirm: false,
+    allowOutsideClick: true,
+    showLoaderOnConfirm: true,
+    closeOnCancel: true
+  },
+  function(isConfirm) {
+    setTimeout(function() {
+      if (isConfirm) {
+        $('#frmApply').submit();
+      }
+    }, 500);
+  });
 });
 });

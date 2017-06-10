@@ -10,19 +10,22 @@ class User extends Authenticatable
     protected $dates = ['deleted_at'];
     public $timestamps = false;
     public static $storeRegister = [
-    'first_name' => 'unique_with:users, middle_name, last_name',
-    'first_name' => 'required|max:25',
-    'middle_name' => 'nullable|max:25',
-    'last_name' => 'required|max:25',
-    'cell_no' => 'required|max:15',
-    'password' => 'required|confirmed|max:61',
-    'image' => 'image',
     ];
+    public static function updateRegister($id)
+    {
+        return $rules = [
+        'first_name' => 'required|max:25|unique_with:users,middle_name,last_name,'.$id,
+        'middle_name' => 'nullable|max:25',
+        'last_name' => 'required|max:25',
+        'cell_no' => 'required|max:15',
+        'password' => 'required|confirmed|max:61',
+        'image' => 'image',
+        ];
+    } 
     public static function updateName($id)
     {
         return $rules = [
-        'first_name' => 'unique_with:users, middle_name, last_name,'.$id,
-        'first_name' => 'required|max:25',
+        'first_name' => 'required|max:25|unique_with:users,middle_name,last_name,'.$id,
         'middle_name' => 'nullable|max:25',
         'last_name' => 'required|max:25',
         ];
@@ -30,7 +33,7 @@ class User extends Authenticatable
     public static function updateEmail($id)
     {
         return $rules = [
-        'email' => 'required|max:30|unique_with:users,'.$id,
+        'email' => 'required|email|max:30|unique:users,email,'.$id,
         ];
     } 
     public static $updateImage = [

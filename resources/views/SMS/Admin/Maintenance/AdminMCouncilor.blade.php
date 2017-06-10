@@ -89,7 +89,7 @@
 									</div>
 									<div class="form-group">
 										{{ Form::label('name', 'Email Address') }}
-										{{ Form::text('strCounEmail', null, [
+										{{ Form::email('strCounEmail', null, [
 											'id' => 'strCounEmail',
 											'class' => 'form-control',
 											'maxlength' => '30',
@@ -101,7 +101,7 @@
 									</div>
 									<div class="form-group">
 										{{ Form::label('name', 'Email Address of Coordinator') }}
-										{{ Form::text('strUserEmail', null, [
+										{{ Form::email('strUserEmail', null, [
 											'id' => 'strUserEmail',
 											'class' => 'form-control',
 											'maxlength' => '30',

@@ -8,30 +8,24 @@ class Councilor extends Model
 	use SoftDeletes;
 	protected $dates = ['deleted_at'];
 	public static $storeRule = [
-	'strCounFirstName' => 'required|max:25',
 	'strCounMiddleName' => 'max:25',
 	'strCounLastName' => 'required|max:25',
-	'strCounEmail' => 'required|max:30',
 	'strCounCell' => 'required|max:15',
-	'strUserEmail' => 'required|max:30',
 	'intCounDistID' => 'exists:districts,id',
-	'strCounFirstName' => 'unique_with:councilors, strCounMiddleName = middle_name, strCounLastName = last_name, strCounFirstName = first_name',
-	'strCounEmail' => 'unique:councilors,email',
-	'strUserEmail' => 'unique:users,email',
+	'strCounFirstName' => 'required|max:25|unique_with:councilors, strCounMiddleName = middle_name, strCounLastName = last_name, strCounFirstName = first_name',
+	'strCounEmail' => 'required|email|max:30|unique:councilors,email',
+	'strUserEmail' => 'required|email|max:30|unique:users,email',
 	];
 	public static function updaterules($id, $coordinator)
 	{
 		return $rules = [
-		'strCounFirstName' => 'required|max:25',
 		'strCounMiddleName' => 'max:25',
 		'strCounLastName' => 'required|max:25',
-		'strCounEmail' => 'required|max:30',
 		'strCounCell' => 'required|max:15',
-		'strUserEmail' => 'required|max:30',
 		'intCounDistID' => 'exists:districts,id',
-		'strCounFirstName' => 'unique_with:councilors, strCounMiddleName = middle_name, strCounLastName = last_name, strCounFirstName = first_name,'.$id,
-		'strCounEmail' => 'unique:councilors,email,'.$id,
-		'strUserEmail' => 'unique:users,email,'.$coordinator,
+		'strCounFirstName' => 'required|max:25|unique_with:councilors, strCounMiddleName = middle_name, strCounLastName = last_name, strCounFirstName = first_name,'.$id,
+		'strCounEmail' => 'required|email|max:30|unique:councilors,email,'.$id,
+		'strUserEmail' => 'required|email|max:30|unique:users,email,'.$coordinator,
 		];
 	}
 }

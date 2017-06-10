@@ -35,6 +35,12 @@
             </div>
           </div>
           <div class="form-bottom">
+            @if (Session::has('success'))
+            <div class="alert alert-success alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <i class='fa fa-check'></i> {{Session::get('success')}}
+            </div>
+            @endif
             <form class="login-form" role="form" method="POST" action="{{ route('login') }}">
               {{ csrf_field() }}
               <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">

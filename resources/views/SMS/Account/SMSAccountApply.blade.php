@@ -35,7 +35,6 @@
             'class' => 'f1',
             'data-parsley-errors-messages-disabled' => '',
             'enctype' => 'multipart/form-data',
-            'onsubmit' => "return confirm('Do you really want to submit the form?');"
             ])
         }}
         @if (count($errors) > 0)
@@ -302,9 +301,14 @@
             }}
         </div>
     </div>
-    <div class="form-group col-md-2" style="margin-top: -20px;">
-        <br>
-        <div class="btn btn-default btn-file images">
+    <div class="form-group col-md-2">
+        <div class="col-sm-12 row">
+            {{ Form::label('strApplPicture', 'Upload Image*', [
+                'class' => 'control-label'
+                ]) 
+            }}
+        </div>
+        <div class="btn btn-default btn-file images col-md-12 col-sm-2">
             <i class="fa fa-paperclip"></i> Image
             {{ Form::file('strApplPicture', [
                 'required' => 'required'
@@ -823,11 +827,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="form-group col-md-4">
-                {{ Form::label('name', "Current Course", [
-                    'class' => 'control-label'
-                    ]) 
-                }}
+            <div class="form-group col-md-6">
                 <label class="control-label">Current Course</label>
                 <select id="intPersCurrentCourse" name="intPersCurrentCourse" class="form-control">
                     <option value="">None</option>
@@ -836,7 +836,33 @@
                     @endforeach
                 </select>
             </div>
-            <div class="form-group col-md-2">
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ Form::label('name', "Year", [
+                    'class' => 'control-label'
+                    ]) 
+                }}
+                <select id="intYearID" name="intYearID" class="form-control">
+                    <option value="">None</option>
+                    @foreach($year as $years)
+                    <option value={{$years->id}}>{{$years->description}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                {{ Form::label('name', "Semester", [
+                    'class' => 'control-label'
+                    ]) 
+                }}
+                <select id="intSemID" name="intSemID" class="form-control">
+                    <option value="">None</option>
+                    @foreach($sem as $sems)
+                    <option value={{$sems->id}}>{{$sems->description}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group col-md-4">
                 {{ Form::label('name', "GWA", [
                     'class' => 'control-label'
                     ]) 
@@ -851,80 +877,14 @@
                 }}
             </div>
         </div>
-        <div class="row">
-            <div class="form-group col-md-3">
-                {{ Form::label('name', "Year", [
-                    'class' => 'control-label'
-                    ]) 
-                }}
-                <select id="intYearID" name="intYearID" class="form-control">
-                    <option value="">None</option>
-                    @foreach($year as $years)
-                    <option value={{$years->id}}>{{$years->description}}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group col-md-3">
-                {{ Form::label('name', "Semester", [
-                    'class' => 'control-label'
-                    ]) 
-                }}
-                <select id="intSemID" name="intSemID" class="form-control">
-                    <option value="">None</option>
-                    @foreach($sem as $sems)
-                    <option value={{$sems->id}}>{{$sems->description}}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group col-md-3">
-                {{ Form::label('name', "Academic Grading", [
-                    'class' => 'control-label'
-                    ]) 
-                }}
-                {{ Form::text('strSystDesc', null, [
-                    'id' => 'strSystDesc',
-                    'class' => 'form-control',
-                    'readonly' => 'readonly'
-                    ]) 
-                }}
-            </div>
-            <div class="form-group col-md-3">
-                <br>
-                {{ Form::button("<i class='fa fa-eye'></i> View Academic Grading", [
-                    'id' => 'view',
-                    'value' => '0',
-                    'class' => 'btn btn-info pull-left'
-                    ]) 
-                }}
-            </div>
-        </div>
-        <div class="form-group">
-            <br>
-            {{ Form::button("<i class='fa fa-plus'></i> Input Grade", [
-                'id' => 'btn-add',
-                'class' => 'btn btn-primary btn-sm'
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12 row">
+            {{ Form::label('strApplPicture', 'Upload Image*', [
+                'class' => 'control-label'
                 ]) 
             }}
-            <table id="grade-table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
-                <thead>
-                    <th>ID</th>
-                    <th>Subject Code</th>
-                    <th>Subject Description</th>
-                    <th>Units</th>
-                    <th>Grade</th>
-                    <th>Action</th>
-                </thead>
-                <tbody id="grade-list">
-                </tbody>
-            </table>
-            {{ Form::hidden('dataoftable', null, [
-                'id' => 'dataoftable'
-                ])
-            }}
         </div>
-    </div>
-    <div class="form-group" style="margin-top: -20px;">
-        <br>
         <div class="btn btn-default btn-file pdf">
             <i class="fa fa-paperclip"></i> PDF
             {{ Form::file('strApplGrades', [
@@ -1092,7 +1052,7 @@
 <div class="form-section">
     <div id="summary">
     </div>
-    {{ Form::submit('Submit', ['class' => 'btn btn-default pull-right']) }}
+    {{ Form::button("<i class='fa fa-paper-plane'></i> Submit", ['type' => 'submit' ,'class' => 'btn btn-success pull-right btn-submit']) }}
 </div>
 <div class="form-navigation">
     {{ Form::button('&lt; Previous', ['class' => 'previous navigation btn btn-info pull-left', 'style' => 'whitespace: nowrap;']) }}

@@ -108,3 +108,20 @@
 	reserved.
 </footer>
 @endsection
+@section('endscript')
+{!! Html::script("js/bootbox.min.js") !!} 
+<script type="text/javascript">
+	@if (Session::has('success'))
+	bootbox.alert({
+		message: "<br><h1><center>{{Session::get('success')}}</h1></center>",
+		backdrop: true,
+		buttons: {
+			ok: {
+				label: 'Ok',
+				className: 'btn-success btn-lg'
+			}
+		}
+	});
+	@endif
+</script>
+@endsection

@@ -10,7 +10,7 @@ $(document).ready(function() {
 	$('.editmoccu').on('click', '.btn-default', function(e) {
 		e.preventDefault();
 		$('#motheroccupation').removeAttr('readonly').val(null);
-		$('#motherincome').removeAttr('readonly').val(null);
+		$('#motherincome').removeAttr('disabled');
 		$('.editmoccu').empty().append("<button class='btn btn-success btn-xs pull-right' value='frmmoccu'><i class='fa fa-save'></i></button>");
 	});
 	$('.editfinfo').on('click', '.btn-default', function(e) {
@@ -24,7 +24,7 @@ $(document).ready(function() {
 	$('.editfoccu').on('click', '.btn-default', function(e) {
 		e.preventDefault();
 		$('#fatheroccupation').removeAttr('readonly').val(null);
-		$('#fatherincome').removeAttr('readonly').val(null);
+		$('#fatherincome').removeAttr('disabled');
 		$('.editfoccu').empty().append("<button class='btn btn-success btn-xs pull-right' value='frmfoccu'><i class='fa fa-save'></i></button>");
 	});
 	$('.editno').on('click', '.btn-default', function(e) {
@@ -33,38 +33,50 @@ $(document).ready(function() {
 		$('#sisno').removeAttr('readonly').val(null);
 		$('.editno').empty().append("<button class='btn btn-success btn-xs pull-right' value='frmno'><i class='fa fa-save'></i></button>");
 	});
-	$(".editminfo").on('click', '.btn-success', function(e) {
+	$('.editbday').on('click', '.btn-default', function(e) {
 		e.preventDefault();
+		$('#birthday').removeAttr('readonly').val(null);
+		$('.editbday').empty().append("<button class='btn btn-success btn-xs pull-right' value='frmbday'><i class='fa fa-save'></i></button>");
+	});
+	$(".editbday").on('click', '.btn-success', function(e) {
 		formData = $('#' + $(this).val()).serialize();
 		if ($('#' + $(this).val()).parsley().isValid()) {
+			e.preventDefault();
+			call(urlbirthday, formData);
+		}
+	});
+	$(".editminfo").on('click', '.btn-success', function(e) {
+		formData = $('#' + $(this).val()).serialize();
+		if ($('#' + $(this).val()).parsley().isValid()) {
+			e.preventDefault();
 			call(urlminfo, formData);
 		}
 	});
 	$(".editmoccu").on('click', '.btn-success', function(e) {
-		e.preventDefault();
 		formData = $('#' + $(this).val()).serialize();
 		if ($('#' + $(this).val()).parsley().isValid()) {
+			e.preventDefault();
 			call(urlmoccu, formData);
 		}
 	});
 	$(".editfinfo").on('click', '.btn-success', function(e) {
-		e.preventDefault();
 		formData = $('#' + $(this).val()).serialize();
 		if ($('#' + $(this).val()).parsley().isValid()) {
+			e.preventDefault();
 			call(urlfinfo, formData);
 		}
 	});
 	$(".editfoccu").on('click', '.btn-success', function(e) {
-		e.preventDefault();
 		formData = $('#' + $(this).val()).serialize();
 		if ($('#' + $(this).val()).parsley().isValid()) {
+			e.preventDefault();
 			call(urlfoccu, formData);
 		}
 	});
 	$(".editno").on('click', '.btn-success', function(e) {
-		e.preventDefault();
 		formData = $('#' + $(this).val()).serialize();
 		if ($('#' + $(this).val()).parsley().isValid()) {
+			e.preventDefault();
 			call(urlsiblings, formData);
 		}
 	});
@@ -102,4 +114,12 @@ $(document).ready(function() {
 			}
 		});
 	}
+	var dt = new Date();
+	dt.setFullYear(new Date().getFullYear() - 18);
+	$('#birthday').datepicker({
+		viewMode: "years",
+		endDate: dt,
+		autoclose: true,
+		format: 'yyyy-mm-dd'
+	});
 });

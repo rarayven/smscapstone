@@ -26,6 +26,7 @@ use App\Grade;
 use Auth;
 use Hash;
 use Config;
+use Session;
 class SMSAccountApplyController extends Controller
 {
   public function __construct()
@@ -183,7 +184,8 @@ class SMSAccountApplyController extends Controller
       Image::make($image)->resize(400,400)->save($location);
       $pdf->move(base_path().'/public/docs/', $pdfname);
       DB::commit();
-      return redirect('/');
+      Session::flash('success','Your application is submitted successfully. Please wait for confirmation through your email.');
+      return redirect(route('sms.index'));
     } catch(\Exception $e) {
       DB::rollBack();
       return dd($e->getMessage());

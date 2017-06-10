@@ -28,11 +28,12 @@ class LogAuthenticated
      */
     public function handle(Authenticated $event)
     {
-        $events = Event::where('date_held','<',Carbon::today(Config::get('app.timezone')))->get();
-        foreach ($events as $finish) {
-            if ($finish->status == 'Ongoing')
-                $finish->status = 'Done';
-            $finish->save();
-        }
+    	$events = Event::where('date_held','<',Carbon::today(Config::get('app.timezone')))
+    	->whereIn('status',['Ongoing','Cancelled'])->get();
+    	foreach ($events as $finish) {
+    		if ($finish->status == 'Ongoing')
+    			$finish->status = 'Done';
+    		$finish->save();
+    	}
     }
 }

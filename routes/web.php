@@ -32,6 +32,7 @@ Route::group(['prefix' => 'student/'], function () {
 	Route::post('finfo', ['uses' => 'StudentProfileController@finfo', 'as' => 'studentfinfo.store']);
 	Route::post('foccu', ['uses' => 'StudentProfileController@foccu', 'as' => 'studentfoccu.store']);
 	Route::post('siblings', ['uses' => 'StudentProfileController@siblings', 'as' => 'studentsiblings.store']);
+	Route::post('birthday', ['uses' => 'StudentProfileController@birthday', 'as' => 'studentbirthday.store']);
 	//Student Renewal
 	Route::resource('renewal', 'StudentRenewalController');
 	//Student Achievements

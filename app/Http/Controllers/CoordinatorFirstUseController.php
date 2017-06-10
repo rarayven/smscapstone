@@ -20,7 +20,7 @@ class CoordinatorFirstUseController extends Controller
 	}
 	public function store(Request $request)
 	{
-		$this->validate($request, User::$storeRegister);
+		$this->validate($request, User::updateRegister(Auth::id()));
 		try {
 			$dtm = Carbon::now(Config::get('app.timezone'));
 			$password = Hash::make($request->password);
@@ -42,7 +42,7 @@ class CoordinatorFirstUseController extends Controller
 			$user->save();
 			return redirect(route('coordinator.index'));
 		} catch(\Exception $e) {
-			dd('Something went wrong!');
+			dd($e);
 		}
 	}
 }

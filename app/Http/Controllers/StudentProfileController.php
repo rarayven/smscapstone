@@ -9,6 +9,7 @@ use App\Familydata;
 use Image;
 use Validator;
 use Hash;
+use Carbon\Carbon;
 class StudentProfileController extends Controller
 {
     public function __construct()
@@ -95,13 +96,24 @@ class StudentProfileController extends Controller
             return dd($e->getMessage());
         }  
     }
+    public function birthday(Request $request)
+    {
+        $validator = Validator::make($request->all(), Application::$updateBirthday);
+        if ($validator->fails()) {
+            return Response::json($validator->errors()->first(), 422);
+        }
+        $birthday = Application::find(Auth::id());
+        $birthday->birthday = Carbon::createFromFormat('Y-m-d', $request->birthday);
+        $birthday->save();
+        return Response::json($birthday);
+    }
     public function minfo(Request $request)
     {
         $validator = Validator::make($request->all(), Familydata::$updateMInfo);
         if ($validator->fails()) {
             return Response::json($validator->errors()->first(), 422);
         }
-        $mother = Familydata::where('student_detail_user_id',Auth::id())->where('member_type',0);
+        $mother = Familydata::where('student_detail_user_id',Auth::id())->where('member_type',0)->first();
         $mother->first_name = $request->motherfname;
         $mother->last_name = $request->motherlname;
         $mother->citizenship = $request->mothercitizen;
@@ -115,7 +127,7 @@ class StudentProfileController extends Controller
         if ($validator->fails()) {
             return Response::json($validator->errors()->first(), 422);
         }
-        $mother = Familydata::where('student_detail_user_id',Auth::id())->where('member_type',0);
+        $mother = Familydata::where('student_detail_user_id',Auth::id())->where('member_type',0)->first();
         $mother->occupation = $request->motheroccupation;
         $mother->monthly_income = $request->motherincome;
         $mother->save();
@@ -127,7 +139,7 @@ class StudentProfileController extends Controller
         if ($validator->fails()) {
             return Response::json($validator->errors()->first(), 422);
         }
-        $father = Familydata::where('student_detail_user_id',Auth::id())->where('member_type',1);
+        $father = Familydata::where('student_detail_user_id',Auth::id())->where('member_type',1)->first();
         $father->first_name = $request->fatherfname;
         $father->last_name = $request->fatherlname;
         $father->citizenship = $request->fathercitizen;
@@ -141,7 +153,7 @@ class StudentProfileController extends Controller
         if ($validator->fails()) {
             return Response::json($validator->errors()->first(), 422);
         }
-        $father = Familydata::where('student_detail_user_id',Auth::id())->where('member_type',1);
+        $father = Familydata::where('student_detail_user_id',Auth::id())->where('member_type',1)->first();
         $father->occupation = $request->fatheroccupation;
         $father->monthly_income = $request->fatherincome;
         $father->save();

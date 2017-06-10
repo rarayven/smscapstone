@@ -14,6 +14,7 @@
   <link rel="icon" href="{{ asset('img/logo.ico') }}">
   {!! Html::script("plugins/jQuery/jquery-3.1.1.min.js") !!}
   {!! Html::script("js/bootstrap.min.js") !!} 
+  {!! Html::script("js/camelcase.min.js") !!}
   {!! Html::script("plugins/pace/pace.min.js") !!}
   <style type="text/css">
     .navbar-toggle {
