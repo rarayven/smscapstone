@@ -16,7 +16,7 @@
   @yield('override')
   {!! Html::style("css/AdminLTE.min.css") !!}
   {!! Html::style("css/_all-skins.min.css") !!}
-  {!! Html::script("plugins/jQuery/jquery-3.1.1.min.js") !!}
+  {!! Html::script("plugins/jQuery/jquery-3.2.1.min.js") !!}
   {!! Html::script("js/bootstrap.min.js") !!}
   {!! Html::script("js/camelcase.min.js") !!} 
   {!! Html::script("plugins/pace/pace.min.js") !!}
@@ -35,7 +35,7 @@
         <span class="logo-lg"><b>Scholar</b>MS</span>
       </a>
       <nav class="navbar navbar-static-top" role="navigation">
-        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
           <span class="sr-only">Toggle navigation</span>
         </a>
         <div class="navbar-custom-menu">
@@ -84,7 +84,8 @@
           <p>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</p>
         </div>
       </div>
-      <ul class="sidebar-menu">
+      <ul class="sidebar-menu" data-widget="tree">
+
         <li class="header">NAVIGATION</li>
         <li class="{{Request::path() == 'student/dashboard' ? 'active' : ''}}"><a href="{{ url('student/dashboard') }}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
         <li class="{{Request::path() == 'student/announcements' ? 'active' : ''}}"><a href="{{ url('student/announcements') }}"><i class="fa fa-bullhorn"></i><span>Announcements</span><small class="label pull-right bg-green panelanno"></small></a></li>
@@ -101,9 +102,10 @@
 {!! Html::script("js/bootstrap-notify.min.js") !!} 
 {!! Html::script("plugins/sweetalert/sweetalert.min.js") !!}
 {!! Html::script("js/script.js") !!}
+{!! Html::script("plugins/fastclick/fastclick.min.js") !!}
 {!! Html::script("js/parsley.min.js") !!}
 @yield('script')
-{!! Html::script("js/app.min.js") !!}
+{!! Html::script("js/adminlte.min.js") !!}
 <script type="text/javascript">
   var notif = "{!! route('studentmessage.unreadmessage') !!}";
   var anno = "{!! route('studentannouncements.unread') !!}";

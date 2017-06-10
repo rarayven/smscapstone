@@ -100,7 +100,7 @@ $(document).ready(function() {
         $('#count').empty();
         var ctr = 1;
         $.each(data, function(index, value) {
-          var showOrder = "<li style='height: 35px;'><h5># " + ctr++ + "</h5></li>"
+          var showOrder = "<li style='height: 35px;'><h5>#"+ ctr++ +"</h5></li>"
           var show = "<li style='height: 40px;'>" +
           "<div class='col-xs-12 handle'>" +
           "<span>" +

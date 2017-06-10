@@ -12,7 +12,7 @@
   {!! Html::style("css/_all-skins.min.css") !!}
   {!! Html::style("css/parsley.css") !!}
   <link rel="icon" href="{{ asset('img/logo.ico') }}">
-  {!! Html::script("plugins/jQuery/jquery-3.1.1.min.js") !!}
+  {!! Html::script("plugins/jQuery/jquery-3.2.1.min.js") !!}
   {!! Html::script("js/bootstrap.min.js") !!} 
   {!! Html::script("js/camelcase.min.js") !!}
   {!! Html::script("plugins/pace/pace.min.js") !!}
@@ -32,7 +32,7 @@
     <nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="{{ url('/') }}" style="background-color: #DD4B39; margin-top: -5px;">
+          <a class="navbar-brand" href="{{ url('/') }}" style="margin-top: -5px;">
             <img src="{{ asset('img/logo.png') }}" width="35" height="35" style="display: inline-block;">
             <span style="display: inline-block;"><b>Scholar</b>MS</span>
           </a>
@@ -145,6 +145,8 @@
 </div>
 </section>
 {!! Html::script("js/parsley.min.js") !!}
+{!! Html::script("plugins/fastclick/fastclick.min.js") !!}
+{!! Html::script("js/adminlte.min.js") !!}
 </script>
 </body>
 </html>
