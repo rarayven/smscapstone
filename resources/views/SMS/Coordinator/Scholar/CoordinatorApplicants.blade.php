@@ -47,4 +47,16 @@
 @endsection
 @section('script')
 {!! Html::script("custom/ApplicantsAjax.min.js") !!}
+<script type="text/javascript">
+  @if (Session::has('success'))
+  swal({
+    title: "Success!",
+    text: "<center>{{Session::get('success')}}</center>",
+    type: "success",
+    timer: 1000,
+    showConfirmButton: false,
+    html: true
+  });
+  @endif
+</script>
 @endsection

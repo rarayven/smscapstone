@@ -113,6 +113,15 @@
 										}}
 									</div>
 									<div class="form-group">
+										{{ Form::label('name', 'Picture of Councilor') }}
+									</div>
+									<div class="form-group">
+										<div class="btn btn-default btn-file">
+											<i class="fa fa-image"></i> Choose Image..
+											<input type="file" id="image" name="image">
+										</div>
+									</div>
+									<div class="form-group">
 										{{ Form::button('Submit', [
 											'id' => 'btn-save',
 											'class' => 'btn btn-success btn-block',

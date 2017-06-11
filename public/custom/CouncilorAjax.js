@@ -174,15 +174,18 @@ $(document).ready(function() {
             setTimeout(function() {
                 $("#btn-save").removeAttr('disabled');
             }, 1000);
-            var formData = {
-                strCounFirstName: $('#strCounFirstName').parsley('data-parsley-whitespace', 'squish').getValue(),
-                strCounMiddleName: $('#strCounMiddleName').parsley('data-parsley-whitespace', 'squish').getValue(),
-                strCounLastName: $('#strCounLastName').parsley('data-parsley-whitespace', 'squish').getValue(),
-                intCounDistID: $('#intCounDistID').val(),
-                strCounEmail: $('#strCounEmail').parsley('data-parsley-whitespace', 'squish').getValue(),
-                strCounCell: $('#strCounCell').parsley('data-parsley-whitespace', 'squish').getValue(),
-                strUserEmail: $('#strUserEmail').parsley('data-parsley-whitespace', 'squish').getValue()
-            }
+            // var formData = {
+            //     strCounFirstName: $('#strCounFirstName').parsley('data-parsley-whitespace', 'squish').getValue(),
+            //     strCounMiddleName: $('#strCounMiddleName').parsley('data-parsley-whitespace', 'squish').getValue(),
+            //     strCounLastName: $('#strCounLastName').parsley('data-parsley-whitespace', 'squish').getValue(),
+            //     intCounDistID: $('#intCounDistID').val(),
+            //     strCounEmail: $('#strCounEmail').parsley('data-parsley-whitespace', 'squish').getValue(),
+            //     strCounCell: $('#strCounCell').parsley('data-parsley-whitespace', 'squish').getValue(),
+            //     strUserEmail: $('#strUserEmail').parsley('data-parsley-whitespace', 'squish').getValue()
+            //     image: $('#image').val();
+            // }
+            var formData = new FormData($('#frmCouncilor')[0]);
+            console.log(formData);
             var state = $('#btn-save').val();
             var type = "POST"; //for creating new resource
             var my_url = url;
@@ -194,7 +197,9 @@ $(document).ready(function() {
                 type: type,
                 url: my_url,
                 data: formData,
+                processData: false,
                 dataType: 'json',
+                contentType: false,
                 success: function(data) {
                     $('#add_councilor').modal('hide');
                     table.draw();

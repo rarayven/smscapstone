@@ -283,7 +283,8 @@ $(document).ready(function() {
       "<label>Second Answer in Essay:</label> " +
       "<h4>" + $('#strPersEssay2').val() + "</h4><br>" +
       "</div>";
-      $('#summary').replaceWith(div);
+      $('#summary').empty();
+      $('#summary').append(div);
     }
   });
 $sections.each(function(index, section) {

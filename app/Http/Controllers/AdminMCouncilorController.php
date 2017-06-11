@@ -10,6 +10,7 @@ use DB;
 use Datatables;
 use Validator;
 use Hash;
+use Image;
 class AdminMCouncilorController extends Controller
 {
     public function __construct()
@@ -75,6 +76,10 @@ class AdminMCouncilorController extends Controller
         DB::beginTransaction();
         try {
             // $randompassword = str_random(25);
+            //Image Upload
+            $image = $request->file('image');
+            $imagename = md5($request->strCounEmail. time()).'.'.$image->getClientOriginalExtension();
+            $location = public_path('images/'.$imagename);
             $randompassword = Hash::make('password');
             $randomnumber = str_random(15);
             $councilor = new Councilor;
@@ -84,6 +89,7 @@ class AdminMCouncilorController extends Controller
             $councilor->district_id=$request->intCounDistID;
             $councilor->email=$request->strCounEmail;
             $councilor->cell_no=$request->strCounCell;
+            $councilor->picture=$imagename;
             $councilor->save();
             $users = new User;
             $users->type='Coordinator';
@@ -98,6 +104,7 @@ class AdminMCouncilorController extends Controller
             $connection->user_id = $users->id;
             $connection->councilor_id = $councilor->id;
             $connection->save();
+            Image::make($image)->resize(400,400)->save($location);
             DB::commit();
             return Response::json($councilor);
         } catch(\Exception $e) {
@@ -148,6 +155,11 @@ class AdminMCouncilorController extends Controller
         }
         try {
             try {
+                if ($request->file('image')!='') {
+                    $image = $request->file('image');
+                    $imagename = md5($request->strCounEmail. time()).'.'.$image->getClientOriginalExtension();
+                    $location = public_path('images/'.$imagename);
+                }
                 $councilor = Councilor::findorfail($id);
                 $councilor->first_name=$request->strCounFirstName;
                 $councilor->middle_name=$request->strCounMiddleName;
@@ -155,12 +167,18 @@ class AdminMCouncilorController extends Controller
                 $councilor->district_id=$request->intCounDistID;
                 $councilor->email=$request->strCounEmail;
                 $councilor->cell_no=$request->strCounCell;
+                if ($request->file('image')!='') {
+                    $councilor->picture=$imagename;
+                }
                 $councilor->save();
                 $connections = Connection::where('councilor_id',$id)
                 ->select('user_id')
                 ->first();
                 $users = User::where('id',$connections->user_id)->where('type','Coordinator')
                 ->update(['email' => $request->strUserEmail]);
+                if ($request->file('image')!='') {
+                    Image::make($image)->resize(400,400)->save($location);
+                }
                 return Response::json($councilor);
             } catch(\Exception $e) {
                 return var_dump($e->getMessage());

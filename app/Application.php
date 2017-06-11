@@ -6,7 +6,7 @@ class Application extends Model
 	protected $table = 'student_details';
 	protected $primaryKey = 'user_id';
 	public $timestamps = false;
-	protected $dates = ['birthday'];
+	protected $dates = ['birthday','application_date'];
 	public static $storeRule = [
 	'strUserFirstName' => 'required|max:25|unique_with:users, strUserMiddleName = middle_name, strUserLastName = last_name, strUserFirstName = first_name',
 	'strUserMiddleName' => 'nullable|max:25',

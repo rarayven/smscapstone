@@ -9,9 +9,13 @@ use App\Desiredcourses;
 use App\Studentsteps;
 use App\Current;
 use App\Step;
+use App\Connection;
 use App\Siblings;
 use App\User;
+use App\Councilor;
 use Carbon\Carbon;
+use Session;
+use Auth;
 class CoordinatorApplicantsDetailsController extends Controller
 {
     public function __construct()
@@ -26,11 +30,18 @@ class CoordinatorApplicantsDetailsController extends Controller
     public function show($id)
     {
         try {
+            $councilor = Connection::join('users','user_councilor.user_id','users.id')
+            ->join('councilors','user_councilor.councilor_id','councilors.id')
+            ->select('councilors.*')
+            ->where('users.id',Auth::id())
+            ->firstorfail();
             $application = Application::join('users','student_details.user_id','users.id')
+            ->join('user_councilor','student_details.user_id','user_councilor.user_id')
             ->join('districts','student_details.district_id','districts.id')
             ->join('barangay','student_details.barangay_id','barangay.id')
-            ->select('users.last_name','users.first_name','users.middle_name','student_details.*','districts.description as districts_description','barangay.description as barangay_description')
+            ->select('users.*','student_details.*','districts.description as districts_description','barangay.description as barangay_description')
             ->where('student_details.user_id',$id)
+            ->where('user_councilor.councilor_id',$councilor->id)
             ->where('student_details.application_status','Pending')->firstorfail();
             $currschool = Current::where('student_detail_user_id',$id)->count();
             $getschool = Current::join('schools','current_colleges.school_id','schools.id')
@@ -52,7 +63,7 @@ class CoordinatorApplicantsDetailsController extends Controller
             ->select('desired_courses.*','schools.description as schools_description','courses.description as courses_description')
             ->where('desired_courses.student_detail_user_id',$id)
             ->get();
-            return view('SMS.Coordinator.Scholar.CoordinatorApplicantsDetails')->withApplication($application)->withMother($mother)->withFather($father)->withDesiredcourses($desiredcourses)->withElem($elem)->withHs($hs)->withSiblings($siblings)->withExist($exist)->withCurrschool($currschool)->withGetschool($getschool);
+            return view('SMS.Coordinator.Scholar.CoordinatorApplicantsDetails')->withApplication($application)->withMother($mother)->withFather($father)->withDesiredcourses($desiredcourses)->withElem($elem)->withHs($hs)->withSiblings($siblings)->withExist($exist)->withCurrschool($currschool)->withGetschool($getschool)->withCouncilor($councilor);
         } catch(\Exception $e) {
             return redirect(route('applicants.index'));
         }
@@ -77,6 +88,7 @@ class CoordinatorApplicantsDetailsController extends Controller
             $user->is_active = 1;
             $user->save();
             DB::commit();
+            Session::flash('success','Student Accepted');
             return redirect(route('applicants.index'));
         } catch(\Exception $e) {
             DB::rollBack();
@@ -89,6 +101,7 @@ class CoordinatorApplicantsDetailsController extends Controller
         $application->remarks=$request->strApplRemarks;
         $application->application_status='Declined';
         $application->save();
+        Session::flash('success','Student Declined');
         return redirect(route('applicants.index'));
     }
 }

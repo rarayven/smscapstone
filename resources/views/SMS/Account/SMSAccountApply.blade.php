@@ -275,11 +275,10 @@
             'class' => 'control-label'
             ]) 
         }}
-        <select id="intBaraID" class="form-control" name="intBaraID">
-            @foreach($barangay as $barangay)
-            <option value={{$barangay->intBaraID}}>{{$barangay->strBaraDesc}}</option>
-            @endforeach
-        </select>
+        {{ Form::select('intBaraID', $barangay->pluck('description','id'), null, [
+            'id' => 'intBaraID',
+            'class' => 'form-control'])
+        }}
     </div>
     <div class="form-group col-md-3">
         {{ Form::label('email', 'Email Address*', [
@@ -900,66 +899,60 @@
                 'class' => 'control-label'
                 ]) 
             }}
-            <select id="school1" name="school1" class="form-control">
-                @foreach($school as $school1)
-                <option value={{$school1->id}}>{{$school1->description}}</option>
-                @endforeach
-            </select>
+            {{ Form::select('school1', $school->pluck('description','id'), null, [
+                'id' => 'school1',
+                'class' => 'form-control'])
+            }}
         </div>
         <div class="form-group col-md-6 col-sm-6">
             {{ Form::label('course1', "Course 1", [
                 'class' => 'control-label'
                 ]) 
             }}
-            <select id="course1" name="course1" class="form-control">
-                @foreach ($course as $course1)
-                <option value={{$course1->id}}>{{$course1->description}}</option>
-                @endforeach
-            </select>
+            {{ Form::select('course1', $course->pluck('description','id'), null, [
+                'id' => 'course1',
+                'class' => 'form-control'])
+            }}
         </div>
         <div class="form-group col-md-6 col-sm-6">
             {{ Form::label('school2', "School 2", [
                 'class' => 'control-label'
                 ]) 
             }}
-            <select id="school2" name="school2" class="form-control">
-                @foreach($school as $school2)
-                <option value={{$school2->id}}>{{$school2->description}}</option>
-                @endforeach
-            </select>
+            {{ Form::select('school2', $school->pluck('description','id'), null, [
+                'id' => 'school2',
+                'class' => 'form-control'])
+            }}
         </div>
         <div class="form-group col-md-6 col-sm-6">
             {{ Form::label('course2', "Course 2", [
                 'class' => 'control-label'
                 ]) 
             }}
-            <select id="course2" name="course2" class="form-control">
-                @foreach ($course as $course2)
-                <option value={{$course2->id}}>{{$course2->description}}</option>
-                @endforeach
-            </select>
+            {{ Form::select('course2', $course->pluck('description','id'), null, [
+                'id' => 'course2',
+                'class' => 'form-control'])
+            }}
         </div>
         <div class="form-group col-md-6 col-sm-6">
             {{ Form::label('school3', "School 3", [
                 'class' => 'control-label'
                 ]) 
             }}
-            <select id="school3" name="school3" class="form-control">
-                @foreach($school as $school3)
-                <option value={{$school3->id}}>{{$school3->description}}</option>
-                @endforeach
-            </select>
+            {{ Form::select('school3', $school->pluck('description','id'), null, [
+                'id' => 'school3',
+                'class' => 'form-control'])
+            }}
         </div>
         <div class="form-group col-md-6 col-sm-6">
             {{ Form::label('course3', "Course 3", [
                 'class' => 'control-label'
                 ]) 
             }}
-            <select id="course3" name="course3" class="form-control">
-                @foreach ($course as $course3)
-                <option value={{$course3->id}}>{{$course3->description}}</option>
-                @endforeach
-            </select>
+            {{ Form::select('course3', $course->pluck('description','id'), null, [
+                'id' => 'course3',
+                'class' => 'form-control'])
+            }}
         </div>
     </div>
     <hr>
