@@ -43,6 +43,7 @@ class StudentAnnouncementController extends Controller
         ->first();
         $announcement = Announcement::join('user_announcement','announcements.id','user_announcement.announcement_id')
         ->select('announcements.*','user_announcement.id as user_announcement_id','user_announcement.is_read')
+        ->where('user_announcement.user_id',Auth::id())
         ->where('announcements.user_id',$users->id)
         ->orderBy('announcements.id','desc')
         ->paginate(10);

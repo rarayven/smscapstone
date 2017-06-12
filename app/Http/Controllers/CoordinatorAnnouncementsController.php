@@ -85,6 +85,45 @@ class CoordinatorAnnouncementsController extends Controller
             dd($e);
         }  
     }
+    public function edit($id)
+    {
+        try {
+            $announcement = Announcement::findorfail($id);
+            return Response::json($announcement);
+        } catch(\Exception $e) {
+            return "Deleted";
+        }
+    }
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), Announcement::$storeRule);
+        if ($validator->fails()) {
+            return Response::json($validator->errors()->first(), 422);
+        }
+        DB::beginTransaction();
+        try {
+            $dtm = Carbon::now(Config::get('app.timezone'));
+            $announcement = Announcement::find($id);
+            $announcement->user_id = Auth::id();
+            $announcement->title = $request->title;
+            $announcement->description = $request->description;
+            $announcement->date_post = $dtm;
+            if ($request->file('pdf')!='') {
+                $pdf = $request->file('pdf');
+                $pdfname = md5(Auth::user()->email. time()).'.'.$pdf->getClientOriginalExtension();
+                $announcement->pdf = $pdfname;
+            }
+            $announcement->save();
+            if ($request->file('pdf')!='') {
+                $pdf->move(base_path().'/public/docs/', $pdfname);
+            }
+            DB::commit();
+            return Response::json($announcement);
+        } catch(\Exception $e) {
+            DB::rollBack();
+            dd($e);
+        }  
+    }
     public function destroy($id)
     {
         $announcement = Announcement::find($id);

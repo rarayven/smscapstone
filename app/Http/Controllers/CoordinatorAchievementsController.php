@@ -45,6 +45,7 @@ class CoordinatorAchievementsController extends Controller
         ->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',IFNULL(users.middle_name,'')) as strStudName"),'users.*','student_details.*','achievements.*'])
         ->where('user_councilor.councilor_id',$connections->id)
         ->where('achievements.status','Pending')
+        ->where('achievements.deleted_at',null)
         ->where('users.type','Student')
         ->get();
         $datatables = Datatables::of($users)

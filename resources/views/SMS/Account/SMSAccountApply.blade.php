@@ -90,9 +90,9 @@
         <div class="form-group row">
             @foreach ($district as $districts)
             <div class="col-md-4">
-                <div class="box box-widget district widget-user-2 text-center" style="cursor: pointer; background-color: #FF9376; border-style: solid;" value={{$districts->id}}>
+                <div class="box box-widget district widget-user-2 text-center" style="cursor: pointer; background-color: #4A5459; border-style: solid;" value={{$districts->id}}>
                     <div class="widget-user-header">
-                        <h1 id="txt{{$districts->id}}">{{$districts->description}}</h1>
+                        <h1 style="color: white;" id="txt{{$districts->id}}">{{$districts->description}}</h1>
                     </div>
                 </div>
             </div>
@@ -105,8 +105,8 @@
   </div>
   <div class="form-section">
     <h3>Select Councilor:</h3>
-    <div class="form-group col-md-12 row">
-        <div id="councilor" class="row"></div>
+    <div class="form-group row">
+        <div id="councilor"></div>
         {{ Form::hidden('intCounID', null, [
           'id' => 'intCounID'
           ])
@@ -561,15 +561,13 @@
     </div>
     <div id="questionappear">
        <div class="row">
-        <div class="container col-md-6 col-sm-12">
-            <div class="form-group">
-                {{ Form::label('name', "Name", [
-                    'class' => 'control-label'
-                    ]) 
-                }}
-            </div>
+           <div class="container col-md-6 col-sm-12">
             <div class="row">
                 <div class="form-group col-md-6 col-sm-12">
+                    {{ Form::label('name', "First Name", [
+                        'class' => 'control-label'
+                        ]) 
+                    }}
                     {{ Form::text('strSiblFirstName', null, [
                         'id' => 'strSiblFirstName',
                         'placeholder' => "Sibling's First Name",
@@ -582,6 +580,10 @@
                     }}
                 </div>
                 <div class="form-group col-md-6 col-sm-12">
+                    {{ Form::label('name', "Last Name", [
+                        'class' => 'control-label'
+                        ]) 
+                    }}
                     {{ Form::text('strSiblLastName', null, [
                         'id' => 'strSiblLastName',
                         'placeholder' => "Sibling's Last Name",
@@ -596,46 +598,36 @@
             </div>
         </div>
         <div class="container col-md-6 col-sm-12">
-            <div class="form-group">
-                {{ Form::label('name', "Date Joined", [
-                    'class' => 'control-label'
-                    ]) 
-                }}
-            </div>
             <div class="row">
                 <div class="form-group col-md-6 col-sm-12">
+                    {{ Form::label('name', "From", [
+                        'class' => 'control-label'
+                        ]) 
+                    }}
                     <div class="input-group">
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        {{ Form::text('strSiblDateFrom', null, [
+                        {{ Form::selectYear('strSiblDateFrom', $low->year, $now->year, null, [
                             'id' => 'strSiblDateFrom',
-                            'placeholder' => "From (YYYY)",
                             'class' => 'form-control',
-                            'minlength' => '4',
-                            'maxlength' => '4',
-                            'autocomplete' => 'off',
-                            'data-parsley-type' => 'number',
-                            'data-parsley-trigger-after-failure' => "focusout"
-                            ]) 
+                            ])
                         }}
                     </div>
                 </div>
                 <div class="form-group col-md-6 col-sm-12">
+                    {{ Form::label('name', "To", [
+                        'class' => 'control-label'
+                        ]) 
+                    }}
                     <div class="input-group">
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        {{ Form::text('strSiblDateTo', null, [
+                        {{ Form::selectYear('strSiblDateTo', $low->year, $now->year, null, [
                             'id' => 'strSiblDateTo',
-                            'placeholder' => "To (YYYY)",
                             'class' => 'form-control',
-                            'minlength' => '4',
-                            'maxlength' => '4',
-                            'autocomplete' => 'off',
-                            'data-parsley-type' => 'number',
-                            'data-parsley-trigger-after-failure' => "focusout"
-                            ]) 
+                            ])
                         }}
                     </div>
                 </div>
@@ -672,17 +664,10 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                {{ Form::text('elemenrolled', null, [
+                {{ Form::selectYear('elemenrolled', $low->year, $now->year, null, [
                     'id' => 'elemenrolled',
-                    'placeholder' => "YYYY",
                     'class' => 'form-control',
-                    'minlength' => '4',
-                    'maxlength' => '4',
-                    'autocomplete' => 'off',
-                    'data-parsley-type' => 'number',
-                    'required' => 'required',
-                    'data-parsley-trigger-after-failure' => "focusout"
-                    ]) 
+                    ])
                 }}
             </div>
         </div>
@@ -695,17 +680,10 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                {{ Form::text('elemgrad', null, [
+                {{ Form::selectYear('elemgrad', $low->year, $now->year, null, [
                     'id' => 'elemgrad',
-                    'placeholder' => "YYYY",
                     'class' => 'form-control',
-                    'minlength' => '4',
-                    'maxlength' => '4',
-                    'autocomplete' => 'off',
-                    'data-parsley-type' => 'number',
-                    'required' => 'required',
-                    'data-parsley-trigger-after-failure' => "focusout"
-                    ]) 
+                    ])
                 }}
             </div>
         </div>
@@ -750,17 +728,10 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                {{ Form::text('hsenrolled', null, [
+                {{ Form::selectYear('hsenrolled', $low->year, $now->year, null, [
                     'id' => 'hsenrolled',
-                    'placeholder' => "YYYY",
                     'class' => 'form-control',
-                    'minlength' => '4',
-                    'maxlength' => '4',
-                    'autocomplete' => 'off',
-                    'data-parsley-type' => 'number',
-                    'required' => 'required',
-                    'data-parsley-trigger-after-failure' => "focusout"
-                    ]) 
+                    ])
                 }}
             </div>
         </div>
@@ -773,17 +744,10 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                {{ Form::text('hsgrad', null, [
+                {{ Form::selectYear('hsgrad', $low->year, $now->year, null, [
                     'id' => 'hsgrad',
-                    'placeholder' => "YYYY",
                     'class' => 'form-control',
-                    'minlength' => '4',
-                    'maxlength' => '4',
-                    'autocomplete' => 'off',
-                    'data-parsley-type' => 'number',
-                    'required' => 'required',
-                    'data-parsley-trigger-after-failure' => "focusout"
-                    ]) 
+                    ])
                 }}
             </div>
         </div>
@@ -879,7 +843,7 @@
     </div>
     <div class="form-group">
         <div class="col-sm-12 row">
-            {{ Form::label('strApplPicture', 'Upload Image*', [
+            {{ Form::label('strApplPicture', 'Upload Grade*', [
                 'class' => 'control-label'
                 ]) 
             }}
@@ -993,15 +957,10 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                {{ Form::text('strPersDateParticipation', null, [
-                    'id' => 'dateofparticipation',
+                {{ Form::selectYear('strPersDateParticipation', $low->year, $now->year, null, [
+                    'id' => 'strPersDateParticipation',
                     'class' => 'form-control',
-                    'minlength' => '4',
-                    'maxlength' => '4',
-                    'placeholder' => 'YYYY',
-                    'data-parsley-type' => 'number',
-                    'data-parsley-trigger-after-failure' => "focusout"
-                    ]) 
+                    ])
                 }}
             </div>
         </div>
@@ -1053,105 +1012,6 @@
     <span class="clearfix"></span>
 </div>
 {{ Form::close() }}
-<div class="modal fade" id="details_grade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                {{ Form::button('&times;', [
-                    'class' => 'close',
-                    'type' => '',
-                    'data-dismiss' => 'modal'
-                    ]) 
-                }}
-                <h4>Grade Details</h4>
-            </div>
-            <div class="modal-body">
-                <div id="details_system">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="grade_input">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                {{ Form::button('&times;', [
-                    'class' => 'close',
-                    'type' => '',
-                    'data-dismiss' => 'modal'
-                    ]) 
-                }}
-                <h4>Grade Input</h4>
-            </div>
-            <div class="modal-body" id="details">
-                {{ Form::open([
-                    'id' => 'frmGrade',
-                    'data-parsley-errors-messages-disabled' => '',
-                    'data-parsley-whitespace' => 'squish'])
-                }}
-                <div class="form-group">
-                    {{ Form::label('name', 'Subject Code') }}
-                    {{ Form::text('strStudSubjCode', null, [
-                        'id' => 'strStudSubjCode',
-                        'class' => 'form-control',
-                        'maxlength' => '10',
-                        'required' => 'required',
-                        'data-parsley-pattern' => '^[a-zA-Z0-9 ]+$',
-                        'autocomplete' => 'off'
-                        ]) 
-                    }}
-                </div>
-                <div class="form-group">
-                    {{ Form::label('name', 'Subject Description') }}
-                    {{ Form::text('strStudSubjDesc', null, [
-                        'id' => 'strStudSubjDesc',
-                        'class' => 'form-control',
-                        'maxlength' => '50',
-                        'required' => 'required',
-                        'data-parsley-pattern' => '^[a-zA-Z0-9 ]+$',
-                        'autocomplete' => 'off'
-                        ]) 
-                    }}
-                </div>
-                <div class="form-group">
-                    {{ Form::label('name', 'Units') }}
-                    {{ Form::text('intStudSubjUnit', null, [
-                        'id' => 'intStudSubjUnit',
-                        'class' => 'form-control',
-                        'maxlength' => '1',
-                        'required' => 'required',
-                        'data-parsley-pattern' => '^[0-9]+$',
-                        'autocomplete' => 'off'
-                        ]) 
-                    }}
-                </div>
-                <div class="form-group">
-                    {{ Form::label('name', 'Grade') }}
-                    {{ Form::text('strStudGrade', null, [
-                        'id' => 'strStudGrade',
-                        'class' => 'form-control',
-                        'maxlength' => '4',
-                        'required' => 'required',
-                        'data-parsley-pattern' => '^[a-zA-Z0-9. ]+$',
-                        'autocomplete' => 'off'
-                        ]) 
-                    }}
-                </div>
-                <div class="form-group">
-                    {{ Form::button('Submit', [
-                        'id' => 'btn-grade',
-                        'class' => 'btn btn-success btn-block',
-                        'value' => 'add',
-                        'type' => ''
-                        ]) 
-                    }}
-                </div>
-                {{ Form::close() }}
-            </div>
-        </div>
-    </div>
-</div>
 </div>
 </div>        
 </div>
@@ -1167,4 +1027,7 @@
 {!! Html::script("js/bootstrap-notify.min.js") !!} 
 {!! Html::script("plugins/sweetalert/sweetalert.min.js") !!}
 {!! Html::script("custom/ApplyAjax.min.js") !!}
+<script type="text/javascript">
+    var asset = "{{ asset('images') }}";
+</script>
 @endsection

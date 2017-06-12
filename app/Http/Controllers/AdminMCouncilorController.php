@@ -27,7 +27,8 @@ class AdminMCouncilorController extends Controller
             $query->whereRaw("CONCAT(councilors.last_name,', ',councilors.first_name,' ',IFNULL(councilors.middle_name,'')) like ?", ["%{$keyword}%"]);
         })
         ->editColumn('strCounName', function ($data) {
-            return "$data->last_name, $data->first_name $data->middle_name";
+            $images = url('images/'.$data->picture);
+            return "<table><tr><td><div class='col-md-2'><img src='$images' class='img-circle' alt='data Image' height='40'></div></td><td>$data->last_name, $data->first_name $data->middle_name</td></tr></table>";
         })
         ->addColumn('action', function ($data) {
             return "<button class='btn btn-info btn-xs btn-view' value='$data->id'><i class='fa fa-eye'></i> View</button> <button class='btn btn-warning btn-xs btn-detail open-modal' value='$data->id'><i class='fa fa-edit'></i> Edit</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->id'><i class='fa fa-trash-o'></i> Delete</button>";
@@ -116,7 +117,9 @@ class AdminMCouncilorController extends Controller
     {
         try {
             $councilor = Councilor::join('districts','councilors.district_id','districts.id')
-            ->select('councilors.*','districts.description as district_description')
+            ->join('user_councilor','councilors.id','user_councilor.councilor_id')
+            ->join('users','user_councilor.user_id','users.id')
+            ->select(DB::raw("CONCAT(councilors.last_name,', ',councilors.first_name,' ',IFNULL(councilors.middle_name,'')) as strCounName"),'councilors.*','districts.description as district_description','users.email as user_email')
             ->where('councilors.id',$id)
             ->firstorfail();
             return Response::json($councilor);

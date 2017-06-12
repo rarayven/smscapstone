@@ -35,6 +35,8 @@ class SMSAccountApplyController extends Controller
   }
   public function index()
   {
+    $now = Carbon::now(Config::get('app.timezone'));
+    $low = Carbon::now(Config::get('app.timezone'))->subYears(20);
     $district = District::where('is_active',1)->get();
     $councilor = Councilor::where('is_active',1)->get();
     $barangay = Barangay::where('is_active',1)->get();
@@ -43,7 +45,7 @@ class SMSAccountApplyController extends Controller
     $grade = Academicgrade::where('is_active',1)->get();
     $year = Year::where('is_active',1)->get();
     $sem = Semester::where('is_active',1)->get();
-    return view('SMS.Account.SMSAccountApply')->withDistrict($district)->withCouncilor($councilor)->withBarangay($barangay)->withSchool($school)->withCourse($course)->withGrade($grade)->withYear($year)->withSem($sem);
+    return view('SMS.Account.SMSAccountApply')->withDistrict($district)->withCouncilor($councilor)->withBarangay($barangay)->withSchool($school)->withCourse($course)->withGrade($grade)->withYear($year)->withSem($sem)->withNow($now)->withLow($low);
   }
   public function store(Request $request)
   {
@@ -204,7 +206,7 @@ class SMSAccountApplyController extends Controller
   public function edit($id)
   {
     $query = District::join('councilors', 'districts.id', 'councilors.district_id')
-    ->select('councilors.*')
+    ->select('councilors.*',DB::raw("CONCAT(councilors.last_name,', ',councilors.first_name,' ',IFNULL(councilors.middle_name,'')) as strCounName"))
     ->where('councilors.district_id',$id)
     ->where('districts.id',$id)
     ->where('councilors.is_active',1)
@@ -214,14 +216,6 @@ class SMSAccountApplyController extends Controller
   public function update($id)
   {
     $grade = Academicgrade::find($id);
-    return Response::json($grade);
-  }
-  public function destroy($id)
-  {
-    $grade = Academicgrade::join('schools','schools.academic_grading_id','academic_gradings.id')
-    ->select('academic_gradings.*')
-    ->where('schools.id',$id)
-    ->first();
     return Response::json($grade);
   }
 }

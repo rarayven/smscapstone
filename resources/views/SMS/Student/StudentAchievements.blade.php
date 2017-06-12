@@ -112,7 +112,7 @@
             <th>Token</th>
             <th>Action</th>
           </thead>
-          <tbody id="district-list">
+          <tbody id="list">
           </tbody>
         </table>
       </div>

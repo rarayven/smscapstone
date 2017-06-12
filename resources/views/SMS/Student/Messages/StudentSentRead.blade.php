@@ -35,7 +35,7 @@
         <div class="box box-danger">
           <div class="box-header with-border">
             <h3 class="box-title">Read Sent</h3>
-            <span class="mailbox-read-time pull-right">{{$message->date_created->format('M d, Y - h:i A ')}}</span>
+            <span class="mailbox-read-time pull-right"><i class="fa fa-clock-o"></i> {{$message->date_created->format('M d, Y - h:i A ')}}</span>
           </div>
           <div class="box-body no-padding">
             <div class="mailbox-read-info">
@@ -51,7 +51,7 @@
               <textarea style="resize: none; width: 100%; height:50vh;" readonly="readonly">{{$message->description}}</textarea>
               @if ($message->pdf != '')
               <div class="form-control">
-                <a href="#" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> {{$message->pdf}}</a>
+                <a href="{{ asset('docs/'.$message->pdf) }}" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> {{$message->pdf}}</a>
               </div>
               @endif
             </div>

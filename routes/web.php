@@ -38,6 +38,9 @@ Route::group(['prefix' => 'student/'], function () {
 	//Student Achievements
 	Route::get('achievements', ['uses' => 'StudentAchievementsController@index', 'as' => 'studentachievements.index']);
 	Route::post('achievements', ['uses' => 'StudentAchievementsController@store', 'as' => 'studentachievements.store']);
+	Route::get('achievements/{id}/edit', ['uses' => 'StudentAchievementsController@edit', 'as' => 'studentachievements.edit']);
+	Route::post('achievements/{id}', ['uses' => 'StudentAchievementsController@update', 'as' => 'studentachievements.update']);
+	Route::delete('achievements/{id}', ['uses' => 'StudentAchievementsController@destroy', 'as' => 'studentachievements.destroy']);
 	//Student Events
 	Route::get('events', ['uses' => 'StudentEventsController@index', 'as' => 'studentevents.index']);
 	Route::get('events/upcome', ['uses' => 'StudentEventsController@upcome', 'as' => 'studentevents.upcome']);
@@ -109,6 +112,8 @@ Route::group(['prefix' => 'coordinator/'], function () {
 	//Coordinator Announcements
 	Route::get('announcements', ['uses' => 'CoordinatorAnnouncementsController@index', 'as' => 'coordinatorannouncements.index']);
 	Route::post('announcements', ['uses' => 'CoordinatorAnnouncementsController@store', 'as' => 'coordinatorannouncements.store']);
+	Route::get('announcements/{id}/edit', ['uses' => 'CoordinatorAnnouncementsController@edit', 'as' => 'coordinatorannouncements.edit']);
+	Route::post('announcements/{id}', ['uses' => 'CoordinatorAnnouncementsController@update', 'as' => 'coordinatorannouncements.update']);
 	Route::delete('announcements/{id}', ['uses' => 'CoordinatorAnnouncementsController@destroy', 'as' => 'coordinatorannouncements.destroy']);
 	//Coordinator Message
 	Route::get('messages/sent', ['uses' => 'CoordinatorMessagesController@sent', 'as' => 'coordinatormessage.sent']);
@@ -234,7 +239,7 @@ Route::group(['prefix' => 'admin/'], function () {
 	Route::post('councilor', ['uses' => 'AdminMCouncilorController@store', 'as' => 'councilor.store']);
 	Route::get('councilor/{id} ', ['uses' => 'AdminMCouncilorController@show', 'as' => 'councilor.show']);
 	Route::get('councilor/{id}/edit ', ['uses' => 'AdminMCouncilorController@edit', 'as' => 'councilor.edit']);
-	Route::put('councilor/{id}', ['uses' => 'AdminMCouncilorController@update', 'as' => 'councilor.update']);
+	Route::post('councilor/{id}', ['uses' => 'AdminMCouncilorController@update', 'as' => 'councilor.update']);
 	Route::delete('councilor/{id}', ['uses' => 'AdminMCouncilorController@destroy', 'as' => 'councilor.destroy']);
 	//Admin Barangay
 	Route::get('barangay', ['uses' => 'AdminMBarangayController@index', 'as' => 'barangay.index']);
@@ -257,7 +262,6 @@ Route::post('apply', ['uses' => 'SMSAccountApplyController@store', 'as' => 'appl
 Route::get('apply/{id}', ['uses' => 'SMSAccountApplyController@show', 'as' => 'apply.show']);
 Route::get('apply/{id}/edit', ['uses' => 'SMSAccountApplyController@edit', 'as' => 'apply.edit']);
 Route::put('apply/{id}', ['uses' => 'SMSAccountApplyController@update', 'as' => 'apply.update']);
-Route::delete('apply/{id}', ['uses' => 'SMSAccountApplyController@destroy', 'as' => 'apply.destroy']);
 Route::get('how-to-apply', ['uses' => 'SMSHowToApplyController@index', 'as' => 'how.index']);
 Route::get('/', ['uses' => 'SMSIndexController@index', 'as' => 'sms.index']);
 //Authentication Route

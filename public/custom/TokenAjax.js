@@ -99,7 +99,7 @@ $(document).ready(function() {
 		processing: true,
 		serverSide: true,
 		"columnDefs": [
-		{ "width": "270px", "targets": 4 },
+		{ "width": "220px", "targets": 4 },
 		{ "width": "150px", "targets": 3 }
 		],
 		ajax: {

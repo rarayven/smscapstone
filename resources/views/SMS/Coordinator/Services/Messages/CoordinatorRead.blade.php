@@ -48,7 +48,7 @@
                 <textarea style="resize: none; width: 100%; height:50vh;" readonly="readonly">{{$message->description}}</textarea>
                 @if ($message->pdf != '')
                 <div class="form-control">
-                  <a href="#" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> {{$message->pdf}}</a>
+                  <a href="{{ asset('docs/'.$message->pdf) }}" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> {{$message->pdf}}</a>
                 </div>
                 @endif
               </div>

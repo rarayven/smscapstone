@@ -118,7 +118,7 @@
 		buttons: {
 			ok: {
 				label: 'Ok',
-				className: 'btn-success btn-lg'
+				className: 'btn-success btn-md'
 			}
 		}
 	});

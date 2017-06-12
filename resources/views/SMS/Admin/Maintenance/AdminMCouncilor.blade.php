@@ -135,23 +135,6 @@
 							</div>
 						</div>
 					</div>
-					<div class="modal fade" id="details_councilor">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									{{ Form::button('&times;', [
-										'class' => 'close',
-										'type' => '',
-										'data-dismiss' => 'modal'
-										]) 
-									}}
-									<h4>Councilor Details</h4>
-								</div>
-								<div class="modal-body" id="details">
-								</div>
-							</div>
-						</div>
-					</div>
 					<div class="box-body table-responsive">
 						{{ Form::button("<i class='fa fa-plus'></i> Add Councilor", [
 							'id' => 'btn-add',
@@ -178,9 +161,11 @@
 	</div>
 	@endsection
 	@section('script')
+	{!! Html::script("js/bootbox.min.js") !!} 
 	{!! Html::script("custom/CouncilorAjax.min.js") !!}
 	<script type="text/javascript">
 		var dataurl = "{!! route('councilor.data') !!}";
+		var asset = "{{ asset('images') }}";
 	</script>
 	{!! Html::script("js/comparison.js") !!}
 	@endsection

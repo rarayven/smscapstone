@@ -10,7 +10,7 @@ $(document).ready(function() {
         serverSide: true,
         "order": [1, 'desc'],
         "columnDefs": [
-        { "width": "200px", "targets": 2 },
+        { "width": "130px", "targets": 2 },
         { "width": "200px", "targets": 1 }
         ],
         ajax: {
@@ -94,10 +94,6 @@ $(document).ready(function() {
                 }
             }, 500);
         });
-    });
-    $('#student-list').on('click', '.open-modal', function() {
-        var link_id = $(this).val();
-        $('#view_details').modal('show');
     });
     $('#student-list').on('click', '.btn-undo', function() {
         var link_id = $(this).val();

@@ -43,6 +43,70 @@ $(document).ready(function() {
 		$('#frmAchivement').trigger("reset");
 		$('#frmAchivement').parsley().destroy();
 	});
+    //display modal form for task editing
+    $('#list').on('click', '.open-modal', function() {
+        var link_id = $(this).val();
+        id = link_id;
+        $.get(url + '/' + link_id + '/edit', function(data) {
+            if (data == "Deleted") {
+                refresh();
+            } else {
+                $('h4').text('Edit Achivement');
+                $('#description').val(data.description);
+                $('#place_held').val(data.place_held);
+                $('#datepicker').val(data.date_held);
+                $('#btn-save').val("update");
+                $('#add_achievement').modal('show');
+            }
+        })
+    });
+    //delete task and remove it from list
+    $('#list').on('click', '.btn-delete', function() {
+        var link_id = $(this).val();
+        swal({
+            title: "Are you sure?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Delete",
+            cancelButtonText: "Cancel",
+            closeOnConfirm: false,
+            allowOutsideClick: true,
+            showLoaderOnConfirm: true,
+            closeOnCancel: true
+        },
+        function(isConfirm) {
+            setTimeout(function() {
+                if (isConfirm) {
+                    $.ajax({
+                        url: url + '/' + link_id,
+                        type: "DELETE",
+                        success: function(data) {
+                            table.draw();
+                            swal({
+                                title: "Deleted!",
+                                text: "<center>Data Deleted</center>",
+                                type: "success",
+                                timer: 1000,
+                                showConfirmButton: false,
+                                html: true
+                            });
+                        },
+                        error: function(data) {
+                            swal({
+                                title: "Failed!",
+                                text: "<center>"+data.responseText.replace(/['"]+/g, '')+"</center>",
+                                type: "error",
+                                confirmButtonClass: "btn-success",
+                                showConfirmButton: true,
+                                html: true
+                            });
+                        }
+                    });
+                }
+            }, 500);
+        });
+    });
     //create new task / update existing task
     $("#btn-save").click(function() {
     	$('#frmAchivement').parsley().destroy();
@@ -62,7 +126,6 @@ $(document).ready(function() {
             var type = "POST";
             var my_url = url;
             if (state == "update") {
-            	type = "PUT";
             	my_url += '/' + id;
             }
             $.ajax({

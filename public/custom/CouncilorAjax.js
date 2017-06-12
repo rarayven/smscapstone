@@ -96,16 +96,24 @@ $(document).ready(function() {
             if (data == "Deleted") {
                 refresh();
             } else {
-                $('#details').empty();
                 var modalbody =
-                "<label>ID</label><br>" + data.id +
-                "<br><label>District</label><br>" + data.district_description +
-                "<br><label>Name</label><br>" + data.last_name + ", " + data.first_name + " " + data.middle_name +
-                "<br><label>Email</label><br>" + data.email +
-                "<br><label>Contact Number</label><br>" + data.cell_no;
-                $('h4').text('View Councilor');
-                $('#details').append(modalbody);
-                $('#details_councilor').modal('show');
+                "<div class='col-md-2'><img src='"+asset+"/"+data.picture+"' class='profile-user-img img-responsive img-square pull-right' alt='User Image'>"+
+                "</div><div class='col-md-10'><div class='form-group'><label>District:</label><br>" + data.district_description +
+                "</div><div class='form-group'><label>Name:</label><br>" + data.strCounName +
+                "</div><div class='form-group'><label>E-mail Address:</label><br>" + data.email +
+                "</div><div class='form-group'><label>Contact Number:</label><br>" + data.cell_no +
+                "</div><div class='form-group'><label>Coordinator E-mail Address:</label><br>" + data.user_email +"</div></div>";
+                bootbox.alert({
+                    title: 'View Councilor',
+                    message: modalbody,
+                    backdrop: true,
+                    buttons: {
+                        ok: {
+                            label: 'Ok',
+                            className: 'btn-success btn-md'
+                        }
+                    }
+                });
             }
         })
     });
@@ -174,23 +182,11 @@ $(document).ready(function() {
             setTimeout(function() {
                 $("#btn-save").removeAttr('disabled');
             }, 1000);
-            // var formData = {
-            //     strCounFirstName: $('#strCounFirstName').parsley('data-parsley-whitespace', 'squish').getValue(),
-            //     strCounMiddleName: $('#strCounMiddleName').parsley('data-parsley-whitespace', 'squish').getValue(),
-            //     strCounLastName: $('#strCounLastName').parsley('data-parsley-whitespace', 'squish').getValue(),
-            //     intCounDistID: $('#intCounDistID').val(),
-            //     strCounEmail: $('#strCounEmail').parsley('data-parsley-whitespace', 'squish').getValue(),
-            //     strCounCell: $('#strCounCell').parsley('data-parsley-whitespace', 'squish').getValue(),
-            //     strUserEmail: $('#strUserEmail').parsley('data-parsley-whitespace', 'squish').getValue()
-            //     image: $('#image').val();
-            // }
             var formData = new FormData($('#frmCouncilor')[0]);
-            console.log(formData);
             var state = $('#btn-save').val();
             var type = "POST"; //for creating new resource
             var my_url = url;
             if (state == "update") {
-                type = "PUT"; //for updating existing resource
                 my_url += '/' + id;
             }
             $.ajax({

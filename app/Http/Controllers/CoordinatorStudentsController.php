@@ -70,7 +70,7 @@ class CoordinatorStudentsController extends Controller
 			else
 				$state = "disabled";
 			return "<div id=dp$data->id>
-			<button id=$count class='btn btn-success btn-xs btn-progress' $state $state value=$data->id><i class='fa fa-check'></i> Check</button> <button id=$count class='btn btn-warning btn-undo btn-xs' $state $state value=$data->id><i class='fa fa-undo'></i> Undo</button> <button class='btn btn-info btn-xs open-modal'><i class='fa fa-eye'></i> View</button></div>";
+			<button id=$count class='btn btn-success btn-xs btn-progress' $state $state value=$data->id><i class='fa fa-check'></i> Check</button> <button id=$count class='btn btn-warning btn-undo btn-xs' $state $state value=$data->id><i class='fa fa-undo'></i> Undo</button>";
 		})
 		->editColumn('strStudName', function ($data) {
 			$images = url('images/'.$data->picture);

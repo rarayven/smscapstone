@@ -36,7 +36,7 @@
           </div>
           @if ($announcements->pdf != '')
           <div class="timeline-footer">
-            <a href="#" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> {{$announcements->pdf}}</a>
+            <a href="{{ asset('docs/'.$announcements->pdf) }}" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> {{$announcements->pdf}}</a>
           </div>
           @endif
         </div>

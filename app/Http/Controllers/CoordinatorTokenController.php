@@ -48,6 +48,7 @@ class CoordinatorTokenController extends Controller
         ->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',IFNULL(users.middle_name,'')) as strStudName"),'users.*','student_details.*','achievements.*','achievements.id as achievements_id','users.id as user_id'])
         ->where('user_councilor.councilor_id',$connections->id)
         ->where('users.type','Student')
+        ->where('achievements.deleted_at',null)
         ->where('achievements.status','Accepted')
         ->where('achievements.token_process','Pending')
         ->get();

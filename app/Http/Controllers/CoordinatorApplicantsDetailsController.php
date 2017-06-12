@@ -16,6 +16,7 @@ use App\Councilor;
 use Carbon\Carbon;
 use Session;
 use Auth;
+use Config;
 class CoordinatorApplicantsDetailsController extends Controller
 {
     public function __construct()
@@ -70,29 +71,34 @@ class CoordinatorApplicantsDetailsController extends Controller
     }
     public function edit($id)
     {
-        DB::beginTransaction();
         try {
-            $current = Carbon::now();
-            $current = new Carbon();
-            $application = Application::find($id);
-            $application->application_status='Accepted';
-            $application->save();
-            $steps = Step::where('order',1)->first();
-            $intStepID = $steps->id;
-            $studentsteps = new Studentsteps;
-            $studentsteps->user_id=$id;
-            $studentsteps->step_id=$intStepID;
-            $studentsteps->completion_date=$current;
-            $studentsteps->save();
-            $user = User::find($id);
-            $user->is_active = 1;
-            $user->save();
-            DB::commit();
-            Session::flash('success','Student Accepted');
+            $notexist = Studentsteps::findorfail($id);
+            Session::flash('fail','Student Already Accepted');
             return redirect(route('applicants.index'));
         } catch(\Exception $e) {
-            DB::rollBack();
-            return dd('steps null');
+            DB::beginTransaction();
+            try {
+                $current = Carbon::now(Config::get('app.timezone'));
+                $application = Application::find($id);
+                $application->application_status='Accepted';
+                $application->save();
+                $steps = Step::where('order',1)->first();
+                $intStepID = $steps->id;
+                $studentsteps = new Studentsteps;
+                $studentsteps->user_id=$id;
+                $studentsteps->step_id=$intStepID;
+                $studentsteps->completion_date=$current;
+                $studentsteps->save();
+                $user = User::find($id);
+                $user->is_active = 1;
+                $user->save();
+                DB::commit();
+                Session::flash('success','Student Accepted');
+                return redirect(route('applicants.index'));
+            } catch(\Exception $e) {
+                DB::rollBack();
+                return dd('steps null');
+            }
         }
     }
     public function update(Request $request, $id)

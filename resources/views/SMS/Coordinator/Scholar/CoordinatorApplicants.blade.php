@@ -57,6 +57,15 @@
     showConfirmButton: false,
     html: true
   });
+  @elseif (Session::has('fail'))
+  swal({
+    title: "Failed!",
+    text: "<center>{{Session::get('fail')}}</center>",
+    type: "error",
+    confirmButtonClass: "btn-success",
+    showConfirmButton: true,
+    html: true
+  });
   @endif
 </script>
 @endsection

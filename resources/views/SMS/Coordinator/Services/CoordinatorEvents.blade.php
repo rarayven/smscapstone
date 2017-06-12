@@ -142,23 +142,6 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="details_events">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        {{ Form::button('&times;', [
-          'class' => 'close',
-          'type' => '',
-          'data-dismiss' => 'modal'
-          ]) 
-        }}
-        <h4>Event Details</h4>
-      </div>
-      <div class="modal-body" id="details">
-      </div>
-    </div>
-  </div>
-</div>
 <div class="nav-tabs-custom">
   <ul class="nav nav-tabs">
     <li class="active"><a href="#tab_1" data-toggle="tab">Upcoming</a></li>
@@ -234,6 +217,7 @@
 </div>
 @endsection
 @section('script')
+{!! Html::script("js/bootbox.min.js") !!} 
 {!! Html::script("plugins/datepicker/bootstrap-datepicker.js") !!}
 {!! Html::script("plugins/timepicker/bootstrap-timepicker.min.js") !!}
 {!! Html::script("custom/CoordinatorEventsAjax.min.js") !!}

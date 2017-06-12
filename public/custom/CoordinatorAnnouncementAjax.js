@@ -32,6 +32,22 @@ $(document).ready(function() {
         $('#frmAnnouncement').trigger("reset");
         $('#frmAnnouncement').parsley().destroy();
     });
+    //display modal form for task editing
+    $('#list').on('click', '.open-modal', function() {
+        var link_id = $(this).val();
+        id = link_id;
+        $.get(url + '/' + link_id + '/edit', function(data) {
+            if (data == "Deleted") {
+                refresh();
+            } else {
+                $('h4').text('Edit Announcement');
+                $('#title').val(data.title);
+                $('#description').val(data.description);
+                $('#btn-save').val("update");
+                $('#add_announcement').modal('show');
+            }
+        })
+    });
     //create new task / update existing task
     $("#btn-save").click(function() {
         $('#frmAnnouncement').parsley().destroy();
@@ -45,7 +61,6 @@ $(document).ready(function() {
             var type = "POST";
             var my_url = url;
             if (state == "update") {
-                type = "PUT";
                 my_url += '/' + id;
             }
             $.ajax({

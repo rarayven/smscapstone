@@ -324,10 +324,11 @@ $('.district').on('click', function() {
   $.get(url + '/' + selectedDistrict + '/edit', function(data) {
     $('#councilor').empty();
     $.each(data, function(index, value) {
-      var show = "<div class='col-md-4'>" +
-      "<div class='box box-widget councilor widget-user-2 text-center' style='cursor: pointer; background-color: #FF9376; border-style: solid;' value=" + value.id + ">" +
+      var show = "<div class='col-md-6'>" +
+      "<div class='box box-widget councilor widget-user-2 text-center' style='cursor: pointer; height: 200px; background-color: #4A5459; border-style: solid;' value=" + value.id + ">" +
       "<div class='widget-user-header'>" +
-      "<h1 id=countxt" + value.id + ">" + value.last_name + ", " + value.first_name + " " + value.middle_name + "</h1>" +
+      "<img src='"+asset+"/"+value.picture+"' class='profile-user-img img-responsive img-square pull-left'>"+
+      "<h1 style='color: white;' id=countxt" + value.id + ">" + value.strCounName + "</h1>" +
       "</div></div></div>";
       $('#councilor').append(show);
     });
@@ -345,80 +346,6 @@ $("#frmApply").bind("keypress", function(e) {
     $('#btn-next').click();
     return false;
   }
-});
-$('#intPersCurrentSchool').on('change', function() {
-  var link_id = $(this).val();
-  $.ajax({
-    url: url + '/' + link_id,
-    type: "DELETE",
-    success: function(data) {
-      $('#strSystDesc').val(data.strSystDesc);
-      $('#view').val(data.intSystID);
-    },
-    error: function(data) {}
-  });
-});
-$('#view').on('click', function() {
-  var link_id = $(this).val();
-  if (link_id == 0) {
-    alert('No School Selected');
-  } else {
-    $.ajax({
-      url: url + '/' + link_id,
-      type: "PUT",
-      success: function(data) {
-        var details = "<label>Grade Description</label>" +
-        "<p>" + data.strSystDesc + "</p>" +
-        "<label>Highest Grade</label>" +
-        "<p>" + data.strSystHighGrade + "</p>" +
-        "<label>Lowest Grade</label>" +
-        "<p>" + data.strSystLowGrade + "</p>" +
-        "<label>Failing Grade</label>" +
-        "<p>" + data.strSystFailGrade + "</p>";
-        $('#details_system').replaceWith(details);
-        $('#details_grade').modal('show');
-      },
-      error: function(data) {}
-    });
-  }
-});
-$('#btn-add').on('click', function() {
-  $('#grade_input').modal('show');
-});
-$('#grade_input').on('hide.bs.modal', function() {
-  $('#frmGrade').trigger("reset");
-  $('#frmGrade').parsley().destroy();
-});
-$('#details_grade').on('hide.bs.modal', function() {});
-$('#btn-grade').on('click', function(e) {
-  if ($('#frmGrade').parsley().isValid()) {
-    $('#frmGrade').parsley().destroy()
-    $.notify({
-      message: 'Success!'
-    }, {
-      type: 'success',
-      z_index: 2000,
-      delay: 1000,
-    });
-    e.preventDefault();
-    table.row.add([
-      counter,
-      $('#strStudSubjCode').val(),
-      $('#strStudSubjDesc').val(),
-      $('#intStudSubjUnit').val(),
-      $('#strStudGrade').val(),
-      "<button type='button' class='btn btn-warning btn-xs btn-detail open-modal'" +
-      "value=" + counter + "><i class='fa fa-edit'></i> Edit</button> " +
-      "<button type='button' class='btn btn-danger btn-xs btn-delete' value=" + counter + ">" +
-      "<i class='fa fa-trash-o'></i> Delete</button>"
-      ]).draw();
-    counter++;
-    $('#frmGrade').trigger('reset');
-    $('#strStudSubjCode').focus();
-  }
-});
-$('#grade-list').on('click', '.btn-delete', function() {
-  table.row('#' + $(this).val()).remove().draw();
 });
 $('.btn-submit').on('click',function(e){  
   e.preventDefault();

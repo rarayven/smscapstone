@@ -31,7 +31,7 @@
   <div class="wrapper">
     <header class="main-header">
       <a href="{{ url('student/dashboard') }}" class="logo">
-        <span class="logo-mini"><b>S</b>MS</span>
+        <span class="logo-mini"><img src="{{ asset('img/logo.png') }}" width="35" height="35"></span>
         <span class="logo-lg"><b>Scholar</b>MS</span>
       </a>
       <nav class="navbar navbar-static-top" role="navigation">
@@ -48,9 +48,9 @@
               <ul class="dropdown-menu">
                 <li class="user-header">
                   <img src="{{ asset('images/'.Auth::user()->picture) }}" class="img-circle" alt="User Image">
-                  <p>
-                    {{ Auth::user()->first_name }} {{ Auth::user()->last_name }} - {{ Auth::user()->type }}
-                    <small>Member since Nov. 2012</small>
+                  <p style="text-align: center;">
+                    {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
+                    <small>{{ Auth::user()->type }}</small>
                   </p>
                 </li>
                 <li class="user-footer">

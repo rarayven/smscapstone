@@ -17,10 +17,10 @@ class StudentAchievementsController extends Controller
     }
     public function data()
     {   
-        $achievement = Achievement::where('user_id',Auth::id())->get();
+        $achievement = Achievement::where('user_id',Auth::id());
         return Datatables::of($achievement)
         ->addColumn('action', function ($data) {
-            return "<button class='btn btn-info btn-xs btn-view' value='$data->id'><i class='fa fa-eye'></i> View</button> <button class='btn btn-warning btn-xs btn-detail open-modal' value='$data->id'><i class='fa fa-edit'></i> Edit</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->id'><i class='fa fa-trash-o'></i> Delete</button>";
+            return "<button class='btn btn-info btn-xs btn-view' value='$data->id'><i class='fa fa-file-pdf-o'></i> PDF</button> <button class='btn btn-warning btn-xs btn-detail open-modal' value='$data->id'><i class='fa fa-edit'></i> Edit</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->id'><i class='fa fa-trash-o'></i> Delete</button>";
         })
         ->editColumn('status', function ($data) {
             if($data->status=='Accepted'){
@@ -74,12 +74,52 @@ class StudentAchievementsController extends Controller
             $pdf->move(base_path().'/public/docs/', $pdfname);
             return Response::json($achievement);
         } catch(\Exception $e) {
-            dd($e);
             return dd($e->getMessage());
         }
-        // $validator = Validator::make($request->all(), Achievement::updateRule($id));
-        // if ($validator->fails()) {
-        //     return Response::json($validator->errors()->first(), 422);
-        // }
+    }
+    public function edit($id)
+    {
+        $achievement = Achievement::find($id);
+        return Response::json($achievement);
+    }
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), Achievement::updateRule($id));
+        if ($validator->fails()) {
+            return Response::json($validator->errors()->first(), 422);
+        }
+        try {
+            $achievement = Achievement::find($id);
+            if ($achievement->status == 'Pending') {
+                $achievement->user_id = Auth::id();
+                $achievement->description = $request->description;
+                $achievement->place_held = $request->place_held;
+                $achievement->date_held = $request->date_held;
+                if ($request->file('pdf')!='') {
+                    $pdf = $request->file('pdf');
+                    $pdfname = md5(Auth::user()->email. time()).'.'.$pdf->getClientOriginalExtension();
+                    $achievement->pdf = $pdfname;
+                }
+                $achievement->save();
+                if ($request->file('pdf')!='') {
+                    $pdf->move(base_path().'/public/docs/', $pdfname);
+                }
+                return Response::json($achievement);
+            } else {
+                return Response::json('Failed. Achievement processed',422);
+            }
+        } catch(\Exception $e) {
+            return dd($e->getMessage());
+        }
+    }
+    public function destroy($id)
+    {
+        $achievement = Achievement::find($id);
+        if ($achievement->status == 'Pending'){
+            $achievement->delete();
+            return Response::json($achievement);
+        } else {
+            return Response::json('Failed. Achievement processed',422);
+        }
     }
 }

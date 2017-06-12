@@ -202,7 +202,6 @@ class StudentMessagesController extends Controller
             ->select('messages.*','users.*')
             ->where('messages.id',$id)
             ->where('user_id',Auth::id())
-            ->where('messages.is_deleted',0)
             ->firstorfail();
             $users = User::join('user_message','users.id','user_message.user_id')
             ->select('users.*')
