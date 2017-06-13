@@ -185,7 +185,9 @@ return [
         Yajra\Datatables\DatatablesServiceProvider::class,
         Felixkiss\UniqueWithValidator\ServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-
+        Way\Generators\GeneratorsServiceProvider::class,
+        Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
+        Orangehill\Iseed\IseedServiceProvider::class,
         ],
 
     /*
