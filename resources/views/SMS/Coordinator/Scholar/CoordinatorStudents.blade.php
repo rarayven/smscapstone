@@ -88,6 +88,42 @@
 							</div>
 						</div>
 					</div>
+
+					<div class="modal fade" id="view_step">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									{{ Form::button('&times;', [
+										'class' => 'close',
+										'type' => '',
+										'data-dismiss' => 'modal'
+										]) 
+									}}
+									<h4>Steps List</h4>
+								</div>
+								<div class="modal-body">
+									{{ Form::open([
+										'id' => 'frmStep'
+										])
+									}}
+									<div class="form-group">
+										<ul class="todo-list">
+										</ul>
+									</div>
+									<div class="form-group">
+										{{ Form::button('Submit', [
+											'id' => 'btn-submit',
+											'class' => 'btn btn-success btn-block',
+											'value' => 'add',
+											'type' => ''
+											]) 
+										}}
+									</div>
+									{{ Form::close() }}
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="box-body table-responsive">
 						<strong class="pull-right" id="advsearch" style="cursor: pointer; cursor: hand;">Advanced Search</strong>
 						<table id="student-table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">

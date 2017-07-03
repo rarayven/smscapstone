@@ -121,14 +121,16 @@ class StudentMessagesController extends Controller
     }
     public function create()
     {
-        $user = User::join('user_councilor','users.id','user_councilor.user_id')
-        ->select('user_councilor.councilor_id')
-        ->where('user_councilor.user_id',Auth::id())
-        ->where('users.type','Student')
-        ->first();
         $users = User::join('user_councilor','users.id','user_councilor.user_id')
         ->select('users.*')
-        ->where('user_councilor.councilor_id',$user->councilor_id)
+        ->where('user_councilor.councilor_id', function($query){
+            $query->from('users')
+            ->join('user_councilor','users.id','user_councilor.user_id')
+            ->select('user_councilor.councilor_id')
+            ->where('user_councilor.user_id',Auth::id())
+            ->where('users.type','Student')
+            ->first();
+        })
         ->whereIn('users.type',['Student','Coordinator'])
         ->where('users.id','!=',Auth::id())
         ->where('users.is_active',1)

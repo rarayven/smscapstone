@@ -13,7 +13,6 @@ use App\Course;
 use App\Batch;
 use Response;
 use App\Studentsteps;
-use App\Connection;
 use Auth;
 use Carbon\Carbon;
 use Datatables;
@@ -39,28 +38,31 @@ class CoordinatorStudentsController extends Controller
 	}
 	public function store(Request $request)
 	{
-		$connections = Connection::join('users','user_councilor.user_id','users.id')
-		->join('councilors','user_councilor.councilor_id','councilors.id')
-		->select('councilors.id')
-		->where('user_councilor.user_id',Auth::id())
-		->first();
 		$application = Application::join('users','student_details.user_id','users.id')
 		->join('user_councilor','users.id','user_councilor.user_id')
-		->join('student_steps','student_steps.user_id','users.id')
-		->join('steps','student_steps.step_id','steps.id')
-		->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',IFNULL(users.middle_name,'')) as strStudName"),'users.*','student_steps.step_id','steps.description','steps.order','student_details.*'])
+		->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',IFNULL(users.middle_name,'')) as strStudName"),'users.*','student_details.*'])
 		->where('users.type','Student')
-		->where('user_councilor.councilor_id',$connections->id)
+		->where('user_councilor.councilor_id', function($query){
+			$query->from('user_councilor')
+			->join('users','user_councilor.user_id','users.id')
+			->join('councilors','user_councilor.councilor_id','councilors.id')
+			->select('councilors.id')
+			->where('user_councilor.user_id',Auth::id())
+			->first();
+		})
+		->where('student_details.application_status','Accepted')
+		->where('student_status','Continuing')
 		->where('student_details.is_steps_done',0);
 		$datatables = Datatables::of($application)
-		->editColumn('intStepOrder', function ($data) {
+		->addColumn('counter', function ($data) {
 			$count = Step::where('is_active',1)->count();
+			$steps = Studentsteps::where('user_id',$data->id)->count();
 			if($count!=0)
-				$percentage = (($data->order/$count)*100);
+				$percentage = (($steps/$count)*100);
 			else
 				$percentage = 0;
 			return "<div id=detail$data->id><div id=stat$data->id>
-			Todo: $data->description <div class='pull-right'>$data->order/$count </div></div><div class='progress progress-sm active'>
+			<div class='pull-right' style='margin-top: -5px; margin-left: 5px;'>$steps/$count </div></div><div class='progress progress-sm active'>
 			<div class='progress-bar progress-bar-success progress-bar-striped' id=prog$data->id role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: $percentage%'></div></div></div>";
 		})
 		->addColumn('action', function ($data) {
@@ -70,7 +72,7 @@ class CoordinatorStudentsController extends Controller
 			else
 				$state = "disabled";
 			return "<div id=dp$data->id>
-			<button id=$count class='btn btn-success btn-xs btn-progress' $state $state value=$data->id><i class='fa fa-check'></i> Check</button> <button id=$count class='btn btn-warning btn-undo btn-xs' $state $state value=$data->id><i class='fa fa-undo'></i> Undo</button>";
+			<button class='btn btn-info btn-xs btn-progress' $state $state value=$data->id><i class='fa fa-eye'></i> View</button>";
 		})
 		->editColumn('strStudName', function ($data) {
 			$images = url('images/'.$data->picture);
@@ -78,7 +80,7 @@ class CoordinatorStudentsController extends Controller
 		})
 		->setRowId(function ($data) {
 			return $data = 'id'.$data->user_id;
-		})->rawColumns(['strStudName','intStepOrder','action']);
+		})->rawColumns(['strStudName','counter','action']);
 		if ($strUserFirstName = $request->get('strUserFirstName')) {
 			$datatables->where('users.first_name', 'like', '%'.$strUserFirstName.'%');
 		}
@@ -92,7 +94,7 @@ class CoordinatorStudentsController extends Controller
 			$datatables->where('student_details.district_id', 'like', '%'.$intDistID.'%');
 		}
 		if ($intStepID = $request->get('intStepID')) {
-			$datatables->where('student_steps.step_id', 'like', '%'.$intStepID.'%');
+			$datatables->where('user_step.step_id', 'like', '%'.$intStepID.'%');
 		}
 		if ($intBaraID = $request->get('intBaraID')) {
 			$datatables->where('student_details.barangay_id', 'like', '%'.$intBaraID.'%');
@@ -113,94 +115,29 @@ class CoordinatorStudentsController extends Controller
 		}
 		return $datatables->make(true);
 	}
+	public function create()
+	{
+		$step = Step::where('is_active',1)->get();
+		return Response::json($step);
+	}
 	public function show($id)
 	{
-		DB::beginTransaction();
+		$steps = Studentsteps::where('user_id',$id)->get();
+		return Response::json($steps);
+	}
+	public function update(Request $request, $id)
+	{
 		try {
-			$steps = Step::where('is_active',1)->count();
-			$student = Studentsteps::join('steps','student_steps.step_id','steps.id')
-			->select('steps.order')
-			->where('student_steps.user_id',$id)
-			->first();
-            $intStepOrder = $student->order;//get the order number
-            if($intStepOrder>1){//check if higher than 0
-            	$intStepOrder--;
-            	$getId = Step::where('order',$intStepOrder)
-            	->first();
-            	$users = Studentsteps::find($id);
-            	$users->step_id=$getId->id;
-            	$users->save();
-            } else {
-                $step_id=1;//order when 0
-            }
-            $studentsteps = Studentsteps::join('steps','student_steps.step_id','steps.id')
-            ->join('student_details','student_steps.user_id','student_details.user_id')
-            ->select('student_steps.*','steps.description','steps.order','student_details.is_steps_done')
-            ->where('student_steps.user_id',$id)
-            ->first();
-            DB::commit();
-            return Response::json($studentsteps);
-        } catch(\Exception $e) {
-        	DB::rollBack();
-        }
-    }
-    public function edit($id)
-    {
-    	DB::beginTransaction();
-    	try {
-    		$steps = Step::where('is_active',1)->max('order');
-    		$getId = Step::where('order',$steps)
-    		->first();
-    		$userssteps = Studentsteps::find($id);
-    		$userssteps->step_id=$getId->id;
-    		$userssteps->save();
-    		$users = Application::find($id);
-    		$users->is_steps_done=0;
-    		$users->save();
-    		$studentsteps = Studentsteps::join('steps','student_steps.step_id','steps.id')
-    		->join('student_details','student_steps.user_id','student_details.user_id')
-    		->select('student_steps.*','steps.description','steps.order','student_details.is_steps_done')
-    		->where('student_steps.user_id',$id)
-    		->first();
-    		DB::commit();
-    		return Response::json($studentsteps);
-    	} catch(\Exception $e) {
-    		DB::rollBack();
-    	}
-    }
-    public function update($id)
-    {
-    	DB::beginTransaction();
-    	try {
-    		$steps = Step::where('is_active',1)->count();
-    		$student = Studentsteps::join('steps','student_steps.step_id','steps.id')
-    		->select('steps.order')
-    		->where('student_steps.user_id',$id)
-    		->first();
-            $intStepOrder = $student->order;//get the order number
-            if($intStepOrder>=$steps) {//check if lower the sum of active steps
-                $intStepOrder=1;//value if = steps
-                $users = Application::find($id);
-                $users->is_steps_done=1;
-                $users->save();
-            } else {
-                $intStepOrder+=1;//increment if < steps
-            }
-            $dtm = Carbon::now(Config::get('app.timezone'));
-            $studsteps = Step::where('order',$intStepOrder)->first();
-            $studentsteps = Studentsteps::find($id);//save the result
-            $studentsteps->step_id = $studsteps->id;
-            $studentsteps->completion_date = $dtm;
-            $studentsteps->save();
-            $studentsteps = Studentsteps::join('steps','student_steps.step_id','steps.id')
-            ->join('student_details','student_steps.user_id','student_details.user_id')
-            ->select('student_steps.*','steps.description','steps.order','student_details.is_steps_done')
-            ->where('student_steps.user_id',$id)
-            ->first();
-            DB::commit();
-            return Response::json($studentsteps);
-        } catch(\Exception $e) {
-        	DB::rollBack();
-        }
-    }
+			$student_step = Studentsteps::where('user_id',$id)->delete();
+			foreach ($request->steps as $step) {
+				$steps = new Studentsteps;
+				$steps->user_id = $id;
+				$steps->step_id = $step;
+				$steps->save();
+			}
+			return Response::json($student_step);
+		} catch (\Exception $e) {
+			return Response::json('Input must not be nulled',500);
+		}
+	}
 }

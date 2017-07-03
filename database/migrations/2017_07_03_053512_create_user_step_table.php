@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateStudentStepsTable extends Migration {
+class CreateUserStepTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,10 @@ class CreateStudentStepsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('student_steps', function(Blueprint $table)
+		Schema::create('user_step', function(Blueprint $table)
 		{
 			$table->integer('user_id')->unsigned()->index('fstudent_steps_user_id_idx');
 			$table->integer('step_id')->unsigned()->index('fstudent_steps_step_id_idx');
-			$table->dateTime('completion_date');
 		});
 	}
 
@@ -28,7 +27,7 @@ class CreateStudentStepsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('student_steps');
+		Schema::drop('user_step');
 	}
 
 }

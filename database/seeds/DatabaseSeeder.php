@@ -42,11 +42,11 @@ class DatabaseSeeder extends Seeder
         $this->call(UserAnnouncementTableSeeder::class);
         $this->call(AnnouncementsTableSeeder::class);
         $this->call(AchievementsTableSeeder::class);
-        $this->call(StudentStepsTableSeeder::class);
         $this->call(StepsTableSeeder::class);
         $this->call(PasswordResetsTableSeeder::class);
         $this->call(SettingsTableSeeder::class);
         $this->call(MigrationsTableSeeder::class);
+        $this->call(UserStepTableSeeder::class);
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

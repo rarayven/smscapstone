@@ -5,7 +5,6 @@ use Datatables;
 use App\User;
 use Auth;
 use DB;
-use App\Connection;
 use App\District;
 use App\Councilor;
 use App\Barangay;
@@ -37,16 +36,18 @@ class CoordinatorTokenController extends Controller
     }
     public function store(Request $request)
     {
-        $connections = Connection::join('users','user_councilor.user_id','users.id')
-        ->join('councilors','user_councilor.councilor_id','councilors.id')
-        ->select('councilors.id')
-        ->where('user_councilor.user_id',Auth::id())
-        ->first();
         $users = User::join('achievements','users.id','achievements.user_id')
         ->join('user_councilor','users.id','user_councilor.user_id')
         ->join('student_details','users.id','student_details.user_id')
         ->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',IFNULL(users.middle_name,'')) as strStudName"),'users.*','student_details.*','achievements.*','achievements.id as achievements_id','users.id as user_id'])
-        ->where('user_councilor.councilor_id',$connections->id)
+        ->where('user_councilor.councilor_id', function($query){
+            $query->from('user_councilor')
+            ->join('users','user_councilor.user_id','users.id')
+            ->join('councilors','user_councilor.councilor_id','councilors.id')
+            ->select('councilors.id')
+            ->where('user_councilor.user_id',Auth::id())
+            ->first();
+        })
         ->where('users.type','Student')
         ->where('achievements.deleted_at',null)
         ->where('achievements.status','Accepted')

@@ -49,11 +49,13 @@ class CoordinatorAnnouncementsController extends Controller
         }
         DB::beginTransaction();
         try {
-            $connection = Connection::where('user_id',Auth::id())
-            ->select('councilor_id')
-            ->first();
             $getScholar = Connection::join('users','user_councilor.user_id','users.id')
-            ->where('user_councilor.councilor_id',$connection->councilor_id)
+            ->where('user_councilor.councilor_id', function($query){
+                $query->from('user_councilor')
+                ->where('user_id',Auth::id())
+                ->select('councilor_id')
+                ->first();
+            })
             ->where('users.type','Student')
             ->select('users.id')
             ->get();

@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class AddForeignKeysToStudentStepsTable extends Migration {
+class AddForeignKeysToUserStepTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,7 +12,7 @@ class AddForeignKeysToStudentStepsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('student_steps', function(Blueprint $table)
+		Schema::table('user_step', function(Blueprint $table)
 		{
 			$table->foreign('step_id', 'fstudent_steps_step_id')->references('id')->on('steps')->onUpdate('CASCADE')->onDelete('RESTRICT');
 			$table->foreign('user_id', 'fstudent_steps_user_id')->references('id')->on('users')->onUpdate('CASCADE')->onDelete('RESTRICT');
@@ -27,7 +27,7 @@ class AddForeignKeysToStudentStepsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('student_steps', function(Blueprint $table)
+		Schema::table('user_step', function(Blueprint $table)
 		{
 			$table->dropForeign('fstudent_steps_step_id');
 			$table->dropForeign('fstudent_steps_user_id');

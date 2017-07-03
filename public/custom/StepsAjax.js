@@ -13,13 +13,11 @@ $(document).ready(function() {
     serverSide: true,
     ajax: dataurl,
     "columnDefs": [
-    { "width": "130px", "targets": 4 },
-    { "width": "70px", "targets": 3 }
+    { "width": "130px", "targets": 2 },
+    { "width": "70px", "targets": 1 }
     ],
     columns: [
-    { data: 'order', name: 'order' },
     { data: 'description', name: 'description' },
-    { data: 'deadline', name: 'deadline' },
     { data: 'is_active', name: 'is_active', searchable: false },
     { data: 'action', name: 'action', orderable: false, searchable: false }
     ]
@@ -35,17 +33,10 @@ $(document).ready(function() {
       type: "PUT",
       success: function(data) {
         Pace.restart();
-        if (data == "Deleted") {
-          refresh();
-        } else {
-          $('#num' + link_id).replaceWith("<div id=num" + data.id + ">" + data.order + "</div>");
-        }
       },
-      error: function(data) {
-      }
+      error: function(data) {}
     });
   });
-
   function refresh() {
     swal({
       title: "Record Deleted!",
@@ -85,37 +76,9 @@ $(document).ready(function() {
     });
     //display modal form for creating new task
     $('#btn-add').click(function() {
-      $.get(url + '/create', function(data) {
-        $('#btn-save').val("add");
-        $('h4').text('Add Step');
-        $('#intStepOrder').val(data).attr('readonly', 'readonly');
-        $('#add_steps').modal('show');
-      })
-    });
-    //display modal form for creating new task
-    $('#btn-order').click(function() {
-      $('h4').text('Order Steps');
-      $.get(url + '/order', function(data) {
-        $('.todo-list').empty();
-        $('#count').empty();
-        var ctr = 1;
-        $.each(data, function(index, value) {
-          var showOrder = "<li style='height: 35px;'><h5>#"+ ctr++ +"</h5></li>"
-          var show = "<li style='height: 40px;'>" +
-          "<div class='col-xs-12 handle'>" +
-          "<span>" +
-          "<i class='fa fa-ellipsis-v'></i>" +
-          "<i class='fa fa-ellipsis-v'></i>" +
-          "</span>" +
-          "<label>&emsp;" + value.description + "</label>" +
-          "<input type='hidden' name='order[]' value=" + value.id + ">" +
-          "</div>" +
-          "</li>";
-          $('.todo-list').append(show);
-          $('#count').append(showOrder);
-        });
-        $('#order_steps').modal('show');
-      })
+      $('#btn-save').val("add");
+      $('h4').text('Add Step');
+      $('#add_steps').modal('show');
     });
     //delete task and remove it from list
     $('#steps-list').on('click', '.btn-delete', function() {
@@ -164,8 +127,7 @@ $(document).ready(function() {
                   }
                 }
               },
-              error: function(data) {
-              }
+              error: function(data) {}
             });
           }
         }, 500);
@@ -180,88 +142,42 @@ $(document).ready(function() {
           $("#btn-save").removeAttr('disabled');
         }, 1000);
         var formData = {
-          strStepDesc: $('#strStepDesc').parsley('data-parsley-whitespace', 'squish').getValue(),
-          intStepDeadline: $('#intStepDeadline').val(),
-          intStepOrder: $('#intStepOrder').val()
+          strStepDesc: $('#strStepDesc').parsley('data-parsley-whitespace', 'squish').getValue()
         }
-                //used to determine the http verb to use [add=POST], [update=PUT]
-                var state = $('#btn-save').val();
-            var type = "POST"; //for creating new resource
-            var my_url = url;
-            if (state == "update") {
-                type = "PUT"; //for updating existing resource
-                my_url += '/' + id;
-              }
-              $.ajax({
-                type: type,
-                url: my_url,
-                data: formData,
-                dataType: 'json',
-                success: function(data) {
-                  $('#add_steps').modal('hide');
-                  table.draw();
-                  swal({
-                    title: "Success!",
-                    text: "<center>" + data.description + " is Stored</center>",
-                    type: "success",
-                    timer: 1000,
-                    showConfirmButton: false,
-                    html: true
-                  });
-                },
-                error: function(data) {
-                  $.notify({
-                    message: data.responseText.replace(/['"]+/g, '')
-                  }, {
-                    type: 'warning',
-                    z_index: 2000,
-                    delay: 5000,
-                  });
-                }
-              });
-            }
-          });
-    //create new task / update existing task
-    $("#btn-submit").click(function() {
-      $("#btn-submit").attr('disabled', 'disabled');
-      setTimeout(function() {
-        $("#btn-submit").removeAttr('disabled');
-      }, 1000);
-      var formData = $('#frmOrder').serialize();
-      var type = "POST";
-      var my_url = url + '/order';
-      $.ajax({
-        type: type,
-        url: my_url,
-        data: formData,
-        dataType: 'json',
-        success: function(data) {
-          $('#order_steps').modal('hide');
-          table.draw();
-          swal({
-            title: "Success!",
-            text: "<center>" + data + "</center>",
-            type: "success",
-            timer: 1000,
-            showConfirmButton: false,
-            html: true
-          });
-        },
-        error: function(data) {
-          $.notify({
-            message: data.responseText.replace(/['"]+/g, '')
-          }, {
-            type: 'warning',
-            z_index: 2000,
-            delay: 5000,
-          });
+        var state = $('#btn-save').val();
+        var type = "POST"; 
+        var my_url = url;
+        if (state == "update") {
+          type = "PUT"; 
+          my_url += '/' + id;
         }
-      });
-    });
-    $(".todo-list").sortable({
-      placeholder: "sort-highlight",
-      handle: ".handle",
-      forcePlaceholderSize: true,
-      zIndex: 999999
+        $.ajax({
+          type: type,
+          url: my_url,
+          data: formData,
+          dataType: 'json',
+          success: function(data) {
+            $('#add_steps').modal('hide');
+            table.draw();
+            swal({
+              title: "Success!",
+              text: "<center>" + data.description + " is Stored</center>",
+              type: "success",
+              timer: 1000,
+              showConfirmButton: false,
+              html: true
+            });
+          },
+          error: function(data) {
+            $.notify({
+              message: data.responseText.replace(/['"]+/g, '')
+            }, {
+              type: 'warning',
+              z_index: 2000,
+              delay: 5000,
+            });
+          }
+        });
+      }
     });
   });

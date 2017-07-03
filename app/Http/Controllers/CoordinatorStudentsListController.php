@@ -11,7 +11,6 @@ use App\Course;
 use App\School;
 use App\Batch;
 use Response;
-use App\Connection;
 use Auth;
 use Datatables;
 use Carbon\Carbon;
@@ -34,16 +33,18 @@ class CoordinatorStudentsListController extends Controller
     }
     public function store(Request $request)
     {
-        $connections = Connection::join('users','user_councilor.user_id','users.id')
-        ->join('councilors','user_councilor.councilor_id','councilors.id')
-        ->select('councilors.id')
-        ->where('user_councilor.user_id',Auth::id())
-        ->first();
         $application = Application::join('users','student_details.user_id','users.id')
         ->join('user_councilor','users.id','user_councilor.user_id')
         ->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',IFNULL(users.middle_name,'')) as strStudName"),'student_details.*','users.*'])
         ->where('users.type','Student')
-        ->where('user_councilor.councilor_id',$connections->id)
+        ->where('user_councilor.councilor_id', function($query){
+            $query->from('user_councilor')
+            ->join('users','user_councilor.user_id','users.id')
+            ->join('councilors','user_councilor.councilor_id','councilors.id')
+            ->select('councilors.id')
+            ->where('user_councilor.user_id',Auth::id())
+            ->first();
+        })
         ->where('student_details.application_status','Accepted');
         $datatables = Datatables::of($application)
         ->editColumn('checkbox', function ($data) {

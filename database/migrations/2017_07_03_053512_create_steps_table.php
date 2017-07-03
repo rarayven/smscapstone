@@ -16,8 +16,6 @@ class CreateStepsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('description', 100)->unique('description_UNIQUE');
-			$table->boolean('deadline');
-			$table->boolean('order');
 			$table->boolean('is_active')->default(1);
 		});
 	}

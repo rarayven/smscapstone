@@ -11,7 +11,6 @@ use App\Barangay;
 use App\Course;
 use App\School;
 use App\Batch;
-use App\Connection;
 use App\Achievement;
 use Response;
 use Carbon\Carbon;
@@ -34,16 +33,18 @@ class CoordinatorAchievementsController extends Controller
     }
     public function store(Request $request)
     {
-        $connections = Connection::join('users','user_councilor.user_id','users.id')
-        ->join('councilors','user_councilor.councilor_id','councilors.id')
-        ->select('councilors.id')
-        ->where('user_councilor.user_id',Auth::id())
-        ->first();
         $users = User::join('achievements','users.id','achievements.user_id')
         ->join('user_councilor','users.id','user_councilor.user_id')
         ->join('student_details','users.id','student_details.user_id')
         ->select([DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',IFNULL(users.middle_name,'')) as strStudName"),'users.*','student_details.*','achievements.*'])
-        ->where('user_councilor.councilor_id',$connections->id)
+        ->where('user_councilor.councilor_id', function($query){
+            $query->from('user_councilor')
+            ->join('users','user_councilor.user_id','users.id')
+            ->join('councilors','user_councilor.councilor_id','councilors.id')
+            ->select('councilors.id')
+            ->where('user_councilor.user_id',Auth::id())
+            ->first();
+        })
         ->where('achievements.status','Pending')
         ->where('achievements.deleted_at',null)
         ->where('users.type','Student')

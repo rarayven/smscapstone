@@ -5,13 +5,12 @@ $(document).ready(function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+    var id = '';
     var table = $('#student-table').DataTable({
         processing: true,
         serverSide: true,
-        "order": [1, 'desc'],
         "columnDefs": [
-        { "width": "130px", "targets": 2 },
-        { "width": "200px", "targets": 1 }
+        { "width": "70px", "targets": 2 }
         ],
         ajax: {
             type: 'POST',
@@ -31,7 +30,7 @@ $(document).ready(function() {
         },
         columns: [
         { data: 'strStudName', name: 'strStudName' },
-        { data: 'intStepOrder', name: 'steps.order', searchable: false },
+        { data: 'counter', name: 'counter', searchable: false, orderable: false },
         { data: 'action', name: 'action', orderable: false, searchable: false }
         ]
     });
@@ -39,129 +38,78 @@ $(document).ready(function() {
         table.draw();
         e.preventDefault();
         $('#frmAdv').trigger("reset");
-        $('#advanced_search').modal('hide')
+        $('#advanced_search').modal('hide');
     });
     $('#advanced_search').on('hide.bs.modal', function() {
         $('#frmAdv').trigger("reset");
+    });
+    $('#view_step').on('hide.bs.modal', function() {
+        $('#frmStep').trigger("reset");
+        $('.todo-list').empty();
     });
     $('#advsearch').click(function() {
         $('#advanced_search').modal('show');
     });
     $('#student-list').on('click', '.btn-progress', function() {
+        var ctr = 0;
         var link_id = $(this).val();
-        var id = $(this).attr('id');
-        swal({
-            title: "Are you sure?",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonClass: "btn-success",
-            confirmButtonText: "Check",
-            cancelButtonText: "Cancel",
-            closeOnConfirm: false,
-            allowOutsideClick: true,
-            showLoaderOnConfirm: true,
-            closeOnCancel: true
-        },
-        function(isConfirm) {
-            setTimeout(function() {
-                if (isConfirm) {
-                    $.ajax({
-                        url: url + '/' + link_id,
-                        type: "PUT",
-                        success: function(data) {
-                            var div = "<div id='stat" + data.user_id + "'>Todo: " + data.description + " <div class='pull-right'>" + data.order + "/" + id + "</div></div>";
-                            $("#stat" + data.user_id).replaceWith(div);
-                            var value = ((data.order / id) * 100);
-                            $('#prog' + link_id).css('width', value + '%').attr('aria-valuenow', value);
-                            var btn = "<button style='margin-top: 10px;' id" + id + " class='btn btn-warning btn-xs back' value=" +
-                            data.user_id + "><i class='fa fa-undo'></i> Undo</button>";
-                            if (data.is_steps_done) {
-                                $('#dp' + data.user_id).replaceWith(btn);
-                                $('#detail' + data.user_id).replaceWith("<td>This student meets the requirements for scholarship. This record will now be remove the progess list</td>");
-                            }
-                            swal({
-                                title: "Checked!",
-                                text: "<center>" + data.description + " is Checked</center>",
-                                type: "success",
-                                timer: 1000,
-                                showConfirmButton: false,
-                                html: true
-                            });
-                        },
-                        error: function(data) {
+        id = link_id;
+        $.get(url + '/create', function(data) {
+            $.each(data, function(index, value) {
+                ctr++;
+                var show = "<li>" +
+                "<input type='checkbox' id=check" + value.id + " name='steps[]' value=" + value.id + ">" +
+                "<span class='text' style='padding-left: 15px;'>" + value.description + "</span>" +
+                "</li>";
+                $('.todo-list').append(show);
+            });
+        })
+        setTimeout(function() {
+            $.get(url + '/' + link_id, function(data) {
+                for (var i = 0; i < ctr; i++) {
+                    try {
+                        if ($('#check' + data[i].step_id).val() == data[i].step_id) {
+                            $('#check' + data[i].step_id).attr('checked', 'checked').parent().addClass('done');
                         }
-                    });
+                    } catch (err) {}
                 }
-            }, 500);
+            })
+            $('#view_step').modal('show');
+        }, 1000);
+    });
+    $("#btn-submit").click(function() {
+        $("#btn-submit").attr('disabled', 'disabled');
+        setTimeout(function() {
+            $("#btn-submit").removeAttr('disabled');
+        }, 1000);
+        var formData = $('#frmStep').serialize();
+        $.ajax({
+            url: url + '/' + id,
+            type: "PUT",
+            data: formData,
+            dataType: 'json',
+            success: function(data) {
+                $('#view_step').modal('hide');
+                table.draw();
+                swal({
+                    title: "Success!",
+                    text: "<center>Data Stored</center>",
+                    type: "success",
+                    timer: 1000,
+                    showConfirmButton: false,
+                    html: true
+                });
+            },
+            error: function(data) {
+                $.notify({
+                    message: data.responseText.replace(/['"]+/g, '')
+                }, {
+                    type: 'warning',
+                    z_index: 2000,
+                    delay: 5000,
+                });
+            }
         });
     });
-    $('#student-list').on('click', '.btn-undo', function() {
-        var link_id = $(this).val();
-        var id = $(this).attr('id');
-        swal({
-            title: "Are you sure?",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonClass: "btn-warning",
-            confirmButtonText: "Undo",
-            cancelButtonText: "Cancel",
-            closeOnConfirm: false,
-            allowOutsideClick: true,
-            showLoaderOnConfirm: true,
-            closeOnCancel: true
-        },
-        function(isConfirm) {
-            setTimeout(function() {
-                if (isConfirm) {
-                    $.get(url + '/' + link_id, function(data) {
-                        var div = "<div id='stat" + data.user_id + "'>Todo: " + data.description + " <div class='pull-right'>" + data.order + "/" + id + "</div></div>";
-                        $("#stat" + data.user_id).replaceWith(div);
-                        var value = ((data.order / id) * 100);
-                        $('#prog' + link_id).css('width', value + '%').attr('aria-valuenow', value);
-                        swal({
-                            title: "Undo!",
-                            text: "<center>" + data.description + " is Undo</center>",
-                            type: "success",
-                            timer: 1000,
-                            showConfirmButton: false,
-                            html: true
-                        });
-                    })
-                }
-            }, 500);
-        });
-    });
-    $('#student-list').on('click', '.back', function() {
-        var link_id = $(this).val();
-        var id = $(this).attr('id');
-        swal({
-            title: "Are you sure?",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonClass: "btn-danger",
-            confirmButtonText: "Undo",
-            cancelButtonText: "Cancel",
-            closeOnConfirm: false,
-            allowOutsideClick: true,
-            showLoaderOnConfirm: true,
-            closeOnCancel: true
-        },
-        function(isConfirm) {
-            setTimeout(function() {
-                if (isConfirm) {
-                    $.get(url + '/' + link_id + "/edit", function(data) {
-                        table.draw();
-                        swal({
-                            title: "Undo!",
-                            text: "<center>" + data.description + " is Undo</center>",
-                            type: "success",
-                            timer: 1000,
-                            showConfirmButton: false,
-                            html: true
-                        });
-                    })
-                }
-            }, 500);
-        });
-    });
+    $('.todo-list').todoList();
 });

@@ -128,8 +128,8 @@ Route::group(['prefix' => 'coordinator/'], function () {
 	//Coordinator Progress
 	Route::get('progress', ['uses' => 'CoordinatorStudentsController@index', 'as' => 'progress.index']);
 	Route::post('progress', ['uses' => 'CoordinatorStudentsController@store', 'as' => 'progress.store']);
+	Route::get('progress/create', ['uses' => 'CoordinatorStudentsController@create', 'as' => 'progress.create']);
 	Route::get('progress/{id}', ['uses' => 'CoordinatorStudentsController@show', 'as' => 'progress.show']);
-	Route::get('progress/{id}/edit', ['uses' => 'CoordinatorStudentsController@edit', 'as' => 'progress.edit']);
 	Route::put('progress/{id}', ['uses' => 'CoordinatorStudentsController@update', 'as' => 'progress.update']);
 	//Coordinator List
 	Route::get('list', ['uses' => 'CoordinatorStudentsListController@index', 'as' => 'list.index']);
@@ -191,10 +191,7 @@ Route::group(['prefix' => 'admin/'], function () {
 	Route::delete('budgtype/{id}', ['uses' => 'AdminMBudgtypeController@destroy', 'as' => 'budgtype.destroy']);
 	//Admin Steps
 	Route::get('steps', ['uses' => 'AdminMStepsController@index', 'as' => 'steps.index']);
-	Route::get('steps/create ', ['uses' => 'AdminMStepsController@create', 'as' => 'steps.create']);
 	Route::post('steps', ['uses' => 'AdminMStepsController@store', 'as' => 'steps.store']);
-	Route::post('steps/order', ['uses' => 'AdminMStepsController@order', 'as' => 'steps.order']);
-	Route::get('steps/order', ['uses' => 'AdminMStepsController@showOrder', 'as' => 'steps.showOrder']);
 	Route::get('steps/{id}/edit ', ['uses' => 'AdminMStepsController@edit', 'as' => 'steps.edit']);
 	Route::put('steps/{id}', ['uses' => 'AdminMStepsController@update', 'as' => 'steps.update']);
 	Route::delete('steps/{id}', ['uses' => 'AdminMStepsController@destroy', 'as' => 'steps.destroy']);
