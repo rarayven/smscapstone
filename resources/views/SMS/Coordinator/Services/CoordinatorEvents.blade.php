@@ -63,6 +63,20 @@
                 ]) 
               }}
             </div>
+            <div class="form-group">
+              {{ Form::label('name', 'Event Date') }}
+              <div class="input-group date">
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+                </div>
+                {{ Form::text('date_held', null, [
+                  'id' => 'datepicker',
+                  'class' => 'form-control',
+                  'required' => 'required'
+                  ]) 
+                }}
+              </div>
+            </div>
             <div class="form-group row">
               <div class="col-sm-6"> 
                 <div class="bootstrap-timepicker">
@@ -99,20 +113,6 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="form-group">
-          {{ Form::label('name', 'Event Date') }}
-          <div class="input-group date">
-            <div class="input-group-addon">
-              <i class="fa fa-calendar"></i>
-            </div>
-            {{ Form::text('date_held', null, [
-              'id' => 'datepicker',
-              'class' => 'form-control',
-              'required' => 'required'
-              ]) 
-            }}
           </div>
         </div>
         <div class="form-group">
