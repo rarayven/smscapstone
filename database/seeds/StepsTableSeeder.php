@@ -20,28 +20,22 @@ class StepsTableSeeder extends Seeder
             0 => 
             array (
                 'id' => 1,
-                'description' => 'Roll',
+                'description' => 'Dive',
                 'is_active' => 1,
-                ),
+            ),
             1 => 
             array (
                 'id' => 2,
-                'description' => 'Give away',
+                'description' => 'Jump',
                 'is_active' => 1,
-                ),
+            ),
             2 => 
             array (
-                'id' => 4,
+                'id' => 3,
                 'description' => 'Eat',
                 'is_active' => 1,
-                ),
-            3 => 
-            array (
-                'id' => 5,
-                'description' => 'Dive',
-                'is_active' => 1,
-                ),
-            ));
+            ),
+        ));
         
         
     }

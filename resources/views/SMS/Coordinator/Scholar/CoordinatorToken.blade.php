@@ -6,7 +6,7 @@
       Token Processing
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('coordinator/index') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+      <li><a href="{{ url('coordinator/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
       <li><i class="fa fa-graduation-cap"></i> Scholar</li>
       <li class="active"><i class="fa fa-gift"></i> Token Processing</li>
     </ol>

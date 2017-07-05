@@ -6,8 +6,8 @@
       Budget
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('coordinator/index') }}"><i class="fa fa-dashboard"></i> Coordinator</a></li>
-      <li class="active">Budget</li>
+      <li><a href="{{ url('coordinator/dashboard') }}"><i class="fa fa-dashboard"></i> Coordinator</a></li>
+      <li class="active"><i class="fa fa-money"></i> Budget</li>
     </ol>
   </section>
   <section class="content">
@@ -18,71 +18,117 @@
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button class="close" data-dismiss="modal">&times;</button>
+                  {{ Form::button('&times;', [
+                    'class' => 'close',
+                    'type' => '',
+                    'data-dismiss' => 'modal'
+                    ]) 
+                  }}
                   <h4>Add Budget</h4>
                 </div>
                 <div class="modal-body">
-                  <form id="frmBudget" method="POST" data-parsley-validate>
-                    <div class="form-group">
-                      <label>Coordinator ID (Temporary lang muna to)</label>
-                      <input type="number" class="form-control" id="intAlloCoorID" name="intAlloCoorID" required>
-                    </div>
-                    <div class="form-group">
-                      <label>Budget This Semester</label>
-                      <input type="number" class="form-control" id="dblAlloBudgetAmount" name="dblAlloBudgetAmount" placeholder="" required>
-                    </div>
-                    <div class="form-group">
-                      <label>Budget Per Student</label>
-                      <input type="number" class="form-control" id="txtPerStudent" name="" required>
-                    </div>
-                    <div class="form-group">
-                      <label>Slots</label>
-                      <input type="number" class="form-control" id="result" name="intAlloSlotsNumber" value="0" placeholder="0" readonly>
-                    </div>
-                    <div class="form-group">
-                      <label>Budget for Stipend (Per Student)</label>
-                      <input type="number" class="form-control" id="dblAlloStudAllowance" name="dblAlloStudAllowance" required>
-                    </div>
-                    <div class="form-group">
-                      <label>Budget for Tuition Fee (Per Student)</label>
-                      <input type="number" class="form-control" id="dblAlloStudTuition" name="dblAlloStudTuition" readonly required>
-                    </div>
-                    <div class="form-group">
-                      <input type="hidden" name="_token" value="{{csrf_token()}}">
-                      <button id="btn-save" class="btn btn-success btn-block">Submit</button>
-                    </div>
-                  </form>
+                  {{ Form::open([
+                    'id' => 'frmBudget',
+                    'data-parsley-whitespace' => 'squish'])
+                  }}
+                  <div class="form-group">
+                    {{ Form::label('name', 'Budget Amount') }}
+                    {{ Form::text('budget_amount', null, [
+                      'id' => 'budget_amount',
+                      'class' => 'form-control',
+                      'maxlength' => '15',
+                      'required' => 'required',
+                      'data-parsley-pattern' => '^[0-9.]+$',
+                      'autocomplete' => 'off'
+                      ]) 
+                    }}
+                  </div>
+                  <div class="form-group">
+                    {{ Form::label('name', 'Scholar Budget') }}
+                    {{ Form::text('budget_per_student', null, [
+                      'id' => 'budget_per_student',
+                      'class' => 'form-control',
+                      'maxlength' => '15',
+                      'required' => 'required',
+                      'data-parsley-pattern' => '^[0-9.]+$',
+                      'autocomplete' => 'off'
+                      ]) 
+                    }}
+                  </div>
+                  <div class="form-group">
+                    {{ Form::label('name', 'Slot') }}
+                    {{ Form::text('slot_count', null, [
+                      'id' => 'slot_count',
+                      'class' => 'form-control',
+                      'maxlength' => '15',
+                      'readonly' => 'readonly',
+                      'data-parsley-pattern' => '^[0-9]+$',
+                      'autocomplete' => 'off'
+                      ]) 
+                    }}
+                  </div>
+                  @foreach ($budgtype as $type)
+                  <div class="form-group">
+                    {{ Form::label('name', $type->description.' Amount') }}
+                    {{ Form::hidden('id[]', $type->id) }}
+                    {{ Form::text('amount[]', null, [
+                      'id' => 'id'.$type->id,
+                      'class' => 'form-control',
+                      'maxlength' => '15',
+                      'required' => 'required',
+                      'data-parsley-pattern' => '^[0-9.]+$',
+                      'autocomplete' => 'off'
+                      ]) 
+                    }}
+                  </div>
+                  @endforeach
+                  <div class="form-group">
+                    {{ Form::label('name', 'Remaining Budget') }}
+                    {{ Form::hidden('summation', null, ['id'=>'summation']) }}
+                    {{ Form::text('remain', 0, [
+                      'id' => 'remain',
+                      'class' => 'form-control',
+                      'maxlength' => '15',
+                      'readonly' => 'readonly',
+                      'data-parsley-pattern' => '^[0-9]+$',
+                      'autocomplete' => 'off'
+                      ]) 
+                    }}
+                  </div>
+                  <div class="form-group">
+                    {{ Form::button('Submit', [
+                      'id' => 'btn-save',
+                      'class' => 'btn btn-success btn-block',
+                      'value' => 'add',
+                      'type' => ''
+                      ]) 
+                    }}
+                  </div>
+                  {{ Form::close() }}
                 </div>
               </div>
             </div>
           </div>
           <div class="box-body table-responsive">
-            <button id="btn-add" class="btn btn-primary btn-sm pull-right">Add Budget</button>
-            <table class="table table-hover">
+            {{ Form::button("<i class='fa fa-plus'></i> Add Budget", [
+              'id' => 'btn-add',
+              'class' => 'btn btn-primary btn-sm',
+              'value' => 'add',
+              'type' => '',
+              'style' => 'margin-bottom: 10px;'
+              ]) 
+            }}
+            <table id="budget-table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
               <thead>
-                <th>ID</th>
-                <th>Budget This Semester</th>
+                <th>Amount</th>
+                <th>Scholar Budget</th>
                 <th>Slots</th>
-                <th>Budget for Stipend</th>
-                <th>Budget for Tuition Fee</th>
-                <th>Date Inputted</th>
+                <th>Date</th>
+                <th>Action</th>
               </thead>
               <tbody id="budget-list">
-                @foreach ($allocation as $allocations)
-                <tr id="id{{$allocations->intAlloID}}">
-                  <td>{{$allocations->intAlloID}}</td>
-                  <td>{{$allocations->dblAlloBudgetAmount}}</td>
-                  <td>{{$allocations->intAlloSlotsNumber}}</td>
-                  <td>{{$allocations->dblAlloStudTuition}}</td>
-                  <td>{{$allocations->dblAlloStudAllowance}}</td>
-                  <td>{{$allocations->dtmAlloBudgDate}}</td>
-                </tr>
-                @endforeach
               </tbody>
             </table>
-            <div class="text-right">
-              {{ $allocation->links() }}
-            </div>
           </div>
         </div>
       </div>
@@ -91,5 +137,9 @@
 </div>
 @endsection
 @section('script')
+{!! Html::script("js/bootbox.min.js") !!} 
 {!! Html::script("custom/BudgetAjax.min.js") !!}
+<script type="text/javascript">
+  var dataurl = "{!! route('budget.data') !!}";
+</script>
 @endsection

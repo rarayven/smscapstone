@@ -4,9 +4,9 @@ $(document).ready(function() {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
   });
-  var url = "/admin/budgtype";
+  var url = "/admin/budget-type";
   var id = '';
-  var url2 = "/admin/budgtype/checkbox";
+  var url2 = "/admin/budget-type/checkbox";
   var table = $('#budgtype-table').DataTable({
     responsive: true,
     processing: true,
@@ -176,6 +176,7 @@ $(document).ready(function() {
                 },
                 error: function(data) {
                   $.notify({
+                    icon: 'fa fa-warning',
                     message: data.responseText.replace(/['"]+/g, '')
                   }, {
                     type: 'warning',

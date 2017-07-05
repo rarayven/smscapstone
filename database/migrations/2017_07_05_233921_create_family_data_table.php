@@ -14,7 +14,7 @@ class CreateFamilyDataTable extends Migration {
 	{
 		Schema::create('family_data', function(Blueprint $table)
 		{
-			$table->integer('id', true);
+			$table->increments('id');
 			$table->integer('student_detail_user_id')->unsigned()->index('ffamily_data_application_user_id_idx');
 			$table->string('first_name', 25);
 			$table->string('last_name', 25);

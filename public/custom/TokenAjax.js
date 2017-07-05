@@ -170,6 +170,7 @@ $(document).ready(function() {
 				},
 				error: function(data) {
 					$.notify({
+						icon: 'fa fa-warning',
 						message: data.responseText.replace(/['"]+/g, '')
 					}, {
 						type: 'warning',

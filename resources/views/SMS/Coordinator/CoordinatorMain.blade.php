@@ -83,6 +83,7 @@
         </div>
         <div class="pull-left info">
           <p>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</p>
+          <small>Budget: </small><small class="label bg-yellow budget">{{ $budget->amount }}</small>
         </div>
       </div>
       <ul class="sidebar-menu" data-widget="tree">
@@ -97,7 +98,7 @@
           </a>
           <ul class="treeview-menu">
             <li class="{{Request::path() == 'coordinator/list' ? 'active' : ''}}"><a href="{{ url('coordinator/list') }}"><i class="fa fa-list-ul"></i><span>List</span></a></li>
-            <li class="{{Request::path() == 'coordinator/progress' ? 'active' : ''}}"><a href="{{ url('coordinator/progress') }}"><i class="fa fa-tasks"></i><span>Step Progress</span></a></li>
+            <li class="{{Request::path() == 'coordinator/progress' ? 'active' : ''}}"><a href="{{ url('coordinator/progress') }}"><i class="fa fa-tasks"></i><span>Progress</span></a></li>
             <li class="{{Request::path() == 'coordinator/achievements' ? 'active' : ''}}"><a href="{{ url('coordinator/achievements') }}"><i class="fa fa-star"></i><span>Achievements</span></a></li>
             <li class="{{Request::path() == 'coordinator/token' ? 'active' : ''}}"><a href="{{ url('coordinator/token') }}"><i class="fa fa-gift"></i><span>Token Processing</span></a></li>
           </ul>

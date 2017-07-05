@@ -93,6 +93,7 @@ $(document).ready(function() {
 	}
 	function error(data){
 		$.notify({
+			icon: 'fa fa-warning',
 			message: data.responseText.replace(/['"]+/g, '')
 		}, {
 			type: 'warning',

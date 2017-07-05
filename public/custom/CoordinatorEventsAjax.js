@@ -1,4 +1,9 @@
 $(document).ready(function() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     $(".timepicker").timepicker({
         showInputs: false
     });
@@ -42,44 +47,6 @@ $(document).ready(function() {
             }
         })
     });
-    $('#events').on('click', '.small-box-footer', function() {
-        var link_id = $(this).attr('value');
-        getDetails(link_id);
-    });
-    $('.details').on('click', function() {
-        var link_id = $(this).attr('value');
-        getDetails(link_id);
-    });
-    function getDetails(link_id) {
-        $.get(url + '/' + link_id, function(data) {
-            if (data == "Deleted") {
-                refresh();
-            } else {
-                var date = new Date(data.date_held);
-                var date_held = date.toLocaleString('en-us', { year: 'numeric', month: 'short', day: '2-digit' });
-                var time_from = new Date("October 13, 2014 " + data.time_from);
-                var time_to = new Date("October 13, 2014 " + data.time_to);
-                var modalbody =
-                "<div class='col-md-6'><div class='form-group'><label>Event Name:</label><br>" + data.title +
-                "</div></div><div class='col-md-6'><div class='form-group'><label>Event Place:</label><br>" + data.place_held +
-                "</div></div><div class='col-md-6'><div class='form-group'><label>From:</label><br>" +time_from.toLocaleString('en-us', { hour: '2-digit', minute: '2-digit' }) +
-                "</div></div><div class='col-md-6'><div class='form-group'><label>To:</label><br>" +time_to.toLocaleString('en-us', { hour: '2-digit', minute: '2-digit' }) +
-                "</div></div><div class='col-md-12'><div class='form-group'><label>Event Date:</label><br>" + date_held +
-                "</div></div><div class='col-md-12'><div class='form-group'><label>Description:</label><br>" + data.description+"</div></div>";
-                bootbox.alert({
-                    title: 'View Event',
-                    message: modalbody,
-                    backdrop: true,
-                    buttons: {
-                        ok: {
-                            label: 'Ok',
-                            className: 'btn-success btn-md'
-                        }
-                    }
-                });
-            }
-        })
-    }
     function refresh() {
         swal({
             title: "Record Deleted!",
@@ -100,11 +67,6 @@ $(document).ready(function() {
             }
         });
     }
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
     $("#btn-save").click(function() {
         $('#frmEvent').parsley().destroy();
         if ($('#frmEvent').parsley().isValid()) {
@@ -145,15 +107,16 @@ $(document).ready(function() {
                     });
                 },
                 error: function(data) {
-                  $.notify({
-                    message: data.responseText.replace(/['"]+/g, '')
-                }, {
-                    type: 'warning',
-                    z_index: 2000,
-                    delay: 5000,
-                });
-              }
-          });
+                    $.notify({
+                        icon: 'fa fa-warning',
+                        message: data.responseText.replace(/['"]+/g, '')
+                    }, {
+                        type: 'warning',
+                        z_index: 2000,
+                        delay: 5000,
+                    });
+                }
+            });
         }
     });
     function getEvent() {
@@ -185,7 +148,7 @@ $(document).ready(function() {
                 "<div class='icon'>" +
                 "<i class='ion ion-person-add'></i>" +
                 "</div>" +
-                "<a value=" + value.id + " class='btn small-box-footer'>" +
+                "<a href="+url+"/"+value.id+" value=" + value.id + " class='btn small-box-footer'>" +
                 "View Event Details <i class='fa fa-arrow-circle-right'></i>" +
                 "</a>" +
                 "</div>" +

@@ -3,8 +3,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 class Allocation extends Model
 {
-	protected $table = 'tblAllocation';
-	protected $primaryKey = 'intAlloID';
+	protected $table = 'allocations';
 	public $timestamps = false;
-	protected $dates = 'dtmAlloBudgDate';
+	protected $dates = ['allocation_date'];
 }

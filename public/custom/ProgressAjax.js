@@ -6,11 +6,14 @@ $(document).ready(function() {
         }
     });
     var id = '';
+    var url2 = '/coordinator/progress/allocation';
     var table = $('#student-table').DataTable({
         processing: true,
         serverSide: true,
         "columnDefs": [
-        { "width": "70px", "targets": 2 }
+        { "width": "130px", "targets": 3 },
+        { "width": "150px", "targets": 2 },
+        { "width": "150px", "targets": 1 }
         ],
         ajax: {
             type: 'POST',
@@ -31,6 +34,7 @@ $(document).ready(function() {
         columns: [
         { data: 'strStudName', name: 'strStudName' },
         { data: 'counter', name: 'counter', searchable: false, orderable: false },
+        { data: 'stipend', name: 'stipend', searchable: false, orderable: false },
         { data: 'action', name: 'action', orderable: false, searchable: false }
         ]
     });
@@ -45,7 +49,11 @@ $(document).ready(function() {
     });
     $('#view_step').on('hide.bs.modal', function() {
         $('#frmStep').trigger("reset");
-        $('.todo-list').empty();
+        $('.steps').empty();
+    });
+    $('#view_claim').on('hide.bs.modal', function() {
+        $('#frmClaim').trigger("reset");
+        $('.stipend').empty();
     });
     $('#advsearch').click(function() {
         $('#advanced_search').modal('show');
@@ -61,9 +69,9 @@ $(document).ready(function() {
                 "<input type='checkbox' id=check" + value.id + " name='steps[]' value=" + value.id + ">" +
                 "<span class='text' style='padding-left: 15px;'>" + value.description + "</span>" +
                 "</li>";
-                $('.todo-list').append(show);
+                $('.steps').append(show);
             });
-        })
+        });
         setTimeout(function() {
             $.get(url + '/' + link_id, function(data) {
                 for (var i = 0; i < ctr; i++) {
@@ -76,6 +84,68 @@ $(document).ready(function() {
             })
             $('#view_step').modal('show');
         }, 1000);
+    });
+    $('#student-list').on('click', '.open-modal', function() {
+        var ctr = 0;
+        var link_id = $(this).val();
+        id = link_id;
+        $.get(url + '/allocation', function(data) {
+            $.each(data, function(index, value) {
+                ctr++;
+                var show = "<li>" +
+                "<input type='checkbox' id=" + value.id + " name='claim[]' value=" + value.id + ">" +
+                "<span class='text' style='padding-left: 15px;'>" + value.description + "</span>" +
+                "</li>";
+                $('.stipend').append(show);
+            });
+        });
+        setTimeout(function() {
+            $.get(url + '/allocation/' + link_id, function(data) {
+                for (var i = 0; i < ctr; i++) {
+                    try {
+                        if ($('#' + data[i].allocation_id).val() == data[i].allocation_id) {
+                            $('#' + data[i].allocation_id).attr('checked', 'checked').parent().addClass('done');
+                        }
+                    } catch (err) {}
+                }
+            })
+            $('#view_claim').modal('show');
+        }, 1000);
+    });
+    $("#btn-save").click(function() {
+        $("#btn-save").attr('disabled', 'disabled');
+        setTimeout(function() {
+            $("#btn-save").removeAttr('disabled');
+        }, 1000);
+        var formData = $('#frmClaim').serialize();
+        $.ajax({
+            url: url2 + '/' + id,
+            type: "PUT",
+            data: formData,
+            dataType: 'json',
+            success: function(data) {
+                $('#view_claim').modal('hide');
+                table.draw();
+                swal({
+                    title: "Success!",
+                    text: "<center>Data Stored</center>",
+                    type: "success",
+                    timer: 1000,
+                    showConfirmButton: false,
+                    html: true
+                });
+            },
+            error: function(data) {
+                $.notify({
+                    icon: 'fa fa-warning',
+                    message: data.responseText.replace(/['"]+/g, '')
+                }, {
+                    type: 'warning',
+                    z_index: 2000,
+                    delay: 5000,
+                });
+            }
+        });
     });
     $("#btn-submit").click(function() {
         $("#btn-submit").attr('disabled', 'disabled');
@@ -102,6 +172,7 @@ $(document).ready(function() {
             },
             error: function(data) {
                 $.notify({
+                    icon: 'fa fa-warning',
                     message: data.responseText.replace(/['"]+/g, '')
                 }, {
                     type: 'warning',

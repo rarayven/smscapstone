@@ -6,7 +6,7 @@
         Announcements
       </h1>
       <ol class="breadcrumb">
-        <li><a href="{{ url('coordinator/index') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li><a href="{{ url('coordinator/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
         <li class="active"><i class="fa fa-bullhorn"></i> Announcements</li>
       </ol>
     </section>

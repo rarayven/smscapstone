@@ -15,9 +15,10 @@ class CreateSettingsTable extends Migration {
 		Schema::create('settings', function(Blueprint $table)
 		{
 			$table->string('title', 100);
-			$table->string('short_title', 3);
 			$table->string('logo', 36);
 			$table->string('color', 15);
+			$table->boolean('semester_number');
+			$table->char('currency', 1);
 		});
 	}
 

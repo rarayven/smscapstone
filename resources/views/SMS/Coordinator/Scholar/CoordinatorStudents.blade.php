@@ -6,7 +6,7 @@
 			Scholar Progress
 		</h1>
 		<ol class="breadcrumb">
-			<li><a href="{{ url('coordinator/index') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li><a href="{{ url('coordinator/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
 			<li><i class="fa fa-graduation-cap"></i> Scholar</li>
 			<li class="active"><i class="fa fa-tasks"></i> Step Progress</li>
 		</ol>
@@ -88,7 +88,6 @@
 							</div>
 						</div>
 					</div>
-
 					<div class="modal fade" id="view_step">
 						<div class="modal-dialog">
 							<div class="modal-content">
@@ -107,12 +106,48 @@
 										])
 									}}
 									<div class="form-group">
-										<ul class="todo-list">
+										<ul class="todo-list steps">
 										</ul>
 									</div>
 									<div class="form-group">
 										{{ Form::button('Submit', [
 											'id' => 'btn-submit',
+											'class' => 'btn btn-success btn-block',
+											'value' => 'add',
+											'type' => ''
+											]) 
+										}}
+									</div>
+									{{ Form::close() }}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="modal fade" id="view_claim">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									{{ Form::button('&times;', [
+										'class' => 'close',
+										'type' => '',
+										'data-dismiss' => 'modal'
+										]) 
+									}}
+									<h4>Claim Stipend</h4>
+								</div>
+								<div class="modal-body">
+									{{ Form::open([
+										'id' => 'frmClaim'
+										])
+									}}
+									<div class="form-group">
+										<ul class="todo-list stipend">
+										</ul>
+									</div>
+									<div class="form-group">
+										{{ Form::button('Submit', [
+											'id' => 'btn-save',
 											'class' => 'btn btn-success btn-block',
 											'value' => 'add',
 											'type' => ''
@@ -130,6 +165,7 @@
 							<thead>
 								<th>Student</th>
 								<th>Steps</th>
+								<th>Stipend</th>
 								<th>Action</th>
 							</thead>
 							<tbody id="student-list">

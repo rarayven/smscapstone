@@ -19,14 +19,14 @@ class AllocationTypesTableSeeder extends Seeder
         \DB::table('allocation_types')->insert(array (
             0 => 
             array (
-                'id' => 1,
-                'description' => 'Gift',
+                'id' => 2,
+                'description' => 'Tuition',
                 'is_active' => 1,
             ),
             1 => 
             array (
-                'id' => 2,
-                'description' => 'Tuition',
+                'id' => 3,
+                'description' => 'Gift',
                 'is_active' => 1,
             ),
         ));

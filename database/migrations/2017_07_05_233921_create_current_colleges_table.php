@@ -14,6 +14,7 @@ class CreateCurrentCollegesTable extends Migration {
 	{
 		Schema::create('current_colleges', function(Blueprint $table)
 		{
+			$table->increments('int');
 			$table->integer('student_detail_user_id')->unsigned()->index('fcurr_application_user_id_idx');
 			$table->integer('school_id')->unsigned()->index('fschool_id_idx');
 			$table->integer('course_id')->unsigned()->index('fcourse_id_idx');

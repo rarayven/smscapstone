@@ -14,6 +14,7 @@ class CreateShiftsTable extends Migration {
 	{
 		Schema::create('shifts', function(Blueprint $table)
 		{
+			$table->increments('id');
 			$table->integer('user_id')->unsigned()->index('fshift_user_id_idx');
 			$table->integer('school_id')->unsigned()->index('fshift_school_id_idx');
 			$table->integer('course_id')->unsigned()->index('fshift_course_id_idx');

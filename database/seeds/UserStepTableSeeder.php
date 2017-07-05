@@ -19,18 +19,28 @@ class UserStepTableSeeder extends Seeder
         \DB::table('user_step')->insert(array (
             0 => 
             array (
-                'user_id' => 6,
-                'step_id' => 4,
+                'user_id' => 14,
+                'step_id' => 1,
             ),
             1 => 
             array (
                 'user_id' => 14,
-                'step_id' => 4,
+                'step_id' => 2,
             ),
             2 => 
             array (
-                'user_id' => 24,
-                'step_id' => 4,
+                'user_id' => 6,
+                'step_id' => 1,
+            ),
+            3 => 
+            array (
+                'user_id' => 6,
+                'step_id' => 2,
+            ),
+            4 => 
+            array (
+                'user_id' => 6,
+                'step_id' => 3,
             ),
         ));
         

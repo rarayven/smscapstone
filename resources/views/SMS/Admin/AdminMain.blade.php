@@ -88,7 +88,7 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">NAVIGATION</li>
         <li class="{{Request::path() == 'admin/dashboard' ? 'active' : ''}}"><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
-        <li class="header">MAINTENANCE</li>
+        {{-- <li class="header">MAINTENANCE</li> --}}
         <!-- Optionally, you can add icons to the links -->
         <li class="treeview {{Request::path() == 'admin/district' ? 'active' : ''}} {{Request::path() == 'admin/barangay' ? 'active' : ''}}">
           <a href="#"><i class="fa fa-sitemap"></i><span>Municipality</span>
@@ -127,8 +127,9 @@
             <li class="{{Request::path() == 'admin/steps' ? 'active' : ''}}"><a href="{{ url('admin/steps') }}"><i class="fa fa-line-chart"></i><span>Steps</span></a></li>
           </ul>
         </li>
-        <li class="{{Request::path() == 'admin/budgtype' ? 'active' : ''}}"><a href="{{ url('admin/budgtype') }}"><i class="fa fa-money"></i><span>Budget Type</span></a></li>
+        <li class="{{Request::path() == 'admin/budget-type' ? 'active' : ''}}"><a href="{{ url('admin/budget-type') }}"><i class="fa fa-money"></i><span>Budget Type</span></a></li>
         <li class="{{Request::path() == 'admin/users' ? 'active' : ''}}"><a href="{{ url('admin/users') }}"><i class="fa fa-users"></i><span>User Accounts</span></a></li>
+        <li class="{{Request::path() == 'admin/utilities' ? 'active' : ''}}"><a href="{{ url('admin/utilities') }}"><i class="fa fa-gear"></i><span>Utilities</span></a></li>
       </ul>
     </section>
   </aside>

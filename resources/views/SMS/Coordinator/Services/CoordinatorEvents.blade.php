@@ -18,7 +18,7 @@
       }}
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('coordinator/index') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+      <li><a href="{{ url('coordinator/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
       <li class="active"><i class="fa fa-flag"></i> Events</li>
     </ol>
   </section>
@@ -172,7 +172,7 @@
             <div class="icon">
               <i class="ion ion-person-add"></i>
             </div>
-            <a value="{{$event->id}}" class="btn small-box-footer">
+            <a href="{{route('coordinatorevents.show',$event->id)}}" class="btn small-box-footer">
               View Event Details <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
@@ -203,7 +203,7 @@
         <div class="icon">
           <i class="ion ion-person-add"></i>
         </div>
-        <a value="{{$done->id}}" class="btn small-box-footer details">
+        <a href="{{route('coordinatorevents.show',$done->id)}}" value="{{$done->id}}" class="btn small-box-footer details">
           View Event Details <i class="fa fa-arrow-circle-right"></i>
         </a>
       </a>

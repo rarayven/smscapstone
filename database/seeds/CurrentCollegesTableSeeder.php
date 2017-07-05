@@ -19,6 +19,7 @@ class CurrentCollegesTableSeeder extends Seeder
         \DB::table('current_colleges')->insert(array (
             0 => 
             array (
+                'int' => 1,
                 'student_detail_user_id' => 5,
                 'school_id' => 1,
                 'course_id' => 2,
@@ -26,6 +27,7 @@ class CurrentCollegesTableSeeder extends Seeder
             ),
             1 => 
             array (
+                'int' => 2,
                 'student_detail_user_id' => 7,
                 'school_id' => 1,
                 'course_id' => 2,
@@ -33,6 +35,7 @@ class CurrentCollegesTableSeeder extends Seeder
             ),
             2 => 
             array (
+                'int' => 3,
                 'student_detail_user_id' => 8,
                 'school_id' => 1,
                 'course_id' => 1,
@@ -40,6 +43,7 @@ class CurrentCollegesTableSeeder extends Seeder
             ),
             3 => 
             array (
+                'int' => 4,
                 'student_detail_user_id' => 12,
                 'school_id' => 2,
                 'course_id' => 2,
@@ -47,6 +51,7 @@ class CurrentCollegesTableSeeder extends Seeder
             ),
             4 => 
             array (
+                'int' => 5,
                 'student_detail_user_id' => 25,
                 'school_id' => 1,
                 'course_id' => 1,

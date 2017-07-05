@@ -19,6 +19,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
         \DB::table('educational_backgrounds')->insert(array (
             0 => 
             array (
+                'id' => 1,
                 'student_detail_user_id' => 5,
                 'level' => 0,
                 'school_name' => 'Almario',
@@ -28,6 +29,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             1 => 
             array (
+                'id' => 2,
                 'student_detail_user_id' => 5,
                 'level' => 1,
                 'school_name' => 'Raja',
@@ -37,6 +39,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             2 => 
             array (
+                'id' => 3,
                 'student_detail_user_id' => 6,
                 'level' => 0,
                 'school_name' => 'Safgkajfg',
@@ -46,6 +49,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             3 => 
             array (
+                'id' => 4,
                 'student_detail_user_id' => 6,
                 'level' => 1,
                 'school_name' => 'Asfasfa',
@@ -55,6 +59,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             4 => 
             array (
+                'id' => 5,
                 'student_detail_user_id' => 7,
                 'level' => 0,
                 'school_name' => 'Momo',
@@ -64,6 +69,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             5 => 
             array (
+                'id' => 6,
                 'student_detail_user_id' => 7,
                 'level' => 1,
                 'school_name' => 'Raja',
@@ -73,6 +79,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             6 => 
             array (
+                'id' => 7,
                 'student_detail_user_id' => 8,
                 'level' => 0,
                 'school_name' => 'Asgsag',
@@ -82,6 +89,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             7 => 
             array (
+                'id' => 8,
                 'student_detail_user_id' => 8,
                 'level' => 1,
                 'school_name' => 'Sajfkhgasfhg',
@@ -91,6 +99,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             8 => 
             array (
+                'id' => 9,
                 'student_detail_user_id' => 9,
                 'level' => 0,
                 'school_name' => 'Ssafasgfshkg',
@@ -100,6 +109,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             9 => 
             array (
+                'id' => 10,
                 'student_detail_user_id' => 9,
                 'level' => 1,
                 'school_name' => 'Fakfshsakl',
@@ -109,6 +119,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             10 => 
             array (
+                'id' => 11,
                 'student_detail_user_id' => 10,
                 'level' => 0,
                 'school_name' => 'Asfhasgfhj',
@@ -118,6 +129,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             11 => 
             array (
+                'id' => 12,
                 'student_detail_user_id' => 10,
                 'level' => 1,
                 'school_name' => 'Lsfhaskfhj',
@@ -127,6 +139,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             12 => 
             array (
+                'id' => 13,
                 'student_detail_user_id' => 11,
                 'level' => 0,
                 'school_name' => 'Asfaghxghq',
@@ -136,6 +149,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             13 => 
             array (
+                'id' => 14,
                 'student_detail_user_id' => 11,
                 'level' => 1,
                 'school_name' => 'Asfasfksafhajxfha',
@@ -145,6 +159,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             14 => 
             array (
+                'id' => 15,
                 'student_detail_user_id' => 12,
                 'level' => 0,
                 'school_name' => 'Asfasfgashfg',
@@ -154,6 +169,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             15 => 
             array (
+                'id' => 16,
                 'student_detail_user_id' => 12,
                 'level' => 1,
                 'school_name' => 'Asfjgasfhg',
@@ -163,6 +179,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             16 => 
             array (
+                'id' => 17,
                 'student_detail_user_id' => 13,
                 'level' => 0,
                 'school_name' => 'Asfasfhg',
@@ -172,6 +189,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             17 => 
             array (
+                'id' => 18,
                 'student_detail_user_id' => 13,
                 'level' => 1,
                 'school_name' => 'Sfasfgaskfhgh',
@@ -181,6 +199,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             18 => 
             array (
+                'id' => 19,
                 'student_detail_user_id' => 14,
                 'level' => 0,
                 'school_name' => 'Asfjkhfhjk',
@@ -190,6 +209,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             19 => 
             array (
+                'id' => 20,
                 'student_detail_user_id' => 14,
                 'level' => 1,
                 'school_name' => 'Safljkhasjfk',
@@ -199,6 +219,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             20 => 
             array (
+                'id' => 21,
                 'student_detail_user_id' => 24,
                 'level' => 0,
                 'school_name' => 'Safsafsa',
@@ -208,6 +229,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             21 => 
             array (
+                'id' => 22,
                 'student_detail_user_id' => 24,
                 'level' => 1,
                 'school_name' => 'Asfsafkj',
@@ -217,6 +239,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             22 => 
             array (
+                'id' => 23,
                 'student_detail_user_id' => 25,
                 'level' => 0,
                 'school_name' => 'Scacascgkj',
@@ -226,6 +249,7 @@ class EducationalBackgroundsTableSeeder extends Seeder
             ),
             23 => 
             array (
+                'id' => 24,
                 'student_detail_user_id' => 25,
                 'level' => 1,
                 'school_name' => 'Ascascas',

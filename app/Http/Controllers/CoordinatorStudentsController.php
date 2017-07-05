@@ -17,6 +17,9 @@ use Auth;
 use Carbon\Carbon;
 use Datatables;
 use Config;
+use App\Allocation;
+use App\Allocatebudget;
+use App\Budgtype;
 class CoordinatorStudentsController extends Controller
 {
 	public function __construct()
@@ -61,9 +64,18 @@ class CoordinatorStudentsController extends Controller
 				$percentage = (($steps/$count)*100);
 			else
 				$percentage = 0;
-			return "<div id=detail$data->id><div id=stat$data->id>
-			<div class='pull-right' style='margin-top: -5px; margin-left: 5px;'>$steps/$count </div></div><div class='progress progress-sm active'>
-			<div class='progress-bar progress-bar-success progress-bar-striped' id=prog$data->id role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: $percentage%'></div></div></div>";
+			return "<div class='pull-right' style='margin-top: -5px; margin-left: 5px;'>$steps/$count </div></div><div class='progress progress-sm active'>
+			<div class='progress-bar progress-bar-success progress-bar-striped' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: $percentage%'></div>";
+		})
+		->addColumn('stipend', function ($data) {
+			$count = Budgtype::where('is_active',1)->count();
+			$allocate = Allocatebudget::where('user_id',$data->id)->count();
+			if($count!=0)
+				$percentage = (($allocate/$count)*100);
+			else
+				$percentage = 0;
+			return "<div class='pull-right' style='margin-top: -5px; margin-left: 5px;'>$allocate/$count </div></div><div class='progress progress-sm active'>
+			<div class='progress-bar progress-bar-success progress-bar-striped' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: $percentage%'></div>";
 		})
 		->addColumn('action', function ($data) {
 			$count = Step::where('is_active',1)->count();
@@ -71,8 +83,7 @@ class CoordinatorStudentsController extends Controller
 				$state = "";
 			else
 				$state = "disabled";
-			return "<div id=dp$data->id>
-			<button class='btn btn-info btn-xs btn-progress' $state $state value=$data->id><i class='fa fa-eye'></i> View</button>";
+			return "<button class='btn btn-primary btn-xs btn-progress' $state $state value=$data->id><i class='fa fa-line-chart'></i> Step</button> <button class='btn btn-success btn-xs open-modal' value='$data->id'><i class='fa fa-money'></i> Stipend</button> ";
 		})
 		->editColumn('strStudName', function ($data) {
 			$images = url('images/'.$data->picture);
@@ -80,7 +91,7 @@ class CoordinatorStudentsController extends Controller
 		})
 		->setRowId(function ($data) {
 			return $data = 'id'.$data->user_id;
-		})->rawColumns(['strStudName','counter','action']);
+		})->rawColumns(['strStudName','stipend','counter','action']);
 		if ($strUserFirstName = $request->get('strUserFirstName')) {
 			$datatables->where('users.first_name', 'like', '%'.$strUserFirstName.'%');
 		}
@@ -120,10 +131,29 @@ class CoordinatorStudentsController extends Controller
 		$step = Step::where('is_active',1)->get();
 		return Response::json($step);
 	}
+	public function allocation()
+	{
+		$allocation = Allocation::join('allocation_types','allocations.allocation_type_id','allocation_types.id')
+		->join('budgets','allocations.budget_id','budgets.id')
+		->select('allocation_types.description','allocations.id')
+		->where('budgets.id', function($query){
+			$query->from('budgets')
+			->select('id')
+			->latest('id')
+			->first();
+		})
+		->get();
+		return Response::json($allocation);
+	}
 	public function show($id)
 	{
 		$steps = Studentsteps::where('user_id',$id)->get();
 		return Response::json($steps);
+	}
+	public function checkclaim($id)
+	{
+		$allocate = Allocatebudget::where('user_id',$id)->get();
+		return Response::json($allocate);
 	}
 	public function update(Request $request, $id)
 	{
@@ -137,7 +167,22 @@ class CoordinatorStudentsController extends Controller
 			}
 			return Response::json($student_step);
 		} catch (\Exception $e) {
-			return Response::json('Input must not be nulled',500);
+			return Response::json($e->getMessage().'Input must not be nulled',500);
+		}
+	}
+	public function stipend(Request $request, $id)
+	{
+		try {
+			$allocate = Allocatebudget::where('user_id',$id)->delete();
+			foreach ($request->claim as $claim) {
+				$steps = new Allocatebudget;
+				$steps->user_id = $id;
+				$steps->allocation_id = $claim;
+				$steps->save();
+			}
+			return Response::json($allocate);
+		} catch (\Exception $e) {
+			return Response::json($e->getMessage().'Input must not be nulled',500);
 		}
 	}
 }
