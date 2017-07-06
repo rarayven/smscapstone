@@ -157,6 +157,7 @@ class CoordinatorStudentsController extends Controller
 	}
 	public function update(Request $request, $id)
 	{
+		DB::beginTransaction();
 		try {
 			$student_step = Studentsteps::where('user_id',$id)->delete();
 			foreach ($request->steps as $step) {
@@ -165,13 +166,16 @@ class CoordinatorStudentsController extends Controller
 				$steps->step_id = $step;
 				$steps->save();
 			}
+			DB::commit();
 			return Response::json($student_step);
 		} catch (\Exception $e) {
-			return Response::json($e->getMessage().'Input must not be nulled',500);
+			DB::rollBack();
+			return Response::json('Input must not be nulled',500);
 		}
 	}
 	public function stipend(Request $request, $id)
 	{
+		DB::beginTransaction();
 		try {
 			$allocate = Allocatebudget::where('user_id',$id)->delete();
 			foreach ($request->claim as $claim) {
@@ -180,9 +184,11 @@ class CoordinatorStudentsController extends Controller
 				$steps->allocation_id = $claim;
 				$steps->save();
 			}
+			DB::commit();
 			return Response::json($allocate);
 		} catch (\Exception $e) {
-			return Response::json($e->getMessage().'Input must not be nulled',500);
+			DB::rollBack();
+			return Response::json('Input must not be nulled',500);
 		}
 	}
 }
