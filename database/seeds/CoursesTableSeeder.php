@@ -20,19 +20,19 @@ class CoursesTableSeeder extends Seeder
             0 => 
             array (
                 'id' => 1,
-                'description' => 'BSIT',
+                'description' => 'BSA',
                 'is_active' => 1,
             ),
             1 => 
             array (
                 'id' => 2,
-                'description' => 'BSCS',
+                'description' => 'BSIT',
                 'is_active' => 1,
             ),
             2 => 
             array (
                 'id' => 3,
-                'description' => 'HRDM',
+                'description' => 'BSCS',
                 'is_active' => 1,
             ),
         ));

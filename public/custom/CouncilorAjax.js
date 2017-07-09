@@ -7,6 +7,7 @@ $(document).ready(function() {
     var url = "/admin/councilor";
     var id = '';
     var url2 = "/admin/councilor/checkbox";
+    $('#strCounCell').mask('(63) 000-000-0000', {selectOnFocus: true});
     var table = $('#councilor-table').DataTable({
         responsive: true,
         processing: true,
@@ -149,7 +150,7 @@ $(document).ready(function() {
                             if (data[0] == "true") {
                                 swal({
                                     title: "Failed!",
-                                    text: "<center>" + data[1].last_name + " is in use</center>",
+                                    text: "<center>Data in use</center>",
                                     type: "error",
                                     showConfirmButton: false,
                                     allowOutsideClick: true,
@@ -159,7 +160,7 @@ $(document).ready(function() {
                                 table.draw();
                                 swal({
                                     title: "Deleted!",
-                                    text: "<center>" + data.last_name + " is Deleted</center>",
+                                    text: "<center>Data Deleted</center>",
                                     type: "success",
                                     timer: 1000,
                                     showConfirmButton: false,
@@ -177,6 +178,7 @@ $(document).ready(function() {
     //create new task / update existing task
     $("#btn-save").click(function() {
         $('#frmCouncilor').parsley().destroy();
+        $('#strCounCell').mask('000000000000');
         if ($('#frmCouncilor').parsley().isValid()) {
             $("#btn-save").attr('disabled', 'disabled');
             setTimeout(function() {
@@ -201,7 +203,7 @@ $(document).ready(function() {
                     table.draw();
                     swal({
                         title: "Success!",
-                        text: "<center>" + data.last_name + " is Stored</center>",
+                        text: "<center>Data Stored</center>",
                         type: "success",
                         timer: 1000,
                         showConfirmButton: false,
@@ -220,5 +222,6 @@ $(document).ready(function() {
                 }
             });
         }
+        $('#strCounCell').mask('(63) 000-000-0000', {selectOnFocus: true});
     });
 });

@@ -6,12 +6,10 @@ use App\Application;
 use App\Familydata;
 use App\Educback;
 use App\Desiredcourses;
-use App\Current;
-use App\Step;
+use App\Affiliation;
 use App\Siblings;
-use App\User;
-use App\Councilor;
 use Carbon\Carbon;
+use App\User;
 use Session;
 use Auth;
 class CoordinatorApplicantsDetailsController extends Controller
@@ -32,7 +30,9 @@ class CoordinatorApplicantsDetailsController extends Controller
             ->join('user_councilor','student_details.user_id','user_councilor.user_id')
             ->join('districts','student_details.district_id','districts.id')
             ->join('barangay','student_details.barangay_id','barangay.id')
-            ->select('users.*','student_details.*','districts.description as districts_description','barangay.description as barangay_description')
+            ->join('schools','student_details.school_id','schools.id')
+            ->join('courses','student_details.course_id','courses.id')
+            ->select('users.*','student_details.*','districts.description as districts_description','barangay.description as barangay_description','schools.description as schools_description','courses.description as courses_description')
             ->where('student_details.user_id',$id)
             ->where('user_councilor.councilor_id', function($query){
                 $query->from('user_councilor')
@@ -44,11 +44,8 @@ class CoordinatorApplicantsDetailsController extends Controller
             })
             ->where('student_details.application_status','Pending')
             ->firstorfail();
-            $currschool = Current::where('student_detail_user_id',$id)->count();
-            $getschool = Current::join('schools','current_colleges.school_id','schools.id')
-            ->join('courses','current_colleges.course_id','courses.id')
-            ->select('current_colleges.*','courses.description as courses_description','schools.description as schools_description')
-            ->where('student_detail_user_id',$id)->first();
+            $count = Affiliation::where('student_detail_user_id',$id)->count();
+            $affiliation = Affiliation::where('student_detail_user_id',$id)->get();
             $exist = Siblings::where('student_detail_user_id',$id)->count();
             $siblings = Siblings::where('student_detail_user_id',$id)->first();
             $mother = Familydata::where('student_detail_user_id',$id)
@@ -64,8 +61,9 @@ class CoordinatorApplicantsDetailsController extends Controller
             ->select('desired_courses.*','schools.description as schools_description','courses.description as courses_description')
             ->where('desired_courses.student_detail_user_id',$id)
             ->get();
-            return view('SMS.Coordinator.Scholar.CoordinatorApplicantsDetails')->withApplication($application)->withMother($mother)->withFather($father)->withDesiredcourses($desiredcourses)->withElem($elem)->withHs($hs)->withSiblings($siblings)->withExist($exist)->withCurrschool($currschool)->withGetschool($getschool);
+            return view('SMS.Coordinator.Scholar.CoordinatorApplicantsDetails')->withApplication($application)->withMother($mother)->withFather($father)->withDesiredcourses($desiredcourses)->withElem($elem)->withHs($hs)->withSiblings($siblings)->withExist($exist)->withCount($count)->withAffiliation($affiliation);
         } catch(\Exception $e) {
+            dd($e->getMessage());
             return redirect(route('applicants.index'));
         }
     }
@@ -81,6 +79,9 @@ class CoordinatorApplicantsDetailsController extends Controller
             $application = Application::find($id);
             $application->application_status='Accepted';
             $application->save();
+            $user = User::find($id);
+            $user->is_active = 1;
+            $user->save();
             Session::flash('success','Student Accepted');
             return redirect(route('applicants.index'));
         }
@@ -98,6 +99,9 @@ class CoordinatorApplicantsDetailsController extends Controller
             $application->remarks=$request->strApplRemarks;
             $application->application_status='Declined';
             $application->save();
+            $user = User::find($id);
+            $user->is_active = 0;
+            $user->save();
             Session::flash('success','Student Declined');
             return redirect(route('applicants.index'));
         }

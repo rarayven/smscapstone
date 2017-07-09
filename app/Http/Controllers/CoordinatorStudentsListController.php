@@ -76,7 +76,7 @@ class CoordinatorStudentsListController extends Controller
             <option value='Forfeit' class='btn-danger' $selected3><i class='fa fa-edit'></i> Forfeit</option></select>";
         })
         ->addColumn('action', function ($data) {
-            return "<button class='btn btn-info btn-xs open-modal'><i class='fa fa-eye'></i> View</button> <button class='btn btn-warning btn-xs'><i class='fa fa-edit'></i> Edit</button>";
+            return "<button class='btn btn-info btn-xs open-modal'><i class='fa fa-eye'></i> View</button>";
         })
         ->editColumn('strStudName', function ($data) {
             $images = url('images/'.$data->picture);

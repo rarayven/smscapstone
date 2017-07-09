@@ -35,34 +35,10 @@
                     {{ Form::label('name', 'Budget Amount') }}
                     {{ Form::text('budget_amount', null, [
                       'id' => 'budget_amount',
-                      'class' => 'form-control',
+                      'class' => 'form-control peso',
                       'maxlength' => '15',
                       'required' => 'required',
                       'data-parsley-pattern' => '^[0-9.]+$',
-                      'autocomplete' => 'off'
-                      ]) 
-                    }}
-                  </div>
-                  <div class="form-group">
-                    {{ Form::label('name', 'Scholar Budget') }}
-                    {{ Form::text('budget_per_student', null, [
-                      'id' => 'budget_per_student',
-                      'class' => 'form-control',
-                      'maxlength' => '15',
-                      'required' => 'required',
-                      'data-parsley-pattern' => '^[0-9.]+$',
-                      'autocomplete' => 'off'
-                      ]) 
-                    }}
-                  </div>
-                  <div class="form-group">
-                    {{ Form::label('name', 'Slot') }}
-                    {{ Form::text('slot_count', null, [
-                      'id' => 'slot_count',
-                      'class' => 'form-control',
-                      'maxlength' => '15',
-                      'readonly' => 'readonly',
-                      'data-parsley-pattern' => '^[0-9]+$',
                       'autocomplete' => 'off'
                       ]) 
                     }}
@@ -73,7 +49,7 @@
                     {{ Form::hidden('id[]', $type->id) }}
                     {{ Form::text('amount[]', null, [
                       'id' => 'id'.$type->id,
-                      'class' => 'form-control',
+                      'class' => 'form-control peso',
                       'maxlength' => '15',
                       'required' => 'required',
                       'data-parsley-pattern' => '^[0-9.]+$',
@@ -83,10 +59,22 @@
                   </div>
                   @endforeach
                   <div class="form-group">
-                    {{ Form::label('name', 'Remaining Budget') }}
-                    {{ Form::hidden('summation', null, ['id'=>'summation']) }}
-                    {{ Form::text('remain', 0, [
-                      'id' => 'remain',
+                    {{ Form::label('name', 'Scholar Budget') }}
+                    {{ Form::text('budget_per_student', null, [
+                      'id' => 'budget_per_student',
+                      'class' => 'form-control peso',
+                      'maxlength' => '15',
+                      'required' => 'required',
+                      'data-parsley-pattern' => '^[0-9.]+$',
+                      'autocomplete' => 'off',
+                      'readonly' => 'readonly'
+                      ]) 
+                    }}
+                  </div>
+                  <div class="form-group">
+                    {{ Form::label('name', 'Slot') }}
+                    {{ Form::text('slot_count', null, [
+                      'id' => 'slot_count',
                       'class' => 'form-control',
                       'maxlength' => '15',
                       'readonly' => 'readonly',
@@ -137,6 +125,7 @@
 </div>
 @endsection
 @section('script')
+{!! Html::script("plugins/maskMoney/jquery.maskMoney.min.js") !!} 
 {!! Html::script("js/bootbox.min.js") !!} 
 {!! Html::script("custom/BudgetAjax.min.js") !!}
 <script type="text/javascript">

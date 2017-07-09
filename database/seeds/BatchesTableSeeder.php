@@ -20,7 +20,7 @@ class BatchesTableSeeder extends Seeder
             0 => 
             array (
                 'id' => 1,
-                'description' => 'Batch 22',
+                'description' => '2017',
                 'is_active' => 1,
             ),
         ));

@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
-use App\Step;
+use App\Requirement;
 use App\User;
 use App\District;
 use App\Councilor;
@@ -35,9 +35,8 @@ class CoordinatorStudentsController extends Controller
 		$school = School::where('is_active',1)->get();
 		$course = Course::where('is_active',1)->get();
 		$batch = Batch::where('is_active',1)->get();
-		$steps = Step::where('is_active',1)->get();
-		$count = Step::where('is_active',1)->count();
-		return view('SMS.Coordinator.Scholar.CoordinatorStudents')->withCount($count)->withDistrict($district)->withCouncilor($councilor)->withBarangay($barangay)->withSchool($school)->withCourse($course)->withBatch($batch)->withSteps($steps);
+		$steps = Requirement::where('is_active',1)->get();
+		return view('SMS.Coordinator.Scholar.CoordinatorStudents')->withDistrict($district)->withCouncilor($councilor)->withBarangay($barangay)->withSchool($school)->withCourse($course)->withBatch($batch)->withSteps($steps);
 	}
 	public function store(Request $request)
 	{
@@ -58,8 +57,11 @@ class CoordinatorStudentsController extends Controller
 		->where('student_details.is_steps_done',0);
 		$datatables = Datatables::of($application)
 		->addColumn('counter', function ($data) {
-			$count = Step::where('is_active',1)->count();
-			$steps = Studentsteps::where('user_id',$data->id)->count();
+			$application = Application::where('user_id',$data->id)->first();
+			$count = Requirement::where('is_active',1)->where('type',$application->is_renewal)->count();
+			$steps = Studentsteps::join('requirements','user_requirement.requirement_id','requirements.id')
+			->where('user_requirement.user_id',$data->id)
+			->where('requirements.type',$application->is_renewal)->count();
 			if($count!=0)
 				$percentage = (($steps/$count)*100);
 			else
@@ -78,12 +80,12 @@ class CoordinatorStudentsController extends Controller
 			<div class='progress-bar progress-bar-success progress-bar-striped' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: $percentage%'></div>";
 		})
 		->addColumn('action', function ($data) {
-			$count = Step::where('is_active',1)->count();
+			$count = Requirement::where('is_active',1)->count();
 			if($count!=0)
 				$state = "";
 			else
 				$state = "disabled";
-			return "<button class='btn btn-primary btn-xs btn-progress' $state $state value=$data->id><i class='fa fa-line-chart'></i> Step</button> <button class='btn btn-success btn-xs open-modal' value='$data->id'><i class='fa fa-money'></i> Stipend</button> ";
+			return "<button class='btn btn-primary btn-xs btn-progress' $state $state value=$data->id><i class='fa fa-files-o'></i> List</button> <button class='btn btn-success btn-xs open-modal' value='$data->id'><i class='fa fa-money'></i> Claim</button> ";
 		})
 		->editColumn('strStudName', function ($data) {
 			$images = url('images/'.$data->picture);
@@ -105,7 +107,7 @@ class CoordinatorStudentsController extends Controller
 			$datatables->where('student_details.district_id', 'like', '%'.$intDistID.'%');
 		}
 		if ($intStepID = $request->get('intStepID')) {
-			$datatables->where('user_step.step_id', 'like', '%'.$intStepID.'%');
+			$datatables->where('user_step.requirement_id', 'like', '%'.$intStepID.'%');
 		}
 		if ($intBaraID = $request->get('intBaraID')) {
 			$datatables->where('student_details.barangay_id', 'like', '%'.$intBaraID.'%');
@@ -126,9 +128,10 @@ class CoordinatorStudentsController extends Controller
 		}
 		return $datatables->make(true);
 	}
-	public function create()
+	public function create($id)
 	{
-		$step = Step::where('is_active',1)->get();
+		$application = Application::where('user_id',$id)->first();
+		$step = Requirement::where('is_active',1)->where('type',$application->is_renewal)->get();
 		return Response::json($step);
 	}
 	public function allocation()
@@ -163,7 +166,7 @@ class CoordinatorStudentsController extends Controller
 			foreach ($request->steps as $step) {
 				$steps = new Studentsteps;
 				$steps->user_id = $id;
-				$steps->step_id = $step;
+				$steps->requirement_id = $step;
 				$steps->save();
 			}
 			DB::commit();

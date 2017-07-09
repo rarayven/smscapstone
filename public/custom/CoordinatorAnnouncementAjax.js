@@ -75,7 +75,7 @@ $(document).ready(function() {
                     table.draw();
                     swal({
                         title: "Success!",
-                        text: "<center>" + data.title + " is Stored</center>",
+                        text: "<center>Data Stored</center>",
                         type: "success",
                         timer: 1000,
                         showConfirmButton: false,
@@ -119,7 +119,7 @@ $(document).ready(function() {
                             table.draw();
                             swal({
                                 title: "Deleted!",
-                                text: "<center>" + data.title + " is Deleted</center>",
+                                text: "<center>Data Deleted</center>",
                                 type: "success",
                                 timer: 1000,
                                 showConfirmButton: false,

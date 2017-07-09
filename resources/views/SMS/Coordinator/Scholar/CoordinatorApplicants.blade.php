@@ -18,25 +18,25 @@
       </ul>
       <div class="tab-content">
         <div class="tab-pane active row" id="tab_1">
-          <div id="events">
-            @foreach ($users as $users)
-            <div class="col-md-4">
-              <div class="box box-widget widget-user-2" id="{{$users->id}}">
-                <div class="widget-user-header bg-green" style="height: 150px;">
-                  <div class="widget-user-image">
-                    <img class="img-circle" src="{{ asset('images/'.$users->picture) }}" alt="User Avatar">
-                  </div>
-                  <h3 class="widget-user-username">{{$users->last_name}}, {{$users->first_name}} {{$users->middle_name}}</h3>
+          @foreach ($users as $users)
+          <div class="col-md-4">
+            <div class="box box-widget widget-user-2">
+              <div class="widget-user-header bg-green" style="height: 150px;">
+                <div class="widget-user-image">
+                  <img class="img-circle" src="{{ asset('images/'.$users->picture) }}" alt="User Avatar">
                 </div>
-                <div class="small-box bg-green">
-                  <a href="{{route('details.show',$users->id)}}" class="small-box-footer btn-detail">
-                    More info <i class="fa fa-arrow-circle-right"></i>
-                  </a>
-                </div>
+                <h3 class="widget-user-username">{{$users->first_name}} {{$users->last_name}}</h3>
+                <h5 class="widget-user-desc">{{$users->courses_description}}</h5>
+                <h5 class="widget-user-desc">{{$users->description}}</h5>
+              </div>
+              <div class="small-box bg-green">
+                <a href="{{route('details.show',$users->id)}}" class="small-box-footer btn-detail">
+                  More info <i class="fa fa-arrow-circle-right"></i>
+                </a>
               </div>
             </div>
-            @endforeach
           </div>
+          @endforeach
         </div>
         <div class="tab-pane row" id="tab_2">
         </div>

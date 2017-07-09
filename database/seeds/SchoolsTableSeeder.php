@@ -21,21 +21,14 @@ class SchoolsTableSeeder extends Seeder
             array (
                 'id' => 1,
                 'academic_grading_id' => 1,
-                'description' => 'PUP',
+                'description' => 'FEU',
                 'is_active' => 1,
             ),
             1 => 
             array (
                 'id' => 2,
                 'academic_grading_id' => 1,
-                'description' => 'FEU',
-                'is_active' => 1,
-            ),
-            2 => 
-            array (
-                'id' => 3,
-                'academic_grading_id' => 1,
-                'description' => 'STI',
+                'description' => 'PUP',
                 'is_active' => 1,
             ),
         ));

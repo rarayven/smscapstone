@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Response;
 use Datatables;
 use Config;
+use App\Connection;
 use App\Budgtype;
 use Auth;
 use DB;
@@ -19,7 +20,7 @@ class CoordinatorBudgetController extends Controller
     }
     public function data()
     {   
-        $budget = Budget::all();
+        $budget = Budget::where('user_id',Auth::id());
         return Datatables::of($budget)
         ->addColumn('action', function ($data) {
             return "<button class='btn btn-info btn-xs btn-view' value='$data->id'><i class='fa fa-eye'></i> View</button> <button class='btn btn-warning btn-xs btn-detail open-modal' value='$data->id'><i class='fa fa-edit'></i> Edit</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->id'><i class='fa fa-trash-o'></i> Delete</button>";
@@ -42,9 +43,11 @@ class CoordinatorBudgetController extends Controller
     {
         DB::beginTransaction();
         try {
+            $connection = Connection::where('user_id',Auth::id())->first();
             $ctr = 0;
             $budget = new Budget;
             $budget->user_id=Auth::id();
+            $budget->councilor_id = $connection->councilor_id;
             $budget->amount=$request->budget_amount;
             $budget->budget_per_student=$request->budget_per_student;
             $budget->slot_count=$request->slot_count;
@@ -86,8 +89,10 @@ class CoordinatorBudgetController extends Controller
     {
         DB::beginTransaction();
         try {
+            $connection = Connection::where('user_id',Auth::id())->first();
             $ctr = 0;
             $budget = Budget::find($id);
+            $budget->councilor_id = $connection->councilor_id;
             $budget->amount=$request->budget_amount;
             $budget->budget_per_student=$request->budget_per_student;
             $budget->slot_count=$request->slot_count;

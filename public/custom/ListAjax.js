@@ -10,7 +10,7 @@ $(document).ready(function() {
         serverSide: true,
         "order": [1,'desc'],
         "columnDefs": [
-        { "width": "130px", "targets": 4 },
+        { "width": "70px", "targets": 4 },
         { "width": "70px", "targets": 3 },
         { "width": "100px", "targets": 2 }
         ],

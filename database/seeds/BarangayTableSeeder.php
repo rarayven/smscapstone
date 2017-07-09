@@ -24,13 +24,6 @@ class BarangayTableSeeder extends Seeder
                 'description' => 'Manila',
                 'is_active' => 1,
             ),
-            1 => 
-            array (
-                'id' => 2,
-                'district_id' => 2,
-                'description' => 'Moriones',
-                'is_active' => 1,
-            ),
         ));
         
         

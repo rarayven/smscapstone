@@ -18,8 +18,6 @@ use App\Desiredcourses;
 use Carbon\Carbon;
 use App\Academicgrade;
 use App\Current;
-use App\Year;
-use App\Semester;
 use Image;
 use App\Connection;
 use App\Grade;
@@ -27,6 +25,8 @@ use Auth;
 use Hash;
 use Config;
 use Session;
+use App\Setting;
+use App\Affiliation;
 class SMSAccountApplyController extends Controller
 {
   public function __construct()
@@ -43,9 +43,8 @@ class SMSAccountApplyController extends Controller
     $school = School::where('is_active',1)->get();
     $course = Course::where('is_active',1)->get();
     $grade = Academicgrade::where('is_active',1)->get();
-    $year = Year::where('is_active',1)->get();
-    $sem = Semester::where('is_active',1)->get();
-    return view('SMS.Account.SMSAccountApply')->withDistrict($district)->withCouncilor($councilor)->withBarangay($barangay)->withSchool($school)->withCourse($course)->withGrade($grade)->withYear($year)->withSem($sem)->withNow($now)->withLow($low);
+    $setting = Setting::first();
+    return view('SMS.Account.SMSAccountApply')->withDistrict($district)->withCouncilor($councilor)->withBarangay($barangay)->withSchool($school)->withCourse($course)->withGrade($grade)->withNow($now)->withLow($low)->withSetting($setting);
   }
   public function store(Request $request)
   {
@@ -96,11 +95,9 @@ class SMSAccountApplyController extends Controller
       $application->sisters=$request->intPersSisters;
       $application->batch_id=$batch;
       $application->application_date=$dtm;
-      $application->first_essay=$request->strPersEssay;
-      $application->second_essay=$request->strPersEssay2;
-      $application->organization=$request->strPersOrganization;
-      $application->position=$request->strPersPosition;
-      $application->participation_date=$request->strPersDateParticipation;
+      $application->essay=$request->essay;
+      $application->school_id=$request->intPersCurrentSchool;
+      $application->course_id=$request->intPersCurrentCourse;
       $application->save();
       //Insert in family_data
       $familydata = new Familydata;
@@ -123,6 +120,15 @@ class SMSAccountApplyController extends Controller
       $familydata->monthly_income=$request->fatherincome;
       $familydata->member_type=1;
       $familydata->save();
+      //Insert in affiliations
+      for ($i=0; $i < count($request->strPersOrganization); $i++) { 
+        $affiliation = new Affiliation;
+        $affiliation->student_detail_user_id=$users->id;
+        $affiliation->organization=$request->strPersOrganization[$i];
+        $affiliation->position=$request->strPersPosition[$i];
+        $affiliation->participation_date=$request->strPersDateParticipation[$i];
+        $affiliation->save();
+      }
       //Insert in educational_backgrounds
       $educback = new Educback;
       $educback->student_detail_user_id=$users->id;
@@ -166,22 +172,18 @@ class SMSAccountApplyController extends Controller
       $desiredcourses->school_id=$request->school3;
       $desiredcourses->course_id=$request->course3;
       $desiredcourses->save();
-      if((($request->intPersCurrentSchool)!='')&&(($request->intPersCurrentCourse)!='')&&(($request->strPersGwa)!='')&&(($request->intYearID)!='')&&(($request->intSemID)!='')){
-        //Insert in current colleges
-        $current = new Current;
-        $current->student_detail_user_id=$users->id;
-        $current->school_id=$request->intPersCurrentSchool;
-        $current->course_id=$request->intPersCurrentCourse;
-        $current->gwa=$request->strPersGwa;
-        $current->save();
-        //Insert in grades
-        $scholargrade = new Grade;
-        $scholargrade->student_detail_user_id=$users->id;
-        $scholargrade->year_id=$request->intYearID;
-        $scholargrade->semester_id=$request->intSemID;
-        $scholargrade->pdf=$pdfname;
-        $scholargrade->save();
+      //Insert in grades
+      $scholargrade = new Grade;
+      $scholargrade->student_detail_user_id=$users->id;
+      if (($request->col)=='no') {        
+        $scholargrade->year=$request->year;
+        $scholargrade->semester=$request->semester;
+      } else {
+        $scholargrade->year='I';
+        $scholargrade->semester='I';
       }
+      $scholargrade->pdf=$pdfname;
+      $scholargrade->save();
       //Actual Upload
       Image::make($image)->resize(400,400)->save($location);
       $pdf->move(base_path().'/public/docs/', $pdfname);
@@ -195,27 +197,18 @@ class SMSAccountApplyController extends Controller
   }
   public function show($id)
   {
-    $query = District::join('barangay', 'districts.id', 'barangay.district_id')
+    $barangay = Barangay::where('is_active',1)
+    ->where('district_id',$id)
     ->select('barangay.*')
-    ->where('barangay.district_id',$id)
-    ->where('districts.id',$id)
-    ->where('barangay.is_active',1)
     ->get();
-    return Response::json($query);
+    return Response::json($barangay);
   }
   public function edit($id)
   {
-    $query = District::join('councilors', 'districts.id', 'councilors.district_id')
-    ->select('councilors.*',DB::raw("CONCAT(councilors.last_name,', ',councilors.first_name,' ',IFNULL(councilors.middle_name,'')) as strCounName"))
+    $councilors = Councilor::where('councilors.is_active',1)
     ->where('councilors.district_id',$id)
-    ->where('districts.id',$id)
-    ->where('councilors.is_active',1)
+    ->select('councilors.*',DB::raw("CONCAT(councilors.last_name,', ',councilors.first_name,' ',IFNULL(councilors.middle_name,'')) as strCounName"))
     ->get();
-    return Response::json($query);
-  }
-  public function update($id)
-  {
-    $grade = Academicgrade::find($id);
-    return Response::json($grade);
+    return Response::json($councilors);
   }
 }

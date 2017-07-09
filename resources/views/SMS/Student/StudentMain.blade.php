@@ -91,7 +91,6 @@
         <li class="{{Request::path() == 'student/announcements' ? 'active' : ''}}"><a href="{{ url('student/announcements') }}"><i class="fa fa-bullhorn"></i><span>Announcements</span><small class="label pull-right bg-green panelanno"></small></a></li>
         <li class="{{Request::path() == 'student/messages' ? 'active' : ''}} {{Request::path() == 'student/messages/create' ? 'active' : ''}} {{Request::path() == 'student/messages/sent' ? 'active' : ''}}"><a href="{{ url('student/messages') }}"><i class="fa fa-envelope"></i><span>Messages</span><small class="label pull-right bg-green panelnotif"></small></a></li>
         <li class="{{Request::path() == 'student/events' ? 'active' : ''}}"><a href="{{ url('student/events') }}"><i class="fa fa-flag"></i><span>Events</span><small class="label pull-right bg-yellow panelevent"></small></a></li>
-        <li class="{{Request::path() == 'student/achievements' ? 'active' : ''}}"><a href="{{ url('student/achievements') }}"><i class="fa fa-trophy"></i><span>Achievements</span></a></li>
         <li class="{{Request::path() == 'student/renewal' ? 'active' : ''}}"><a href="{{ url('student/renewal') }}"><i class="fa fa-refresh"></i><span>Renewal</span></a></li>
       </ul>
     </section>

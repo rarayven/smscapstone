@@ -25,6 +25,15 @@
     [data-notify="container"] {
       width: 25%;
     }
+    .counter {
+      /*font-size: 20px; 
+      margin-top: 10px; 
+      color: white;
+      padding-left: 5px;*/
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 10px
+    }
   </style>
   <link rel="icon" href="{{ asset('img/logo.ico') }}">
 </head>
@@ -41,6 +50,16 @@
         </a>
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
+            <li class="dropdown tasks-menu">
+              <a>
+                <span class="hidden-xs">Budget: <small class="label bg-yellow budget">{{ $budget->amount }}</small></span>
+              </a> 
+            </li>
+            <li class="dropdown tasks-menu">
+              <a>
+                <span class="hidden-xs">Slot: <small class="label bg-green slot">{{ $budget->slot_count }}</small></span>
+              </a>
+            </li>
             <li class="dropdown user user-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <img src="{{ asset('images/'.Auth::user()->picture) }}" class="user-image" alt="User Image">
@@ -83,7 +102,7 @@
         </div>
         <div class="pull-left info">
           <p>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</p>
-          <small>Budget: </small><small class="label bg-yellow budget">{{ $budget->amount }}</small>
+          <small>Coun. {{ $councilor->first_name }} {{ $councilor->last_name }}</small>
         </div>
       </div>
       <ul class="sidebar-menu" data-widget="tree">
@@ -98,15 +117,14 @@
           </a>
           <ul class="treeview-menu">
             <li class="{{Request::path() == 'coordinator/list' ? 'active' : ''}}"><a href="{{ url('coordinator/list') }}"><i class="fa fa-list-ul"></i><span>List</span></a></li>
-            <li class="{{Request::path() == 'coordinator/progress' ? 'active' : ''}}"><a href="{{ url('coordinator/progress') }}"><i class="fa fa-tasks"></i><span>Progress</span></a></li>
-            <li class="{{Request::path() == 'coordinator/achievements' ? 'active' : ''}}"><a href="{{ url('coordinator/achievements') }}"><i class="fa fa-star"></i><span>Achievements</span></a></li>
-            <li class="{{Request::path() == 'coordinator/token' ? 'active' : ''}}"><a href="{{ url('coordinator/token') }}"><i class="fa fa-gift"></i><span>Token Processing</span></a></li>
+            <li class="{{Request::path() == 'coordinator/checklist' ? 'active' : ''}}"><a href="{{ url('coordinator/checklist') }}"><i class="fa fa-tasks"></i><span>Checklist</span></a></li>
           </ul>
         </li>
         <li class="{{Request::path() == 'coordinator/messages' ? 'active' : ''}}{{Request::path() == 'coordinator/messages/create' ? 'active' : ''}} {{Request::path() == 'coordinator/messages/sent' ? 'active' : ''}}"><a href="{{ url('coordinator/messages') }}"><i class="fa fa-envelope"></i><span>Messages</span><small class="label pull-right bg-green panelnotif"></small></a></li>
         <li class="{{Request::path() == 'coordinator/announcements' ? 'active' : ''}}"><a href="{{ url('coordinator/announcements') }}"><i class="fa fa-bullhorn"></i><span>Announcements</span></a></li>
         <li class="{{Request::path() == 'coordinator/events' ? 'active' : ''}}"><a href="{{ url('coordinator/events') }}"><i class="fa fa-flag"></i><span>Events</span></a></li>
         <li class="{{Request::path() == 'coordinator/budget' ? 'active' : ''}}"><a href="{{ url('coordinator/budget') }}"><i class="fa fa-money"></i><span>Budget</span></a></li>
+        <li class="{{Request::path() == 'coordinator/renewal' ? 'active' : ''}}"><a href="{{ url('coordinator/renewal') }}"><i class="fa fa-refresh"></i><span>Renewal</span></a></li>
         <li class="treeview {{Request::path() == 'coordinator/reports' ? 'active' : ''}} {{Request::path() == 'coordinator/reports' ? 'active' : ''}}">
           <a href="#"><i class="fa  fa-trophy"></i><span>Reports</span>
             <span class="pull-right-container">

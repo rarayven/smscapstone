@@ -88,7 +88,7 @@ $(document).ready(function() {
     							if (data[0] == "true") {
     								swal({
     									title: "Failed!",
-    									text: "<center>" + data[1].last_name + " is in use</center>",
+    									text: "<center>Data in use</center>",
     									type: "error",
     									showConfirmButton: false,
     									allowOutsideClick: true,
@@ -98,7 +98,7 @@ $(document).ready(function() {
     								table.draw();
     								swal({
     									title: "Deleted!",
-    									text: "<center>" + data.last_name + " is Deleted</center>",
+    									text: "<center>Data Deleted</center>",
     									type: "success",
     									timer: 1000,
     									showConfirmButton: false,

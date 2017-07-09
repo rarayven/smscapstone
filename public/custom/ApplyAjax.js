@@ -245,8 +245,6 @@ $(document).ready(function() {
       "<h4>" + $("select[name='intPersCurrentSchool'] option:selected").text() + "</h4><br>" +
       "<label>Current Course:</label> " +
       "<h4>" + $("select[name='intPersCurrentCourse'] option:selected").text() + "</h4><br>" +
-      "<label>GWA:</label> " +
-      "<h4>" + $('#strPersGwa').val() + "</h4><br>" +
       "</div>" +
       "<hr>" +
       "<label class='container'>Name three(3) courses you wish to enroll in and the respective school (in order of your preference):</label>" +
@@ -277,14 +275,11 @@ $(document).ready(function() {
       "<label>Position:</label> " +
       "<h4>" + $('#position').val() + "</h4><br>" +
       "<label>Year of Participation:</label> " +
-      "<h4>" + $('#dateofparticipation').val() + "</h4><br>" +
-      "<label>First Answer in Essay:</label> " +
-      "<h4>" + $('#strPersEssay').val() + "</h4><br>" +
-      "<label>Second Answer in Essay:</label> " +
-      "<h4>" + $('#strPersEssay2').val() + "</h4><br>" +
+      "<h4>" + $('#strPersDateParticipation').val() + "</h4><br>" +
+      "<label>Essay:</label> " +
+      "<h4>" + $('#essay').val() + "</h4><br>" +
       "</div>";
-      $('#summary').empty();
-      $('#summary').append(div);
+      $('#summary').empty().append(div);
     }
   });
 $sections.each(function(index, section) {
@@ -301,6 +296,13 @@ $('input[name="rad"]').on('ifClicked', function(event) {
     $("#questionappear").hide();
   }
 });
+$.each($('input[name="rad"]'),function(index, value){
+  if($(this).attr('checked'))
+    if($(this).attr('id')=='yes'){
+      checker = 'yes';
+      $("#questionappear").show("slide", { direction: "up" }, 1000);
+    }
+  });
 $('input[name="col"]').on('ifClicked', function(event) {
   if (this.value == "no") {
     $("#college").show("slide", { direction: "up" }, 1000);
@@ -308,6 +310,12 @@ $('input[name="col"]').on('ifClicked', function(event) {
     $("#college").hide();
   }
 });
+$.each($('input[name="col"]'),function(index, value){
+  if($(this).attr('checked'))
+    if($(this).attr('id')=='no'){
+      $("#college").show("slide", { direction: "up" }, 1000);
+    }
+  });
 $('input').iCheck({
   radioClass: 'iradio_flat-red'
 });
@@ -329,7 +337,7 @@ $('.district').on('click', function() {
       "<div class='widget-user-header'>" +
       "<img src='"+asset+"/"+value.picture+"' class='profile-user-img img-responsive img-square pull-left'>"+
       "<h1 style='color: white;' id=countxt" + value.id + ">" + value.strCounName + "</h1>" +
-      "</div></div></div>";
+      "</div><div class='slot col-xs-12'><strong>Slot: 100/100</strong></div></div></div>";
       $('#councilor').append(show);
     });
   })
@@ -368,5 +376,19 @@ $('.btn-submit').on('click',function(e){
       }
     }, 500);
   });
+});
+$('.btn-primary').click(function(){
+  var show = "<div class='form-group col-md-12 col-sm-12'>"+
+  "<label class='control-label'>Organization</label>"+
+  $('.organization')[0].outerHTML+"</div>"+
+  "<div class='form-group col-md-8 col-sm-6'>"+
+  "<label class='control-label'>Position</label>"+
+  $('.position')[0].outerHTML+"</div>"+
+  "<div class='form-group col-md-4 col-sm-6'>"+
+  "<label class='control-label'>Year of Participation</label>"+
+  "<div class='input-group'>"+
+  "<div class='input-group-addon'>"+
+  "<i class='fa fa-calendar'></i></div>"+$('.year')[0].outerHTML+"</div></div>";
+  $('#affiliation').append(show);
 });
 });

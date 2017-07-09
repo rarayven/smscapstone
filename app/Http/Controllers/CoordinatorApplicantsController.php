@@ -16,7 +16,9 @@ class CoordinatorApplicantsController extends Controller
     {
         $users = User::join('student_details','users.id','student_details.user_id')
         ->join('user_councilor','users.id','user_councilor.user_id')
-        ->select('users.*','student_details.*')
+        ->join('schools','student_details.school_id','schools.id')
+        ->join('courses','student_details.course_id','courses.id')
+        ->select('users.*','student_details.*','schools.description','courses.description as courses_description')
         ->where('student_details.application_status','Pending')
         ->where('user_councilor.councilor_id', function($query){
             $query->from('user_councilor')

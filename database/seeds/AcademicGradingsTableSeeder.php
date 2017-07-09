@@ -26,15 +26,6 @@ class AcademicGradingsTableSeeder extends Seeder
                 'failing_grade' => '4',
                 'is_active' => 1,
             ),
-            1 => 
-            array (
-                'id' => 2,
-                'description' => 'Irregular',
-                'highest_grade' => 'A',
-                'lowest_grade' => 'E',
-                'failing_grade' => 'D',
-                'is_active' => 1,
-            ),
         ));
         
         

@@ -13,6 +13,9 @@ $(document).ready(function() {
     "columnDefs": [
     { "width": "180px", "targets": 4 }
     ],
+    "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+      $('td:eq(0),td:eq(1)', nRow).addClass( "text-right" );
+    },
     columns: [
     { data: 'amount', name: 'amount' },
     { data: 'budget_per_student', name: 'budget_per_student' },
@@ -25,6 +28,7 @@ $(document).ready(function() {
   var id = '';
   $('#add_budget').on('hide.bs.modal', function() {
     $('#frmBudget').trigger("reset");
+    $('.form-control').val();
   });
   $('#btn-add').click(function() {
     $('#add_budget').modal('show');
@@ -97,7 +101,7 @@ $(document).ready(function() {
               table.draw();
               swal({
                 title: "Deleted!",
-                text: "<center>Budget Deleted</center>",
+                text: "<center>Data Deleted</center>",
                 type: "success",
                 timer: 1000,
                 showConfirmButton: false,
@@ -111,7 +115,20 @@ $(document).ready(function() {
       }, 500);
     });
   });
-  $('#budget_per_student').keyup(function() {
+  $('#budget_amount').blur(function(){
+    sum_values();
+  });
+  var elements = document.getElementsByName("amount[]");
+  var element_array = Array.prototype.slice.call(elements);
+  for(var i=0; i < element_array.length; i++){
+    element_array[i].addEventListener("blur", sum_values);
+  }
+  function sum_values(){
+    var sum = 0;
+    for(var i=0; i < element_array.length; i++){
+      sum += parseFloat(element_array[i].value, 10);
+    }
+    $('#budget_per_student').val(sum);
     var txt = $("#budget_per_student");
     if (txt.val().length > 0) {
       var textone;
@@ -121,23 +138,8 @@ $(document).ready(function() {
       var result = textone / texttwo;
       $('#slot_count').val(Math.floor(result));
     }
-  });
-  $('#budget_per_student').blur(function() {
-    $('#remain').val($(this).val());
-  });
-  var elements = document.getElementsByName("amount[]");
-  var element_array = Array.prototype.slice.call(elements);
-  for(var i=0; i < element_array.length; i++){
-    element_array[i].addEventListener("keyup", sum_values);
   }
-  function sum_values(){
-    var sum = 0;
-    for(var i=0; i < element_array.length; i++){
-      sum += parseFloat(element_array[i].value, 10);
-    }
-    $('#remain').val(parseFloat($('#budget_per_student').val())-sum);
-    $('#summation').val(sum);
-  }
+  $(".peso").maskMoney({prefix:'Php ', allowNegative: false, thousands:'.', decimal:',', affixesStay: false});
     //create new task / update existing task
     $("#btn-save").click(function(e) {
       if ($('#summation').val() == $('#budget_per_student').val()){
@@ -166,7 +168,7 @@ $(document).ready(function() {
               table.draw();
               swal({
                 title: "Success!",
-                text: "<center>Budget Stored</center>",
+                text: "<center>Data Stored</center>",
                 type: "success",
                 timer: 1000,
                 showConfirmButton: false,

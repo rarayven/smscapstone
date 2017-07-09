@@ -168,29 +168,12 @@
             College
           </div>
           <div class="col-md-12">
-            @if ($currschool != 0)
             <div class="col-md-5">
-              School/University Currently Enrolled In: {{ $getschool->schools_description }}
+              School/University Currently Enrolled In: {{ $application->schools_description }}
             </div>
             <div class="col-md-5">
-              Current Course: {{ $getschool->courses_description }}
+              Current Course: {{ $application->courses_description }}
             </div> 
-            @else
-            <div class="col-md-5">
-              School/University Currently Enrolled In: N/A
-            </div>
-            <div class="col-md-5">
-              Current Course: N/A
-            </div> 
-            <div class="col-md-12">
-              <h4>C. GWA: </h4>&emsp;&emsp;&emsp;
-              @if ($currschool != 0)
-              {{ $getschool->gwa }}
-              @else
-              N/A
-              @endif
-            </div>
-            @endif
             <div class="col-md-12 table-responsive">
               <table class="table table-striped">
                 <thead>
@@ -223,11 +206,21 @@
                   </tr>
                 </thead>
                 <tbody>
+                  @if ($count!=0)
+                  @foreach ($affiliation as $affiliations)
                   <tr>
-                    <td>{{$application->organization}}</td>
-                    <td>{{$application->position}}</td>
-                    <td>{{$application->participation_date}}</td>
+                    <td>{{$affiliations->organization}}</td>
+                    <td>{{$affiliations->position}}</td>
+                    <td>{{$affiliations->participation_date}}</td>
                   </tr>
+                  @endforeach
+                  @else
+                  <tr>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                  </tr>
+                  @endif
                 </tbody>
               </table>
             </div>
@@ -235,19 +228,10 @@
           <div class="tab-pane row" id="tab_5">
             <div class="col-md-12">
               <div class="col-md-12">
-                <strong>First Essay:</strong>
+                <strong>Essay:</strong>
               </div>
               <div class="col-md-12">
-                {{$application->first_essay}}
-                <br><br>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="col-md-12">
-                <strong>Second Essay:</strong>
-              </div>
-              <div class="col-md-12">
-                {{$application->second_essay}}
+                {{$application->essay}}
               </div>
               <div class="pull-right">
                 <a class="btn btn-success btn-accept"><i class="fa fa-check"></i> Accept</a>

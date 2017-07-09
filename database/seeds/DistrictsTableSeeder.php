@@ -23,24 +23,6 @@ class DistrictsTableSeeder extends Seeder
                 'description' => 'District 1',
                 'is_active' => 1,
             ),
-            1 => 
-            array (
-                'id' => 2,
-                'description' => 'District 2',
-                'is_active' => 1,
-            ),
-            2 => 
-            array (
-                'id' => 3,
-                'description' => 'District 3',
-                'is_active' => 1,
-            ),
-            3 => 
-            array (
-                'id' => 4,
-                'description' => 'District 4',
-                'is_active' => 1,
-            ),
         ));
         
         

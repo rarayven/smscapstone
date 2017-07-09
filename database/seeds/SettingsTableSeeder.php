@@ -16,6 +16,17 @@ class SettingsTableSeeder extends Seeder
 
         \DB::table('settings')->delete();
         
+        \DB::table('settings')->insert(array (
+            0 => 
+            array (
+                'title' => 'SCholarshipMS',
+                'logo' => 'assa',
+                'color' => '231',
+                'currency' => 'P',
+                'year_count' => 5,
+                'semester_count' => 4,
+            ),
+        ));
         
         
     }

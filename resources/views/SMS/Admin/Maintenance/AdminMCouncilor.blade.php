@@ -161,6 +161,7 @@
 	</div>
 	@endsection
 	@section('script')
+	{!! Html::script("plugins/mask/jquery.mask.min.js") !!}
 	{!! Html::script("js/bootbox.min.js") !!} 
 	{!! Html::script("custom/CouncilorAjax.min.js") !!}
 	<script type="text/javascript">

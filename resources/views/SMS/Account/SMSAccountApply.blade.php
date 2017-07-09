@@ -14,9 +14,16 @@
     [data-notify="container"] {
         width: 20%;
     }
-</style>
-<style type="text/css">
-    #questionappear, #college { display: none; }
+    .slot {
+        opacity: 0.0;
+        font-size: 20px;
+    }
+    .councilor:hover>.slot {
+        opacity: 1.0;
+    }
+    #questionappear, #college { 
+        display: none; 
+    }
 </style>
 @endsection
 @section('login')
@@ -319,16 +326,46 @@
 </div>
 <div class="form-section">
     <h3>Input Family Info:</h3>
-    <div class="container col-md-6 col-sm-12">
-        {{ Form::label('name', "Mother's Name*", [
-            'class' => 'control-label'
-            ]) 
-        }}
-        <div class="row">
-            <div class="form-group col-md-6 col-sm-12">
-                {{ Form::text('motherfname', null, [
-                    'id' => 'motherfname',
-                    'placeholder' => 'First Name',
+    <div class="row">
+        <div class="container col-md-6 col-sm-12">
+            {{ Form::label('name', "Mother's Name*", [
+                'class' => 'control-label'
+                ]) 
+            }}
+            <div class="row">
+                <div class="form-group col-md-6 col-sm-12">
+                    {{ Form::text('motherfname', null, [
+                        'id' => 'motherfname',
+                        'placeholder' => 'First Name',
+                        'class' => 'form-control',
+                        'maxlength' => '25',
+                        'required' => 'required',
+                        'autocomplete' => 'off',
+                        'data-parsley-pattern' => '^[a-zA-Z. ]+$'
+                        ]) 
+                    }}
+                </div>
+                <div class="form-group col-md-6 col-sm-12">
+                    {{ Form::text('motherlname', null, [
+                        'id' => 'motherlname',
+                        'placeholder' => 'Last Name',
+                        'class' => 'form-control',
+                        'maxlength' => '25',
+                        'required' => 'required',
+                        'autocomplete' => 'off',
+                        'data-parsley-pattern' => '^[a-zA-Z. ]+$'
+                        ]) 
+                    }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ Form::label('name', "Citizenship*", [
+                    'class' => 'control-label'
+                    ]) 
+                }}
+                {{ Form::text('mothercitizen', null, [
+                    'id' => 'mothercitizen',
+                    'placeholder' => "Mother's Citizenship",
                     'class' => 'form-control',
                     'maxlength' => '25',
                     'required' => 'required',
@@ -337,10 +374,14 @@
                     ]) 
                 }}
             </div>
-            <div class="form-group col-md-6 col-sm-12">
-                {{ Form::text('motherlname', null, [
-                    'id' => 'motherlname',
-                    'placeholder' => 'Last Name',
+            <div class="form-group">
+                {{ Form::label('name', "Highest Attainment*", [
+                    'class' => 'control-label'
+                    ]) 
+                }}
+                {{ Form::text('motherhea', null, [
+                    'id' => 'motherhea',
+                    'placeholder' => "Mother's Highest Educational Attainment",
                     'class' => 'form-control',
                     'maxlength' => '25',
                     'required' => 'required',
@@ -349,85 +390,14 @@
                     ]) 
                 }}
             </div>
-        </div>
-        <div class="form-group">
-            {{ Form::label('name', "Citizenship*", [
-                'class' => 'control-label'
-                ]) 
-            }}
-            {{ Form::text('mothercitizen', null, [
-                'id' => 'mothercitizen',
-                'placeholder' => "Mother's Citizenship",
-                'class' => 'form-control',
-                'maxlength' => '25',
-                'required' => 'required',
-                'autocomplete' => 'off',
-                'data-parsley-pattern' => '^[a-zA-Z. ]+$'
-                ]) 
-            }}
-        </div>
-        <div class="form-group">
-            {{ Form::label('name', "Highest Attainment*", [
-                'class' => 'control-label'
-                ]) 
-            }}
-            {{ Form::text('motherhea', null, [
-                'id' => 'motherhea',
-                'placeholder' => "Mother's Highest Educational Attainment",
-                'class' => 'form-control',
-                'maxlength' => '25',
-                'required' => 'required',
-                'autocomplete' => 'off',
-                'data-parsley-pattern' => '^[a-zA-Z. ]+$'
-                ]) 
-            }}
-        </div>
-        <div class="form-group">
-            {{ Form::label('name', "Occupation*", [
-                'class' => 'control-label'
-                ]) 
-            }}
-            {{ Form::text('motheroccupation', null, [
-                'id' => 'motheroccupation',
-                'placeholder' => "Mother's Occupation",
-                'class' => 'form-control',
-                'maxlength' => '25',
-                'required' => 'required',
-                'autocomplete' => 'off',
-                'data-parsley-pattern' => '^[a-zA-Z. ]+$'
-                ]) 
-            }}
-        </div>
-        <div class="form-group">
-            {{ Form::label('name', "Monthly Income*", [
-                'class' => 'control-label'
-                ]) 
-            }}
-            {{ Form::select('motherincome', [
-                'None' => 'None',
-                '10,000 and Below' => '10,000 and Below',
-                '10,000 - 15,000' => '10,000 - 15,000',
-                '15,000 - 20,000' => '15,000 - 20,000',
-                '20,000 - 25,000' => '20,000 - 25,000',
-                '25,000 - 30,000' => '25,000 - 30,000',
-                '30,000 - 35,000' => '30,000 - 35,000',
-                '35,000 and Above' => '35,000 and Above'
-                ], null, [
-                'id' => 'motherincome',
-                'class' => 'form-control'])
-            }}
-        </div>
-    </div>
-    <div class="container col-md-6 col-sm-12">
-        {{ Form::label('name', "Father's Name*", [
-            'class' => 'control-label'
-            ]) 
-        }}
-        <div class="row">
-            <div class="form-group col-md-6 col-sm-12">
-                {{ Form::text('fatherfname', null, [
-                    'id' => 'fatherfname',
-                    'placeholder' => 'First Name',
+            <div class="form-group">
+                {{ Form::label('name', "Occupation*", [
+                    'class' => 'control-label'
+                    ]) 
+                }}
+                {{ Form::text('motheroccupation', null, [
+                    'id' => 'motheroccupation',
+                    'placeholder' => "Mother's Occupation",
                     'class' => 'form-control',
                     'maxlength' => '25',
                     'required' => 'required',
@@ -436,10 +406,65 @@
                     ]) 
                 }}
             </div>
-            <div class="form-group col-md-6 col-sm-12">
-                {{ Form::text('fatherlname', null, [
-                    'id' => 'fatherlname',
-                    'placeholder' => 'Last Name',
+            <div class="form-group">
+                {{ Form::label('name', "Monthly Income*", [
+                    'class' => 'control-label'
+                    ]) 
+                }}
+                {{ Form::select('motherincome', [
+                    'None' => 'None',
+                    '10,000 and Below' => '10,000 and Below',
+                    '10,000 - 15,000' => '10,000 - 15,000',
+                    '15,000 - 20,000' => '15,000 - 20,000',
+                    '20,000 - 25,000' => '20,000 - 25,000',
+                    '25,000 - 30,000' => '25,000 - 30,000',
+                    '30,000 - 35,000' => '30,000 - 35,000',
+                    '35,000 and Above' => '35,000 and Above'
+                    ], null, [
+                    'id' => 'motherincome',
+                    'class' => 'form-control'])
+                }}
+            </div>
+        </div>
+        <div class="container col-md-6 col-sm-12">
+            {{ Form::label('name', "Father's Name*", [
+                'class' => 'control-label'
+                ]) 
+            }}
+            <div class="row">
+                <div class="form-group col-md-6 col-sm-12">
+                    {{ Form::text('fatherfname', null, [
+                        'id' => 'fatherfname',
+                        'placeholder' => 'First Name',
+                        'class' => 'form-control',
+                        'maxlength' => '25',
+                        'required' => 'required',
+                        'autocomplete' => 'off',
+                        'data-parsley-pattern' => '^[a-zA-Z. ]+$'
+                        ]) 
+                    }}
+                </div>
+                <div class="form-group col-md-6 col-sm-12">
+                    {{ Form::text('fatherlname', null, [
+                        'id' => 'fatherlname',
+                        'placeholder' => 'Last Name',
+                        'class' => 'form-control',
+                        'maxlength' => '25',
+                        'required' => 'required',
+                        'autocomplete' => 'off',
+                        'data-parsley-pattern' => '^[a-zA-Z. ]+$'
+                        ]) 
+                    }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ Form::label('name', "Citizenship*", [
+                    'class' => 'control-label'
+                    ]) 
+                }}
+                {{ Form::text('fathercitizen', null, [
+                    'id' => 'fathercitizen',
+                    'placeholder' => "Father's Citizenship",
                     'class' => 'form-control',
                     'maxlength' => '25',
                     'required' => 'required',
@@ -448,108 +473,92 @@
                     ]) 
                 }}
             </div>
+            <div class="form-group">
+                {{ Form::label('name', "Highest Attainment*", [
+                    'class' => 'control-label'
+                    ]) 
+                }}
+                {{ Form::text('fatherhea', null, [
+                    'id' => 'fatherhea',
+                    'placeholder' => "Father's Highest Educational Attainment",
+                    'class' => 'form-control',
+                    'maxlength' => '25',
+                    'required' => 'required',
+                    'autocomplete' => 'off',
+                    'data-parsley-pattern' => '^[a-zA-Z. ]+$'
+                    ]) 
+                }}
+            </div>
+            <div class="form-group">
+                {{ Form::label('name', "Occupation*", [
+                    'class' => 'control-label'
+                    ]) 
+                }}
+                {{ Form::text('fatheroccupation', null, [
+                    'id' => 'fatheroccupation',
+                    'placeholder' => "Father's Occupation",
+                    'class' => 'form-control',
+                    'maxlength' => '25',
+                    'required' => 'required',
+                    'autocomplete' => 'off',
+                    'data-parsley-pattern' => '^[a-zA-Z. ]+$'
+                    ]) 
+                }}
+            </div>
+            <div class="form-group">
+                {{ Form::label('name', "Monthly Income*", [
+                    'class' => 'control-label'
+                    ]) 
+                }}
+                {{ Form::select('fatherincome', [
+                    'None' => 'None',
+                    '10,000 and Below' => '10,000 and Below',
+                    '10,000 - 15,000' => '10,000 - 15,000',
+                    '15,000 - 20,000' => '15,000 - 20,000',
+                    '20,000 - 25,000' => '20,000 - 25,000',
+                    '25,000 - 30,000' => '25,000 - 30,000',
+                    '30,000 - 35,000' => '30,000 - 35,000',
+                    '35,000 and Above' => '35,000 and Above'
+                    ], null, [
+                    'id' => 'fatherincome',
+                    'class' => 'form-control'])
+                }}
+            </div>
         </div>
-        <div class="form-group">
-            {{ Form::label('name', "Citizenship*", [
+        <div class="form-group col-md-6 col-sm-12">
+            {{ Form::label('name', "Number of Brother/s*", [
                 'class' => 'control-label'
                 ]) 
             }}
-            {{ Form::text('fathercitizen', null, [
-                'id' => 'fathercitizen',
-                'placeholder' => "Father's Citizenship",
+            {{ Form::text('intPersBrothers', null, [
+                'id' => 'brono',
+                'placeholder' => "Type 0 if None",
                 'class' => 'form-control',
-                'maxlength' => '25',
+                'minlength' => '1',
+                'maxlength' => '2',
                 'required' => 'required',
                 'autocomplete' => 'off',
-                'data-parsley-pattern' => '^[a-zA-Z. ]+$'
+                'data-parsley-type' => 'number'
                 ]) 
             }}
         </div>
-        <div class="form-group">
-            {{ Form::label('name', "Highest Attainment*", [
+        <div class="form-group col-md-6 col-sm-12">
+            {{ Form::label('name', "Number of Sister/s*", [
                 'class' => 'control-label'
                 ]) 
             }}
-            {{ Form::text('fatherhea', null, [
-                'id' => 'fatherhea',
-                'placeholder' => "Father's Highest Educational Attainment",
+            {{ Form::text('intPersSisters', null, [
+                'id' => 'sisno',
+                'placeholder' => "Type 0 if None",
                 'class' => 'form-control',
-                'maxlength' => '25',
+                'minlength' => '1',
+                'maxlength' => '2',
                 'required' => 'required',
                 'autocomplete' => 'off',
-                'data-parsley-pattern' => '^[a-zA-Z. ]+$'
+                'data-parsley-type' => 'number'
                 ]) 
             }}
         </div>
-        <div class="form-group">
-            {{ Form::label('name', "Occupation*", [
-                'class' => 'control-label'
-                ]) 
-            }}
-            {{ Form::text('fatheroccupation', null, [
-                'id' => 'fatheroccupation',
-                'placeholder' => "Father's Occupation",
-                'class' => 'form-control',
-                'maxlength' => '25',
-                'required' => 'required',
-                'autocomplete' => 'off',
-                'data-parsley-pattern' => '^[a-zA-Z. ]+$'
-                ]) 
-            }}
-        </div>
-        <div class="form-group">
-            {{ Form::label('name', "Monthly Income*", [
-                'class' => 'control-label'
-                ]) 
-            }}
-            {{ Form::select('fatherincome', [
-                'None' => 'None',
-                '10,000 and Below' => '10,000 and Below',
-                '10,000 - 15,000' => '10,000 - 15,000',
-                '15,000 - 20,000' => '15,000 - 20,000',
-                '20,000 - 25,000' => '20,000 - 25,000',
-                '25,000 - 30,000' => '25,000 - 30,000',
-                '30,000 - 35,000' => '30,000 - 35,000',
-                '35,000 and Above' => '35,000 and Above'
-                ], null, [
-                'id' => 'fatherincome',
-                'class' => 'form-control'])
-            }}
-        </div>
-    </div>
-    <div class="form-group col-md-6 col-sm-12">
-        {{ Form::label('name', "Number of Brother/s*", [
-            'class' => 'control-label'
-            ]) 
-        }}
-        {{ Form::text('intPersBrothers', null, [
-            'id' => 'brono',
-            'placeholder' => "Type 0 if None",
-            'class' => 'form-control',
-            'minlength' => '1',
-            'maxlength' => '2',
-            'required' => 'required',
-            'autocomplete' => 'off',
-            'data-parsley-type' => 'number'
-            ]) 
-        }}
-    </div>
-    <div class="form-group col-md-6 col-sm-12">
-        {{ Form::label('name', "Number of Sister/s*", [
-            'class' => 'control-label'
-            ]) 
-        }}
-        {{ Form::text('intPersSisters', null, [
-            'id' => 'sisno',
-            'placeholder' => "Type 0 if None",
-            'class' => 'form-control',
-            'minlength' => '1',
-            'maxlength' => '2',
-            'required' => 'required',
-            'autocomplete' => 'off',
-            'data-parsley-type' => 'number'
-            ]) 
-        }}
     </div>
     {{ Form::label('name', "Do you have a sibling/s who is currently or formerly a beneficiary of the SYDP?", [
         'class' => 'control-label'
@@ -560,8 +569,8 @@
         <label class="radio-inline">{{ Form::radio('rad', 'no', true, ['id' => 'no']) }} No</label>
     </div>
     <div id="questionappear">
-       <div class="row">
-           <div class="container col-md-6 col-sm-12">
+     <div class="row">
+         <div class="container col-md-6 col-sm-12">
             <div class="row">
                 <div class="form-group col-md-6 col-sm-12">
                     {{ Form::label('name', "First Name", [
@@ -775,85 +784,68 @@
         <label class="radio-inline">{{ Form::radio('col', 'yes', true, ['id' => 'yes']) }} Yes</label>
         <label class="radio-inline">{{ Form::radio('col', 'no', false, ['id' => 'no']) }} No</label>
     </div>
-    <div id="college">
-        <h3>College</h3>
-        <div class="row">
-            <div class="form-group col-md-6">
-                {{ Form::label('name', "School/University Currently Enrolled In", [
-                    'class' => 'control-label'
-                    ]) 
-                }}
-                <select id="intPersCurrentSchool" name="intPersCurrentSchool" class="form-control">
-                    <option value="">None</option>
-                    @foreach($school as $schools)
-                    <option value={{$schools->id}}>{{$schools->description}}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group col-md-6">
-                <label class="control-label">Current Course</label>
-                <select id="intPersCurrentCourse" name="intPersCurrentCourse" class="form-control">
-                    <option value="">None</option>
-                    @foreach($course as $courses)
-                    <option value={{$courses->id}}>{{$courses->description}}</option>
-                    @endforeach
-                </select>
-            </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            {{ Form::label('name', "School/University Currently Enrolled In", [
+                'class' => 'control-label'
+                ]) 
+            }}
+            <select id="intPersCurrentSchool" name="intPersCurrentSchool" class="form-control">
+                <option value="">None</option>
+                @foreach($school as $schools)
+                <option value={{$schools->id}}>{{$schools->description}}</option>
+                @endforeach
+            </select>
         </div>
-        <div class="row">
-            <div class="form-group col-md-4">
-                {{ Form::label('name', "Year", [
+        <div class="form-group col-md-6">
+            <label class="control-label">Current Course</label>
+            <select id="intPersCurrentCourse" name="intPersCurrentCourse" class="form-control">
+                <option value="">None</option>
+                @foreach($course as $courses)
+                <option value={{$courses->id}}>{{$courses->description}}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 row" id="college">
+            <div class="form-group col-md-6">
+                {{ Form::label('name', "Year Level", [
                     'class' => 'control-label'
                     ]) 
                 }}
-                <select id="intYearID" name="intYearID" class="form-control">
-                    <option value="">None</option>
-                    @foreach($year as $years)
-                    <option value={{$years->id}}>{{$years->description}}</option>
-                    @endforeach
-                </select>
+                {{ Form::selectRange('year', 1, $setting->year_count, null, [
+                    'id' => 'year',
+                    'class' => 'form-control',
+                    ])
+                }}
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
                 {{ Form::label('name', "Semester", [
                     'class' => 'control-label'
                     ]) 
                 }}
-                <select id="intSemID" name="intSemID" class="form-control">
-                    <option value="">None</option>
-                    @foreach($sem as $sems)
-                    <option value={{$sems->id}}>{{$sems->description}}</option>
-                    @endforeach
-                </select>
+                {{ Form::selectRange('semester', 1, $setting->semester_count, null, [
+                    'id' => 'semester',
+                    'class' => 'form-control',
+                    ])
+                }}
             </div>
-            <div class="form-group col-md-4">
-                {{ Form::label('name', "GWA", [
+        </div>
+        <div class="form-group col-md-2">
+            <div class="col-sm-12 row">
+                {{ Form::label('strApplGrades', 'Upload Grade*', [
                     'class' => 'control-label'
                     ]) 
                 }}
-                {{ Form::text('strPersGwa', null, [
-                    'id' => 'strPersGwa',
-                    'class' => 'form-control',
-                    'maxlength' => '4',
-                    'autocomplete' => 'off',
-                    'data-parsley-pattern' => '^[a-zA-Z0-9+-. ]+$'
+            </div>
+            <div class="btn btn-default btn-file pdf col-md-12 col-sm-2">
+                <i class="fa fa-paperclip"></i> PDF
+                {{ Form::file('strApplGrades', [
+                    'required' => 'required'
                     ]) 
                 }}
             </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-sm-12 row">
-            {{ Form::label('strApplPicture', 'Upload Grade*', [
-                'class' => 'control-label'
-                ]) 
-            }}
-        </div>
-        <div class="btn btn-default btn-file pdf">
-            <i class="fa fa-paperclip"></i> PDF
-            {{ Form::file('strApplGrades', [
-                'required' => 'required'
-                ]) 
-            }}
         </div>
     </div>
     <h5>Name three(3) courses you wish to enroll in and the respective school (in order of your preference)</h5>
@@ -927,9 +919,9 @@
                 'class' => 'control-label'
                 ]) 
             }}
-            {{ Form::text('strPersOrganization', null, [
-                'id' => 'organization',
-                'class' => 'form-control',
+            {{ Form::text('strPersOrganization[]', null, [
+                'id' => 'organization[]',
+                'class' => 'form-control organization',
                 'maxlength' => '50',
                 'data-parsley-pattern' => '^[a-zA-Z0-9. ]+$'
                 ]) 
@@ -940,9 +932,9 @@
                 'class' => 'control-label'
                 ]) 
             }}
-            {{ Form::text('strPersPosition', null, [
-                'id' => 'position',
-                'class' => 'form-control',
+            {{ Form::text('strPersPosition[]', null, [
+                'id' => 'position[]',
+                'class' => 'form-control position',
                 'maxlength' => '25',
                 'data-parsley-pattern' => '^[a-zA-Z0-9. ]+$'
                 ]) 
@@ -957,14 +949,16 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                {{ Form::selectYear('strPersDateParticipation', $low->year, $now->year, null, [
-                    'id' => 'strPersDateParticipation',
-                    'class' => 'form-control',
+                {{ Form::selectYear('strPersDateParticipation[]', $low->year, $now->year, null, [
+                    'id' => 'strPersDateParticipation[]',
+                    'class' => 'form-control year',
                     ])
                 }}
             </div>
         </div>
     </div>
+    <div id="affiliation" class="row"></div>
+    <button type="button" class="btn btn-primary"><i class='fa fa-plus'></i> Add</button>
 </div>
 <div class="form-section">
     <h3>Short biography: (Answer questions in the form of essay)*</h3>
@@ -979,22 +973,12 @@
       <p>8. Ilahad kung paano mo nalaman ang programa ng SYDP. Ano ang mga inaasahan mo hinggil sa programang ito?</p>
       <p>9. Ano ang katangian at kakayahan mo upang maging karapat dapat na mapabilang sa mga “SKOLAR NG BAYAN”?</p>
       <p>10.  Kung sakaling maging benepisyaryo, ano sa palagay moa ng maaari mongmagagawa o maitutulong sa kapwa iskolar at pamahalaang local upang matagumpay ang programa?</p>
-      {{ Form::textarea('strPersEssay', null, [
-          'class' => 'form-control',
-          'id' => 'strPersEssay',
-          'style' => 'resize: none; height: 400px;',
-          'data-parsley-pattern' => "^[a-zA-Z0-9.,' ]+$",
-          'required' => 'required'
-          ]) 
-      }}
-  </div>
-  <div class="form-group">
       <p>11.  Katulong ang iyong pamilya, paano mo matitiyan na ikaw ay makakatapos ng iyong pag-aaral?</p>
       <p>12.  Ilarawan sa iyong kaalaman ang kalagayan ng ating lungson sa ngayon</p>
-      {{ Form::textarea('strPersEssay2', null, [
+      {{ Form::textarea('essay', null, [
           'class' => 'form-control',
-          'id' => 'strPersEssay2',
-          'style' => 'resize: none; height: 200px;',
+          'id' => 'essay',
+          'style' => 'resize: none; height: 400px;',
           'data-parsley-pattern' => "^[a-zA-Z0-9.,' ]+$",
           'required' => 'required'
           ]) 
@@ -1002,8 +986,7 @@
   </div>
 </div>
 <div class="form-section">
-    <div id="summary">
-    </div>
+    <div id="summary"></div>
     {{ Form::button("<i class='fa fa-paper-plane'></i> Submit", ['type' => 'submit' ,'class' => 'btn btn-success pull-right btn-submit']) }}
 </div>
 <div class="form-navigation">

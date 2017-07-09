@@ -3,12 +3,12 @@
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>
-			Scholar Progress
+			Checklist
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="{{ url('coordinator/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
 			<li><i class="fa fa-graduation-cap"></i> Scholar</li>
-			<li class="active"><i class="fa fa-tasks"></i> Step Progress</li>
+			<li class="active"><i class="fa fa-tasks"></i> Checklist</li>
 		</ol>
 	</section>
 	<section class="content">
@@ -81,7 +81,7 @@
 											<input id="strPersReligion" type="text" name="strPersReligion" class="form-control" minlength="3" maxlength="50">
 										</div>
 										<div class="form-group">
-											<button id="btn-advSearch" value="{{$count}}" class="btn btn-success btn-block">Submit</button>
+											<button id="btn-advSearch" class="btn btn-success btn-block">Submit</button>
 										</div>
 									</form>
 								</div>
@@ -98,7 +98,7 @@
 										'data-dismiss' => 'modal'
 										]) 
 									}}
-									<h4>Steps List</h4>
+									<h4>Checklist</h4>
 								</div>
 								<div class="modal-body">
 									{{ Form::open([
@@ -164,8 +164,8 @@
 						<table id="student-table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
 							<thead>
 								<th>Student</th>
-								<th>Steps</th>
-								<th>Stipend</th>
+								<th>Requirements</th>
+								<th>Claiming</th>
 								<th>Action</th>
 							</thead>
 							<tbody id="student-list">
@@ -179,8 +179,8 @@
 </div>
 @endsection
 @section('script')
-{!! Html::script("custom/ProgressAjax.min.js") !!}
+{!! Html::script("custom/ChecklistAjax.min.js") !!}
 <script type="text/javascript">
-	var dataurl = "{!! route('progress.store') !!}";
+	var dataurl = "{!! route('checklist.store') !!}";
 </script>
 @endsection
