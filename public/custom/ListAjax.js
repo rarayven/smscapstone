@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var url = '/coordinator/scholar/list';
+    var url = '/coordinator/list';
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -88,7 +88,40 @@ $(document).ready(function() {
     });
     $('#student-list').on('click', '.open-modal', function() {
         var link_id = $(this).val();
-        $('#view_details').modal('show');
+        $.get(url + '/' + link_id, function(data) {
+            var gender = 'Male';
+            if (data.gender) {
+                gender = 'Female';
+            }
+            var modalbody = "<div class='row'>"+
+            "<div class='col-sm-5'>"+
+            "<div class='form-group'><label>Name:</label><br>" + data.strStudName + "</div>"+
+            "<div class='form-group'><label>E-mail Address:</label><br>" + data.email + "</div>"+
+            "<div class='form-group'><label>Contact Number:</label><br>" + data.cell_no + "</div>"+
+            "<div class='form-group'><label>Gender:</label><br>" + gender +"</div>"+
+            "<div class='form-group'><label>Birthday:</label><br>" + data.date +"</div>"+
+            "<div class='form-group'><label>Address:</label><br>" + data.house_no + " " + data.street + 
+            " " + data.barangay + " " + data.district +"</div></div>"+
+            "<div class='col-sm-5'>"+
+            "<div class='form-group'><label>Course:</label><br>" + data.course +"</div>"+
+            "<div class='form-group'><label>Religion:</label><br>" + data.religion +"</div>"+
+            "<div class='form-group'><label>School:</label><br>" + data.school +"</div></div>"+
+            "<div class='col-sm-2'><img src='"+asset+"/"+data.picture +
+            "' class='profile-user-img img-responsive img-square' alt='User Image'>"+
+            "</div></div>";
+            bootbox.alert({
+                title: "Student Information",
+                message: modalbody,
+                backdrop: true,
+                size: 'large',
+                buttons: {
+                    ok: {
+                        label: 'Ok',
+                        className: 'btn-success btn-md'
+                    }
+                }
+            });
+        });
     });
     $('#advsearch').click(function() {
         $('#advanced_search').modal('show');

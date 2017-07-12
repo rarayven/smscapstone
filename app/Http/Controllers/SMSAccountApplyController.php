@@ -25,6 +25,7 @@ use Auth;
 use Hash;
 use Config;
 use Session;
+use App\GradeDetail;
 use App\Setting;
 use App\Affiliation;
 class SMSAccountApplyController extends Controller
@@ -157,21 +158,13 @@ class SMSAccountApplyController extends Controller
         $siblings->save();
       }
       //Insert in desired_courses
-      $desiredcourses = new Desiredcourses;
-      $desiredcourses->student_detail_user_id=$users->id;
-      $desiredcourses->school_id=$request->school1;
-      $desiredcourses->course_id=$request->course1;
-      $desiredcourses->save();
-      $desiredcourses = new Desiredcourses;
-      $desiredcourses->student_detail_user_id=$users->id;
-      $desiredcourses->school_id=$request->school2;
-      $desiredcourses->course_id=$request->course2;
-      $desiredcourses->save();
-      $desiredcourses = new Desiredcourses;
-      $desiredcourses->student_detail_user_id=$users->id;
-      $desiredcourses->school_id=$request->school3;
-      $desiredcourses->course_id=$request->course3;
-      $desiredcourses->save();
+      for ($i=0; $i < count($request->school); $i++) { 
+        $desiredcourses = new Desiredcourses;
+        $desiredcourses->student_detail_user_id=$users->id;
+        $desiredcourses->school_id=$request->school[$i];
+        $desiredcourses->course_id=$request->course[$i];
+        $desiredcourses->save();
+      }
       //Insert in grades
       $scholargrade = new Grade;
       $scholargrade->student_detail_user_id=$users->id;
@@ -184,6 +177,16 @@ class SMSAccountApplyController extends Controller
       }
       $scholargrade->pdf=$pdfname;
       $scholargrade->save();
+      //Manual Input of Grades
+      for ($i=0; $i < count($request->subject_code); $i++) { 
+        $detail = new GradeDetail;
+        $detail->grade_id=$scholargrade->id;
+        $detail->subject_code=$request->subject_code[$i];
+        $detail->description=$request->subject_description[$i];
+        $detail->units=$request->units[$i];
+        $detail->grade=$request->subject_grade[$i];
+        $detail->save();
+      }
       //Actual Upload
       Image::make($image)->resize(400,400)->save($location);
       $pdf->move(base_path().'/public/docs/', $pdfname);
@@ -197,18 +200,12 @@ class SMSAccountApplyController extends Controller
   }
   public function show($id)
   {
-    $barangay = Barangay::where('is_active',1)
-    ->where('district_id',$id)
-    ->select('barangay.*')
+    $district = District::join('councilors','districts.id','councilors.district_id')
+    ->join('barangay','districts.id','barangay.district_id')
+    ->where('councilors.is_active',1)
+    ->where('barangay.id',$id)
+    ->select('councilors.*',DB::raw("CONCAT(councilors.last_name,', ',councilors.first_name,' ',IFNULL(councilors.middle_name,'')) as strCounName"),'districts.id as district_id')
     ->get();
-    return Response::json($barangay);
-  }
-  public function edit($id)
-  {
-    $councilors = Councilor::where('councilors.is_active',1)
-    ->where('councilors.district_id',$id)
-    ->select('councilors.*',DB::raw("CONCAT(councilors.last_name,', ',councilors.first_name,' ',IFNULL(councilors.middle_name,'')) as strCounName"))
-    ->get();
-    return Response::json($councilors);
+    return Response::json($district);
   }
 }

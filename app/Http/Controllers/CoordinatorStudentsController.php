@@ -9,6 +9,7 @@ use App\Councilor;
 use App\Application;
 use App\Barangay;
 use App\School;
+use App\Grade;
 use App\Course;
 use App\Batch;
 use Response;
@@ -53,15 +54,18 @@ class CoordinatorStudentsController extends Controller
 			->first();
 		})
 		->where('student_details.application_status','Accepted')
-		->where('student_status','Continuing')
-		->where('student_details.is_steps_done',0);
+		->where('student_status','Continuing');
 		$datatables = Datatables::of($application)
 		->addColumn('counter', function ($data) {
-			$application = Application::where('user_id',$data->id)->first();
-			$count = Requirement::where('is_active',1)->where('type',$application->is_renewal)->count();
+			$count = Requirement::where('is_active',1)
+			->where('type',$data->is_renewal)
+			->where('user_id',Auth::id())
+			->count();
 			$steps = Studentsteps::join('requirements','user_requirement.requirement_id','requirements.id')
 			->where('user_requirement.user_id',$data->id)
-			->where('requirements.type',$application->is_renewal)->count();
+			->where('requirements.type',$data->is_renewal)
+			->where('requirements.user_id',Auth::id())
+			->count();
 			if($count!=0)
 				$percentage = (($steps/$count)*100);
 			else
@@ -80,12 +84,13 @@ class CoordinatorStudentsController extends Controller
 			<div class='progress-bar progress-bar-success progress-bar-striped' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: $percentage%'></div>";
 		})
 		->addColumn('action', function ($data) {
-			$count = Requirement::where('is_active',1)->count();
-			if($count!=0)
-				$state = "";
-			else
-				$state = "disabled";
-			return "<button class='btn btn-primary btn-xs btn-progress' $state $state value=$data->id><i class='fa fa-files-o'></i> List</button> <button class='btn btn-success btn-xs open-modal' value='$data->id'><i class='fa fa-money'></i> Claim</button> ";
+			$claim = "disabled";
+			$list = '';
+			if($data->is_steps_done){
+				$claim = "";
+				$list = 'disabled';
+			}
+			return "<button class='btn btn-primary btn-xs btn-progress' value=$data->id $list><i class='fa fa-files-o'></i> List</button> <button class='btn btn-success btn-xs open-modal' value='$data->id' $claim><i class='fa fa-money'></i> Claim</button> ";
 		})
 		->editColumn('strStudName', function ($data) {
 			$images = url('images/'.$data->picture);
@@ -130,13 +135,27 @@ class CoordinatorStudentsController extends Controller
 	}
 	public function create($id)
 	{
-		$application = Application::where('user_id',$id)->first();
-		$step = Requirement::where('is_active',1)->where('type',$application->is_renewal)->get();
+		$step = Requirement::leftJoin('user_requirement','requirements.id','user_requirement.requirement_id')
+		->select('requirements.*')
+		->where('requirements.is_active',1)
+		->where('requirements.type', function($query) use($id) {
+			$query->from('student_details')
+			->select('is_renewal')
+			->where('user_id',$id)
+			->first();
+		})
+		->whereNotIn('requirements.id', function($query){
+			$query->from('user_requirement')
+			->select('requirement_id')
+			->get();
+		})
+		->where('requirements.user_id',Auth::id())
+		->get();
 		return Response::json($step);
 	}
 	public function allocation()
 	{
-		$allocation = Allocation::join('allocation_types','allocations.allocation_type_id','allocation_types.id')
+		$allocation = Allocation::leftJoin('allocation_types','allocations.allocation_type_id','allocation_types.id')
 		->join('budgets','allocations.budget_id','budgets.id')
 		->select('allocation_types.description','allocations.id')
 		->where('budgets.id', function($query){
@@ -145,34 +164,43 @@ class CoordinatorStudentsController extends Controller
 			->latest('id')
 			->first();
 		})
+		->whereNotIn('allocations.id', function($query){
+			$query->from('user_allocation')
+			->select('allocation_id')
+			->get();
+		})
 		->get();
 		return Response::json($allocation);
-	}
-	public function show($id)
-	{
-		$steps = Studentsteps::where('user_id',$id)->get();
-		return Response::json($steps);
-	}
-	public function checkclaim($id)
-	{
-		$allocate = Allocatebudget::where('user_id',$id)->get();
-		return Response::json($allocate);
 	}
 	public function update(Request $request, $id)
 	{
 		DB::beginTransaction();
 		try {
-			$student_step = Studentsteps::where('user_id',$id)->delete();
+			$grade = Grade::where('student_detail_user_id',$id)->latest('id')->first();
 			foreach ($request->steps as $step) {
 				$steps = new Studentsteps;
 				$steps->user_id = $id;
 				$steps->requirement_id = $step;
+				$steps->grade_id = $grade->id;
 				$steps->save();
 			}
+			$requirements = Requirement::where('type', function($query) use($id) {
+				$query->from('student_details')
+				->select('is_renewal')
+				->where('user_id',$id)
+				->first();
+			})->count();
+			$step = Studentsteps::where('grade_id',$grade->id)->count();
+			if ($requirements == $step) {
+				$application = Application::find($id);
+				$application->is_steps_done = 1;
+				$application->save();
+			}
 			DB::commit();
-			return Response::json($student_step);
+			return Response::json($grade);
 		} catch (\Exception $e) {
 			DB::rollBack();
+			dd($e->getMessage());
 			return Response::json('Input must not be nulled',500);
 		}
 	}
@@ -180,15 +208,16 @@ class CoordinatorStudentsController extends Controller
 	{
 		DB::beginTransaction();
 		try {
-			$allocate = Allocatebudget::where('user_id',$id)->delete();
+			$grade = Grade::where('student_detail_user_id',$id)->latest('id')->first();
 			foreach ($request->claim as $claim) {
-				$steps = new Allocatebudget;
-				$steps->user_id = $id;
-				$steps->allocation_id = $claim;
-				$steps->save();
+				$allocate = new Allocatebudget;
+				$allocate->user_id = $id;
+				$allocate->allocation_id = $claim;
+				$allocate->grade_id = $grade->id;
+				$allocate->save();
 			}
 			DB::commit();
-			return Response::json($allocate);
+			return Response::json($grade);
 		} catch (\Exception $e) {
 			DB::rollBack();
 			return Response::json('Input must not be nulled',500);

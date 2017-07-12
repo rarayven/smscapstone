@@ -15,7 +15,8 @@ class ViewComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->composeCoordinatorBudget();
+        $this->composeCoordinator();
+        $this->composeStudent();
     }
 
     /**
@@ -27,7 +28,7 @@ class ViewComposerServiceProvider extends ServiceProvider
     {
         //
     }
-    private function composeCoordinatorBudget()
+    private function composeCoordinator()
     {
         view()->composer('SMS.Coordinator.CoordinatorMain', function($view) {
             $budget = Budget::where('user_id',Auth::id())
@@ -41,6 +42,18 @@ class ViewComposerServiceProvider extends ServiceProvider
             if($budget==null)
                 $budget = (object)['amount' => 0, 'slot_count' => 0];
             $view->withBudget($budget)->withCouncilor($councilor);
+        });
+    }
+    private function composeStudent()
+    {
+        view()->composer('SMS.Student.StudentMain', function($view) {
+            $councilor = Councilor::where('id', function($query){
+                $query->from('user_councilor')
+                ->select('councilor_id')
+                ->where('user_id',Auth::id())
+                ->first();
+            })->first();
+            $view->withCouncilor($councilor);
         });
     }
 }

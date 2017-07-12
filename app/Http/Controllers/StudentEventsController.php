@@ -6,6 +6,7 @@ use Auth;
 use Response;
 use Carbon\Carbon;
 use Config;
+use DB;
 class StudentEventsController extends Controller
 {
     public function __construct()
@@ -60,7 +61,8 @@ class StudentEventsController extends Controller
     public function show($id)
     {
         try {
-            $events = Event::findorfail($id);
+            $events = Event::where('id',$id)
+            ->select(DB::raw("DATE_FORMAT(date_held, '%M %d, %Y') as date, DATE_FORMAT(time_from, '%h:%i %p') as time_f, DATE_FORMAT(time_to, '%h:%i %p') as time_t"),'events.*')->first();
             return Response::json($events);
         } catch(\Exception $e) {
             return "Deleted";

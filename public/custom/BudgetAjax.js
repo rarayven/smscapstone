@@ -139,63 +139,49 @@ $(document).ready(function() {
       $('#slot_count').val(Math.floor(result));
     }
   }
-  $(".peso").maskMoney({prefix:'Php ', allowNegative: false, thousands:'.', decimal:',', affixesStay: false});
     //create new task / update existing task
     $("#btn-save").click(function(e) {
-      if ($('#summation').val() == $('#budget_per_student').val()){
-        $('#frmBudget').parsley().destroy();
-        if ($('#frmBudget').parsley().isValid()) {
-          $("#btn-save").attr('disabled', 'disabled');
-          setTimeout(function() {
-            $("#btn-save").removeAttr('disabled');
-          }, 1000);
-          var formData = $('#frmBudget').serialize();
-          var state = $('#btn-save').val();
-          var type = "POST"; 
-          var my_url = url;
-          if (state == "update") {
-            type = "PUT"; 
-            my_url += '/' + id;
-          }
-          $.ajax({
-            type: type,
-            url: my_url,
-            data: formData,
-            dataType: 'json',
-            success: function(data) {
-              $('#add_budget').modal('hide');
-              $('.budget').text(data.amount);
-              table.draw();
-              swal({
-                title: "Success!",
-                text: "<center>Data Stored</center>",
-                type: "success",
-                timer: 1000,
-                showConfirmButton: false,
-                html: true
-              });
-            },
-            error: function(data) {
-              $.notify({
-                icon: 'fa fa-warning',
-                message: data.responseText.replace(/['"]+/g, '')
-              }, {
-                type: 'warning',
-                z_index: 2000,
-                delay: 5000,
-              });
-            }
-          });
+      $('#frmBudget').parsley().destroy();
+      if ($('#frmBudget').parsley().isValid()) {
+        $("#btn-save").attr('disabled', 'disabled');
+        setTimeout(function() {
+          $("#btn-save").removeAttr('disabled');
+        }, 1000);
+        var formData = $('#frmBudget').serialize();
+        var state = $('#btn-save').val();
+        var type = "POST"; 
+        var my_url = url;
+        if (state == "update") {
+          type = "PUT"; 
+          my_url += '/' + id;
         }
-      } else {
-        e.preventDefault();
-        $.notify({
-          icon: 'fa fa-warning',
-          message: "Fees not Equal to Budget Amount"
-        }, {
-          type: 'warning',
-          z_index: 2000,
-          delay: 5000,
+        $.ajax({
+          type: type,
+          url: my_url,
+          data: formData,
+          dataType: 'json',
+          success: function(data) {
+            $('#add_budget').modal('hide');
+            swal({
+              title: "Success!",
+              text: "<center>Data Stored</center>",
+              type: "success",
+              timer: 1000,
+              showConfirmButton: false,
+              html: true
+            });
+            location.reload();
+          },
+          error: function(data) {
+            $.notify({
+              icon: 'fa fa-warning',
+              message: data.responseText.replace(/['"]+/g, '')
+            }, {
+              type: 'warning',
+              z_index: 2000,
+              delay: 5000,
+            });
+          }
         });
       }
     });

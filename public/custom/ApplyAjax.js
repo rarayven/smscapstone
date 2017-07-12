@@ -1,30 +1,13 @@
 $(document).ready(function() {
-  $.ajaxSetup({
-    headers: {
-      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-  });
-  var selectedDistrict = 0;
+  var selectedBarangay = 0;
   var DistrictName = '';
   var selectedCouncilor = 0;
   var CouncilorName = '';
   var url = "/apply";
   var ctr = 0;
+  var checker = 'no';
   var dt = new Date();
   var counter = 1;
-  var table = $('#grade-table').DataTable({
-    "paging": false,
-    "lengthChange": false,
-    "searching": false,
-    "ordering": true,
-    "info": false,
-    "autoWidth": false,
-    'rowId': 0,
-    "columnDefs": [{
-      "targets": [0],
-      "visible": false
-    }]
-  });
   dt.setFullYear(new Date().getFullYear() - 18);
   $('#datepicker').datepicker({
     viewMode: "years",
@@ -102,12 +85,12 @@ $(document).ready(function() {
     .removeClass('current')
     .eq(index)
     .addClass('current');
-    $('.form-navigation .previous').toggle(index > 0);
-    var atTheEnd = index >= $sections.length - 1;
-    if (!atTheEnd) {
-      $('.form-navigation .next').toggle(index > 1);
-    } else {
+    if (ctr != 2) {
+      $('.form-navigation .previous').toggle(index > 0);
+      var atTheEnd = index >= $sections.length - 1;
       $('.form-navigation .next').toggle(!atTheEnd);
+    } else {
+      $('.form-navigation .next').toggle();
     }
   }
   function curIndex() {
@@ -116,6 +99,7 @@ $(document).ready(function() {
   $('.form-navigation .previous').click(function() {
     $('#frmApply').parsley().destroy();
     $('input[type="text"], textarea').removeAttr('placeholder');
+    ctr--;
     navigateTo(curIndex() - 1);
     var current_active_step = $(this).parents('.f1').find('.f1-step.active');
     var progress_line = $(this).parents('.f1').find('.f1-progress-line');
@@ -123,12 +107,11 @@ $(document).ready(function() {
     bar_progress(progress_line, 'left');
     $(this).prev().fadeIn();
     scroll_to_class($('.f1'), 20);
-    ctr--;
   });
   $('.form-navigation .next').click(function() {
     var pass = true;
     if ($('.f1').parsley().validate({ group: 'block-' + curIndex() })) {
-      if (ctr == 3) {
+      if (ctr == 1) {
         if (checker == 'yes') {
           if ($('#strSiblDateFrom').val() >= $('#strSiblDateTo').val()) {
             pass = false;
@@ -136,7 +119,7 @@ $(document).ready(function() {
           }
         }
       }
-      if (ctr == 4) {
+      if (ctr == 2) {
         var concat1 = $('#school1').val() + "" + $('#course1').val();
         var concat2 = $('#school2').val() + "" + $('#course2').val();
         var concat3 = $('#school3').val() + "" + $('#course3').val();
@@ -168,14 +151,14 @@ $(document).ready(function() {
         ctr++;
       }
     }
-    if (ctr == 6) {
-      var div = "<div class='form-group container'>" +
+    if (ctr == 5) {
+      var div = "<div class='form-group'>" +
       "<label>Councilor:</label> " +
       "<h4>" + CouncilorName + "</h4>" +
       "</div>" +
       "<hr>" +
-      "<label class='container'>Personal Info</label>" +
-      "<div class='form-group container'>" +
+      "<label>Personal Info</label>" +
+      "<div class='form-group'>" +
       "<label>Applicant's Name:</label> <h4>" + $('#fname').val() + " " + $('#mname').val() + " " + $('#lname').val() + "</h4><br>" +
       "<label>Gender:</label> <h4>" + $("select[name='PersGender'] option:selected").text() + "</h4><br>" +
       "<label>Birth Date:</label> <h4>" + $('#datepicker').val() + "</h4><br>" +
@@ -188,9 +171,10 @@ $(document).ready(function() {
       "<label>Mobile Number:</label> <h4>" + $('#strUserCell').val() + "</h4><br>" +
       "<label>Email Address:</label> <h4>" + $('#email').val() + "</h4><br>" +
       "</div>" +
+      "<div class='container'></div>" +
       "<hr>" +
-      "<label class='container'>Family Background</label>" +
-      "<div class='form-group col-md-6'>" +
+      "<label class='col-xs-12 row'>Family Background</label>" +
+      "<div class='form-group col-md-6 row'>" +
       "<label>Mother's Name:</label> <h4>" + $('#motherfname').val() + " " + $('#motherlname').val() + "</h4><br>" +
       "<label>Citizenship:</label> <h4>" + $('#mothercitizen').val() + "</h4><br>" +
       "<label>Highest Attainment:</label> <h4>" + $('#motherhea').val() + "</h4><br>" +
@@ -201,7 +185,7 @@ $(document).ready(function() {
       "<label>Number of Brother/s:</label> <h4>" + $('#brono').val() + "</h4><br>" +
       "<label>Number of Sister/s:</label> <h4>" + $('#sisno').val() + "</h4><br>" +
       "</div>" +
-      "<div class='form-group col-md-6'>" +
+      "<div class='form-group col-md-6 row'>" +
       "<label>Father's Name:</label> <h4>" + $('#fatherfname').val() + " " + $('#fatherlname').val() + "</h4><br>" +
       "<label>Citizenship:</label> <h4>" + $('#fathercitizen').val() + "</h4><br>" +
       "<label>Highest Attainment:</label> <h4>" + $('#fatherhea').val() + "</h4><br>" +
@@ -214,8 +198,8 @@ $(document).ready(function() {
       "</div>" +
       "<div class='container'></div>" +
       "<hr>" +
-      "<label class='container'>Educational Background</label>" +
-      "<div class='form-group col-md-6'>" +
+      "<label class='col-xs-12 row'>Educational Background</label>" +
+      "<div class='form-group col-md-6 row'>" +
       "<label>Elementary</label><br>" +
       "<label>School Name:</label> " +
       "<h4>" + $('#elemschool').val() + "</h4><br>" +
@@ -226,7 +210,7 @@ $(document).ready(function() {
       "<label>Achievements/Honors:</label> " +
       "<h4>" + $('#elemhonors').val() + "</h4><br>" +
       "</div>" +
-      "<div class='form-group col-md-6'>" +
+      "<div class='form-group col-md-6 row'>" +
       "<label>High School</label><br>" +
       "<label>School Name:</label> " +
       "<h4>" + $('#hschool').val() + "</h4><br>" +
@@ -239,36 +223,35 @@ $(document).ready(function() {
       "</div>" +
       "<div class='container'></div>" +
       "<hr>" +
-      "<label class='container'>College</label>" +
-      "<div class='form-group container'>" +
+      "<label>College</label>" +
+      "<div class='form-group'>" +
       "<label>School/University Currently Enrolled In:</label> " +
       "<h4>" + $("select[name='intPersCurrentSchool'] option:selected").text() + "</h4><br>" +
       "<label>Current Course:</label> " +
       "<h4>" + $("select[name='intPersCurrentCourse'] option:selected").text() + "</h4><br>" +
       "</div>" +
       "<hr>" +
-      "<label class='container'>Name three(3) courses you wish to enroll in and the respective school (in order of your preference):</label>" +
-      "<div class='form-group col-md-4'>" +
+      "<label class='col-xs-12 row'>Name three(3) courses you wish to enroll in and the respective school (in order of your preference):</label>" +
+      "<div class='form-group col-md-4 row'>" +
       "<label>School 1:</label> " +
-      "<h4>" + $("select[name='school1'] option:selected").text() + "</h4><br>" +
+      "<h4>" + $("select[id='school1'] option:selected").text() + "</h4><br>" +
       "<label>Course 1:</label> " +
-      "<h4>" + $("select[name='course1'] option:selected").text() + "</h4><br>" +
+      "<h4>" + $("select[id='course1'] option:selected").text() + "</h4><br>" +
       "</div>" +
-      "<div class='form-group col-md-4'>" +
+      "<div class='form-group col-md-4 row'>" +
       "<label>School 2:</label> " +
-      "<h4>" + $("select[name='school2'] option:selected").text() + "</h4><br>" +
+      "<h4>" + $("select[id='school2'] option:selected").text() + "</h4><br>" +
       "<label>Course 2:</label> " +
-      "<h4>" + $("select[name='course2'] option:selected").text() + "</h4><br>" +
+      "<h4>" + $("select[id='course2'] option:selected").text() + "</h4><br>" +
       "</div>" +
-      "<div class='form-group col-md-4'>" +
+      "<div class='form-group col-md-4 row'>" +
       "<label>School 3:</label> " +
-      "<h4>" + $("select[name='school3'] option:selected").text() + "</h4><br>" +
+      "<h4>" + $("select[id='school3'] option:selected").text() + "</h4><br>" +
       "<label>Course 3:</label> " +
-      "<h4>" + $("select[name='course3'] option:selected").text() + "</h4><br>" +
+      "<h4>" + $("select[id='course3'] option:selected").text() + "</h4><br>" +
       "</div>" +
-      "<div class='container'></div>" +
       "<hr>" +
-      "<div class='form-group container'>" +
+      "<div class='form-group'>" +
       "<label>Community Involvement/Affiliation</label><br>" +
       "<label>Organization:</label> " +
       "<h4>" + $('#organization').val() + "</h4><br>" +
@@ -277,16 +260,38 @@ $(document).ready(function() {
       "<label>Year of Participation:</label> " +
       "<h4>" + $('#strPersDateParticipation').val() + "</h4><br>" +
       "<label>Essay:</label> " +
-      "<h4>" + $('#essay').val() + "</h4><br>" +
+      "<h4><dd>" + $('#essay').val() + "</dd></h4><br>" +
       "</div>";
       $('#summary').empty().append(div);
+    }
+    if (ctr == 3) {
+      selectedBarangay = $('#intBaraID').val();
+      $.get(url + '/' + selectedBarangay, function(data) {
+        $('#councilor').empty();
+        $.each(data, function(index, value) {
+          var show = "<div class='col-md-6'>"+
+          "<div class='box box-widget councilor widget-user-2 text-center' style='cursor: pointer; background-color: #4A5459; border-style: solid;' value=" + value.id + ">"+
+          "<div class='widget-user-header'>"+
+          "<div class='widget-user-image'>"+
+          "<img class='profile-user-img img-responsive img-square' src='" + asset + "/" + value.picture + "' alt='User Avatar'></div>"+
+          "<h3 class='widget-user-username text-widget' id=countxt" + value.id + ">" + value.strCounName + "</h3>"+
+          "<h5 class='widget-user-desc slot text-widget'>Slot: 100/100</h5></div></div></div>";
+          $('#councilor').append(show);
+        });
+        $('#intDistID').val(data[0].district_id);
+      });
     }
   });
 $sections.each(function(index, section) {
   $(section).find(':input').attr('data-parsley-group', 'block-' + index);
 });
 navigateTo(0);
-var checker = 'no';
+$('#councilor').on('click', '.councilor', function() {
+  selectedCouncilor = $(this).attr('value');
+  $('#intCounID').val(selectedCouncilor);
+  CouncilorName = $('#countxt' + selectedCouncilor).text();
+  $('.form-navigation .next').click();
+});
 $('input[name="rad"]').on('ifClicked', function(event) {
   if (this.value == "yes") {
     checker = 'yes';
@@ -296,9 +301,9 @@ $('input[name="rad"]').on('ifClicked', function(event) {
     $("#questionappear").hide();
   }
 });
-$.each($('input[name="rad"]'),function(index, value){
-  if($(this).attr('checked'))
-    if($(this).attr('id')=='yes'){
+$.each($('input[name="rad"]'), function(index, value) {
+  if ($(this).attr('checked'))
+    if ($(this).attr('id') == 'yes') {
       checker = 'yes';
       $("#questionappear").show("slide", { direction: "up" }, 1000);
     }
@@ -310,44 +315,14 @@ $('input[name="col"]').on('ifClicked', function(event) {
     $("#college").hide();
   }
 });
-$.each($('input[name="col"]'),function(index, value){
-  if($(this).attr('checked'))
-    if($(this).attr('id')=='no'){
+$.each($('input[name="col"]'), function(index, value) {
+  if ($(this).attr('checked'))
+    if ($(this).attr('id') == 'no') {
       $("#college").show("slide", { direction: "up" }, 1000);
     }
   });
 $('input').iCheck({
   radioClass: 'iradio_flat-red'
-});
-$('#councilor').on('click', '.councilor', function() {
-  selectedCouncilor = $(this).attr('value');
-  $('#intCounID').val(selectedCouncilor);
-  CouncilorName = $('#countxt' + selectedCouncilor).text();
-  $('.form-navigation .next').click();
-});
-$('.district').on('click', function() {
-  selectedDistrict = $(this).attr('value');
-  $('#intDistID').val(selectedDistrict);
-  DistrictName = $('#txt' + selectedDistrict).text();
-  $.get(url + '/' + selectedDistrict + '/edit', function(data) {
-    $('#councilor').empty();
-    $.each(data, function(index, value) {
-      var show = "<div class='col-md-6'>" +
-      "<div class='box box-widget councilor widget-user-2 text-center' style='cursor: pointer; height: 200px; background-color: #4A5459; border-style: solid;' value=" + value.id + ">" +
-      "<div class='widget-user-header'>" +
-      "<img src='"+asset+"/"+value.picture+"' class='profile-user-img img-responsive img-square pull-left'>"+
-      "<h1 style='color: white;' id=countxt" + value.id + ">" + value.strCounName + "</h1>" +
-      "</div><div class='slot col-xs-12'><strong>Slot: 100/100</strong></div></div></div>";
-      $('#councilor').append(show);
-    });
-  })
-  $.get(url + '/' + selectedDistrict, function(data) {
-    $('#intBaraID').empty();
-    $.each(data, function(index, value) {
-      $('#intBaraID').append("<option value=" + value.id + ">" + value.description + "</option>");
-    });
-  })
-  $('.form-navigation .next').click();
 });
 $("#frmApply").bind("keypress", function(e) {
   if (e.keyCode == 13) {
@@ -355,7 +330,7 @@ $("#frmApply").bind("keypress", function(e) {
     return false;
   }
 });
-$('.btn-submit').on('click',function(e){  
+$('.btn-submit').on('click', function(e) {
   e.preventDefault();
   swal({
     title: "Are you sure?",
@@ -377,18 +352,35 @@ $('.btn-submit').on('click',function(e){
     }, 500);
   });
 });
-$('.btn-primary').click(function(){
-  var show = "<div class='form-group col-md-12 col-sm-12'>"+
-  "<label class='control-label'>Organization</label>"+
-  $('.organization')[0].outerHTML+"</div>"+
-  "<div class='form-group col-md-8 col-sm-6'>"+
-  "<label class='control-label'>Position</label>"+
-  $('.position')[0].outerHTML+"</div>"+
-  "<div class='form-group col-md-4 col-sm-6'>"+
-  "<label class='control-label'>Year of Participation</label>"+
-  "<div class='input-group'>"+
-  "<div class='input-group-addon'>"+
-  "<i class='fa fa-calendar'></i></div>"+$('.year')[0].outerHTML+"</div></div>";
+$('.affiliation').click(function() {
+  var show = "<div class='form-group col-md-12 col-sm-12'>" +
+  "<label class='control-label'>Organization</label>" +
+  $('.organization')[0].outerHTML + "</div>" +
+  "<div class='form-group col-md-8 col-sm-6'>" +
+  "<label class='control-label'>Position</label>" +
+  $('.position')[0].outerHTML + "</div>" +
+  "<div class='form-group col-md-4 col-sm-6'>" +
+  "<label class='control-label'>Year of Participation</label>" +
+  "<div class='input-group'>" +
+  "<div class='input-group-addon'>" +
+  "<i class='fa fa-calendar'></i></div>" + $('.year')[0].outerHTML + "</div></div>";
   $('#affiliation').append(show);
 });
+$('.grade').click(function() {
+  var show = "<div class='form-group col-md-3'>" +
+  "<label class='control-label'>Subject Code</label>" +
+  $('.subject_code')[0].outerHTML + "</div>" +
+  "<div class='form-group col-md-5'>" +
+  "<label class='control-label'>Description</label>" +
+  $('.subject_description')[0].outerHTML + "</div>" +
+  "<div class='form-group col-md-2'>" +
+  "<label class='control-label'>Units</label>" +
+  $('.units')[0].outerHTML + "</div>" +
+  "<div class='form-group col-md-2'>" +
+  "<label class='control-label'>Grade</label>" +
+  $('.subject_grade')[0].outerHTML + "</div>";
+  $('#grade').append(show);
+});
+$('.barangay').select2();
+$('.dropdown').select2();
 });

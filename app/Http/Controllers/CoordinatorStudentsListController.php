@@ -76,7 +76,7 @@ class CoordinatorStudentsListController extends Controller
             <option value='Forfeit' class='btn-danger' $selected3><i class='fa fa-edit'></i> Forfeit</option></select>";
         })
         ->addColumn('action', function ($data) {
-            return "<button class='btn btn-info btn-xs open-modal'><i class='fa fa-eye'></i> View</button>";
+            return "<button class='btn btn-info btn-xs open-modal' value='$data->user_id'><i class='fa fa-eye'></i> View</button>";
         })
         ->editColumn('strStudName', function ($data) {
             $images = url('images/'.$data->picture);
@@ -143,5 +143,17 @@ class CoordinatorStudentsListController extends Controller
         } catch(\Exception $e) {
             return "Deleted";
         } 
+    }
+    public function show($id)
+    {
+        $application = Application::join('users','student_details.user_id','users.id')
+        ->join('schools','student_details.school_id','schools.id')
+        ->join('districts','student_details.district_id','districts.id')
+        ->join('barangay','student_details.barangay_id','barangay.id')
+        ->join('courses','student_details.course_id','courses.id')
+        ->select(DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',IFNULL(users.middle_name,'')) as strStudName"),'student_details.*','users.*','schools.description as school','districts.description as district','barangay.description as barangay','courses.description as course',DB::raw("DATE_FORMAT(student_details.application_date, '%M,%d %Y') as date"))
+        ->where('users.id',$id)
+        ->first();
+        return Response::json($application);
     }
 }

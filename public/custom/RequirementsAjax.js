@@ -13,13 +13,14 @@ $(document).ready(function() {
     serverSide: true,
     ajax: dataurl,
     "columnDefs": [
-    { "width": "130px", "targets": 3 },
-    { "width": "70px", "targets": 2 }
+    { "width": "130px", "targets": 4 },
+    { "width": "70px", "targets": 3 }
     ],
     columns: [
-    { data: 'description', name: 'description' },
-    { data: 'type', name: 'type' },
-    { data: 'is_active', name: 'is_active', searchable: false },
+    { data: 'strCounName', name: 'strCounName' },
+    { data: 'description', name: 'requirements.description' },
+    { data: 'type', name: 'requirements.type' },
+    { data: 'is_active', name: 'requirements.is_active', searchable: false },
     { data: 'action', name: 'action', orderable: false, searchable: false }
     ]
   });
@@ -71,6 +72,14 @@ $(document).ready(function() {
           for (var i = 0; i < dd.options.length; i++) {
             if (dd.options[i].value == textToFind) {
               dd.selectedIndex = i;
+              break;
+            }
+          }
+          var text = data.councilor_id;
+          var d = document.getElementById('councilor_id');
+          for (var i = 0; i < d.options.length; i++) {
+            if (d.options[i].value == text) {
+              d.selectedIndex = i;
               break;
             }
           }
@@ -149,6 +158,7 @@ $(document).ready(function() {
           $("#btn-save").removeAttr('disabled');
         }, 1000);
         var formData = {
+          councilor_id: $('#councilor_id').val(),
           strStepDesc: $('#strStepDesc').parsley('data-parsley-whitespace', 'squish').getValue(),
           type: $('#type').val()
         }

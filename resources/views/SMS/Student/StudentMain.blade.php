@@ -82,6 +82,7 @@
         </div>
         <div class="pull-left info">
           <p>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</p>
+          <small>Coun. {{ $councilor->first_name }} {{ $councilor->last_name }}</small>
         </div>
       </div>
       <ul class="sidebar-menu" data-widget="tree">

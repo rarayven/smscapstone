@@ -43,69 +43,84 @@
         <li class="active"><a href="#tab_1" data-toggle="tab">Personal Data</a></li>
         <li><a href="#tab_2" data-toggle="tab">Family Data</a></li>
         <li><a href="#tab_3" data-toggle="tab">Education</a></li>
-        <li><a href="#tab_4" data-toggle="tab">Community Involvement</a></li>
+        <li><a href="#tab_4" data-toggle="tab">Community Affiliaton</a></li>
         <li><a href="#tab_5" data-toggle="tab">Maikling Talambuhay</a></li>
         <li class="pull-right header"><span class="mailbox-read-time"><i class="fa fa-clock-o"></i> {{$application->application_date->format('M d, Y - h:i A')}}</span></li>
       </ul>
       <div class="tab-content">
         <div class="tab-pane active row" id="tab_1">
           <div class="col-md-10">
-            Last Name: {{$application->last_name}} <br>
-            First Name: {{$application->first_name}} <br>
-            Middle Name: {{$application->middle_name}} <br>
-            House No: {{$application->house_no}} <br>
-            Street: {{$application->street}} <br>
-            Brgy: {{$application->barangay_description}} <br>
-            District: {{$application->districts_description}} <br>
-            Age: {{$application->birthday->diffInYears()}} <br>
-            Date of Birth: {{$application->birthday->format('M d, Y')}} <br>
-            Place of Birth: {{$application->birthplace}} <br>
-            Religion: {{$application->religion}} <br>
-            @if ($application->gender == 0)
-            Sex: Male <br>
-            @else
-            Sex: Female <br>
-            @endif
-            E-mail Address: {{$application->email}} <br>
-            Contact No: {{$application->cell_no}} <br>
+            <div class="container">
+              <div class="form-group">
+                <strong>Name:</strong> {{$application->last_name}}, {{$application->first_name}} {{$application->middle_name}}
+              </div>
+              <div class="form-group">
+                <strong>Address:</strong> {{$application->house_no}} {{$application->street}} {{$application->barangay_description}} {{$application->districts_description}}
+              </div>
+              <div class="form-group">
+                <strong>Age:</strong> {{$application->birthday->diffInYears()}}&emsp;
+              </div>
+              <div class="form-group">
+                <strong>Date of Birth:</strong> {{$application->birthday->format('M d, Y')}}&emsp;
+              </div>
+              <div class="form-group">
+                <strong>Place of Birth:</strong> {{$application->birthplace}}
+              </div>
+              <div class="form-group">
+                <strong>Religion:</strong> {{$application->religion}} 
+              </div>
+              <div class="form-group">
+                @if ($application->gender == 0)
+                <strong>Sex:</strong> Male <br>
+                @else
+                <strong>Sex:</strong> Female <br>
+                @endif
+              </div>
+              <div class="form-group">
+                <strong>E-mail Address:</strong> {{$application->email}} 
+              </div>
+              <div class="form-group">
+                <strong>Contact No:</strong> {{$application->cell_no}}
+              </div>
+            </div>
           </div>
           <div class="col-md-2">
             <img class="profile-user-img img-responsive img-square" style="width: 150px; height: 150px;" src="{{ asset('images/'.$application->picture) }}">
           </div>
         </div>
         <div class="tab-pane row" id="tab_2">
-          <div class="col-md-12 table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Father's Name: {{$father->first_name}} {{$father->last_name}}</th>
-                  <th>Mother's Name: {{$mother->first_name}} {{$mother->last_name}}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Citizenship: {{$father->citizenship}}</td>
-                  <td>Citizenship: {{$mother->citizenship}}</td>
-                </tr>
-                <tr>
-                  <td>Highest Educ. Attainment: {{$father->citizenship}}</td>
-                  <td>Highest Educ. Attainment: {{$mother->citizenship}}</td>
-                </tr>
-                <tr>
-                  <td>Occupation: {{$father->occupation}}</td>
-                  <td>Occupation: {{$mother->occupation}}</td>
-                </tr>
-                <tr>
-                  <td>Mothly Income: {{$father->monthly_income}}</td>
-                  <td>Mothly Income: {{$mother->monthly_income}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
           <div class="col-md-12">
-            No. of brother/s {{$application->brothers}} sister/s {{$application->sisters}}&nbsp;<br><br>
-          </div>
-          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Father's Name: {{$father->first_name}} {{$father->last_name}}</th>
+                    <th>Mother's Name: {{$mother->first_name}} {{$mother->last_name}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Citizenship: {{$father->citizenship}}</td>
+                    <td>Citizenship: {{$mother->citizenship}}</td>
+                  </tr>
+                  <tr>
+                    <td>Highest Educ. Attainment: {{$father->citizenship}}</td>
+                    <td>Highest Educ. Attainment: {{$mother->citizenship}}</td>
+                  </tr>
+                  <tr>
+                    <td>Occupation: {{$father->occupation}}</td>
+                    <td>Occupation: {{$mother->occupation}}</td>
+                  </tr>
+                  <tr>
+                    <td>Mothly Income: {{$father->monthly_income}}</td>
+                    <td>Mothly Income: {{$mother->monthly_income}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-12">
+              No. of brother/s {{$application->brothers}} sister/s {{$application->sisters}}&nbsp;<br><br>
+            </div>
             <div class="col-md-12">
               Sibling/s who is currently or formerly a beneficiary of SYDP:<br><br>
             </div>
@@ -127,71 +142,73 @@
           </div>
         </div>
         <div class="tab-pane row" id="tab_3">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Level</th>
+                    <th>School</th>
+                    <th>Date Enrolled</th>
+                    <th>Date Graduated</th>
+                    <th>Award/Honors received</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Elementary</td>
+                    <td>{{$elem->school_name}}</td>
+                    <td>{{$elem->date_enrolled}}</td>
+                    <td>{{$elem->date_graduated}}</td>
+                    @if ($elem->awards != '')
+                    <td>{{$elem->awards}}</td>
+                    @else
+                    <td>N/A</td>
+                    @endif
+                  </tr>
+                  <tr>
+                    <td>Highschool</td>
+                    <td>{{$hs->school_name}}</td>
+                    <td>{{$hs->date_enrolled}}</td>
+                    <td>{{$hs->date_graduated}}</td>
+                    @if ($hs->awards != '')
+                    <td>{{$hs->awards}}</td>
+                    @else
+                    <td>N/A</td>
+                    @endif
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <strong>College</strong>
+          </div>
+          <div class="col-md-6">
+            <strong>School/University Currently Enrolled In:</strong> {{ $application->schools_description }}
+          </div>
+          <div class="col-md-6">
+            <strong>Current Course:</strong> {{ $application->courses_description }}
+          </div> 
           <div class="col-md-12 table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>Level</th>
+                  <th>Course</th>
                   <th>School</th>
-                  <th>Date Enrolled</th>
-                  <th>Date Graduated</th>
-                  <th>Award/Honors received</th>
                 </tr>
               </thead>
               <tbody>
+                @foreach ($desiredcourses as $desiredcourses)
                 <tr>
-                  <td>Elementary</td>
-                  <td>{{$elem->school_name}}</td>
-                  <td>{{$elem->date_enrolled}}</td>
-                  <td>{{$elem->date_graduated}}</td>
-                  @if ($elem->awards != '')
-                  <td>{{$elem->awards}}</td>
-                  @else
-                  <td>N/A</td>
-                  @endif
+                  <td>{{$desiredcourses->courses_description}}</td>
+                  <td>{{$desiredcourses->schools_description}}</td>
                 </tr>
-                <tr>
-                  <td>Highschool</td>
-                  <td>{{$hs->school_name}}</td>
-                  <td>{{$hs->date_enrolled}}</td>
-                  <td>{{$hs->date_graduated}}</td>
-                  @if ($hs->awards != '')
-                  <td>{{$hs->awards}}</td>
-                  @else
-                  <td>N/A</td>
-                  @endif
-                </tr>
+                @endforeach
               </tbody>
             </table>
           </div>
           <div class="col-md-12">
-            College
-          </div>
-          <div class="col-md-12">
-            <div class="col-md-5">
-              School/University Currently Enrolled In: {{ $application->schools_description }}
-            </div>
-            <div class="col-md-5">
-              Current Course: {{ $application->courses_description }}
-            </div> 
-            <div class="col-md-12 table-responsive">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>Course</th>
-                    <th>School</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach ($desiredcourses as $desiredcourses)
-                  <tr>
-                    <td>{{$desiredcourses->courses_description}}</td>
-                    <td>{{$desiredcourses->schools_description}}</td>
-                  </tr>
-                  @endforeach
-                </tbody>
-              </table>
-            </div>
             <embed src="{{ asset('docs/tms.pdf') }}" width="100%" height="700px" type='application/pdf'>
             </div>
           </div>
@@ -227,11 +244,8 @@
           </div>
           <div class="tab-pane row" id="tab_5">
             <div class="col-md-12">
-              <div class="col-md-12">
-                <strong>Essay:</strong>
-              </div>
-              <div class="col-md-12">
-                {{$application->essay}}
+              <div class="col-md-12 form-group">
+                <dd>{{$application->essay}}</dd>
               </div>
               <div class="pull-right">
                 <a class="btn btn-success btn-accept"><i class="fa fa-check"></i> Accept</a>

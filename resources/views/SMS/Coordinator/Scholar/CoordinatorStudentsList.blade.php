@@ -97,76 +97,6 @@
 							</div>
 						</div>
 					</div>
-					<div class="modal fade" id="view_details">
-						<div class="modal-dialog">
-							<div class="modal-content" style="width: 200%; top:5%; right:50%;">
-								<div class="modal-header">
-									<button class="close" data-dismiss="modal">&times;</button>
-									<h4>User Information</h4>
-								</div>
-								<div class="modal-body">
-									<form role="form">
-										<div class="col-md-3">
-											<div class="box box-danger">
-												<div class="box-body box-profile">
-													<img class="profile-user-img img-responsive img-circle" src="{{ asset('images/Default.png') }}" alt="User profile picture">
-													<h3 class="profile-username text-center">Sample Student One</h3>
-													<a href="#" class="btn btn-default btn-block"><b>Change Profile Photo</b></a>
-												</div>
-											</div>
-										</div>
-										<div class="form-group col-md-3">
-											<label>First Name</label>
-											<input type="text" class="form-control" placeholder="Sample">
-										</div>
-										<div class="form-group col-md-3">
-											<label>Middle Name</label>
-											<input type="text" class="form-control" placeholder="Student">
-										</div>
-										<div class="form-group col-md-3">
-											<label>Last Name</label>
-											<input type="text" class="form-control" placeholder="One">
-										</div>
-										<div class="form-group col-md-3">
-											<label>Gender</label>
-											<select id="gender" class="form-control" name="gender">
-												<option value="Male">Male</option>
-												<option value="Female">Female</option>
-											</select>
-										</div>
-										<div class="form-group col-md-6">
-											<label>School</label>
-											<input type="text" class="form-control" placeholder="University of Da Phils">
-										</div>
-										<div class="form-group col-md-3">
-											<label>Birthdate</label>
-											<input type="text" class="form-control" placeholder="December 31 1989">
-										</div>
-										<div class="form-group col-md-6">
-											<label>Address</label>
-											<input type="text" class="form-control" placeholder="13 Riosa Pasong Tamo District 6">
-										</div>
-										<div class="form-group col-md-3">
-											<label>Religion</label>
-											<input type="text" class="form-control" placeholder="Hinduism">
-										</div>
-										<div class="form-group col-md-3">
-											<label>Mobile Number</label>
-											<input type="text" class="form-control" placeholder="+63 927 234 3332">
-										</div>
-										<div class="form-group col-md-3">
-											<label>Contact E-mail</label>
-											<input type="text" class="form-control" placeholder="sample.one@gmail.com">
-										</div>
-										<div class="modal-footer">
-											<button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i> Forfeit</button>
-											<button type="submit" class="btn btn-success btn-sm"><i class="fa fa-graduation-cap"></i> Graduated</button>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
 					<div class="box-body table-responsive">
 						<strong class="pull-right" id="advsearch" style="cursor: pointer; cursor: hand;">Advanced Search</strong>
 						<table id="student-table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
@@ -188,8 +118,10 @@
 </div>
 @endsection
 @section('script')
+{!! Html::script("js/bootbox.min.js") !!} 
 {!! Html::script("custom/ListAjax.min.js") !!}
 <script type="text/javascript">
 	var dataurl = "{!! route('list.store') !!}";
+	var asset = "{{ asset('images') }}";
 </script>
 @endsection

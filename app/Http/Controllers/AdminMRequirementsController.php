@@ -6,6 +6,8 @@ use Response;
 use Datatables;
 use Validator;
 use DB;
+use App\Councilor;
+use App\Connection;
 class AdminMRequirementsController extends Controller
 {
     public function __construct()
@@ -15,10 +17,16 @@ class AdminMRequirementsController extends Controller
     }
     public function data()
     {   
-        $steps = Requirement::all();
+        $steps = Requirement::join('user_councilor','requirements.user_id','user_councilor.user_id')
+        ->join('councilors','user_councilor.councilor_id','councilors.id')
+        ->select([DB::raw("CONCAT(councilors.last_name,', ',councilors.first_name,' ',IFNULL(councilors.middle_name,'')) as strCounName"),'councilors.*', 'requirements.*']);
         return Datatables::of($steps)
         ->addColumn('action', function ($data) {
             return "<button class='btn btn-warning btn-xs btn-detail open-modal' value='$data->id'><i class='fa fa-edit'></i> Edit</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->id'><i class='fa fa-trash-o'></i> Delete</button>";
+        })
+        ->editColumn('strCounName', function ($data) {
+            $images = url('images/'.$data->picture);
+            return "<table><tr><td><div class='col-md-2'><img src='$images' class='img-circle' alt='data Image' height='40'></div></td><td>$data->last_name, $data->first_name $data->middle_name</td></tr></table>";
         })
         ->editColumn('type', function ($data) {
             $type = 'Applications';
@@ -39,7 +47,7 @@ class AdminMRequirementsController extends Controller
         ->setRowId(function ($data) {
             return $data = 'id'.$data->id;
         })
-        ->rawColumns(['is_active','action'])
+        ->rawColumns(['strCounName','is_active','action'])
         ->make(true);
     }
     public function checkbox($id)
@@ -60,7 +68,8 @@ class AdminMRequirementsController extends Controller
     }
     public function index()
     {
-        return view('SMS.Admin.Maintenance.AdminMRequirements');
+        $councilor = Councilor::where('is_active',1)->get();
+        return view('SMS.Admin.Maintenance.AdminMRequirements')->withCouncilor($councilor);
     }
     public function store(Request $request)
     {
@@ -69,9 +78,15 @@ class AdminMRequirementsController extends Controller
             return Response::json($validator->errors()->first(), 422);
         }
         try {
+            $connection = Connection::join('users','user_councilor.user_id','users.id')
+            ->select('users.id')
+            ->where('user_councilor.councilor_id',$request->councilor_id)
+            ->where('users.type','Coordinator')
+            ->first();
             $steps = new Requirement;
             $steps->description=$request->strStepDesc;
             $steps->type=$request->type;
+            $steps->user_id = $connection->id;
             $steps->save();
             return Response::json($steps);
         } catch(\Exception $e) {
@@ -81,7 +96,11 @@ class AdminMRequirementsController extends Controller
     public function edit($id)
     {
         try {
-            $steps = Requirement::findorfail($id);
+            $steps = Requirement::join('user_councilor','requirements.user_id','user_councilor.user_id')
+            ->join('councilors','user_councilor.councilor_id','councilors.id')
+            ->select('councilors.id as councilor_id','requirements.*')
+            ->where('requirements.id',$id)
+            ->firstorfail();
             return Response::json($steps);
         } catch(\Exception $e) {
             return "Deleted";
@@ -95,9 +114,15 @@ class AdminMRequirementsController extends Controller
         }
         try {
             try {
+                $connection = Connection::join('users','user_councilor.user_id','users.id')
+                ->select('users.id')
+                ->where('user_councilor.councilor_id',$request->councilor_id)
+                ->where('users.type','Coordinator')
+                ->first();
                 $steps = Requirement::findorfail($id);
                 $steps->description = $request->strStepDesc;
                 $steps->type=$request->type;
+                $steps->user_id = $connection->id;
                 $steps->save();
                 return Response::json($steps);
             } catch(\Exception $e) {

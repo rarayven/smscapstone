@@ -41,7 +41,7 @@
 					</div>
 					<div class='col-md-12'>
 						<div class='form-group'>
-							<label>Event Date: </label><br>{{ $events->date_held }}
+							<label>Event Date: </label><br>{{ $events->date_held->format('M d, Y') }}
 						</div>
 					</div>
 					<div class='col-md-12'>

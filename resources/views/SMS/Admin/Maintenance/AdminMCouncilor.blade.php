@@ -31,94 +31,94 @@
 										'data-parsley-whitespace' => 'squish'
 										])
 									}}
-									<div class="form-group">
-										{{ Form::label('name', 'Select District') }}
-										{{ Form::select('intCounDistID', $district, null, [
-											'id' => 'intCounDistID',
-											'class' => 'form-control'
-											]) 
-										}}
-									</div>
-									<div class="form-group">
-										{{ Form::label('name', 'First Name') }}
-										{{ Form::text('strCounFirstName', null, [
-											'id' => 'strCounFirstName',
-											'class' => 'form-control',
-											'maxlength' => '25',
-											'required' => 'required',
-											'data-parsley-pattern' => '^[a-zA-Z. ]+$',
-											'autocomplete' => 'off'
-											]) 
-										}}
-									</div>
-									<div class="form-group">
-										{{ Form::label('name', 'Middle Name') }}
-										{{ Form::text('strCounMiddleName', null, [
-											'id' => 'strCounMiddleName',
-											'class' => 'form-control',
-											'maxlength' => '25',
-											'data-parsley-pattern' => '^[a-zA-Z. ]+$',
-											'autocomplete' => 'off'
-											]) 
-										}}
-									</div>
-									<div class="form-group">
-										{{ Form::label('name', 'Last Name') }}
-										{{ Form::text('strCounLastName', null, [
-											'id' => 'strCounLastName',
-											'class' => 'form-control',
-											'maxlength' => '25',
-											'required' => 'required',
-											'data-parsley-pattern' => '^[a-zA-Z. ]+$',
-											'autocomplete' => 'off'
-											]) 
-										}}
-									</div>
-									<div class="form-group">
-										{{ Form::label('name', 'Contact Number') }}
-										{{ Form::text('strCounCell', null, [
-											'id' => 'strCounCell',
-											'class' => 'form-control',
-											'minlength' => '11',
-											'maxlength' => '11',
-											'required' => 'required',
-											'autocomplete' => 'off',
-											'data-parsley-type' => 'number'
-											]) 
-										}}
-									</div>
-									<div class="form-group">
-										{{ Form::label('name', 'Email Address') }}
-										{{ Form::email('strCounEmail', null, [
-											'id' => 'strCounEmail',
-											'class' => 'form-control',
-											'maxlength' => '30',
-											'required' => 'required',
-											'autocomplete' => 'off',
-											'data-parsley-type' => 'email'
-											]) 
-										}}
-									</div>
-									<div class="form-group">
-										{{ Form::label('name', 'Email Address of Coordinator') }}
-										{{ Form::email('strUserEmail', null, [
-											'id' => 'strUserEmail',
-											'class' => 'form-control',
-											'maxlength' => '30',
-											'required' => 'required',
-											'autocomplete' => 'off',
-											'data-parsley-type' => 'email',
-											'data-parsley-notequalto' => '#strCounEmail'
-											]) 
-										}}
-									</div>
-									<div class="form-group">
-										{{ Form::label('name', 'Picture of Councilor') }}
-									</div>
-									<div class="form-group">
-										<div class="btn btn-default btn-file">
-											<i class="fa fa-image"></i> Choose Image..
-											<input type="file" id="image" name="image">
+									<div class="row">
+										<div class="form-group col-md-6">
+											{{ Form::label('name', 'Select District') }}
+											{{ Form::select('intCounDistID', $district, null, [
+												'id' => 'intCounDistID',
+												'class' => 'form-control'
+												]) 
+											}}
+										</div>
+										<div class="form-group col-md-6">
+											{{ Form::label('name', 'Picture of Councilor') }}
+											<div class="btn btn-default btn-file">
+												<i class="fa fa-image"></i> Choose Image..
+												<input type="file" id="image" name="image">
+											</div>
+										</div>
+										<div class="form-group col-md-4">
+											{{ Form::label('name', 'First Name') }}
+											{{ Form::text('strCounFirstName', null, [
+												'id' => 'strCounFirstName',
+												'class' => 'form-control',
+												'maxlength' => '25',
+												'required' => 'required',
+												'data-parsley-pattern' => '^[a-zA-Z. ]+$',
+												'autocomplete' => 'off'
+												]) 
+											}}
+										</div>
+										<div class="form-group col-md-4">
+											{{ Form::label('name', 'Middle Name') }}
+											{{ Form::text('strCounMiddleName', null, [
+												'id' => 'strCounMiddleName',
+												'class' => 'form-control',
+												'maxlength' => '25',
+												'data-parsley-pattern' => '^[a-zA-Z. ]+$',
+												'autocomplete' => 'off'
+												]) 
+											}}
+										</div>
+										<div class="form-group col-md-4">
+											{{ Form::label('name', 'Last Name') }}
+											{{ Form::text('strCounLastName', null, [
+												'id' => 'strCounLastName',
+												'class' => 'form-control',
+												'maxlength' => '25',
+												'required' => 'required',
+												'data-parsley-pattern' => '^[a-zA-Z. ]+$',
+												'autocomplete' => 'off'
+												]) 
+											}}
+										</div>
+										<div class="form-group col-md-4">
+											{{ Form::label('name', 'Contact Number') }}
+											{{ Form::text('strCounCell', null, [
+												'id' => 'strCounCell',
+												'class' => 'form-control',
+												'minlength' => '11',
+												'maxlength' => '11',
+												'required' => 'required',
+												'autocomplete' => 'off',
+												'data-parsley-type' => 'number'
+												]) 
+											}}
+										</div>
+										<div class="form-group col-md-4">
+											{{ Form::label('name', 'E-mail') }}
+											{{ Form::email('strCounEmail', null, [
+												'id' => 'strCounEmail',
+												'class' => 'form-control',
+												'maxlength' => '30',
+												'required' => 'required',
+												'autocomplete' => 'off',
+												'data-parsley-type' => 'email'
+												]) 
+											}}
+										</div>
+										<div class="form-group col-md-4">
+											{{ Form::label('name', 'E-mail of Coordinator') }}
+											{{ Form::email('strUserEmail', null, [
+												'id' => 'strUserEmail',
+												'class' => 'form-control',
+												'maxlength' => '30',
+												'required' => 'required',
+												'autocomplete' => 'off',
+												'data-parsley-type' => 'email',
+												'data-parsley-notequalto' => '#strCounEmail'
+												]) 
+											}}
 										</div>
 									</div>
 									<div class="form-group">

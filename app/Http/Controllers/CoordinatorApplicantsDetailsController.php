@@ -19,10 +19,6 @@ class CoordinatorApplicantsDetailsController extends Controller
         $this->middleware('auth');
         $this->middleware('coordinator');
     }
-    public function index()
-    {
-        return redirect(route('applicants.index'));
-    }
     public function show($id)
     {
         try {
@@ -63,8 +59,7 @@ class CoordinatorApplicantsDetailsController extends Controller
             ->get();
             return view('SMS.Coordinator.Scholar.CoordinatorApplicantsDetails')->withApplication($application)->withMother($mother)->withFather($father)->withDesiredcourses($desiredcourses)->withElem($elem)->withHs($hs)->withSiblings($siblings)->withExist($exist)->withCount($count)->withAffiliation($affiliation);
         } catch(\Exception $e) {
-            dd($e->getMessage());
-            return redirect(route('applicants.index'));
+            return redirect(route('applications.index'));
         }
     }
     public function edit($id)
@@ -74,7 +69,7 @@ class CoordinatorApplicantsDetailsController extends Controller
             ->whereNotIn('application_status',['Pending','Declined'])
             ->firstorfail();
             Session::flash('fail','Student Already Accepted');
-            return redirect(route('applicants.index'));
+            return redirect(route('applications.index'));
         } catch(\Exception $e) {
             $application = Application::find($id);
             $application->application_status='Accepted';
@@ -83,7 +78,7 @@ class CoordinatorApplicantsDetailsController extends Controller
             $user->is_active = 1;
             $user->save();
             Session::flash('success','Student Accepted');
-            return redirect(route('applicants.index'));
+            return redirect(route('applications.index'));
         }
     }
     public function update(Request $request, $id)
@@ -93,7 +88,7 @@ class CoordinatorApplicantsDetailsController extends Controller
             ->whereNotIn('application_status',['Pending','Accepted'])
             ->firstorfail();
             Session::flash('fail','Student Already Declined');
-            return redirect(route('applicants.index'));
+            return redirect(route('applications.index'));
         } catch(\Exception $e) {
             $application = Application::find($id);
             $application->remarks=$request->strApplRemarks;
@@ -103,7 +98,7 @@ class CoordinatorApplicantsDetailsController extends Controller
             $user->is_active = 0;
             $user->save();
             Session::flash('success','Student Declined');
-            return redirect(route('applicants.index'));
+            return redirect(route('applications.index'));
         }
     }
 }

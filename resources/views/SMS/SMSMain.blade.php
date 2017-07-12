@@ -10,12 +10,12 @@
   {!! Html::style("plugins/pace/pace.min.css") !!}
   {!! Html::style("css/bootstrap.min.css") !!}
   {!! Html::style("css/font-awesome.css") !!}
+  @yield('override')
   {!! Html::style("css/AdminLTE.min.css") !!}
   {!! Html::style("css/_all-skins.min.css") !!}
   {!! Html::script("plugins/jQuery/jquery-3.2.1.min.js") !!}
   {!! Html::script("plugins/jQueryUI/jquery-ui.min.js") !!}
   {!! Html::script("js/bootstrap.min.js") !!} 
-  {!! Html::script("js/camelcase.min.js") !!} 
   {!! Html::script("plugins/pace/pace.min.js") !!}
   <link rel="icon" href="{{ asset('img/logo.ico') }}">
   <style type="text/css">
@@ -31,7 +31,7 @@
       margin-top: 1px;
     }
   </style>
-  @yield('override')
+  @yield('style')
 </head>
 <body class="hold-transition skin-red layout-top-nav">
   <header class="main-header">

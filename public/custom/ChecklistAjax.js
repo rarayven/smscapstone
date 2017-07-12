@@ -71,19 +71,19 @@ $(document).ready(function() {
                 "</li>";
                 $('.steps').append(show);
             });
+            if (data[0] != undefined) {
+                $('#view_step').modal('show');
+            } else {
+                $.notify({
+                    icon: 'fa fa-check',
+                    message: 'All requirement passed'
+                }, {
+                    type: 'success',
+                    z_index: 2000,
+                    delay: 5000,
+                });
+            }
         });
-        setTimeout(function() {
-            $.get(url + '/' + link_id, function(data) {
-                for (var i = 0; i < ctr; i++) {
-                    try {
-                        if ($('#check' + data[i].step_id).val() == data[i].step_id) {
-                            $('#check' + data[i].step_id).attr('checked', 'checked').parent().addClass('done');
-                        }
-                    } catch (err) {}
-                }
-            })
-            $('#view_step').modal('show');
-        }, 1000);
     });
     $('#student-list').on('click', '.open-modal', function() {
         var ctr = 0;
@@ -98,19 +98,19 @@ $(document).ready(function() {
                 "</li>";
                 $('.stipend').append(show);
             });
+            if (data[0] != undefined) {
+                $('#view_claim').modal('show');
+            } else {
+                $.notify({
+                    icon: 'fa fa-check',
+                    message: 'All allocation claimed'
+                }, {
+                    type: 'success',
+                    z_index: 2000,
+                    delay: 5000,
+                });
+            }
         });
-        setTimeout(function() {
-            $.get(url + '/allocation/' + link_id, function(data) {
-                for (var i = 0; i < ctr; i++) {
-                    try {
-                        if ($('#' + data[i].allocation_id).val() == data[i].allocation_id) {
-                            $('#' + data[i].allocation_id).attr('checked', 'checked').parent().addClass('done');
-                        }
-                    } catch (err) {}
-                }
-            })
-            $('#view_claim').modal('show');
-        }, 1000);
     });
     $("#btn-save").click(function() {
         $("#btn-save").attr('disabled', 'disabled');

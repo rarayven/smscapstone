@@ -20,6 +20,30 @@ $(document).ready(function() {
         format: 'yyyy-mm-dd',
         startDate: dt
     });
+    var table = $('#table').DataTable({
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        ajax: dataurl,
+        "columnDefs": [
+        { "width": "180px", "targets": 5 },
+        { "width": "70px", "targets": 4 }
+        ],
+        columns: [
+        { data: 'title', name: 'title' },
+        { data: 'date_held', name: 'date_held' },
+        { data: 'time_from', name: 'time_from' },
+        { data: 'time_to', name: 'time_to' },
+        { data: 'status', name: 'status', searchable: false },
+        { data: 'action', name: 'action', orderable: false, searchable: false }
+        ]
+    });
+    $('#table-done').DataTable({
+        "columnDefs": [
+        { "width": "70px", "targets": 5 },
+        { "width": "70px", "targets": 4 }
+        ]
+    });
     //display modal form for creating new task
     $('#btn-add').click(function() {
         $('#txt').text('Add Event');
@@ -27,7 +51,7 @@ $(document).ready(function() {
         $('#frmEvent').trigger("reset");
         $('#add_event').modal('show');
     });
-    $('#events').on('click', '.open-modal', function() {
+    $('#list').on('click', '.open-modal', function() {
         var link_id = $(this).val();
         id = link_id;
         $.get(url + '/' + link_id + '/edit', function(data) {
@@ -63,7 +87,7 @@ $(document).ready(function() {
         },
         function(isConfirm) {
             if (isConfirm) {
-                getEvent()
+                table.draw();
             }
         });
     }
@@ -86,7 +110,7 @@ $(document).ready(function() {
             var type = "POST";
             var my_url = url;
             if (state == "update") {
-                type = "PUT"; //for updating existing resource
+                type = "PUT";
                 my_url += '/' + id;
             }
             $.ajax({
@@ -96,7 +120,7 @@ $(document).ready(function() {
                 dataType: 'json',
                 success: function(data) {
                     $('#add_event').modal('hide');
-                    getEvent();
+                    table.draw();
                     swal({
                         title: "Success!",
                         text: "<center>Data Stored</center>",
@@ -119,47 +143,7 @@ $(document).ready(function() {
             });
         }
     });
-    function getEvent() {
-        $.get(url + '/create', function(data) {
-            Pace.restart();
-            var checked = '';
-            $('#events').empty();
-            $.each(data, function(index, value) {
-                var day = new Date(value.date_held);
-                var time_from = new Date("October 13, 2014 " + value.time_from);
-                var time_to = new Date("October 13, 2014 " + value.time_to);
-                if (value.status == 'Ongoing') {
-                    checked = 'checked';
-                } else {
-                    checked = '';
-                }
-                var show = "<div class='col-md-4'>" +
-                "<div class='small-box bg-purple'>" +
-                "<div class='box-body'>" +
-                "<div class='pull-right'>" +
-                "<input type='checkbox' id='isActive' name='isActive' value=" + value.id + " data-toggle='toggle' data-style='android' data-onstyle='success' data-offstyle='danger' data-on='Ongoing' data-off='Cancelled' " + checked + " data-size='mini'> " +
-                "<button class='btn btn-warning btn-xs btn-detail open-modal' value=" + value.id + "><i class='fa fa-edit'></i></button> <button class='btn btn-danger btn-xs btn-delete' value=" + value.id + "><i class='fa fa-times'></i></button>" +
-                "</div>" +
-                "<h4><b>" + value.title + "</b></h4>" +
-                "<p>" + day.toLocaleString('en-us', { weekday: 'long' }) + "</p>" +
-                "<p>" + day.toLocaleString('en-us', { year: 'numeric', month: 'short', day: '2-digit' }) + "</p>" +
-                "<p>" + time_from.toLocaleString('en-us', { hour: '2-digit', minute: '2-digit' }) + " - " + time_to.toLocaleString('en-us', { hour: '2-digit', minute: '2-digit' }) + "</p>" +
-                "</div>" +
-                "<div class='icon'>" +
-                "<i class='ion ion-person-add'></i>" +
-                "</div>" +
-                "<a href="+url+"/"+value.id+" value=" + value.id + " class='btn small-box-footer'>" +
-                "View Event Details <i class='fa fa-arrow-circle-right'></i>" +
-                "</a>" +
-                "</div>" +
-                "</div>";
-                $('#events').append(show);
-            });
-            $("[data-toggle='toggle']").bootstrapToggle('destroy');
-            $("[data-toggle='toggle']").bootstrapToggle();
-        })
-    }
-    $('#events').on('click', '.btn-delete', function() {
+    $('#list').on('click', '.btn-delete', function() {
         var link_id = $(this).val();
         swal({
             title: "Are you sure?",
@@ -193,7 +177,7 @@ $(document).ready(function() {
                                         html: true
                                     });
                                 } else {
-                                    getEvent();
+                                    table.draw();
                                     swal({
                                         title: "Deleted!",
                                         text: "<center>Data Deleted</center>",
@@ -212,7 +196,7 @@ $(document).ready(function() {
             }, 500);
         });
     });
-    $('#events').on('change', '#isActive', function() {
+    $('#list').on('change', '#isActive', function() {
         var link_id = $(this).val();
         $.ajax({
             url: url2 + '/' + link_id,

@@ -37,7 +37,7 @@
                     </div>
                     <div class="form-group">
                       {{ Form::label('name', 'Message') }}
-                      <textarea id="description" name="description" class="form-control" style="resize: none; height: 300px" required="required"></textarea>
+                      <textarea id="description" name="description" class="form-control" style="resize: none; height: 250px" required="required"></textarea>
                     </div>
                     <div class="form-group">
                       <div class="btn btn-default btn-file">

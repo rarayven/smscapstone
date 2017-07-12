@@ -43,6 +43,14 @@
 										}}
 									</div>
 									<div class="form-group">
+										{{ Form::label('name', 'Select Councilor') }}
+										<select id="councilor_id" class="form-control" name="councilor_id">
+											@foreach ($councilor as $councilor)
+											<option value="{{ $councilor->id }}">{{ $councilor->first_name }} {{ $councilor->last_name }}</option>
+											@endforeach
+										</select>
+									</div>
+									<div class="form-group">
 										{{ Form::label('name', 'Step Description') }}
 										{{ Form::text('strStepDesc', null, [
 											'id' => 'strStepDesc',
@@ -79,6 +87,7 @@
 						}}
 						<table id="steps-table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
 							<thead>
+								<th>Councilor</th>
 								<th>Requirement</th>
 								<th>Type</th>
 								<th>Status</th>

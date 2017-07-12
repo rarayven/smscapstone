@@ -19,7 +19,6 @@
   {!! Html::style("css/_all-skins.min.css") !!}
   {!! Html::script("plugins/jQuery/jquery-3.2.1.min.js") !!}
   {!! Html::script("js/bootstrap.min.js") !!}
-  {!! Html::script("js/camelcase.min.js") !!} 
   {!! Html::script("plugins/pace/pace.min.js") !!}
   <style type="text/css">
     [data-notify="container"] {
@@ -108,9 +107,9 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">NAVIGATION</li>
         <li class="{{Request::path() == 'coordinator/dashboard' ? 'active' : ''}}"><a href="{{ url('coordinator/dashboard') }}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
-        <li class="{{Request::path() == 'coordinator/applicants' ? 'active' : ''}}"><a href="{{ url('coordinator/applicants') }}"><i class="fa fa-users"></i><span>Applicants</span></a></li>
-        <li class="treeview {{Request::path() == 'coordinator/list' ? 'active' : ''}} {{Request::path() == 'coordinator/progress' ? 'active' : ''}} {{Request::path() == 'coordinator/achievements' ? 'active' : ''}} {{Request::path() == 'coordinator/token' ? 'active' : ''}}">
-          <a href="#"><i class="fa fa-graduation-cap"></i><span>Scholar</span>
+        <li class="{{Request::path() == 'coordinator/applications' ? 'active' : ''}}"><a href="{{ url('coordinator/applications') }}"><i class="fa fa-users"></i><span>Applications</span></a></li>
+        <li class="treeview {{Request::path() == 'coordinator/list' ? 'active' : ''}} {{Request::path() == 'coordinator/checklist' ? 'active' : ''}}">
+          <a href="#"><i class="fa fa-graduation-cap"></i><span>Scholars</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -136,6 +135,7 @@
           </ul>
         </li>
         <li class="{{Request::path() == 'coordinator/queries' ? 'active' : ''}}"><a href="{{ url('coordinator/queries') }}"><i class="fa fa-list"></i><span>Queries</span></a></li>
+        <li class="{{Request::path() == 'coordinator/utilities' ? 'active' : ''}}"><a href="{{ url('coordinator/utilities') }}"><i class="fa fa-gear"></i><span>Utilities</span></a></li>
       </ul>
     </section>
   </aside>

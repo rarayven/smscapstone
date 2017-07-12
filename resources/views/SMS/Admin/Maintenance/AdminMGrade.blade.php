@@ -44,42 +44,44 @@
 											]) 
 										}}
 									</div>
-									<div class="form-group">
-										{{ Form::label('name', 'Highest Grade') }}
-										{{ Form::text('dblSystHighGrade', null, [
-											'id' => 'dblSystHighGrade',
-											'class' => 'form-control',
-											'maxlength' => '4',
-											'required' => 'required',
-											'data-parsley-pattern' => '^[a-zA-Z0-9+-. ]+$',
-											'autocomplete' => 'off'
-											]) 
-										}}
-									</div>
-									<div class="form-group">
-										{{ Form::label('name', 'Lowest Grade') }}
-										{{ Form::text('dblSystLowGrade', null, [
-											'id' => 'dblSystLowGrade',
-											'class' => 'form-control',
-											'maxlength' => '4',
-											'required' => 'required',
-											'autocomplete' => 'off',
-											'data-parsley-pattern' => '^[a-zA-Z0-9+-. ]+$',
-											'data-parsley-notequalto' => '#dblSystHighGrade'
-											]) 
-										}}
-									</div>
-									<div class="form-group">
-										{{ Form::label('name', 'Failing Grade') }}
-										{{ Form::text('strSystFailGrade', null, [
-											'id' => 'strSystFailGrade',
-											'class' => 'form-control',
-											'maxlength' => '4',
-											'required' => 'required',
-											'data-parsley-pattern' => '^[a-zA-Z0-9+-. ]+$',
-											'autocomplete' => 'off'
-											]) 
-										}}
+									<div class="row">
+										<div class="form-group col-md-4">
+											{{ Form::label('name', 'Highest Grade') }}
+											{{ Form::text('dblSystHighGrade', null, [
+												'id' => 'dblSystHighGrade',
+												'class' => 'form-control',
+												'maxlength' => '4',
+												'required' => 'required',
+												'data-parsley-pattern' => '^[a-zA-Z0-9+-. ]+$',
+												'autocomplete' => 'off'
+												]) 
+											}}
+										</div>
+										<div class="form-group col-md-4">
+											{{ Form::label('name', 'Lowest Grade') }}
+											{{ Form::text('dblSystLowGrade', null, [
+												'id' => 'dblSystLowGrade',
+												'class' => 'form-control',
+												'maxlength' => '4',
+												'required' => 'required',
+												'autocomplete' => 'off',
+												'data-parsley-pattern' => '^[a-zA-Z0-9+-. ]+$',
+												'data-parsley-notequalto' => '#dblSystHighGrade'
+												]) 
+											}}
+										</div>
+										<div class="form-group col-md-4">
+											{{ Form::label('name', 'Failing Grade') }}
+											{{ Form::text('strSystFailGrade', null, [
+												'id' => 'strSystFailGrade',
+												'class' => 'form-control',
+												'maxlength' => '4',
+												'required' => 'required',
+												'data-parsley-pattern' => '^[a-zA-Z0-9+-. ]+$',
+												'autocomplete' => 'off'
+												]) 
+											}}
+										</div>
 									</div>
 									<div class="form-group">
 										{{ Form::button('Submit', [

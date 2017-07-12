@@ -97,13 +97,15 @@ $(document).ready(function() {
             if (data == "Deleted") {
                 refresh();
             } else {
-                var modalbody =
-                "<div class='col-md-2'><img src='"+asset+"/"+data.picture+"' class='profile-user-img img-responsive img-square pull-right' alt='User Image'>"+
-                "</div><div class='col-md-10'><div class='form-group'><label>District:</label><br>" + data.district_description +
-                "</div><div class='form-group'><label>Name:</label><br>" + data.strCounName +
-                "</div><div class='form-group'><label>E-mail Address:</label><br>" + data.email +
-                "</div><div class='form-group'><label>Contact Number:</label><br>" + data.cell_no +
-                "</div><div class='form-group'><label>Coordinator E-mail Address:</label><br>" + data.user_email +"</div></div>";
+                var modalbody = "<div class='row'>"+
+                "<div class='col-sm-10'><div class='form-group'><label>District:</label><br>" + data.district_description + "</div>"+
+                "<div class='form-group'><label>Name:</label><br>" + data.strCounName + "</div>"+
+                "<div class='form-group'><label>E-mail Address:</label><br>" + data.email + "</div>"+
+                "<div class='form-group'><label>Contact Number:</label><br>" + data.cell_no + "</div>"+
+                "<div class='form-group'><label>Coordinator E-mail Address:</label><br>" + data.user_email +"</div></div>"+
+                "<div class='col-sm-2'><img src='"+asset+"/"+data.picture +
+                "' class='profile-user-img img-responsive img-square' alt='User Image'>"+
+                "</div></div>";
                 bootbox.alert({
                     title: 'View Councilor',
                     message: modalbody,
