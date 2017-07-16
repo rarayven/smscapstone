@@ -135,7 +135,7 @@ return [
     'strSemDesc' => 'semester description',
     'strYearDesc' => 'year description',
     'strBatcDesc' => 'batch name',
-    'strStepDesc' => 'step description',
+    'strStepDesc' => 'requirement description',
     'intStepDeadline' => 'days of completion',
     'intStepOrder' => 'order no.',
     'strTypeDesc' => 'budget description',

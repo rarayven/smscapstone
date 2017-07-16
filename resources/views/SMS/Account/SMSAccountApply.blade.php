@@ -539,8 +539,8 @@
         <label class="radio-inline">{{ Form::radio('rad', 'no', true, ['id' => 'no']) }} No</label>
     </div>
     <div id="questionappear">
-     <div class="row">
-         <div class="container col-md-6 col-sm-12">
+       <div class="row">
+           <div class="container col-md-6 col-sm-12">
             <div class="row">
                 <div class="form-group col-md-6 col-sm-12">
                     {{ Form::label('name', "First Name", [
@@ -760,21 +760,22 @@
                 'class' => 'control-label'
                 ]) 
             }}
-            <select id="intPersCurrentSchool" name="intPersCurrentSchool" class="form-control dropdown" style='width: 100%'>
-                <option value="">None</option>
-                @foreach($school as $schools)
-                <option value={{$schools->id}}>{{$schools->description}}</option>
-                @endforeach
-            </select>
+            {{ Form::select('intPersCurrentSchool', $school->pluck('description','id'), null, [
+                'id' => 'intPersCurrentSchool',
+                'class' => 'form-control dropdown',
+                'style' => 'width: 100%'])
+            }}
         </div>
         <div class="form-group col-md-6">
-            <label class="control-label">Current Course</label>
-            <select id="intPersCurrentCourse" name="intPersCurrentCourse" class="form-control dropdown" style='width: 100%'>
-                <option value="">None</option>
-                @foreach($course as $courses)
-                <option value={{$courses->id}}>{{$courses->description}}</option>
-                @endforeach
-            </select>
+            {{ Form::label('name', "Current Course", [
+                'class' => 'control-label'
+                ]) 
+            }}
+            {{ Form::select('intPersCurrentCourse', $course->pluck('description','id'), null, [
+                'id' => 'intPersCurrentCourse',
+                'class' => 'form-control dropdown',
+                'style' => 'width: 100%'])
+            }}
         </div>
     </div>
     <div class="row">
@@ -817,65 +818,19 @@
                 }}
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="form-group col-md-3">
-            {{ Form::label('subject_code', "Subject Code", [
+        <div class="form-group col-md-10 academic">
+            {{ Form::label('academic', "Grading System", [
                 'class' => 'control-label'
                 ]) 
             }}
-            {{ Form::text('subject_code[]', null, [
-                'id' => 'subject_code',
-                'class' => 'form-control subject_code',
-                'maxlength' => '10',
-                'autocomplete' => 'off',
-                'data-parsley-pattern' => '^[a-zA-Z0-9 ]+$'
-                ]) 
-            }}
-        </div>
-        <div class="form-group col-md-5">
-            {{ Form::label('subject_description', "Description", [
-                'class' => 'control-label'
-                ]) 
-            }}
-            {{ Form::text('subject_description[]', null, [
-                'id' => 'subject_description',
-                'class' => 'form-control subject_description',
-                'maxlength' => '45',
-                'autocomplete' => 'off',
-                'data-parsley-pattern' => '^[a-zA-Z0-9 ]+$'
-                ]) 
-            }}
-        </div>
-        <div class="form-group col-md-2">
-            {{ Form::label('units', "Units", [
-                'class' => 'control-label'
-                ]) 
-            }}
-            {{ Form::text('units[]', null, [
-                'id' => 'units',
-                'class' => 'form-control units',
-                'maxlength' => '1',
-                'autocomplete' => 'off',
-                'data-parsley-pattern' => '^[0-9 ]+$'
-                ]) 
-            }}
-        </div>
-        <div class="form-group col-md-2">
-            {{ Form::label('subject_grade', "Grade", [
-                'class' => 'control-label'
-                ]) 
-            }}
-            {{ Form::text('subject_grade[]', null, [
-                'id' => 'subject_grade',
-                'class' => 'form-control subject_grade',
-                'maxlength' => '4',
-                'autocomplete' => 'off',
-                'data-parsley-pattern' => '^[a-zA-Z0-9. ]+$'
-                ]) 
-            }}
+            <select name="academic" class="form-control" id="academic">
+                @foreach ($grade as $grades)
+                <option value="{{ $grades->id }}">{{ $grades->description }} --- {{ $grades->highest_grade }}</option>
+                @endforeach
+            </select>
         </div>
     </div>
+    <label class="col-sm-12 row">Input Grade</label>
     <div id="grade" class="row"></div>
     <button type="button" class="btn btn-primary grade"><i class='fa fa-plus'></i> Add</button>
     <h5>Name three(3) courses you wish to enroll in and the respective school (in order of your preference)</h5>
@@ -950,7 +905,7 @@
     <hr>
     <h3>Community Involvement/Affiliation</h3>
     <div class="row">
-        <div class="form-group col-md-12 col-sm-12">
+        <div class="form-group col-md-6">
             {{ Form::label('organization', "Organization", [
                 'class' => 'control-label'
                 ]) 
@@ -963,7 +918,7 @@
                 ]) 
             }}
         </div>
-        <div class="form-group col-md-8 col-sm-6">
+        <div class="form-group col-md-3">
             {{ Form::label('position', "Position", [
                 'class' => 'control-label'
                 ]) 
@@ -976,7 +931,7 @@
                 ]) 
             }}
         </div>
-        <div class="form-group col-md-4 col-sm-6">
+        <div class="form-group col-md-3">
             {{ Form::label('dateofparticipation', "Year of Participation", [
                 'class' => 'control-label'
                 ]) 
@@ -1029,7 +984,6 @@
           'class' => 'form-control',
           'id' => 'essay',
           'style' => 'resize: none; height: 400px;',
-          'data-parsley-pattern' => "^[a-zA-Z0-9.,' ]+$",
           'required' => 'required'
           ]) 
       }}

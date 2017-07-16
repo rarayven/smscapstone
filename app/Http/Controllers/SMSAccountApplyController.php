@@ -166,24 +166,31 @@ class SMSAccountApplyController extends Controller
         $desiredcourses->save();
       }
       //Insert in grades
+      $getAcademic = School::join('academic_gradings','schools.academic_grading_id','academic_gradings.id')
+      ->select('academic_gradings.id')
+      ->where('schools.id',$application->school_id)
+      ->first();
       $scholargrade = new Grade;
       $scholargrade->student_detail_user_id=$users->id;
       if (($request->col)=='no') {        
         $scholargrade->year=$request->year;
         $scholargrade->semester=$request->semester;
+        $scholargrade->academic_grading_id=$getAcademic->id;
       } else {
         $scholargrade->year='I';
         $scholargrade->semester='I';
+        $scholargrade->academic_grading_id=$request->academic;
       }
       $scholargrade->pdf=$pdfname;
       $scholargrade->save();
-      //Manual Input of Grades
-      for ($i=0; $i < count($request->subject_code); $i++) { 
+      //Manual Input of Grades      
+      for ($i=0; $i < count($request->subject_description); $i++) { 
         $detail = new GradeDetail;
         $detail->grade_id=$scholargrade->id;
-        $detail->subject_code=$request->subject_code[$i];
         $detail->description=$request->subject_description[$i];
-        $detail->units=$request->units[$i];
+        if (($request->col)=='no') {
+          $detail->units=$request->units[$i];
+        }
         $detail->grade=$request->subject_grade[$i];
         $detail->save();
       }

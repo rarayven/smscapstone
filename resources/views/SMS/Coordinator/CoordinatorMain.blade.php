@@ -25,10 +25,6 @@
       width: 25%;
     }
     .counter {
-      /*font-size: 20px; 
-      margin-top: 10px; 
-      color: white;
-      padding-left: 5px;*/
       overflow: hidden;
       text-overflow: ellipsis;
       padding: 10px

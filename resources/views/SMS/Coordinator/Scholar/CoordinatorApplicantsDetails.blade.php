@@ -209,82 +209,108 @@
             </table>
           </div>
           <div class="col-md-12">
-            <embed src="{{ asset('docs/tms.pdf') }}" width="100%" height="700px" type='application/pdf'>
-            </div>
+            <a href="{{ asset('docs/tms.pdf') }}" target="_blank"><button type="button" class="btn btn-default"><i class="fa fa-eye"></i> Review Grades</button></a>
           </div>
-          <div class="tab-pane row" id="tab_4">
-            <div class="col-md-12 table-responsive">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>Organization</th>
-                    <th>Position</th>
-                    <th>Date of Participation</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @if ($count!=0)
-                  @foreach ($affiliation as $affiliations)
-                  <tr>
-                    <td>{{$affiliations->organization}}</td>
-                    <td>{{$affiliations->position}}</td>
-                    <td>{{$affiliations->participation_date}}</td>
-                  </tr>
-                  @endforeach
-                  @else
-                  <tr>
-                    <td>N/A</td>
-                    <td>N/A</td>
-                    <td>N/A</td>
-                  </tr>
+          <div class="col-md-12 table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  @if ($grade[0]->units != 0)
+                  <th>Units</th>
                   @endif
-                </tbody>
-              </table>
-            </div>
+                  <th>Grades</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach ($grade as $grades)
+                <tr>
+                  <td>{{$grades->description}}</td>
+                  @if ($grade[0]->units != 0)
+                  <td>{{$grades->units}}</td>
+                  @endif
+                  <td>{{$grades->grade}}</td>
+                  <td>P</td>
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
           </div>
-          <div class="tab-pane row" id="tab_5">
-            <div class="col-md-12">
-              <div class="col-md-12 form-group">
-                <dd>{{$application->essay}}</dd>
-              </div>
-              <div class="pull-right">
-                <a class="btn btn-success btn-accept"><i class="fa fa-check"></i> Accept</a>
-                <a class="btn btn-danger"><i class="fa fa-remove"></i> Decline</a>
-              </div>
+        </div>
+        <div class="tab-pane row" id="tab_4">
+          <div class="col-md-12 table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Organization</th>
+                  <th>Position</th>
+                  <th>Date of Participation</th>
+                </tr>
+              </thead>
+              <tbody>
+                @if ($count!=0)
+                @foreach ($affiliation as $affiliations)
+                <tr>
+                  <td>{{$affiliations->organization}}</td>
+                  <td>{{$affiliations->position}}</td>
+                  <td>{{$affiliations->participation_date}}</td>
+                </tr>
+                @endforeach
+                @else
+                <tr>
+                  <td>N/A</td>
+                  <td>N/A</td>
+                  <td>N/A</td>
+                </tr>
+                @endif
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tab-pane row" id="tab_5">
+          <div class="col-md-12">
+            <div class="col-md-12 form-group">
+              <dd>{{$application->essay}}</dd>
+            </div>
+            <div class="pull-right">
+              <a class="btn btn-success btn-accept"><i class="fa fa-check"></i> Accept</a>
+              <a class="btn btn-danger"><i class="fa fa-remove"></i> Decline</a>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  </div>
-  @endsection
-  @section('script')
-  <script type="text/javascript">
-    $('.btn-danger').click(function(){
-      $('#frmRemarks').trigger("reset");
-      $('#remarks').modal('show');
+    </div>
+  </section>
+</div>
+@endsection
+@section('script')
+<script type="text/javascript">
+  $('.btn-danger').click(function(){
+    $('#frmRemarks').trigger("reset");
+    $('#remarks').modal('show');
+  });
+  $('.btn-accept').on('click',function(e){  
+    e.preventDefault();
+    swal({
+      title: "Are you sure?",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonClass: "btn-success",
+      confirmButtonText: "Accept",
+      cancelButtonText: "Cancel",
+      closeOnConfirm: false,
+      allowOutsideClick: true,
+      showLoaderOnConfirm: true,
+      closeOnCancel: true
+    },
+    function(isConfirm) {
+      setTimeout(function() {
+        if (isConfirm) {
+          window.location.href = "{{route('details.edit',$application->user_id)}}"
+        }
+      }, 500);
     });
-    $('.btn-accept').on('click',function(e){  
-      e.preventDefault();
-      swal({
-        title: "Are you sure?",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonClass: "btn-success",
-        confirmButtonText: "Accept",
-        cancelButtonText: "Cancel",
-        closeOnConfirm: false,
-        allowOutsideClick: true,
-        showLoaderOnConfirm: true,
-        closeOnCancel: true
-      },
-      function(isConfirm) {
-        setTimeout(function() {
-          if (isConfirm) {
-            window.location.href = "{{route('details.edit',$application->user_id)}}"
-          }
-        }, 500);
-      });
-    });
-  </script>
-  @endsection
+  });
+</script>
+@endsection

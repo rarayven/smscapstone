@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use App\User;
 use Session;
 use Auth;
+use App\Grade;
 class CoordinatorApplicantsDetailsController extends Controller
 {
     public function __construct()
@@ -57,8 +58,13 @@ class CoordinatorApplicantsDetailsController extends Controller
             ->select('desired_courses.*','schools.description as schools_description','courses.description as courses_description')
             ->where('desired_courses.student_detail_user_id',$id)
             ->get();
-            return view('SMS.Coordinator.Scholar.CoordinatorApplicantsDetails')->withApplication($application)->withMother($mother)->withFather($father)->withDesiredcourses($desiredcourses)->withElem($elem)->withHs($hs)->withSiblings($siblings)->withExist($exist)->withCount($count)->withAffiliation($affiliation);
+            $grade = Grade::join('grade_details','grades.id','grade_details.grade_id')
+            ->select('grade_details.*','grades.*')
+            ->where('grades.student_detail_user_id',$id)
+            ->get();
+            return view('SMS.Coordinator.Scholar.CoordinatorApplicantsDetails')->withApplication($application)->withMother($mother)->withFather($father)->withDesiredcourses($desiredcourses)->withElem($elem)->withHs($hs)->withSiblings($siblings)->withExist($exist)->withCount($count)->withAffiliation($affiliation)->withGrade($grade);
         } catch(\Exception $e) {
+            dd($e->getMessage());
             return redirect(route('applications.index'));
         }
     }

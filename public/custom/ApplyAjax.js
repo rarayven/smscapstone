@@ -7,6 +7,7 @@ $(document).ready(function() {
   var ctr = 0;
   var checker = 'no';
   var dt = new Date();
+  var grade = 1;
   var counter = 1;
   dt.setFullYear(new Date().getFullYear() - 18);
   $('#datepicker').datepicker({
@@ -152,6 +153,8 @@ $(document).ready(function() {
       }
     }
     if (ctr == 5) {
+      var ctr_grade = $('input[name="subject_grade[]"]').length;
+      var ctr_organization = $('input[name="strPersOrganization[]"]').length;
       var div = "<div class='form-group'>" +
       "<label>Councilor:</label> " +
       "<h4>" + CouncilorName + "</h4>" +
@@ -230,6 +233,25 @@ $(document).ready(function() {
       "<label>Current Course:</label> " +
       "<h4>" + $("select[name='intPersCurrentCourse'] option:selected").text() + "</h4><br>" +
       "</div>" +
+      "<div class='form-group'>" +
+      "<div class='row'>"
+      "<label class='col-md-12'>Grades</label><br>";
+      for (var i = 0; i < ctr_grade; i++) {
+        if (grade) {
+          div += "<div class='col-md-6'><label>Description:</label> " +
+          "<h4>" + $('.subject_description')[i].value + "</h4><br></div>" +
+          "<div class='col-md-6'><label>Grade:</label> " +
+          "<h4>" + $('.subject_grade')[i].value + "</h4><br></div>";
+        } else {
+          div += "<div class='col-md-4'><label>Description:</label> " +
+          "<h4>" + $('.subject_description')[i].value + "</h4><br></div>" +
+          "<div class='col-md-4'><label>Units:</label> " +
+          "<h4>" + $('.units')[i].value + "</h4><br></div>" +
+          "<div class='col-md-4'><label>Grade:</label> " +
+          "<h4>" + $('.subject_grade')[i].value + "</h4><br></div>";
+        }
+      }
+      "</div></div>" +
       "<hr>" +
       "<label class='col-xs-12 row'>Name three(3) courses you wish to enroll in and the respective school (in order of your preference):</label>" +
       "<div class='form-group col-md-4 row'>" +
@@ -251,15 +273,17 @@ $(document).ready(function() {
       "<h4>" + $("select[id='course3'] option:selected").text() + "</h4><br>" +
       "</div>" +
       "<hr>" +
-      "<div class='form-group'>" +
-      "<label>Community Involvement/Affiliation</label><br>" +
-      "<label>Organization:</label> " +
-      "<h4>" + $('#organization').val() + "</h4><br>" +
-      "<label>Position:</label> " +
-      "<h4>" + $('#position').val() + "</h4><br>" +
-      "<label>Year of Participation:</label> " +
-      "<h4>" + $('#strPersDateParticipation').val() + "</h4><br>" +
-      "<label>Essay:</label> " +
+      "<div class='form-group col-md-12'>" +
+      "<label>Community Involvement/Affiliation</label><br>";
+      for (var i = 0; i < ctr_organization; i++) {
+        div += "<label>Organization:</label> " +
+        "<h4>" + $('.organization')[i].value + "</h4><br>" +
+        "<label>Position:</label> " +
+        "<h4>" + $('.position')[i].value + "</h4><br>" +
+        "<label>Year of Participation:</label> " +
+        "<h4>" + $('.year')[i].value + "</h4><br>";
+      }
+      div += "<label>Essay:</label> " +
       "<h4><dd>" + $('#essay').val() + "</dd></h4><br>" +
       "</div>";
       $('#summary').empty().append(div);
@@ -269,12 +293,12 @@ $(document).ready(function() {
       $.get(url + '/' + selectedBarangay, function(data) {
         $('#councilor').empty();
         $.each(data, function(index, value) {
-          var show = "<div class='col-md-6'>"+
-          "<div class='box box-widget councilor widget-user-2 text-center' style='cursor: pointer; background-color: #4A5459; border-style: solid;' value=" + value.id + ">"+
-          "<div class='widget-user-header'>"+
-          "<div class='widget-user-image'>"+
-          "<img class='profile-user-img img-responsive img-square' src='" + asset + "/" + value.picture + "' alt='User Avatar'></div>"+
-          "<h3 class='widget-user-username text-widget' id=countxt" + value.id + ">" + value.strCounName + "</h3>"+
+          var show = "<div class='col-md-6'>" +
+          "<div class='box box-widget councilor widget-user-2 text-center' style='cursor: pointer; background-color: #4A5459; border-style: solid;' value=" + value.id + ">" +
+          "<div class='widget-user-header'>" +
+          "<div class='widget-user-image'>" +
+          "<img class='profile-user-img img-responsive img-square' src='" + asset + "/" + value.picture + "' alt='User Avatar'></div>" +
+          "<h3 class='widget-user-username text-widget' id=countxt" + value.id + ">" + value.strCounName + "</h3>" +
           "<h5 class='widget-user-desc slot text-widget'>Slot: 100/100</h5></div></div></div>";
           $('#councilor').append(show);
         });
@@ -311,14 +335,20 @@ $.each($('input[name="rad"]'), function(index, value) {
 $('input[name="col"]').on('ifClicked', function(event) {
   if (this.value == "no") {
     $("#college").show("slide", { direction: "up" }, 1000);
+    grade = 0;
   } else {
     $("#college").hide();
+    grade = 1;
   }
+  inputGrade();
 });
 $.each($('input[name="col"]'), function(index, value) {
   if ($(this).attr('checked'))
     if ($(this).attr('id') == 'no') {
+      grade = 0;
       $("#college").show("slide", { direction: "up" }, 1000);
+    } else {
+      $('.academic').toggle();
     }
   });
 $('input').iCheck({
@@ -353,34 +383,58 @@ $('.btn-submit').on('click', function(e) {
   });
 });
 $('.affiliation').click(function() {
-  var show = "<div class='form-group col-md-12 col-sm-12'>" +
-  "<label class='control-label'>Organization</label>" +
+  var show = "<div class='form-group col-md-6'>" +
   $('.organization')[0].outerHTML + "</div>" +
-  "<div class='form-group col-md-8 col-sm-6'>" +
-  "<label class='control-label'>Position</label>" +
+  "<div class='form-group col-md-3'>" +
   $('.position')[0].outerHTML + "</div>" +
-  "<div class='form-group col-md-4 col-sm-6'>" +
-  "<label class='control-label'>Year of Participation</label>" +
+  "<div class='form-group col-md-3'>" +
   "<div class='input-group'>" +
   "<div class='input-group-addon'>" +
   "<i class='fa fa-calendar'></i></div>" + $('.year')[0].outerHTML + "</div></div>";
   $('#affiliation').append(show);
 });
 $('.grade').click(function() {
-  var show = "<div class='form-group col-md-3'>" +
-  "<label class='control-label'>Subject Code</label>" +
-  $('.subject_code')[0].outerHTML + "</div>" +
-  "<div class='form-group col-md-5'>" +
-  "<label class='control-label'>Description</label>" +
-  $('.subject_description')[0].outerHTML + "</div>" +
-  "<div class='form-group col-md-2'>" +
-  "<label class='control-label'>Units</label>" +
-  $('.units')[0].outerHTML + "</div>" +
-  "<div class='form-group col-md-2'>" +
-  "<label class='control-label'>Grade</label>" +
-  $('.subject_grade')[0].outerHTML + "</div>";
+  var show = ''
+  if (grade) {
+    show = "<div class='form-group col-md-6'>" +
+    $('.subject_description')[0].outerHTML + "</div>" +
+    "<div class='form-group col-md-6'>" +
+    $('.subject_grade')[0].outerHTML + "</div>";
+  } else {
+    show = "<div class='form-group col-md-6'>" +
+    $('.subject_description')[0].outerHTML + "</div>" +
+    "<div class='form-group col-md-2'>" +
+    $('.units')[0].outerHTML + "</div>" +
+    "<div class='form-group col-md-4'>" +
+    $('.subject_grade')[0].outerHTML + "</div>";
+  }
   $('#grade').append(show);
 });
 $('.barangay').select2();
 $('.dropdown').select2();
+inputGrade();
+function inputGrade() {
+  var show = '';
+  if (grade) {
+    $('.academic').toggle();
+    show = "<div class='form-group col-md-6'>" +
+    "<label class='control-label'>Description</label>" +
+    "<input id='subject_description' class='form-control subject_description' maxlength='45' autocomplete='off' data-parsley-pattern='^[a-zA-Z0-9 ]+$' name='subject_description[]' type='text'></div>" +
+    "<div class='form-group col-md-6'>" +
+    "<label class='control-label'>Grade</label>" +
+    "<input id='subject_grade' class='form-control subject_grade' maxlength='4' autocomplete='off' data-parsley-pattern='^[a-zA-Z0-9. ]+$' name='subject_grade[]' type='text'></div>";
+  } else {
+    $('.academic').toggle(false);
+    show = "<div class='form-group col-md-6'>" +
+    "<label class='control-label'>Description</label>" +
+    "<input id='subject_description' class='form-control subject_description' maxlength='45' autocomplete='off' data-parsley-pattern='^[a-zA-Z0-9 ]+$' name='subject_description[]' type='text'></div>" +
+    "<div class='form-group col-md-2'>" +
+    "<label class='control-label'>Units</label>" +
+    "<input id='units' class='form-control units' maxlength='1' autocomplete='off' data-parsley-pattern='^[0-9 ]+$' name='units[]' type='text'></div>"+
+    "<div class='form-group col-md-4'>" +
+    "<label class='control-label'>Grade</label>" +
+    "<input id='subject_grade' class='form-control subject_grade' maxlength='4' autocomplete='off' data-parsley-pattern='^[a-zA-Z0-9. ]+$' name='subject_grade[]' type='text'></div>";
+  }
+  $('#grade').empty().append(show);
+}
 });
