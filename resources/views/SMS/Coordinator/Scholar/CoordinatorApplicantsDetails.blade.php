@@ -104,8 +104,8 @@
                     <td>Citizenship: {{$mother->citizenship}}</td>
                   </tr>
                   <tr>
-                    <td>Highest Educ. Attainment: {{$father->citizenship}}</td>
-                    <td>Highest Educ. Attainment: {{$mother->citizenship}}</td>
+                    <td>Highest Educ. Attainment: {{$father->highest_ed}}</td>
+                    <td>Highest Educ. Attainment: {{$mother->highest_ed}}</td>
                   </tr>
                   <tr>
                     <td>Occupation: {{$father->occupation}}</td>
@@ -231,7 +231,15 @@
                   <td>{{$grades->units}}</td>
                   @endif
                   <td>{{$grades->grade}}</td>
-                  <td>P</td>
+                  @foreach ($grading as $gradings)
+                  @if ($grades->grade == $gradings->grade)
+                  @if ($gradings->is_passed)
+                  <td>Passed</td>
+                  @else
+                  <td>Failed</td>
+                  @endif
+                  @endif
+                  @endforeach
                 </tr>
                 @endforeach
               </tbody>

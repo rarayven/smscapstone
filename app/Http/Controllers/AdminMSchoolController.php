@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\School;
-use App\Academicgrade;
+use App\Grading;
 use Response;
 use Datatables;
 use Validator;
@@ -15,8 +15,8 @@ class AdminMSchoolController extends Controller
     }
     public function data()
     {
-        $school = School::join('academic_gradings','schools.academic_grading_id','academic_gradings.id')
-        ->select(['schools.*','academic_gradings.description as academic_gradings_description']);
+        $school = School::join('gradings','schools.grading_id','gradings.id')
+        ->select(['schools.*','gradings.description as academic_gradings_description']);
         return Datatables::of($school)
         ->addColumn('action', function ($data) {
             return "<button class='btn btn-warning btn-xs btn-detail open-modal' value='$data->id'><i class='fa fa-edit'></i> Edit</button> <button class='btn btn-danger btn-xs btn-delete' value='$data->id'><i class='fa fa-trash-o'></i> Delete</button>";
@@ -53,7 +53,7 @@ class AdminMSchoolController extends Controller
     }
     public function index()
     {
-        $grade = Academicgrade::where('is_active',1)->pluck('description','id');
+        $grade = Grading::where('is_active',1)->pluck('description','id');
         return view('SMS.Admin.Maintenance.AdminMSchool')->withGrade($grade);
     }
     public function store(Request $request)
@@ -65,7 +65,7 @@ class AdminMSchoolController extends Controller
         try {
             $school = new School;
             $school->description=$request->strSchoDesc;
-            $school->academic_grading_id=$request->intSystID;
+            $school->grading_id=$request->intSystID;
             $school->save();
             return Response::json($school);
         } catch(\Exception $e) {
@@ -75,8 +75,8 @@ class AdminMSchoolController extends Controller
     public function edit($id)
     {
         try {
-            $school = School::join('academic_gradings','schools.academic_grading_id','academic_gradings.id')
-            ->select(['schools.*','academic_gradings.description as academic_gradings_description'])
+            $school = School::join('gradings','schools.grading_id','gradings.id')
+            ->select(['schools.*','gradings.description as academic_gradings_description'])
             ->where('schools.id',$id)
             ->firstorfail();
             return Response::json($school);
@@ -94,10 +94,10 @@ class AdminMSchoolController extends Controller
             try {
                 $school = School::findorfail($id);
                 $school->description = $request->strSchoDesc;
-                $school->academic_grading_id = $request->intSystID;
+                $school->grading_id = $request->intSystID;
                 $school->save();
-                $school = School::join('academic_gradings','schools.academic_grading_id','academic_gradings.id')
-                ->select(['schools.*','academic_gradings.description as academic_gradings_description'])
+                $school = School::join('gradings','schools.grading_id','gradings.id')
+                ->select(['schools.*','gradings.description as academic_gradings_description'])
                 ->where('schools.id',$id)
                 ->first();
                 return Response::json($school);

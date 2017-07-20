@@ -16,7 +16,7 @@ use App\Educback;
 use App\Siblings;
 use App\Desiredcourses;
 use Carbon\Carbon;
-use App\Academicgrade;
+use App\Grading;
 use App\Current;
 use Image;
 use App\Connection;
@@ -43,7 +43,7 @@ class SMSAccountApplyController extends Controller
     $barangay = Barangay::where('is_active',1)->get();
     $school = School::where('is_active',1)->get();
     $course = Course::where('is_active',1)->get();
-    $grade = Academicgrade::where('is_active',1)->get();
+    $grade = Grading::where('is_active',1)->get();
     $setting = Setting::first();
     return view('SMS.Account.SMSAccountApply')->withDistrict($district)->withCouncilor($councilor)->withBarangay($barangay)->withSchool($school)->withCourse($course)->withGrade($grade)->withNow($now)->withLow($low)->withSetting($setting);
   }
@@ -166,8 +166,8 @@ class SMSAccountApplyController extends Controller
         $desiredcourses->save();
       }
       //Insert in grades
-      $getAcademic = School::join('academic_gradings','schools.academic_grading_id','academic_gradings.id')
-      ->select('academic_gradings.id')
+      $getAcademic = School::join('gradings','schools.grading_id','gradings.id')
+      ->select('gradings.id')
       ->where('schools.id',$application->school_id)
       ->first();
       $scholargrade = new Grade;
@@ -175,11 +175,11 @@ class SMSAccountApplyController extends Controller
       if (($request->col)=='no') {        
         $scholargrade->year=$request->year;
         $scholargrade->semester=$request->semester;
-        $scholargrade->academic_grading_id=$getAcademic->id;
+        $scholargrade->grading_id=$getAcademic->id;
       } else {
         $scholargrade->year='I';
         $scholargrade->semester='I';
-        $scholargrade->academic_grading_id=$request->academic;
+        $scholargrade->grading_id=$request->academic;
       }
       $scholargrade->pdf=$pdfname;
       $scholargrade->save();

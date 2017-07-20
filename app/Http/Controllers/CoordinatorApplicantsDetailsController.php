@@ -11,6 +11,7 @@ use App\Siblings;
 use Carbon\Carbon;
 use App\User;
 use Session;
+use App\GradingDetail;
 use Auth;
 use App\Grade;
 class CoordinatorApplicantsDetailsController extends Controller
@@ -62,7 +63,8 @@ class CoordinatorApplicantsDetailsController extends Controller
             ->select('grade_details.*','grades.*')
             ->where('grades.student_detail_user_id',$id)
             ->get();
-            return view('SMS.Coordinator.Scholar.CoordinatorApplicantsDetails')->withApplication($application)->withMother($mother)->withFather($father)->withDesiredcourses($desiredcourses)->withElem($elem)->withHs($hs)->withSiblings($siblings)->withExist($exist)->withCount($count)->withAffiliation($affiliation)->withGrade($grade);
+            $grading = GradingDetail::where('grading_id',$grade[0]->grading_id)->get();
+            return view('SMS.Coordinator.Scholar.CoordinatorApplicantsDetails')->withApplication($application)->withMother($mother)->withFather($father)->withDesiredcourses($desiredcourses)->withElem($elem)->withHs($hs)->withSiblings($siblings)->withExist($exist)->withCount($count)->withAffiliation($affiliation)->withGrade($grade)->withGrading($grading);
         } catch(\Exception $e) {
             dd($e->getMessage());
             return redirect(route('applications.index'));

@@ -73,7 +73,6 @@ Route::group(['prefix' => 'coordinator/'], function () {
 	Route::put('events/attendance/checkbox/{id}', ['uses' => 'CoordinatorEventsController@attendance', 'as' => 'coordinatoreventsattendance.checkbox']);
 	Route::put('events/checkbox/{id}', ['uses' => 'CoordinatorEventsController@checkbox', 'as' => 'coordinatorevents.checkbox']);
 	Route::put('list/checkbox/{id}', ['uses' => 'CoordinatorStudentsListController@checkbox', 'as' => 'list.checkbox']);
-	
 	//Coordinator Profile
 	Route::get('profile', ['uses' => 'CoordinatorProfileController@index', 'as' => 'coordinatorprofile.index']);
 	Route::post('name', ['uses' => 'CoordinatorProfileController@name', 'as' => 'coordinatorname.store']);
@@ -211,8 +210,10 @@ Route::group(['prefix' => 'admin/'], function () {
 	Route::delete('school/{id}', ['uses' => 'AdminMSchoolController@destroy', 'as' => 'school.destroy']);
 	//Admin Academic Grade
 	Route::get('grade', ['uses' => 'AdminMGradeController@index', 'as' => 'grade.index']);
+	Route::get('grade/create', ['uses' => 'AdminMGradeController@create', 'as' => 'grade.create']);
 	Route::post('grade', ['uses' => 'AdminMGradeController@store', 'as' => 'grade.store']);
-	Route::get('grade/{id}/edit ', ['uses' => 'AdminMGradeController@edit', 'as' => 'grade.edit']);
+	Route::get('grade/{id}', ['uses' => 'AdminMGradeController@show', 'as' => 'grade.show']);
+	Route::get('grade/{id}/edit', ['uses' => 'AdminMGradeController@edit', 'as' => 'grade.edit']);
 	Route::put('grade/{id}', ['uses' => 'AdminMGradeController@update', 'as' => 'grade.update']);
 	Route::delete('grade/{id}', ['uses' => 'AdminMGradeController@destroy', 'as' => 'grade.destroy']);
 	//Admin Councilor
