@@ -242,6 +242,7 @@ Route::group(['prefix' => 'admin/'], function () {
 Route::get('apply', ['uses' => 'SMSAccountApplyController@index', 'as' => 'apply.index']);
 Route::post('apply', ['uses' => 'SMSAccountApplyController@store', 'as' => 'apply.store']);
 Route::get('apply/{id}', ['uses' => 'SMSAccountApplyController@show', 'as' => 'apply.show']);
+Route::get('apply/grade/{id}', ['uses' => 'SMSAccountApplyController@getGrade', 'as' => 'apply.getGrade']);
 Route::get('how-to-apply', ['uses' => 'SMSHowToApplyController@index', 'as' => 'how.index']);
 Route::get('/', ['uses' => 'SMSIndexController@index', 'as' => 'sms.index']);
 //Authentication Route

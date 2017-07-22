@@ -539,8 +539,8 @@
         <label class="radio-inline">{{ Form::radio('rad', 'no', true, ['id' => 'no']) }} No</label>
     </div>
     <div id="questionappear">
-       <div class="row">
-           <div class="container col-md-6 col-sm-12">
+     <div class="row">
+         <div class="container col-md-6 col-sm-12">
             <div class="row">
                 <div class="form-group col-md-6 col-sm-12">
                     {{ Form::label('name', "First Name", [
@@ -818,21 +818,12 @@
                 }}
             </div>
         </div>
-        <div class="form-group col-md-10 academic">
-            {{ Form::label('academic', "Grading System", [
-                'class' => 'control-label'
-                ]) 
-            }}
-            <select name="academic" class="form-control" id="academic">
-                @foreach ($grade as $grades)
-                <option value="{{ $grades->id }}">{{ $grades->description }} --- {{ $grades->highest_grade }}</option>
-                @endforeach
-            </select>
-        </div>
     </div>
-    <label class="col-sm-12 row">Input Grade</label>
-    <div id="grade" class="row"></div>
-    <button type="button" class="btn btn-primary grade"><i class='fa fa-plus'></i> Add</button>
+    <div id="academic">
+        <label class="col-sm-12 row">Input Grade</label>
+        <div id="grade" class="row"></div>
+        <button type="button" class="btn btn-primary grade"><i class='fa fa-plus'></i> Add</button>
+    </div>
     <h5>Name three(3) courses you wish to enroll in and the respective school (in order of your preference)</h5>
     <div class="row">
         <div class="form-group col-md-6 col-sm-6">

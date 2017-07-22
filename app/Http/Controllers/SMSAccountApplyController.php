@@ -16,7 +16,6 @@ use App\Educback;
 use App\Siblings;
 use App\Desiredcourses;
 use Carbon\Carbon;
-use App\Grading;
 use App\Current;
 use Image;
 use App\Connection;
@@ -26,6 +25,7 @@ use Hash;
 use Config;
 use Session;
 use App\GradeDetail;
+use App\GradingDetail;
 use App\Setting;
 use App\Affiliation;
 class SMSAccountApplyController extends Controller
@@ -43,9 +43,8 @@ class SMSAccountApplyController extends Controller
     $barangay = Barangay::where('is_active',1)->get();
     $school = School::where('is_active',1)->get();
     $course = Course::where('is_active',1)->get();
-    $grade = Grading::where('is_active',1)->get();
     $setting = Setting::first();
-    return view('SMS.Account.SMSAccountApply')->withDistrict($district)->withCouncilor($councilor)->withBarangay($barangay)->withSchool($school)->withCourse($course)->withGrade($grade)->withNow($now)->withLow($low)->withSetting($setting);
+    return view('SMS.Account.SMSAccountApply')->withDistrict($district)->withCouncilor($councilor)->withBarangay($barangay)->withSchool($school)->withCourse($course)->withNow($now)->withLow($low)->withSetting($setting);
   }
   public function store(Request $request)
   {
@@ -175,24 +174,23 @@ class SMSAccountApplyController extends Controller
       if (($request->col)=='no') {        
         $scholargrade->year=$request->year;
         $scholargrade->semester=$request->semester;
-        $scholargrade->grading_id=$getAcademic->id;
       } else {
         $scholargrade->year='I';
         $scholargrade->semester='I';
-        $scholargrade->grading_id=$request->academic;
       }
+      $scholargrade->grading_id=$getAcademic->id;
       $scholargrade->pdf=$pdfname;
       $scholargrade->save();
-      //Manual Input of Grades      
+      //Manual Input of Grades
       for ($i=0; $i < count($request->subject_description); $i++) { 
-        $detail = new GradeDetail;
-        $detail->grade_id=$scholargrade->id;
-        $detail->description=$request->subject_description[$i];
         if (($request->col)=='no') {
+          $detail = new GradeDetail;
+          $detail->grade_id=$scholargrade->id;
+          $detail->description=$request->subject_description[$i];
           $detail->units=$request->units[$i];
+          $detail->grade=$request->subject_grade[$i];
+          $detail->save();
         }
-        $detail->grade=$request->subject_grade[$i];
-        $detail->save();
       }
       //Actual Upload
       Image::make($image)->resize(400,400)->save($location);
@@ -214,5 +212,18 @@ class SMSAccountApplyController extends Controller
     ->select('councilors.*',DB::raw("CONCAT(councilors.last_name,', ',councilors.first_name,' ',IFNULL(councilors.middle_name,'')) as strCounName"),'districts.id as district_id')
     ->get();
     return Response::json($district);
+  }
+  public function getGrade($id)
+  {
+    $grading = GradingDetail::where('grading_id', function($query) use($id){
+      $query->from('gradings')
+      ->join('schools','gradings.id','schools.grading_id')
+      ->select('gradings.id')
+      ->where('schools.id',$id)
+      ->first();
+    })
+    ->select('grade')
+    ->get();
+    return Response::json($grading);
   }
 }
