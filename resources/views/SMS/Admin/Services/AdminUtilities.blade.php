@@ -19,7 +19,18 @@
 			<div class="tab-content">
 				<div class="tab-pane active row" id="tab_1">
 					<div class="col-xs-12">
-						<div class="form-group">
+						<div class="form-group col-xs-6">
+							<label for="title" class="control-label">Title:</label>
+							<input type="text" name="title" class="form-control">
+						</div>
+						<div class="form-group col-xs-6">
+							{{ Form::label('image', 'Logo:') }}<br>
+							<div class="btn btn-default btn-file">
+								<i class="fa fa-image"></i> Choose Image..
+								<input type="file" id="image" name="image">
+							</div>
+						</div>
+						<div class="form-group col-xs-6">
 							<label for="year_count" class="control-label">No. year level:</label>
 							<select class="form-control" name="year_count">
 								<option value="1">1</option>
@@ -29,7 +40,7 @@
 								<option value="5">5</option>
 							</select>
 						</div>
-						<div class="form-group">
+						<div class="form-group col-xs-6">
 							<label for="semester_count" class="control-label">No. semesters:</label>
 							<select class="form-control" name="semester_count">
 								<option value="1">1</option>

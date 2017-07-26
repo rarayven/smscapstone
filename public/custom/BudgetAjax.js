@@ -32,6 +32,8 @@ $(document).ready(function() {
   });
   $('#btn-add').click(function() {
     $('#add_budget').modal('show');
+    $('h4').text('Add Budget');
+    $('#btn-save').val("add");
   });
   $('#budget-list').on('click', '.btn-view', function() {
     var link_id = $(this).val();
@@ -70,11 +72,12 @@ $(document).ready(function() {
       $('#slot_count').val(data[0].slot_count);
       $.each(data, function(index, value){
         $('#id'+value.allocation_id).val(value.allocation_amount);
+        $('.allocate').append("<input type='hidden' name='allocation_id[]' value='"+value.allocate_id+"'>");
       });
       $('h4').text('Edit Budget');
       $('#btn-save').val("update");
       $('#add_budget').modal('show');
-    })
+    });
   });
   $('#budget-list').on('click', '.btn-delete', function() {
     var link_id = $(this).val();
@@ -97,8 +100,8 @@ $(document).ready(function() {
             url: url + '/' + link_id,
             type: "DELETE",
             success: function(data) {
-              $('.budget').text(data.amount);
               table.draw();
+              getBudget();
               swal({
                 title: "Deleted!",
                 text: "<center>Data Deleted</center>",
@@ -140,7 +143,7 @@ $(document).ready(function() {
     }
   }
     //create new task / update existing task
-    $("#btn-save").click(function(e) {
+    $("#btn-save").click(function() {
       $('#frmBudget').parsley().destroy();
       if ($('#frmBudget').parsley().isValid()) {
         $("#btn-save").attr('disabled', 'disabled');
@@ -162,6 +165,8 @@ $(document).ready(function() {
           dataType: 'json',
           success: function(data) {
             $('#add_budget').modal('hide');
+            table.draw();
+            getBudget();
             swal({
               title: "Success!",
               text: "<center>Data Stored</center>",
@@ -170,7 +175,6 @@ $(document).ready(function() {
               showConfirmButton: false,
               html: true
             });
-            location.reload();
           },
           error: function(data) {
             $.notify({
@@ -185,4 +189,10 @@ $(document).ready(function() {
         });
       }
     });
+    function getBudget() {
+      $.get(url + '/getlatest', function(data){
+        $('.slot').text(data.slot_count);
+        $('.budget').text(data.amount);
+      });
+    }
   });

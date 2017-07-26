@@ -107,5 +107,4 @@
 	<script type="text/javascript">
 		var dataurl = "{!! route('requirements.data') !!}";
 	</script>
-	{!! Html::script("js/comparison.js") !!}
 	@endsection

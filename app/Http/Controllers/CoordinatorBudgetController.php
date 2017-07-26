@@ -10,6 +10,8 @@ use Config;
 use App\Connection;
 use App\Budgtype;
 use Auth;
+use App\Application;
+use App\Allocatebudget;
 use DB;
 class CoordinatorBudgetController extends Controller
 {
@@ -81,7 +83,8 @@ class CoordinatorBudgetController extends Controller
     {
         $allocation = Allocation::join('budgets','allocations.budget_id','budgets.id')
         ->join('allocation_types','allocations.allocation_type_id','allocation_types.id')
-        ->select('budgets.*','allocations.amount as allocation_amount','allocation_types.id as allocation_id')
+        ->select('budgets.*','allocations.amount as allocation_amount','allocation_types.id as allocation_id','allocations.id as allocate_id')
+        ->where('allocations.budget_id',$id)
         ->get();
         return Response::json($allocation);
     }
@@ -98,18 +101,16 @@ class CoordinatorBudgetController extends Controller
             $budget->slot_count=$request->slot_count;
             $budget->budget_date=Carbon::now(Config::get('app.timezone'));
             $budget->save();
-            $allo = Allocation::where('budget_id',$budget->id)->delete();
             foreach ($request->amount as $amount) {
-                $allocation = new Allocation;
+                $allocation = Allocation::find($request->allocation_id[$ctr]);
                 $allocation->budget_id = $budget->id;
                 $allocation->allocation_type_id = $request->id[$ctr];
                 $allocation->amount = $amount;
                 $allocation->save();
                 $ctr++;
             }
-            $allo = Budget::latest('id')->first();
             DB::commit();
-            return Response::json($allo);
+            return Response::json($budget);
         } catch(\Exception $e) {
             DB::rollBack();
             return Response::json($e->getMessage(),500);
@@ -122,5 +123,42 @@ class CoordinatorBudgetController extends Controller
         $budget->delete();
         $allo = Budget::latest('id')->first();
         return Response::json($allo);
+    }
+    public function getBudget()
+    {
+        $application = Application::join('users','student_details.user_id','users.id')
+        ->join('user_councilor','users.id','user_councilor.user_id')
+        ->where('users.type','Student')
+        ->where('user_councilor.councilor_id', function($query){
+            $query->from('user_councilor')
+            ->join('users','user_councilor.user_id','users.id')
+            ->join('councilors','user_councilor.councilor_id','councilors.id')
+            ->select('councilors.id')
+            ->where('user_councilor.user_id',Auth::id())
+            ->first();
+        })
+        ->where('student_details.application_status','Accepted')
+        ->where('student_status','Continuing')
+        ->count();
+        $budget = Budget::where('user_id',Auth::id())
+        ->latest('id')->first();
+        $allocation = Allocatebudget::join('allocations','user_allocation.allocation_id','allocations.id')
+        ->whereIn('allocation_id', function($query) use($budget) {
+            $query->from('allocations')
+            ->where('budget_id', $budget->id)
+            ->select('id')
+            ->get();
+        })
+        ->select('allocations.amount')
+        ->get();
+        if($budget==null)
+            $budget = (object)['amount' => 0, 'slot_count' => 0];
+        else {
+            $budget->slot_count -= $application;
+            foreach ($allocation as $allocations) {
+                $budget->amount -= $allocations->amount;
+            }
+        }
+        return Response::json($budget);
     }
 }

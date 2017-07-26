@@ -132,6 +132,7 @@
         </li>
         <li class="{{Request::path() == 'coordinator/queries' ? 'active' : ''}}"><a href="{{ url('coordinator/queries') }}"><i class="fa fa-list"></i><span>Queries</span></a></li>
         <li class="{{Request::path() == 'coordinator/utilities' ? 'active' : ''}}"><a href="{{ url('coordinator/utilities') }}"><i class="fa fa-gear"></i><span>Utilities</span></a></li>
+        <li class="{{Request::path() == 'coordinator/requirements' ? 'active' : ''}}"><a href="{{ url('coordinator/requirements') }}"><i class="fa fa-files-o"></i><span>Requirements</span></a></li>
       </ul>
     </section>
   </aside>

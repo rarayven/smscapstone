@@ -30,6 +30,12 @@ class CoordinatorApplicantsController extends Controller
             ->where('user_councilor.user_id',Auth::id())
             ->first();
         })
+        ->where('student_details.batch_id', function($query){
+            $query->from('batches')
+            ->select('id')
+            ->latest('id')
+            ->first();
+        })
         ->where('users.type','Student');
         return Datatables::of($users)
         ->editColumn('strUserName', function ($data) {

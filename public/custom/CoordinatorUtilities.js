@@ -1,52 +1,11 @@
 $(document).ready(function() {
-    var url = '/coordinator/checklist';
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
     var id = '';
-    var url2 = '/coordinator/checklist/allocation';
-    var table = $('#student-table').DataTable({
-        processing: true,
-        serverSide: true,
-        "columnDefs": [
-        { "width": "130px", "targets": 3 },
-        { "width": "150px", "targets": 2 },
-        { "width": "150px", "targets": 1 }
-        ],
-        ajax: {
-            type: 'POST',
-            url: dataurl,
-            data: function(d) {
-                d.strUserFirstName = $('#strUserFirstName').val(),
-                d.strUserMiddleName = $('#strUserMiddleName').val(),
-                d.strUserLastName = $('#strUserLastName').val(),
-                d.intDistID = $('#intDistID').val(),
-                d.intCounID = $('#intCounID').val(),
-                d.intBaraID = $('#intBaraID').val(),
-                d.intBatcID = $('#intBatcID').val(),
-                d.strPersStreet = $('#strPersStreet').val(),
-                d.intStepID = $('#intStepID').val(),
-                d.strPersReligion = $('#strPersReligion').val()
-            }
-        },
-        columns: [
-        { data: 'strStudName', name: 'strStudName' },
-        { data: 'counter', name: 'counter', searchable: false, orderable: false },
-        { data: 'stipend', name: 'stipend', searchable: false, orderable: false },
-        { data: 'action', name: 'action', orderable: false, searchable: false }
-        ]
-    });
-    $('#btn-advSearch').on('click', function(e) {
-        table.draw();
-        e.preventDefault();
-        $('#frmAdv').trigger("reset");
-        $('#advanced_search').modal('hide');
-    });
-    $('#advanced_search').on('hide.bs.modal', function() {
-        $('#frmAdv').trigger("reset");
-    });
+    var url = "/coordinator/utilities";
     $('#view_step').on('hide.bs.modal', function() {
         $('#frmStep').trigger("reset");
         $('.steps').empty();
@@ -55,10 +14,8 @@ $(document).ready(function() {
         $('#frmClaim').trigger("reset");
         $('.stipend').empty();
     });
-    $('#advsearch').click(function() {
-        $('#advanced_search').modal('show');
-    });
-    $('#student-list').on('click', '.btn-progress', function() {
+    $('#table').DataTable();
+    $('td').on('click', '.btn-progress', function() {
         $(".btn-progress").attr('disabled', 'disabled');
         setTimeout(function() {
             $(".btn-progress").removeAttr('disabled');
@@ -78,7 +35,7 @@ $(document).ready(function() {
             } else {
                 $.notify({
                     icon: 'fa fa-check',
-                    message: 'All requirement passed'
+                    message: 'No requirement passed'
                 }, {
                     type: 'success',
                     z_index: 2000,
@@ -87,7 +44,7 @@ $(document).ready(function() {
             }
         });
     });
-    $('#student-list').on('click', '.open-modal', function() {
+    $('td').on('click', '.open-modal', function() {
         $(".open-modal").attr('disabled', 'disabled');
         setTimeout(function() {
             $(".open-modal").removeAttr('disabled');
@@ -107,7 +64,7 @@ $(document).ready(function() {
             } else {
                 $.notify({
                     icon: 'fa fa-check',
-                    message: 'All allocation claimed'
+                    message: 'No allocation claimed'
                 }, {
                     type: 'success',
                     z_index: 2000,
@@ -123,13 +80,13 @@ $(document).ready(function() {
         }, 1000);
         var formData = $('#frmClaim').serialize();
         $.ajax({
-            url: url2 + '/' + id,
+            url: url  + '/allocation/'+ id,
             type: "PUT",
             data: formData,
             dataType: 'json',
             success: function(data) {
                 $('#view_claim').modal('hide');
-                table.draw();
+                getBudget();
                 swal({
                     title: "Success!",
                     text: "<center>Data Stored</center>",
@@ -164,7 +121,6 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(data) {
                 $('#view_step').modal('hide');
-                table.draw();
                 swal({
                     title: "Success!",
                     text: "<center>Data Stored</center>",
@@ -186,5 +142,11 @@ $(document).ready(function() {
             }
         });
     });
-    $('.todo-list').todoList();
+    function getBudget() {
+      $.get('/coordinator/budget/getlatest', function(data){
+        $('.slot').text(data.slot_count);
+        $('.budget').text(data.amount);
+    });
+  }
+  $('.todo-list').todoList();
 });

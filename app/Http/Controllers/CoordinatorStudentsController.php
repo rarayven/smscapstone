@@ -90,7 +90,7 @@ class CoordinatorStudentsController extends Controller
 				$claim = "";
 				$list = 'disabled';
 			}
-			return "<button class='btn btn-primary btn-xs btn-progress' value=$data->id $list><i class='fa fa-files-o'></i> List</button> <button class='btn btn-success btn-xs open-modal' value='$data->id' $claim><i class='fa fa-money'></i> Claim</button> ";
+			return "<button class='btn btn-primary btn-xs btn-progress' value=$data->id $list><i class='fa fa-files-o'></i> List</button> <button class='btn btn-success btn-xs open-modal' value='$data->id' $claim><i class='fa fa-money'></i> Claim</button>";
 		})
 		->editColumn('strStudName', function ($data) {
 			$images = url('images/'.$data->picture);
@@ -135,25 +135,25 @@ class CoordinatorStudentsController extends Controller
 	}
 	public function create($id)
 	{
-		$step = Requirement::leftJoin('user_requirement','requirements.id','user_requirement.requirement_id')
-		->select('requirements.*')
-		->where('requirements.is_active',1)
-		->where('requirements.type', function($query) use($id) {
+		$step = Requirement::whereNotIn('id', function($query) use($id) {
+			$query->from('user_requirement')
+			->select('requirement_id')
+			->where('user_id',$id)
+			->get();
+		})
+		->where('is_active',1)
+		->where('type', function($query) use($id) {
 			$query->from('student_details')
 			->select('is_renewal')
 			->where('user_id',$id)
 			->first();
 		})
-		->whereNotIn('requirements.id', function($query){
-			$query->from('user_requirement')
-			->select('requirement_id')
-			->get();
-		})
-		->where('requirements.user_id',Auth::id())
+		->where('user_id',Auth::id())
+		->select('requirements.*')
 		->get();
 		return Response::json($step);
 	}
-	public function allocation()
+	public function allocation($id)
 	{
 		$allocation = Allocation::leftJoin('allocation_types','allocations.allocation_type_id','allocation_types.id')
 		->join('budgets','allocations.budget_id','budgets.id')
@@ -164,9 +164,10 @@ class CoordinatorStudentsController extends Controller
 			->latest('id')
 			->first();
 		})
-		->whereNotIn('allocations.id', function($query){
+		->whereNotIn('allocations.id', function($query) use($id) {
 			$query->from('user_allocation')
 			->select('allocation_id')
+			->where('user_id',$id)
 			->get();
 		})
 		->get();
@@ -189,7 +190,9 @@ class CoordinatorStudentsController extends Controller
 				->select('is_renewal')
 				->where('user_id',$id)
 				->first();
-			})->count();
+			})
+			->where('user_id',Auth::id())
+			->count();
 			$step = Studentsteps::where('grade_id',$grade->id)->count();
 			if ($requirements == $step) {
 				$application = Application::find($id);

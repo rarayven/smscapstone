@@ -28,6 +28,7 @@ use App\GradeDetail;
 use App\GradingDetail;
 use App\Setting;
 use App\Affiliation;
+use App\Budget;
 class SMSAccountApplyController extends Controller
 {
   public function __construct()
@@ -174,9 +175,6 @@ class SMSAccountApplyController extends Controller
       if (($request->col)=='no') {        
         $scholargrade->year=$request->year;
         $scholargrade->semester=$request->semester;
-      } else {
-        $scholargrade->year='I';
-        $scholargrade->semester='I';
       }
       $scholargrade->grading_id=$getAcademic->id;
       $scholargrade->pdf=$pdfname;
@@ -223,7 +221,33 @@ class SMSAccountApplyController extends Controller
       ->first();
     })
     ->select('grade')
+    ->orderBy('grade','desc')
     ->get();
     return Response::json($grading);
+  }
+  public function getCount($id)
+  {
+    $budget = Budget::where('councilor_id',$id)->latest('id')->first();
+    $application = Application::join('users','student_details.user_id','users.id')
+    ->join('user_councilor','users.id','user_councilor.user_id')
+    ->where('users.type','Student')
+    ->where('user_councilor.councilor_id', $id)
+    ->where('student_details.application_status','Accepted')
+    ->where('student_status','Continuing')
+    ->count();
+    $users = Application::join('users','users.id','student_details.user_id')
+    ->join('user_councilor','users.id','user_councilor.user_id')
+    ->where('user_councilor.councilor_id', $id)
+    ->where('student_details.application_status','Pending')
+    ->where('student_details.batch_id', function($query){
+      $query->from('batches')
+      ->select('id')
+      ->latest('id')
+      ->first();
+    })
+    ->where('users.type','Student')
+    ->count();
+    $counter = (object)['id' => $id, 'slot' => $application, 'max' => $budget->slot_count, 'queued' => $users];
+    return Response::json($counter);
   }
 }

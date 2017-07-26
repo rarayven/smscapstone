@@ -123,7 +123,6 @@
 							</div>
 						</div>
 					</div>
-
 					<div class="modal fade" id="view_claim">
 						<div class="modal-dialog">
 							<div class="modal-content">

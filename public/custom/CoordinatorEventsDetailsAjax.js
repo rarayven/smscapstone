@@ -17,9 +17,6 @@ $(document).ready(function() {
 			type: "PUT",
 			success: function(data) {
 				Pace.restart();
-				if (data == "Deleted") {
-					refresh();
-				}
 			},
 			error: function(data) {
 			}

@@ -71,7 +71,7 @@
                       ]) 
                     }}
                   </div>
-                  <div class="form-group">
+                  <div class="form-group allocate">
                     {{ Form::label('name', 'Slot') }}
                     {{ Form::text('slot_count', null, [
                       'id' => 'slot_count',

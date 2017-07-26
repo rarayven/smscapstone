@@ -301,7 +301,7 @@ $(document).ready(function() {
           "<div class='widget-user-image'>" +
           "<img class='profile-user-img img-responsive img-square' src='" + asset + "/" + value.picture + "' alt='User Avatar'></div>" +
           "<h3 class='widget-user-username text-widget' id=countxt" + value.id + ">" + value.strCounName + "</h3>" +
-          "<h5 class='widget-user-desc slot text-widget'>Slot: 100/100</h5></div></div></div>";
+          "<h5 class='widget-user-desc slot text-widget' id='slot" + value.id + "'>&emsp;</h5></div></div></div>";
           $('#councilor').append(show);
         });
         $('#intDistID').val(data[0].district_id);
@@ -356,12 +356,12 @@ $.each($('input[name="col"]'), function(index, value) {
 $('input').iCheck({
   radioClass: 'iradio_flat-red'
 });
-$("#frmApply").bind("keypress", function(e) {
-  if (e.keyCode == 13) {
-    $('#btn-next').click();
-    return false;
-  }
-});
+// $("#frmApply").bind("keypress", function(e) {
+//   if (e.keyCode == 13) {
+//     $('#btn-next').click();
+//     return false;
+//   }
+// });
 $('.btn-submit').on('click', function(e) {
   e.preventDefault();
   swal({
@@ -438,5 +438,10 @@ function inputGrade() {
 }
 $('#intPersCurrentSchool').change(function(){
   inputGrade();
+});
+$('#councilor').on('mouseenter', '.councilor', function() {
+  $.get(url + '/count/' + $(this).attr('value'), function(data) {
+    $('#slot'+data.id).text('Slot:'+data.slot+'/'+data.max+' - Queue:'+data.queued);
+  });
 });
 });

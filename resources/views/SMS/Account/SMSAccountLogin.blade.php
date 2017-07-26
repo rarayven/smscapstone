@@ -50,7 +50,7 @@
               {{ csrf_field() }}
               <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                 <label for="email" class="sr-only">E-Mail Address</label>
-                <input id="email" type="email" placeholder="Email..." class="form-username form-control" name="email" value="{{ old('email') }}" required autofocus>
+                <input id="email" type="email" placeholder="Email..." class="form-username form-control" name="email" value="{{ old('email') }}" required autofocus tabindex="1">
                 @if ($errors->has('email'))
                 <span class="help-block">
                   <strong>{{ $errors->first('email') }}</strong>
@@ -59,7 +59,7 @@
               </div>
               <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                 <label for="password" class="sr-only">Password</label>
-                <input id="password" type="password" placeholder="Password..." class="form-control form-password" name="password" required>
+                <input id="password" type="password" placeholder="Password..." class="form-control form-password" name="password" required tabindex="2">
                 @if ($errors->has('password'))
                 <span class="help-block">
                   <strong>{{ $errors->first('password') }}</strong>
@@ -69,14 +69,14 @@
               <div class="row">
                 <div class="col-xs-3">
                   <label>
-                    <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
-                    <a class="btn btn-link" style="margin-left: -10px; margin-top: -10px;" href="{{ route('password.request') }}">
+                    <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }} tabindex="3"> Remember Me
+                    <a class="btn btn-link" style="margin-left: -10px; margin-top: -10px;" href="{{ route('password.request') }}" tabindex="5">
                       Forgot Your Password?
                     </a>
                   </label>
                 </div>
                 <div class="col-xs-9">
-                  <button type="submit" class="btn">
+                  <button type="submit" class="btn" tabindex="4">
                     Login!
                   </button>
                 </div>

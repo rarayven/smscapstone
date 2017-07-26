@@ -113,7 +113,7 @@
             <li class="{{Request::path() == 'admin/course' ? 'active' : ''}}"><a href="{{ url('admin/course') }}"><i class="fa fa-book"></i><span>Course</span></a></li>
           </ul>
         </li>
-        <li class="treeview {{Request::path() == 'admin/batch' ? 'active' : ''}} {{Request::path() == 'admin/steps' ? 'active' : ''}}">
+        <li class="treeview {{Request::path() == 'admin/batch' ? 'active' : ''}} {{Request::path() == 'admin/requirements' ? 'active' : ''}}">
           <a href="#"><i class="fa fa-sticky-note-o"></i><span>Scholarship</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
