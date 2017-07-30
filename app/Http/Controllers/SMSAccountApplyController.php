@@ -122,13 +122,15 @@ class SMSAccountApplyController extends Controller
       $familydata->member_type=1;
       $familydata->save();
       //Insert in affiliations
-      for ($i=0; $i < count($request->strPersOrganization); $i++) { 
-        $affiliation = new Affiliation;
-        $affiliation->student_detail_user_id=$users->id;
-        $affiliation->organization=$request->strPersOrganization[$i];
-        $affiliation->position=$request->strPersPosition[$i];
-        $affiliation->participation_date=$request->strPersDateParticipation[$i];
-        $affiliation->save();
+      if ($request->strPersOrganization[0] != null && $request->strPersPosition[0] != null && $request->strPersDateParticipation[0] != null) {
+        for ($i=0; $i < count($request->strPersOrganization); $i++) { 
+          $affiliation = new Affiliation;
+          $affiliation->student_detail_user_id=$users->id;
+          $affiliation->organization=$request->strPersOrganization[$i];
+          $affiliation->position=$request->strPersPosition[$i];
+          $affiliation->participation_date=$request->strPersDateParticipation[$i];
+          $affiliation->save();
+        }
       }
       //Insert in educational_backgrounds
       $educback = new Educback;

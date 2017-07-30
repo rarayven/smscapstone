@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use App\User;
 use Session;
 use App\GradingDetail;
+use App\Budget;
 use Auth;
 use App\Grade;
 class CoordinatorApplicantsDetailsController extends Controller
@@ -87,6 +88,26 @@ class CoordinatorApplicantsDetailsController extends Controller
             Session::flash('fail','Student Already Accepted');
             return redirect(route('applications.index'));
         } catch(\Exception $e) {
+            $application = Application::join('users','student_details.user_id','users.id')
+            ->join('user_councilor','users.id','user_councilor.user_id')
+            ->where('users.type','Student')
+            ->where('user_councilor.councilor_id', function($query){
+                $query->from('user_councilor')
+                ->join('users','user_councilor.user_id','users.id')
+                ->join('councilors','user_councilor.councilor_id','councilors.id')
+                ->select('councilors.id')
+                ->where('user_councilor.user_id',Auth::id())
+                ->first();
+            })
+            ->where('student_details.application_status','Accepted')
+            ->where('student_status','Continuing')
+            ->count();
+            $budget = Budget::where('user_id',Auth::id())
+            ->latest('id')->first();
+            if (($budget->slot_count - $application) == 0) {
+                Session::flash('fail','No available slot');
+                return redirect(route('applications.index'));
+            }
             $application = Application::find($id);
             $application->application_status='Accepted';
             $application->save();
