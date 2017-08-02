@@ -74,8 +74,11 @@ class CoordinatorStudentsController extends Controller
 			<div class='progress-bar progress-bar-success progress-bar-striped' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: $percentage%'></div>";
 		})
 		->addColumn('stipend', function ($data) {
-			$count = Budgtype::where('is_active',1)->count();
-			$allocate = Allocatebudget::where('user_id',$data->id)->count();
+			$count = Budgtype::join('user_allocation_type','allocation_types.id','user_allocation_type.allocation_type_id')
+			->where('allocation_types.is_active',1)->count();
+			$allocate = Allocation::join('user_allocation','allocations.id','user_allocation.allocation_id')
+			->join('user_allocation_type','allocations.allocation_type_id','user_allocation_type.allocation_type_id')
+			->where('user_allocation.user_id',$data->id)->count();
 			if($count!=0)
 				$percentage = (($allocate/$count)*100);
 			else
@@ -156,10 +159,10 @@ class CoordinatorStudentsController extends Controller
 	public function allocation($id)
 	{
 		$allocation = Allocation::leftJoin('allocation_types','allocations.allocation_type_id','allocation_types.id')
-		->join('budgets','allocations.budget_id','budgets.id')
 		->select('allocation_types.description','allocations.id')
-		->where('budgets.id', function($query){
+		->where('allocations.budget_id', function($query){
 			$query->from('budgets')
+			->where('user_id',Auth::id())
 			->select('id')
 			->latest('id')
 			->first();
@@ -183,6 +186,7 @@ class CoordinatorStudentsController extends Controller
 				$steps->user_id = $id;
 				$steps->requirement_id = $step;
 				$steps->grade_id = $grade->id;
+				$steps->date_passed = Carbon::now(Config::get('app.timezone'));
 				$steps->save();
 			}
 			$requirements = Requirement::where('type', function($query) use($id) {
@@ -217,6 +221,7 @@ class CoordinatorStudentsController extends Controller
 				$allocate->user_id = $id;
 				$allocate->allocation_id = $claim;
 				$allocate->grade_id = $grade->id;
+				$allocate->date_claimed = Carbon::now(Config::get('app.timezone'));
 				$allocate->save();
 			}
 			DB::commit();

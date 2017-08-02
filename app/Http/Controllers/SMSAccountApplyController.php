@@ -29,6 +29,7 @@ use App\GradingDetail;
 use App\Setting;
 use App\Affiliation;
 use App\Budget;
+use App\Utility;
 class SMSAccountApplyController extends Controller
 {
   public function __construct()
@@ -251,5 +252,49 @@ class SMSAccountApplyController extends Controller
     ->count();
     $counter = (object)['id' => $id, 'slot' => $application, 'max' => $budget->slot_count, 'queued' => $users];
     return Response::json($counter);
+  }
+  public function getSchool($id)
+  {
+    $school = School::join('user_school','schools.id','user_school.school_id')
+    ->where('user_school.user_id', function($query) use($id) {
+      $query->from('users')
+      ->join('user_councilor','users.id','user_councilor.user_id')
+      ->where('user_councilor.councilor_id',$id)
+      ->where('users.type','Coordinator')
+      ->select('users.id')
+      ->first();
+    })
+    ->select('schools.*')
+    ->get();
+    return Response::json($school);
+  }
+  public function getCourse($id)
+  {
+    $course = Course::join('user_course','courses.id','user_course.course_id')
+    ->where('user_course.user_id', function($query) use($id) {
+      $query->from('users')
+      ->join('user_councilor','users.id','user_councilor.user_id')
+      ->where('user_councilor.councilor_id',$id)
+      ->where('users.type','Coordinator')
+      ->select('users.id')
+      ->first();
+    })
+    ->select('courses.*')
+    ->get();
+    return Response::json($course);
+  }
+  public function getQuestion($id)
+  {
+    $utility = Utility::where('user_id', function($query) use($id) {
+      $query->from('users')
+      ->join('user_councilor','users.id','user_councilor.user_id')
+      ->where('user_councilor.councilor_id',$id)
+      ->where('users.type','Coordinator')
+      ->select('users.id')
+      ->first();
+    })
+    ->select('utilities.essay')
+    ->first();
+    return Response::json($utility);
   }
 }

@@ -93,7 +93,7 @@ class CoordinatorEventsController extends Controller
         ->where('date_held','<',Carbon::today(Config::get('app.timezone')))
         ->whereIn('status',['Done','Cancelled'])
         ->get();
-        return view('SMS.Coordinator.Services.CoordinatorEvents')->withDone($done);;
+        return view('SMS.Coordinator.Services.Event.CoordinatorEvents')->withDone($done);;
     }
     public function store(Request $request)
     {
@@ -155,7 +155,7 @@ class CoordinatorEventsController extends Controller
             ->select('users.*','user_event.id as user_event_id','user_event.*','events.*')
             ->where('user_event.event_id',$id)
             ->get();
-            return view('SMS.Coordinator.Services.CoordinatorEventsDetails')->withEvents($events)->withAttendance($attendance);
+            return view('SMS.Coordinator.Services.Event.CoordinatorEventsDetails')->withEvents($events)->withAttendance($attendance);
         } catch(\Exception $e) {
             return redirect(route('coordinatorevents.index'));
         }

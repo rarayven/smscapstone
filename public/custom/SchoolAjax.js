@@ -18,7 +18,7 @@ $(document).ready(function() {
         ],
         columns: [
         { data: 'description', name: 'schools.description' },
-        { data: 'academic_gradings_description', name: 'academic_gradings.description' },
+        { data: 'academic_gradings_description', name: 'gradings.description' },
         { data: 'is_active', name: 'schools.is_active', searchable: false },
         { data: 'action', name: 'action', orderable: false, searchable: false }
         ]

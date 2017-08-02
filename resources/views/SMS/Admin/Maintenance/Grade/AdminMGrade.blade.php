@@ -40,6 +40,7 @@
 	</div>
 	@endsection
 	@section('script')
+	{!! Html::script("js/bootbox.min.js") !!} 
 	{!! Html::script("custom/GradeAjax.min.js") !!}
 	<script type="text/javascript">
 		var dataurl = "{!! route('grade.data') !!}";

@@ -43,21 +43,13 @@
 										}}
 									</div>
 									<div class="form-group">
-										{{ Form::label('name', 'Select Councilor') }}
-										<select id="councilor_id" class="form-control" name="councilor_id">
-											@foreach ($councilor as $councilor)
-											<option value="{{ $councilor->id }}">{{ $councilor->first_name }} {{ $councilor->last_name }}</option>
-											@endforeach
-										</select>
-									</div>
-									<div class="form-group">
-										{{ Form::label('name', 'Step Description') }}
+										{{ Form::label('name', 'Description') }}
 										{{ Form::text('strStepDesc', null, [
 											'id' => 'strStepDesc',
 											'class' => 'form-control',
 											'maxlength' => '100',
 											'required' => 'required',
-											'data-parsley-pattern' => '^[a-zA-Z0-9. ]+$',
+											'data-parsley-pattern' => '^[a-zA-Z0-9. ,]+$',
 											'autocomplete' => 'off'
 											]) 
 										}}
@@ -77,18 +69,13 @@
 						</div>
 					</div>
 					<div class="box-body table-responsive">
-						{{ Form::button("<i class='fa fa-plus'></i> Add Requirement", [
-							'id' => 'btn-add',
-							'class' => 'btn btn-primary btn-sm',
-							'value' => 'add',
-							'type' => '',
-							'style' => 'margin-bottom: 10px;'
-							]) 
-						}}
+						<div class="form-group row col-sm-12">
+							<img src="{{ asset('images/'.$councilor->picture) }}" style="height: 50px; width: 50px;" class="img-circle" alt="User Image">
+							<b>Coun.</b> {{ $councilor->first_name }} {{ $councilor->middle_name }} {{ $councilor->last_name }}
+						</div>
 						<table id="steps-table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
 							<thead>
-								<th>Councilor</th>
-								<th>Requirement</th>
+								<th>Description</th>
 								<th>Type</th>
 								<th>Status</th>
 								<th>Action</th>
@@ -103,8 +90,8 @@
 	</div>
 	@endsection
 	@section('script')
-	{!! Html::script("custom/RequirementsAjax.min.js") !!}
+	{!! Html::script("custom/RequirementsDetailsAjax.min.js") !!}
 	<script type="text/javascript">
-		var dataurl = "{!! route('requirements.data') !!}";
+		var dataurl = "{!! route('requirementsdetails.data',$connection->id) !!}";
 	</script>
 	@endsection

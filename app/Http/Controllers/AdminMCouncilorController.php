@@ -11,6 +11,7 @@ use Datatables;
 use Validator;
 use Hash;
 use Image;
+use App\Utility;
 class AdminMCouncilorController extends Controller
 {
     public function __construct()
@@ -105,6 +106,21 @@ class AdminMCouncilorController extends Controller
             $connection->user_id = $users->id;
             $connection->councilor_id = $councilor->id;
             $connection->save();
+            $utility = new Utility;
+            $utility->user_id = $users->id;
+            $utility->essay = "<p>1.  Pangalan, edad, kasarian at pinakahuling paraaralang pinanggalingan, pinagtapusan o kasalukuyang kinabibilangan.</p>
+            <p>2.  Ilagay ang kasalukuyang tirahan at mga lugar na tinitirahan sa loob ng 3 taon.</p>
+            <p>3.  Pangalan ng magulang o tagapangalaga at kanilang hanapbuhay. Ilagay din ang buwanang kita kung maaari.</p>
+            <p>4. Ilang ang mga kapatid na nag- aaral o naghahanapbuhay> pang-ilan ka sa magkakapatid?</p>
+            <p>5. Ilahad ang mga kamag-anak na naninilbihan sa pamahalaan. May mga malalapit ka bas a mga kasapi sa mga organisasyon na pang komunidad?</p>
+            <p>6. Nakikilahok ka bas a mga usapin at proyekto ng inyong pamayanan? Sa papaanong pamamaraan? Kung hinidi, isalaysay kung bakit.</p>
+            <p>7. Isalaysay aang mga suliranin na dinadanas att kasalukuyan hinahanap sa pag-aaral. Papaano mo ito hinaharap?</p>
+            <p>8. Ilahad kung paano mo nalaman ang programa ng SYDP. Ano ang mga inaasahan mo hinggil sa programang ito?</p>
+            <p>9. Ano ang katangian at kakayahan mo upang maging karapat dapat na mapabilang sa mga “SKOLAR NG BAYAN”?</p>
+            <p>10.  Kung sakaling maging benepisyaryo, ano sa palagay moa ng maaari mongmagagawa o maitutulong sa kapwa iskolar at pamahalaang local upang matagumpay ang programa?</p>
+            <p>11.  Katulong ang iyong pamilya, paano mo matitiyan na ikaw ay makakatapos ng iyong pag-aaral?</p>
+            <p>12.  Ilarawan sa iyong kaalaman ang kalagayan ng ating lungson sa ngayon</p>";
+            $utility->save();
             Image::make($image)->resize(400,400)->save($location);
             DB::commit();
             return Response::json($councilor);

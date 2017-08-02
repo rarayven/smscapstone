@@ -1,4 +1,7 @@
 @extends('SMS.Coordinator.CoordinatorMain')
+@section('override')
+{!! Html::style("plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css") !!}
+@endsection
 @section('content')
 <div class="content-wrapper">
 	<section class="content-header">
@@ -13,11 +16,35 @@
 	<section class="content">
 		<div class="nav-tabs-custom">
 			<ul class="nav nav-tabs">
-				<li class="active"><a href="#tab_1" data-toggle="tab">Undo Checklist</a></li>
-				<li><a href="#tab_2" data-toggle="tab">Backup</a></li>
+				<li class="active"><a href="#tab_1" data-toggle="tab">Available Claiming</a></li>
+				<li><a href="#tab_2" data-toggle="tab">Undo Checklist</a></li>
+				<li><a href="#tab_3" data-toggle="tab">Essay Question</a></li>
+				<li><a href="#tab_4" data-toggle="tab">Backup</a></li>
 			</ul>
 			<div class="tab-content">
 				<div class="tab-pane active row" id="tab_1">
+					<div class="box-body table-responsive">
+						<table class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
+							<thead>
+								<th>Budget Type</th>
+								<th>Status</th>
+							</thead>
+							<tbody>
+								@foreach ($claiming as $claimings)
+								<tr>
+									<td>
+										{{ $claimings->description }}
+									</td>
+									<td>
+										<input type='checkbox' id='isActive' name='isActive' value='{{ $claimings->id }}' data-toggle='toggle' data-style='android' data-onstyle='success' data-offstyle='danger' data-on="<i class='fa fa-check-circle'></i> Active" data-off="<i class='fa fa-times-circle'></i> Inactive" data-size='mini' {{ $claimings->allocation_type_id == null ? '' : 'checked'}}>
+									</td>
+								</tr>
+								@endforeach
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="tab-pane row" id="tab_2">
 					<div class="modal fade" id="view_step">
 						<div class="modal-dialog">
 							<div class="modal-content">
@@ -89,12 +116,12 @@
 						</div>
 					</div>
 					<div class="box-body table-responsive">
-						<table id="table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
+						<table class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
 							<thead>
 								<th>Student</th>
 								<th>Action</th>
 							</thead>
-							<tbody id="list">
+							<tbody>
 								@foreach ($application as $applications)
 								<tr>
 									<td>
@@ -109,7 +136,30 @@
 						</table>
 					</div>
 				</div>
-				<div class="tab-pane row" id="tab_2">
+				<div class="tab-pane row" id="tab_3">
+					<div class="box-body pad">
+						{{ Form::open([
+							'id' => 'frm',
+							'route' => 'coordinatorutilities.question'
+							])
+						}}
+						<div class="form-group">
+							<textarea class="textarea" name="essay" placeholder="Place some text here"
+							style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" required="required"></textarea>
+						</div>
+						<div class="form-group">
+							{{ Form::button("<i class='fa fa-paper-plane'></i> Submit", [
+								'id' => 'btn-save',
+								'class' => 'btn btn-success pull-right',
+								'value' => 'add',
+								'type' => ''
+								]) 
+							}}
+						</div>
+						{{ Form::close() }}
+					</div>
+				</div>
+				<div class="tab-pane row" id="tab_4">
 				</div>
 			</div>
 		</div>
@@ -117,5 +167,9 @@
 </div>
 @endsection
 @section('script')
-{!! Html::script("custom/CoordinatorUtilities.min.js") !!}
+{!! Html::script("plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js") !!}
+{!! Html::script("custom/CoordinatorUtilitiesAjax.min.js") !!}
+<script type="text/javascript">
+	$('.textarea').wysihtml5();
+</script>
 @endsection

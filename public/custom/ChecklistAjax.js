@@ -130,6 +130,7 @@ $(document).ready(function() {
             success: function(data) {
                 $('#view_claim').modal('hide');
                 table.draw();
+                getBudget();
                 swal({
                     title: "Success!",
                     text: "<center>Data Stored</center>",
@@ -187,4 +188,10 @@ $(document).ready(function() {
         });
     });
     $('.todo-list').todoList();
+    function getBudget() {
+      $.get('/coordinator/budget/getlatest', function(data){
+        $('.slot').text(data.slot_count);
+        $('.budget').text(data.amount);
+    });
+  }
 });

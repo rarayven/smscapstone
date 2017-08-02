@@ -32,8 +32,7 @@ $(document).ready(function() {
           refresh();
         }
       },
-      error: function(data) {
-      }
+      error: function(data) {}
     });
   });
   function refresh() {
@@ -56,6 +55,33 @@ $(document).ready(function() {
       }
     });
   }
+  $('#grade-list').on('click', '.btn-view', function() {
+    $.get(url + '/' + $(this).val(), function(data) {
+      var modalbody = "<div class='row'>"+
+      "<div class='form-group col-md-12'><label>Description:</label> "+data[0].description+"</div><div class='row'>";
+      $.each(data, function(index, value) {
+        var status = "Failed";
+        if (value.is_passed) {
+          status = "Passed";
+        }
+        modalbody += "<div class='form-group col-md-6'>"+
+        "<div class='col-md-6'><label>Grade:</label> "+value.grade+"</div>"+
+        "<div class='col-md-6'><label>Status:</label> "+status+"</div>"+
+        "</div>";
+      });
+      "</div></div>";
+      bootbox.alert({
+        message: modalbody,
+        backdrop: true,
+        buttons: {
+          ok: {
+            label: 'Ok',
+            className: 'btn-success btn-md'
+          }
+        }
+      });
+    });
+  });
   $('#grade-list').on('click', '.btn-delete', function() {
     var link_id = $(this).val();
     swal({
@@ -102,8 +128,7 @@ $(document).ready(function() {
                 }
               }
             },
-            error: function(data) {
-            }
+            error: function(data) {}
           });
         }
       }, 500);

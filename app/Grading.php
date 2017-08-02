@@ -9,14 +9,14 @@ class Grading extends Model
 		return $rules = [
 		// 'dblSystLowGrade' => 'required|max:4',
 		// 'strSystFailGrade' => 'required|max:4',
-		// 'strSystDesc' => 'required|max:25|unique:academic_gradings,description,'.$id,
-		// 'dblSystHighGrade' => 'required|max:4|unique_with:academic_gradings, dblSystLowGrade = lowest_grade, dblSystHighGrade = highest_grade,'.$id
+		'strSystDesc' => 'required|max:25|unique:gradings,description,'.$id,
+		// 'dblSystHighGrade' => 'required|max:4|unique_with:gradings, dblSystLowGrade = lowest_grade, dblSystHighGrade = highest_grade,'.$id
 		];
 	}
 	public static $storeRule = [
 	// 'dblSystLowGrade' => 'required|max:4',
 	// 'strSystFailGrade' => 'required|max:4',
-	// 'dblSystHighGrade' => 'required|max:4|unique_with:academic_gradings, dblSystLowGrade = lowest_grade, dblSystHighGrade = highest_grade',
-	// 'strSystDesc' => 'required|max:25|unique:academic_gradings,description',
+	// 'dblSystHighGrade' => 'required|max:4|unique_with:gradings, dblSystLowGrade = lowest_grade, dblSystHighGrade = highest_grade',
+	'strSystDesc' => 'required|max:25|unique:gradings,description',
 	];
 }

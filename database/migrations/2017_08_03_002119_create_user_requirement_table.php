@@ -17,6 +17,7 @@ class CreateUserRequirementTable extends Migration {
 			$table->integer('user_id')->unsigned()->index('fstudent_steps_user_id_idx');
 			$table->integer('requirement_id')->unsigned()->index('fstudent_steps_step_id_idx');
 			$table->integer('grade_id')->unsigned()->index('fstudent_steps_grade_id_idx');
+			$table->dateTime('date_passed');
 			$table->unique(['user_id','requirement_id','grade_id'], 'unique_idx_requirements');
 		});
 	}

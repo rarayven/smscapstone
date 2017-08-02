@@ -86,11 +86,12 @@ $(document).ready(function() {
     .removeClass('current')
     .eq(index)
     .addClass('current');
-    if (ctr != 2) {
+    if (index != 1) {
       $('.form-navigation .previous').toggle(index > 0);
       var atTheEnd = index >= $sections.length - 1;
       $('.form-navigation .next').toggle(!atTheEnd);
     } else {
+      $('.form-navigation .previous').show();
       $('.form-navigation .next').toggle();
     }
   }
@@ -112,7 +113,7 @@ $(document).ready(function() {
   $('.form-navigation .next').click(function() {
     var pass = true;
     if ($('.f1').parsley().validate({ group: 'block-' + curIndex() })) {
-      if (ctr == 1) {
+      if (ctr == 2) {
         if (checker) {
           if ($('#strSiblDateFrom').val() >= $('#strSiblDateTo').val()) {
             pass = false;
@@ -120,7 +121,7 @@ $(document).ready(function() {
           }
         }
       }
-      if (ctr == 2) {
+      if (ctr == 3) {
         var concat1 = $('#school1').val() + "" + $('#course1').val();
         var concat2 = $('#school2').val() + "" + $('#course2').val();
         var concat3 = $('#school3').val() + "" + $('#course3').val();
@@ -155,142 +156,132 @@ $(document).ready(function() {
     if (ctr == 5) {
       var ctr_grade = $('input[name="subject_grade[]"]').length;
       var ctr_organization = $('input[name="strPersOrganization[]"]').length;
-      var div = "<div class='form-group'>" +
-      "<label>Councilor:</label> " +
-      "<h4>" + CouncilorName + "</h4>" +
-      "</div>" +
+      var div = "<label>Councilor:</label> " + CouncilorName + " <br>" +
       "<hr>" +
-      "<label>Personal Info</label>" +
-      "<div class='form-group'>" +
-      "<label>Applicant's Name:</label> <h4>" + $('#fname').val() + " " + $('#mname').val() + " " + $('#lname').val() + "</h4><br>" +
-      "<label>Gender:</label> <h4>" + $("select[name='PersGender'] option:selected").text() + "</h4><br>" +
-      "<label>Birth Date:</label> <h4>" + $('#datepicker').val() + "</h4><br>" +
-      "<label>Place of Birth:</label> <h4>" + $('#pob').val() + "</h4><br>" +
-      "<label>Religion:</label> <h4>" + $('#strPersReligion').val() + "</h4><br>" +
-      "<label>Address:</label> <h4>" + $('#strApplHouseNo').val() + " " +
+      "<label>Personal Info </label> <br>" +
+      "<label>Applicant's Name:</label> " + $('#fname').val() + " " + $('#mname').val() + " " + $('#lname').val() + " <br>" +
+      "<label>Gender:</label> " + $("select[name='PersGender'] option:selected").text() + "<br>" +
+      "<label>Birth Date:</label> " + $('#datepicker').val() + " <br>" +
+      "<label>Place of Birth:</label> " + $('#pob').val() + " <br>" +
+      "<label>Religion:</label> " + $('#strPersReligion').val() + " <br>" +
+      "<label>Address:</label> " + $('#strApplHouseNo').val() + " " +
       $('#stname').val() + " " +
       $("select[name='intBaraID'] option:selected").text() + " " + DistrictName +
-      "</h4><br>" +
-      "<label>Mobile Number:</label> <h4>" + $('#strUserCell').val() + "</h4><br>" +
-      "<label>Email Address:</label> <h4>" + $('#email').val() + "</h4><br>" +
-      "</div>" +
-      "<div class='container'></div>" +
+      " <br>" +
+      "<label>Mobile Number:</label> " + $('#strUserCell').val() + " <br>" +
+      "<label>Email Address:</label> " + $('#email').val() + " <br>" +
       "<hr>" +
-      "<label class='col-xs-12 row'>Family Background</label>" +
-      "<div class='form-group col-md-6 row'>" +
-      "<label>Mother's Name:</label> <h4>" + $('#motherfname').val() + " " + $('#motherlname').val() + "</h4><br>" +
-      "<label>Citizenship:</label> <h4>" + $('#mothercitizen').val() + "</h4><br>" +
-      "<label>Highest Attainment:</label> <h4>" + $('#motherhea').val() + "</h4><br>" +
-      "<label>Occupation:</label> <h4>" + $('#motheroccupation').val() + "</h4><br>" +
-      "<label>Monthly Income:</label> <h4>" +
+      "<label>Family Background</label> <br>" +
+      "<div class='row'>" +
+      "<div class='col-md-6'>" +
+      "<label>Mother's Name:</label> " + $('#motherfname').val() + " " + $('#motherlname').val() + " <br>" +
+      "<label>Citizenship:</label> " + $('#mothercitizen').val() + " <br>" +
+      "<label>Highest Attainment:</label> " + $('#motherhea').val() + " <br>" +
+      "<label>Occupation:</label> " + $('#motheroccupation').val() + " <br>" +
+      "<label>Monthly Income:</label> " +
       $("select[name='motherincome'] option:selected").text() +
-      "</h4><br>" +
-      "<label>Number of Brother/s:</label> <h4>" + $('#brono').val() + "</h4><br>" +
-      "<label>Number of Sister/s:</label> <h4>" + $('#sisno').val() + "</h4><br>" +
+      " <br>" +
       "</div>" +
-      "<div class='form-group col-md-6 row'>" +
-      "<label>Father's Name:</label> <h4>" + $('#fatherfname').val() + " " + $('#fatherlname').val() + "</h4><br>" +
-      "<label>Citizenship:</label> <h4>" + $('#fathercitizen').val() + "</h4><br>" +
-      "<label>Highest Attainment:</label> <h4>" + $('#fatherhea').val() + "</h4><br>" +
-      "<label>Occupation:</label> <h4>" + $('#fatheroccupation').val() + "</h4><br>" +
-      "<label>Monthly Income:</label> <h4>" +
+      "<div class='col-md-6'>" +
+      "<label>Father's Name:</label> " + $('#fatherfname').val() + " " + $('#fatherlname').val() + " <br>" +
+      "<label>Citizenship:</label> " + $('#fathercitizen').val() + " <br>" +
+      "<label>Highest Attainment:</label> " + $('#fatherhea').val() + " <br>" +
+      "<label>Occupation:</label> " + $('#fatheroccupation').val() + " <br>" +
+      "<label>Monthly Income:</label> " +
       $("select[name='fatherincome'] option:selected").text() +
-      "</h4><br>";
+      " <br>" +
+      "</div>" +
+      "</div>" +
+      "<div class='row'>" +
+      "<div class='col-md-6'>" +
+      "<label>Number of Brother/s:</label> " + $('#brono').val() + " <br>" +
+      "<label>Number of Sister/s:</label> " + $('#sisno').val() + " <br>" +
+      "</div>";
       if (checker) {
-        div += "<label>Sibling's Name:</label> <h4>" + $('#strSiblFirstName').val() + " " + $('#strSiblLastName').val() + "</h4><br>" +
-        "<label>Date Joined:</label> <h4>From: " + $('#strSiblDateFrom').val() + " To: " + $('#strSiblDateTo').val() + "</h4><br>";
+        div += "<div class='col-md-6'>" +
+        "<label>From:</label> " + $('#strSiblFirstName').val() + " " + $('#strSiblLastName').val() + " <br>" +
+        "<label>To:</label> " + $('#strSiblDateFrom').val() + " To: " + $('#strSiblDateTo').val() + " <br>" +
+        "</div>";
       }
       div += "</div>" +
-      "<div class='container'></div>" +
       "<hr>" +
-      "<label class='col-xs-12 row'>Educational Background</label>" +
-      "<div class='form-group col-md-6 row'>" +
-      "<label>Elementary</label><br>" +
-      "<label>School Name:</label> " +
-      "<h4>" + $('#elemschool').val() + "</h4><br>" +
-      "<label>Year Enrolled:</label> " +
-      "<h4>" + $('#elemenrolled').val() + "</h4><br>" +
-      "<label>Year Graduated:</label> " +
-      "<h4>" + $('#elemgrad').val() + "</h4><br>" +
-      "<label>Achievements/Honors:</label> " +
-      "<h4>" + $('#elemhonors').val() + "</h4><br>" +
+      "<label>Educational Background</label> <br>" +
+      "<div class='row'>" +
+      "<div class='col-md-6'>" +
+      "<label>Elementary</label> <br>" +
+      "<label>School Name:</label> " + $('#elemschool').val() + " <br>" +
+      "<label>Year Enrolled:</label> " + $('#elemenrolled').val() + " <br>"+
+      "<label>Year Graduated:</label> " + $('#elemgrad').val() + " <br>" +
+      "<label>Achievements/Honors:</label> " + $('#elemhonors').val() + " <br>" +
       "</div>" +
-      "<div class='form-group col-md-6 row'>" +
-      "<label>High School</label><br>" +
-      "<label>School Name:</label> " +
-      "<h4>" + $('#hschool').val() + "</h4><br>" +
-      "<label>Year Enrolled:</label> " +
-      "<h4>" + $('#hsenrolled').val() + "</h4><br>" +
-      "<label>Year Graduated:</label> " +
-      "<h4>" + $('#hsgrad').val() + "</h4><br>" +
-      "<label>Achievements/Honors:</label> " +
-      "<h4>" + $('#hshonor').val() + "</h4><br>" +
+      "<div class='col-md-6'>" +
+      "<label>High School</label> <br>" +
+      "<label>School Name:</label> " + $('#hschool').val() + " <br>" +
+      "<label>Year Enrolled:</label> " + $('#hsenrolled').val() + " <br>" +
+      "<label>Year Graduated:</label> " + $('#hsgrad').val() + " <br>" +
+      "<label>Achievements/Honors:</label> " + $('#hshonor').val() + " <br>" +
       "</div>" +
-      "<div class='container'></div>" +
+      "</div>" +
       "<hr>" +
-      "<label>College</label>" +
-      "<div class='form-group'>" +
-      "<label>School/University Currently Enrolled In:</label> " +
-      "<h4>" + $("select[name='intPersCurrentSchool'] option:selected").text() + "</h4><br>" +
-      "<label>Current Course:</label> " +
-      "<h4>" + $("select[name='intPersCurrentCourse'] option:selected").text() + "</h4><br>" +
+      "<label>College</label> <br>" +
+      "<div class='row'>" +
+      "<div class='col-md-6'>" +
+      "<label>School/University Currently Enrolled In:</label> " + $("select[name='intPersCurrentSchool'] option:selected").text() + " <br>" +
       "</div>" +
-      "<div class='form-group'>" +
-      "<div class='row'>"
-      "<label class='col-md-12'>Grades</label><br>";
+      "<div class='col-md-6'>" +
+      "<label>Current Course:</label> " + $("select[name='intPersCurrentCourse'] option:selected").text() + " <br>" +
+      "</div>" +
+      "</div>" +
+      "<br>" +
+      "<label>Grade</label> <br>"+
+      "<div class='row'>";
       for (var i = 0; i < ctr_grade; i++) {
-        if (grade) {
-          div += "<div class='col-md-6'><label>Description:</label> " +
-          "<h4>" + $('.subject_description')[i].value + "</h4><br></div>" +
-          "<div class='col-md-6'><label>Grade:</label> " +
-          "<h4>" + $('.subject_grade')[i].value + "</h4><br></div>";
-        } else {
-          div += "<div class='col-md-4'><label>Description:</label> " +
-          "<h4>" + $('.subject_description')[i].value + "</h4><br></div>" +
-          "<div class='col-md-4'><label>Units:</label> " +
-          "<h4>" + $('.units')[i].value + "</h4><br></div>" +
-          "<div class='col-md-4'><label>Grade:</label> " +
-          "<h4>" + $('.subject_grade')[i].value + "</h4><br></div>";
-        }
+        div += "<div class='col-md-4'>" +
+        "<label>Description:</label> " + $('.subject_description')[i].value + " <br>" +
+        "</div>" +
+        "<div class='col-md-4'>" +
+        "<label>Units:</label> " + $('.units')[i].value + "<br>" +
+        "</div>" +
+        "<div class='col-md-4'>" +
+        "<label>Grade:</label> " + $('.subject_grade')[i].value + "<br>" +
+        "</div>";
       }
-      div += "</div></div>" +
-      "<hr>" +
-      "<label class='col-xs-12 row'>Name three(3) courses you wish to enroll in and the respective school (in order of your preference):</label>" +
-      "<div class='form-group col-md-4 row'>" +
-      "<label>School 1:</label> " +
-      "<h4>" + $("select[id='school1'] option:selected").text() + "</h4><br>" +
-      "<label>Course 1:</label> " +
-      "<h4>" + $("select[id='course1'] option:selected").text() + "</h4><br>" +
+      div += "</div>" +
+      "<label>Name three(3) courses you wish to enroll in and the respective school (in order of your preference):</label> <br>" +
+      "<div class='row'>" +
+      "<div class='col-md-4'>" +
+      "<label>School 1:</label> " + $("select[id='school1'] option:selected").text() + " <br>" +
+      "<label>Course 1:</label> " + $("select[id='course1'] option:selected").text() + " <br>" +
       "</div>" +
-      "<div class='form-group col-md-4 row'>" +
-      "<label>School 2:</label> " +
-      "<h4>" + $("select[id='school2'] option:selected").text() + "</h4><br>" +
-      "<label>Course 2:</label> " +
-      "<h4>" + $("select[id='course2'] option:selected").text() + "</h4><br>" +
+      "<div class='col-md-4'>" +
+      "<label>School 2:</label> " + $("select[id='school2'] option:selected").text() + " <br>" +
+      "<label>Course 2:</label> " + $("select[id='course2'] option:selected").text() + " <br>" +
       "</div>" +
-      "<div class='form-group col-md-4 row'>" +
-      "<label>School 3:</label> " +
-      "<h4>" + $("select[id='school3'] option:selected").text() + "</h4><br>" +
-      "<label>Course 3:</label> " +
-      "<h4>" + $("select[id='course3'] option:selected").text() + "</h4><br>" +
+      "<div class='col-md-4'>" +
+      "<label>School 3:</label> " + $("select[id='school3'] option:selected").text() + " <br>" +
+      "<label>Course 3:</label> " + $("select[id='course3'] option:selected").text() + " <br>" +
+      "</div>" +
       "</div>" +
       "<hr>" +
-      "<div class='form-group'>" +
-      "<label>Community Involvement/Affiliation</label><br>";
+      "<label>Community Involvement/Affiliation</label> <br>" +
+      "<div class='row'>";
       for (var i = 0; i < ctr_organization; i++) {
-        div += "<label>Organization:</label> " +
-        "<h4>" + $('.organization')[i].value + "</h4><br>" +
-        "<label>Position:</label> " +
-        "<h4>" + $('.position')[i].value + "</h4><br>" +
-        "<label>Year of Participation:</label> " +
-        "<h4>" + $('.year')[i].value + "</h4><br>";
+        div += "<div class='col-md-6'>" +
+        "<label>Organization:</label> " + $('.organization')[i].value + " <br>" +
+        "</div>" +
+        "<div class='col-md-3'>" +
+        "<label>Position:</label> " + $('.position')[i].value + " <br>" +
+        "</div>" +
+        "<div class='col-md-3'>" +
+        "<label>Year of Participation:</label> " + $('.year')[i].value + " <br>" +
+        "</div>";
       }
-      div += "<label>Essay:</label> " +
-      "<h4>" + $('#essay').val() + "</h4><br>" +
-      "</div>";
+      div += "</div>" +
+      "<hr>" +
+      "<label>Essay:</label> " + $('#essay').val().substring(0, 50) + "... <br>";
       $('#summary').empty().append(div);
     }
-    if (ctr == 3) {
+    if (ctr == 1) {
       selectedBarangay = $('#intBaraID').val();
       $.get(url + '/' + selectedBarangay, function(data) {
         $('#councilor').empty();
@@ -316,6 +307,23 @@ $('#councilor').on('click', '.councilor', function() {
   selectedCouncilor = $(this).attr('value');
   $('#intCounID').val(selectedCouncilor);
   CouncilorName = $('#countxt' + selectedCouncilor).text();
+  $.get(url + '/school/' + selectedCouncilor, function(data) {
+    var school = "";
+    $.each(data, function(index, value) {
+      school += "<option value=" + value.id + ">" + value.description + "</option>";
+    });
+    $('#intPersCurrentSchool').empty().append(school);
+  });
+  $.get(url + '/course/' + selectedCouncilor, function(data) {
+    var course = "";
+    $.each(data, function(index, value) {
+      course += "<option value=" + value.id + ">" + value.description + "</option>";
+    });
+    $('#intPersCurrentCourse').empty().append(course);
+  });
+  $.get(url + '/question/' + selectedCouncilor, function(data) {
+    $('.question').empty().append(data.essay);
+  });
   $('.form-navigation .next').click();
 });
 $('input[name="rad"]').on('ifClicked', function(event) {
@@ -356,12 +364,14 @@ $.each($('input[name="col"]'), function(index, value) {
 $('input').iCheck({
   radioClass: 'iradio_flat-red'
 });
-// $("#frmApply").bind("keypress", function(e) {
-//   if (e.keyCode == 13) {
-//     $('#btn-next').click();
-//     return false;
-//   }
-// });
+$("#frmApply").bind("keypress", function(e) {
+  if (ctr != 3) {
+    if (e.keyCode == 13) {
+      $('#btn-next').click();
+      return false;
+    }
+  }
+});
 $('.btn-submit').on('click', function(e) {
   e.preventDefault();
   swal({
@@ -409,7 +419,7 @@ $('.grade').click(function() {
   }
 });
 $('.barangay').select2();
-$('.dropdown').select2();
+$('.dropdownbox').select2();
 inputGrade();
 function inputGrade() {
   if (grade) {
@@ -417,31 +427,30 @@ function inputGrade() {
     $('#grade').empty();
   } else {
     $('#academic').toggle(false).toggle();
-    $.get(url + '/grade/' + $('#intPersCurrentSchool').val(), function(data){
+    $.get(url + '/grade/' + $('#intPersCurrentSchool').val(), function(data) {
       var selectGrade = '';
       $.each(data, function(index, value) {
-        selectGrade += "<option value="+value.grade+">"+value.grade+"</option>";
+        selectGrade += "<option value=" + value.grade + ">" + value.grade + "</option>";
       });
       var show = "<div class='form-group col-md-6'>" +
       "<label class='control-label'>Description</label>" +
       "<input id='subject_description' class='form-control subject_description' maxlength='45' autocomplete='off' data-parsley-pattern='^[a-zA-Z0-9 ]+$' name='subject_description[]' type='text'></div>" +
       "<div class='form-group col-md-2'>" +
       "<label class='control-label'>Units</label>" +
-      "<input id='units' class='form-control units' maxlength='1' autocomplete='off' data-parsley-pattern='^[0-9 ]+$' name='units[]' type='text'></div>"+
+      "<input id='units' class='form-control units' maxlength='1' autocomplete='off' data-parsley-pattern='^[0-9 ]+$' name='units[]' type='text'></div>" +
       "<div class='form-group col-md-4'>" +
       "<label class='control-label'>Grade</label>" +
-      "<select id='subject_grade' class='form-control subject_grade' name='subject_grade[]'>"+ selectGrade
-      "</select></div>";
+      "<select id='subject_grade' class='form-control subject_grade' name='subject_grade[]'>" + selectGrade +"</select></div>";
       $('#grade').empty().append(show);
     });
   }
 }
-$('#intPersCurrentSchool').change(function(){
+$('#intPersCurrentSchool').change(function() {
   inputGrade();
 });
 $('#councilor').on('mouseenter', '.councilor', function() {
   $.get(url + '/count/' + $(this).attr('value'), function(data) {
-    $('#slot'+data.id).text('Slot:'+data.slot+'/'+data.max+' - Queue:'+data.queued);
+    $('#slot' + data.id).text('Slot:' + data.slot + '/' + data.max + ' - Queue:' + data.queued);
   });
 });
 });

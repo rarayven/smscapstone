@@ -38,7 +38,9 @@ class CoordinatorBudgetController extends Controller
     }
     public function index()
     {
-        $budgtype = Budgtype::where('is_active',1)->get();
+        $budgtype = Budgtype::join('user_allocation_type','allocation_types.id','user_allocation_type.allocation_type_id')
+        ->where('user_allocation_type.user_id',Auth::id())
+        ->where('is_active',1)->get();
         return view('SMS.Coordinator.Services.CoordinatorBudget')->withBudgtype($budgtype);
     }
     public function store(Request $request)

@@ -8,6 +8,7 @@
 {!! Html::style("css/parsley.css") !!}
 {!! Html::style("plugins/sweetalert/sweetalert.min.css") !!}
 {!! Html::style("plugins/select2/select2.min.css") !!}
+{!! Html::style("plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css") !!}
 <style type="text/css">
     .slot {
         opacity: 0.0;
@@ -21,6 +22,9 @@
     }
     .text-widget {
         color: white;
+    }
+    .vertical-line {
+        border-right: 1px solid #DDDDDD;
     }
 </style>
 @endsection
@@ -68,16 +72,16 @@
                 <p>Personal Data</p>
             </div>
             <div class="f1-step">
+                <div class="f1-step-icon"><i class="fa fa-black-tie"></i></div>
+                <p>Councilor</p>
+            </div>
+            <div class="f1-step">
                 <div class="f1-step-icon"><i class="fa fa-users"></i></div>
                 <p>Family Data</p>
             </div>
             <div class="f1-step">
                 <div class="f1-step-icon"><i class="fa fa-graduation-cap"></i></div>
                 <p>Educational Background</p>
-            </div>
-            <div class="f1-step">
-                <div class="f1-step-icon"><i class="fa fa-black-tie"></i></div>
-                <p>Councilor</p>
             </div>
             <div class="f1-step">
                 <div class="f1-step-icon"><i class="fa fa-pencil"></i></div>
@@ -295,9 +299,23 @@
     </div>
 </div>
 <div class="form-section">
+    <h3>Select Councilor:</h3>
+    <div class="form-group row">
+        <div id="councilor"></div>
+        {{ Form::hidden('intCounID', null, [
+            'id' => 'intCounID'
+            ])
+        }}
+    </div>
+    {{ Form::hidden('intDistID', null, [
+        'id' => 'intDistID'
+        ])
+    }}
+</div>
+<div class="form-section">
     <h3>Input Family Info:</h3>
     <div class="row">
-        <div class="container col-md-6 col-sm-12">
+        <div class="container col-md-6 col-sm-12 vertical-line">
             {{ Form::label('name', "Mother's Name*", [
                 'class' => 'control-label'
                 ]) 
@@ -539,8 +557,8 @@
         <label class="radio-inline">{{ Form::radio('rad', 'no', true, ['id' => 'no']) }} No</label>
     </div>
     <div id="questionappear">
-     <div class="row">
-         <div class="container col-md-6 col-sm-12">
+       <div class="row">
+           <div class="container col-md-6 col-sm-12">
             <div class="row">
                 <div class="form-group col-md-6 col-sm-12">
                     {{ Form::label('name', "First Name", [
@@ -762,7 +780,7 @@
             }}
             {{ Form::select('intPersCurrentSchool', $school->pluck('description','id'), null, [
                 'id' => 'intPersCurrentSchool',
-                'class' => 'form-control dropdown',
+                'class' => 'form-control dropdownbox',
                 'style' => 'width: 100%'])
             }}
         </div>
@@ -773,7 +791,7 @@
             }}
             {{ Form::select('intPersCurrentCourse', $course->pluck('description','id'), null, [
                 'id' => 'intPersCurrentCourse',
-                'class' => 'form-control dropdown',
+                'class' => 'form-control dropdownbox',
                 'style' => 'width: 100%'])
             }}
         </div>
@@ -833,7 +851,7 @@
             }}
             {{ Form::select('school[]', $school->pluck('description','id'), null, [
                 'id' => 'school1',
-                'class' => 'form-control dropdown',
+                'class' => 'form-control dropdownbox',
                 'style' => 'width: 100%'])
             }}
         </div>
@@ -844,7 +862,7 @@
             }}
             {{ Form::select('course[]', $course->pluck('description','id'), null, [
                 'id' => 'course1',
-                'class' => 'form-control dropdown',
+                'class' => 'form-control dropdownbox',
                 'style' => 'width: 100%'])
             }}
         </div>
@@ -855,7 +873,7 @@
             }}
             {{ Form::select('school[]', $school->pluck('description','id'), null, [
                 'id' => 'school2',
-                'class' => 'form-control dropdown',
+                'class' => 'form-control dropdownbox',
                 'style' => 'width: 100%'])
             }}
         </div>
@@ -866,7 +884,7 @@
             }}
             {{ Form::select('course[]', $course->pluck('description','id'), null, [
                 'id' => 'course2',
-                'class' => 'form-control dropdown',
+                'class' => 'form-control dropdownbox',
                 'style' => 'width: 100%'])
             }}
         </div>
@@ -877,7 +895,7 @@
             }}
             {{ Form::select('school[]', $school->pluck('description','id'), null, [
                 'id' => 'school3',
-                'class' => 'form-control dropdown',
+                'class' => 'form-control dropdownbox',
                 'style' => 'width: 100%'])
             }}
         </div>
@@ -888,7 +906,7 @@
             }}
             {{ Form::select('course[]', $course->pluck('description','id'), null, [
                 'id' => 'course3',
-                'class' => 'form-control dropdown',
+                'class' => 'form-control dropdownbox',
                 'style' => 'width: 100%'])
             }}
         </div>
@@ -943,38 +961,13 @@
     <button type="button" class="btn btn-primary affiliation"><i class='fa fa-plus'></i> Add</button>
 </div>
 <div class="form-section">
-    <h3>Select Councilor:</h3>
-    <div class="form-group row">
-        <div id="councilor"></div>
-        {{ Form::hidden('intCounID', null, [
-            'id' => 'intCounID'
-            ])
-        }}
-    </div>
-    {{ Form::hidden('intDistID', null, [
-        'id' => 'intDistID'
-        ])
-    }}
-</div>
-<div class="form-section">
     <h3>Sumulat ng sanaysay ayon sa mga sumusunod:</h3>
     <div class="form-group">
-      <p>1.  Pangalan, edad, kasarian at pinakahuling paraaralang pinanggalingan, pinagtapusan o kasalukuyang kinabibilangan.</p>
-      <p>2.  Ilagay ang kasalukuyang tirahan at mga lugar na tinitirahan sa loob ng 3 taon.</p>
-      <p>3.  Pangalan ng magulang o tagapangalaga at kanilang hanapbuhay. Ilagay din ang buwanang kita kung maaari.</p>
-      <p>4. Ilang ang mga kapatid na nag- aaral o naghahanapbuhay> pang-ilan ka sa magkakapatid?</p>
-      <p>5. Ilahad ang mga kamag-anak na naninilbihan sa pamahalaan. May mga malalapit ka bas a mga kasapi sa mga organisasyon na pang komunidad?</p>
-      <p>6. Nakikilahok ka bas a mga usapin at proyekto ng inyong pamayanan? Sa papaanong pamamaraan? Kung hinidi, isalaysay kung bakit.</p>
-      <p>7. Isalaysay aang mga suliranin na dinadanas att kasalukuyan hinahanap sa pag-aaral. Papaano mo ito hinaharap?</p>
-      <p>8. Ilahad kung paano mo nalaman ang programa ng SYDP. Ano ang mga inaasahan mo hinggil sa programang ito?</p>
-      <p>9. Ano ang katangian at kakayahan mo upang maging karapat dapat na mapabilang sa mga “SKOLAR NG BAYAN”?</p>
-      <p>10.  Kung sakaling maging benepisyaryo, ano sa palagay moa ng maaari mongmagagawa o maitutulong sa kapwa iskolar at pamahalaang local upang matagumpay ang programa?</p>
-      <p>11.  Katulong ang iyong pamilya, paano mo matitiyan na ikaw ay makakatapos ng iyong pag-aaral?</p>
-      <p>12.  Ilarawan sa iyong kaalaman ang kalagayan ng ating lungson sa ngayon</p>
-      {{ Form::textarea('essay', null, [
-          'class' => 'form-control',
+        <div class="question"></div>
+        {{ Form::textarea('essay', null, [
+          'class' => 'form-control textarea',
           'id' => 'essay',
-          'style' => 'resize: none; height: 400px;',
+          'style' => 'resize: none; height: 400px; width: 100%; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;',
           'required' => 'required'
           ]) 
       }}
@@ -1002,8 +995,10 @@
 {!! Html::script("js/parsley.min.js") !!}  
 {!! Html::script("plugins/sweetalert/sweetalert.min.js") !!}
 {!! Html::script("plugins/select2/select2.min.js") !!}
+{!! Html::script("plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js") !!}
 {!! Html::script("custom/ApplyAjax.min.js") !!}
 <script type="text/javascript">
+    $('.textarea').wysihtml5();
     var asset = "{{ asset('images') }}";
 </script>
 @endsection

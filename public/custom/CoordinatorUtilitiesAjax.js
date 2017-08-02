@@ -14,7 +14,7 @@ $(document).ready(function() {
         $('#frmClaim').trigger("reset");
         $('.stipend').empty();
     });
-    $('#table').DataTable();
+    $('.table').DataTable();
     $('td').on('click', '.btn-progress', function() {
         $(".btn-progress").attr('disabled', 'disabled');
         setTimeout(function() {
@@ -70,6 +70,18 @@ $(document).ready(function() {
                     z_index: 2000,
                     delay: 5000,
                 });
+            }
+        });
+    });
+    $('td').on('change', '#isActive', function() {
+        var link_id = $(this).val();
+        $.ajax({
+            url: url + '/checkbox/' + link_id,
+            type: "PUT",
+            success: function(data) {
+                Pace.restart();
+            },
+            error: function(data) {
             }
         });
     });

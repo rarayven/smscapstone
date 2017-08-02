@@ -10,12 +10,28 @@ use App\Allocation;
 use App\Grade;
 use App\Studentsteps;
 use App\Allocatebudget;
+use App\Budgtype;
+use App\UserAllocationType;
+use App\Utility;
 class CoordinatorUtilitiesController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('coordinator');
+    }
+    public function checkbox($id)
+    {
+        try {
+            $type = UserAllocationType::where('user_id',Auth::id())->where('allocation_type_id',$id)->firstorfail();
+            $type->delete();
+        } catch(\Exception $e) {
+            $type = new UserAllocationType;
+            $type->allocation_type_id = $id;
+            $type->user_id = Auth::id();
+            $type->save();
+        }
+        return Response::json(200);
     }
     public function index()
     {
@@ -34,7 +50,11 @@ class CoordinatorUtilitiesController extends Controller
         ->where('student_details.application_status','Accepted')
         ->where('student_status','Continuing')
         ->get();
-        return view('SMS.Coordinator.Services.CoordinatorUtilities')->withApplication($application);
+        $claiming = Budgtype::leftJoin('user_allocation_type','allocation_types.id','user_allocation_type.allocation_type_id')
+        ->select('allocation_types.*','user_allocation_type.allocation_type_id')
+        ->where('allocation_types.is_active',1)
+        ->get();
+        return view('SMS.Coordinator.Services.CoordinatorUtilities')->withApplication($application)->withClaiming($claiming);
     }
     public function create($id)
     {
@@ -115,5 +135,13 @@ class CoordinatorUtilitiesController extends Controller
             DB::rollBack();
             return Response::json('Input must not be nulled',500);
         }
+    }
+    public function question(Request $request)
+    {
+        $utility = new Utility;
+        $utility->user_id = Auth::id();
+        $utility->essay = $request->essay;
+        $utility->save();
+        return redirect(route('coordinatorutilities.index'));
     }
 }
