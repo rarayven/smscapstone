@@ -76,8 +76,7 @@ class CoordinatorStudentsController extends Controller
 		->addColumn('stipend', function ($data) {
 			$count = Budgtype::join('user_allocation_type','allocation_types.id','user_allocation_type.allocation_type_id')
 			->where('allocation_types.is_active',1)->count();
-			$allocate = Allocation::join('user_allocation','allocations.id','user_allocation.allocation_id')
-			->join('user_allocation_type','allocations.allocation_type_id','user_allocation_type.allocation_type_id')
+			$allocate = Allocation::leftjoin('user_allocation','allocations.id','user_allocation.allocation_id')
 			->where('user_allocation.user_id',$data->id)->count();
 			if($count!=0)
 				$percentage = (($allocate/$count)*100);
@@ -159,7 +158,8 @@ class CoordinatorStudentsController extends Controller
 	public function allocation($id)
 	{
 		$allocation = Allocation::leftJoin('allocation_types','allocations.allocation_type_id','allocation_types.id')
-		->select('allocation_types.description','allocations.id')
+		->leftJoin('user_allocation_type','allocation_types.id','user_allocation_type.allocation_type_id')
+		->select('allocation_types.description','allocations.id','user_allocation_type.allocation_type_id')
 		->where('allocations.budget_id', function($query){
 			$query->from('budgets')
 			->where('user_id',Auth::id())

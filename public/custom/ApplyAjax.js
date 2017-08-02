@@ -9,6 +9,7 @@ $(document).ready(function() {
   var dt = new Date();
   var grade = 1;
   var counter = 1;
+  var subject = 0;
   dt.setFullYear(new Date().getFullYear() - 18);
   $('#datepicker').datepicker({
     viewMode: "years",
@@ -154,7 +155,6 @@ $(document).ready(function() {
       }
     }
     if (ctr == 5) {
-      var ctr_grade = $('input[name="subject_grade[]"]').length;
       var ctr_organization = $('input[name="strPersOrganization[]"]').length;
       var div = "<label>Councilor:</label> " + CouncilorName + " <br>" +
       "<hr>" +
@@ -235,7 +235,7 @@ $(document).ready(function() {
       "<br>" +
       "<label>Grade</label> <br>"+
       "<div class='row'>";
-      for (var i = 0; i < ctr_grade; i++) {
+      for (var i = 0; i < subject; i++) {
         div += "<div class='col-md-4'>" +
         "<label>Description:</label> " + $('.subject_description')[i].value + " <br>" +
         "</div>" +
@@ -408,7 +408,9 @@ $('.affiliation').click(function() {
 $('.grade').click(function() {
   if (grade) {
     $('#grade').empty();
+    subject = 0;
   } else {
+    subject++;
     var show = "<div class='form-group col-md-6'>" +
     $('.subject_description')[0].outerHTML + "</div>" +
     "<div class='form-group col-md-2'>" +

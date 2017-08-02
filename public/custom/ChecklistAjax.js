@@ -96,11 +96,18 @@ $(document).ready(function() {
         id = link_id;
         $.get(url + '/allocation/'+link_id, function(data) {
             $.each(data, function(index, value) {
-                var show = "<li>" +
-                "<input type='checkbox' id=" + value.id + " name='claim[]' value=" + value.id + ">" +
-                "<span class='text' style='padding-left: 15px;'>" + value.description + "</span>" +
-                "</li>";
-                $('.stipend').append(show);
+                if (value.allocation_type_id != null) {
+                    var show = "<li>" +
+                    "<input type='checkbox' id=" + value.id + " name='claim[]' value=" + value.id + ">" +
+                    "<span class='text' style='padding-left: 15px;'>" + value.description + "</span>" +
+                    "</li>";
+                    $('.stipend').append(show);
+                } else {
+                    var show = "<li class='done'>" +
+                    "<span class='text' style='padding-left: 15px;'>" + value.description + "</span> Disabled" +
+                    "</li>";
+                    $('.stipend').append(show);
+                }
             });
             if (data[0] != undefined) {
                 $('#view_claim').modal('show');
