@@ -173,6 +173,7 @@ class CoordinatorStudentsController extends Controller
 			->where('user_id',$id)
 			->get();
 		})
+		->where('user_allocation_type.user_id',Auth::id())
 		->get();
 		return Response::json($allocation);
 	}

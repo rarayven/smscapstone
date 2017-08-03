@@ -148,13 +148,16 @@
 	@if (Request::path() == 'admin/grade/create')
 	<script type="text/javascript">
 		$('.gradings').click(function() {
-			var show = "<div class='form-group col-xs-2'>" +
+			var show = "<div class='add'><div class='form-group col-xs-2'>" +
 			"<label>Grade</label>" +
 			$('.academic_grading')[0].outerHTML + "</div>" +
 			"<div class='form-group col-xs-2'>" +
-			"<label>Status</label>" +
-			$('.academic_status')[0].outerHTML + "</div>";
+			"<label>Status</label><button type='button' class='btn btn-xs btn-danger pull-right'><i class='fa fa-remove'></i></button>" +
+			$('.academic_status')[0].outerHTML + "</div></div>";
 			$('#add_gradings').append(show);
+		});
+		$('#add_gradings').on('click','.btn-danger',function(){
+			$(this).parent().parent().remove();
 		});
 	</script>
 	@endif

@@ -6,6 +6,16 @@ $(document).ready(function() {
     });
     var id = '';
     var url = "/coordinator/utilities";
+    var table = $('#table').DataTable({
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        ajax: dataurl,
+        columns: [
+        { data: 'description', name: 'description' },
+        { data: 'is_active', name: 'is_active', searchable: false, orderable: false }
+        ]
+    });
     $('#view_step').on('hide.bs.modal', function() {
         $('#frmStep').trigger("reset");
         $('.steps').empty();
@@ -73,7 +83,7 @@ $(document).ready(function() {
             }
         });
     });
-    $('td').on('change', '#isActive', function() {
+    $('#list').on('change', '#isActive', function() {
         var link_id = $(this).val();
         $.ajax({
             url: url + '/checkbox/' + link_id,

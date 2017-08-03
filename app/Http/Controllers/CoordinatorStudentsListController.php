@@ -151,7 +151,7 @@ class CoordinatorStudentsListController extends Controller
         ->join('districts','student_details.district_id','districts.id')
         ->join('barangay','student_details.barangay_id','barangay.id')
         ->join('courses','student_details.course_id','courses.id')
-        ->select(DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',IFNULL(users.middle_name,'')) as strStudName"),'student_details.*','users.*','schools.description as school','districts.description as district','barangay.description as barangay','courses.description as course',DB::raw("DATE_FORMAT(student_details.application_date, '%M,%d %Y') as date"))
+        ->select(DB::raw("CONCAT(users.last_name,', ',users.first_name,' ',IFNULL(users.middle_name,'')) as strStudName"),'student_details.*','users.*','schools.description as school','districts.description as district','barangay.description as barangay','courses.description as course',DB::raw("DATE_FORMAT(student_details.birthday, '%M %d, %Y') as date"))
         ->where('users.id',$id)
         ->first();
         return Response::json($application);

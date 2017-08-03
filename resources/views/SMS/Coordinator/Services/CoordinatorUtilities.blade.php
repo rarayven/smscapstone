@@ -24,22 +24,12 @@
 			<div class="tab-content">
 				<div class="tab-pane active row" id="tab_1">
 					<div class="box-body table-responsive">
-						<table class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
+						<table id="table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
 							<thead>
 								<th>Budget Type</th>
 								<th>Status</th>
 							</thead>
-							<tbody>
-								@foreach ($claiming as $claimings)
-								<tr>
-									<td>
-										{{ $claimings->description }}
-									</td>
-									<td>
-										<input type='checkbox' id='isActive' name='isActive' value='{{ $claimings->id }}' data-toggle='toggle' data-style='android' data-onstyle='success' data-offstyle='danger' data-on="<i class='fa fa-check-circle'></i> Active" data-off="<i class='fa fa-times-circle'></i> Inactive" data-size='mini' {{ $claimings->allocation_type_id == null ? '' : 'checked'}}>
-									</td>
-								</tr>
-								@endforeach
+							<tbody id="list">
 							</tbody>
 						</table>
 					</div>
@@ -145,7 +135,7 @@
 						}}
 						<div class="form-group">
 							<textarea class="textarea" name="essay" placeholder="Place some text here"
-							style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" required="required"></textarea>
+							style="width: 100%; height: 400px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" required="required">{{ $utility->essay }}</textarea>
 						</div>
 						<div class="form-group">
 							{{ Form::button("<i class='fa fa-paper-plane'></i> Submit", [
@@ -170,6 +160,7 @@
 {!! Html::script("plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js") !!}
 {!! Html::script("custom/CoordinatorUtilitiesAjax.min.js") !!}
 <script type="text/javascript">
+	var dataurl = "{!! route('coordinatorclaiming.data') !!}";
 	$('.textarea').wysihtml5();
 </script>
 @endsection

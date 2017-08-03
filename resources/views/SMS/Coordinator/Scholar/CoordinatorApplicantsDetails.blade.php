@@ -281,7 +281,7 @@
         <div class="tab-pane row" id="tab_5">
           <div class="col-md-12">
             <div class="col-md-12 form-group">
-              <div class="essay"></div>
+              <div class="essay">{{$application->essay}}</div>
             </div>
             <div class="pull-right">
               <a class="btn btn-success btn-accept"><i class="fa fa-check"></i> Accept</a>
@@ -322,9 +322,6 @@
       }, 500);
     });
   });
-  $('li').click(function(){
-    $('.essay').html("{{$application->essay}}");
-    $('.essay').html($('.essay').text());
-  });
+  $('.essay').html($('.essay').text());
 </script>
 @endsection

@@ -13,12 +13,35 @@ use App\Allocatebudget;
 use App\Budgtype;
 use App\UserAllocationType;
 use App\Utility;
+use Datatables;
 class CoordinatorUtilitiesController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('coordinator');
+    }
+    public function data()
+    {
+        $claiming = Budgtype::where('is_active',1);
+        return Datatables::of($claiming)
+        ->addColumn('is_active', function ($data) {
+            $type = UserAllocationType::where('allocation_type_id',$data->id)
+            ->where('user_id',Auth::id())
+            ->first();
+            $checked = '';
+            if($type != null){
+                $checked = 'checked';
+            }
+            return "<input type='checkbox' id='isActive' name='isActive' value='$data->id' data-toggle='toggle' data-style='android' data-onstyle='success' data-offstyle='danger' data-on=\"<i class='fa fa-check-circle'></i> Active\" data-off=\"<i class='fa fa-times-circle'></i> Inactive\" $checked data-size='mini'><script>
+            $('[data-toggle=\'toggle\']').bootstrapToggle('destroy');   
+            $('[data-toggle=\'toggle\']').bootstrapToggle();</script>";
+        })
+        ->setRowId(function ($data) {
+            return $data = 'id'.$data->id;
+        })
+        ->rawColumns(['is_active','action'])
+        ->make(true);
     }
     public function checkbox($id)
     {
@@ -50,11 +73,8 @@ class CoordinatorUtilitiesController extends Controller
         ->where('student_details.application_status','Accepted')
         ->where('student_status','Continuing')
         ->get();
-        $claiming = Budgtype::leftJoin('user_allocation_type','allocation_types.id','user_allocation_type.allocation_type_id')
-        ->select('allocation_types.*','user_allocation_type.allocation_type_id')
-        ->where('allocation_types.is_active',1)
-        ->get();
-        return view('SMS.Coordinator.Services.CoordinatorUtilities')->withApplication($application)->withClaiming($claiming);
+        $utility = Utility::where('user_id',Auth::id())->first();
+        return view('SMS.Coordinator.Services.CoordinatorUtilities')->withApplication($application)->withUtility($utility);
     }
     public function create($id)
     {

@@ -236,14 +236,15 @@ $(document).ready(function() {
       "<label>Grade</label> <br>"+
       "<div class='row'>";
       for (var i = 0; i < subject; i++) {
+        console.log($('.subject_description')[i].value);
         div += "<div class='col-md-4'>" +
-        "<label>Description:</label> " + $('.subject_description')[i].value + " <br>" +
+        "<label>Description:</label> " + $('.subject_description')[i].text() + " <br>" +
         "</div>" +
         "<div class='col-md-4'>" +
-        "<label>Units:</label> " + $('.units')[i].value + "<br>" +
+        "<label>Units:</label> " + $('.units')[i].text() + "<br>" +
         "</div>" +
         "<div class='col-md-4'>" +
-        "<label>Grade:</label> " + $('.subject_grade')[i].value + "<br>" +
+        "<label>Grade:</label> " + $("select[class='subject_grade'] option:selected")[i].text() + "<br>" +
         "</div>";
       }
       div += "</div>" +
@@ -395,14 +396,17 @@ $('.btn-submit').on('click', function(e) {
   });
 });
 $('.affiliation').click(function() {
-  var show = "<div class='form-group col-md-6'>" +
+  var show = "<div class='add'><div class='form-group col-md-6'>" +
+  "<label>Organization</label>"+
   $('.organization')[0].outerHTML + "</div>" +
   "<div class='form-group col-md-3'>" +
+  "<label>Position</label>"+
   $('.position')[0].outerHTML + "</div>" +
   "<div class='form-group col-md-3'>" +
+  "<label>Year of Participation</label><button type='button' class='btn btn-xs btn-danger pull-right removeorg'><i class='fa fa-remove'></i></button>"+
   "<div class='input-group'>" +
   "<div class='input-group-addon'>" +
-  "<i class='fa fa-calendar'></i></div>" + $('.year')[0].outerHTML + "</div></div>";
+  "<i class='fa fa-calendar'></i></div>" + $('.year')[0].outerHTML + "</div></div></div>";
   $('#affiliation').append(show);
 });
 $('.grade').click(function() {
@@ -411,14 +415,23 @@ $('.grade').click(function() {
     subject = 0;
   } else {
     subject++;
-    var show = "<div class='form-group col-md-6'>" +
+    var show = "<div class='add'><div class='form-group col-md-6'>" +
+    "<label>Description</label>"+
     $('.subject_description')[0].outerHTML + "</div>" +
     "<div class='form-group col-md-2'>" +
+    "<label>Units</label>"+
     $('.units')[0].outerHTML + "</div>" +
-    "<div class='form-group col-md-4'>" +
-    $('.subject_grade')[0].outerHTML + "</div>";
+    "<div class='form-group col-md-4'>"+
+    "<label>Grade</label><button type='button' class='btn btn-xs btn-danger pull-right removegrade'><i class='fa fa-remove'></i></button>" +
+    $('.subject_grade')[0].outerHTML + "</div></div>";
     $('#grade').append(show);
   }
+});
+$('#affiliation').on('click','.removeorg',function(){
+  $(this).parent().parent().remove();
+});
+$('#grade').on('click','.removegrade',function(){
+  $(this).parent().parent().remove();
 });
 $('.barangay').select2();
 $('.dropdownbox').select2();

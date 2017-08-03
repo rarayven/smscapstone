@@ -7,7 +7,6 @@ $(document).ready(function() {
     var url = "/admin/councilor";
     var id = '';
     var url2 = "/admin/councilor/checkbox";
-    $('#strCounCell').mask('(63) 000-000-0000', {selectOnFocus: true});
     var table = $('#councilor-table').DataTable({
         responsive: true,
         processing: true,
@@ -180,7 +179,6 @@ $(document).ready(function() {
     //create new task / update existing task
     $("#btn-save").click(function() {
         $('#frmCouncilor').parsley().destroy();
-        $('#strCounCell').mask('000000000000');
         if ($('#frmCouncilor').parsley().isValid()) {
             $("#btn-save").attr('disabled', 'disabled');
             setTimeout(function() {
@@ -224,6 +222,5 @@ $(document).ready(function() {
                 }
             });
         }
-        $('#strCounCell').mask('(63) 000-000-0000', {selectOnFocus: true});
     });
 });

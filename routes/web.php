@@ -63,6 +63,7 @@ Route::group(['prefix' => 'coordinator/'], function () {
 	//Coordinator Notification
 	Route::get('messages/notification', ['uses' => 'CoordinatorMessagesController@unreadmessage', 'as' => 'coordinatormessage.unreadmessage']);
 	//Coordinator DataTable
+	Route::get('claiming/data', ['uses' => 'CoordinatorUtilitiesController@data', 'as' => 'coordinatorclaiming.data']);
 	Route::get('course/data', ['uses' => 'CoordinatorCourseController@data', 'as' => 'coordinatorcourse.data']);
 	Route::get('school/data', ['uses' => 'CoordinatorSchoolController@data', 'as' => 'coordinatorschool.data']);
 	Route::get('requirements/data', ['uses' => 'CoordinatorRequirementController@data', 'as' => 'coordinatorrequirements.data']);
