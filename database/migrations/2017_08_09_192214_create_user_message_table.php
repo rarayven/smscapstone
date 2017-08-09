@@ -16,7 +16,7 @@ class CreateUserMessageTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('message_id')->unsigned()->index('frece_message_id_idx');
-			$table->integer('user_id')->unsigned()->index('frece_user_id_idx');
+			$table->string('user_id', 30)->index('frece_user_id_idx');
 			$table->boolean('is_read')->default(0);
 			$table->softDeletes();
 		});

@@ -15,7 +15,7 @@ class CreateUserAllocationTable extends Migration {
 		Schema::create('user_allocation', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('user_id')->unsigned()->index('fuserallocationuserid_idx');
+			$table->string('user_id', 30)->index('fuserallocationuserid_idx');
 			$table->integer('allocation_id')->unsigned()->index('fuserallocationallocationid_idx');
 			$table->integer('grade_id')->unsigned()->index('fuser_allocation_grade_id_idx');
 			$table->dateTime('date_claimed');

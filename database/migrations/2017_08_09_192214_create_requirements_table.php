@@ -15,7 +15,7 @@ class CreateRequirementsTable extends Migration {
 		Schema::create('requirements', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('user_id')->unsigned()->index('frequirement_user_id_idx');
+			$table->string('user_id', 30)->index('frequirement_user_id_idx');
 			$table->string('description', 100);
 			$table->boolean('type');
 			$table->boolean('is_active')->default(1);

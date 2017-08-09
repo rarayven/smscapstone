@@ -15,7 +15,7 @@ class CreateUserCourseTable extends Migration {
 		Schema::create('user_course', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('user_id')->unsigned()->index('f_user_course_user_id_idx');
+			$table->string('user_id', 30)->index('f_user_course_user_id_idx');
 			$table->integer('course_id')->unsigned()->index('f_user_course_course_id_idx');
 			$table->unique(['user_id','course_id'], 'user_course');
 		});

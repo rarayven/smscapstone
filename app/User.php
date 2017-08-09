@@ -9,6 +9,7 @@ class User extends Authenticatable
     use SoftDeletes;
     protected $dates = ['deleted_at'];
     public $timestamps = false;
+    public $incrementing = false;
     public static $storeRegister = [
     ];
     public static function updateRegister($id)

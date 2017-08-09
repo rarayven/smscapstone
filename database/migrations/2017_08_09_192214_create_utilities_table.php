@@ -14,7 +14,7 @@ class CreateUtilitiesTable extends Migration {
 	{
 		Schema::create('utilities', function(Blueprint $table)
 		{
-			$table->integer('user_id')->unsigned()->index('fessaysuserid_idx');
+			$table->string('user_id', 30)->index('fessaysuserid_idx');
 			$table->text('essay', 65535);
 		});
 	}

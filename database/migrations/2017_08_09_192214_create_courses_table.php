@@ -15,6 +15,7 @@ class CreateCoursesTable extends Migration {
 		Schema::create('courses', function(Blueprint $table)
 		{
 			$table->increments('id');
+			$table->string('abbreviation', 10);
 			$table->string('description', 50)->unique('description_UNIQUE');
 			$table->boolean('is_active')->default(1);
 		});

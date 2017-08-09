@@ -43,8 +43,8 @@ class SMSAccountApplyController extends Controller
     $district = District::where('is_active',1)->get();
     $councilor = Councilor::where('is_active',1)->get();
     $barangay = Barangay::where('is_active',1)->get();
-    $school = School::where('is_active',1)->get();
-    $course = Course::where('is_active',1)->get();
+    $school = School::where('is_active',1)->select(DB::raw("CONCAT(abbreviation,' - ',description) AS description"),'id')->get();
+    $course = Course::where('is_active',1)->select(DB::raw("CONCAT(abbreviation,' - ',description) AS description"),'id')->get();
     $setting = Setting::first();
     return view('SMS.Account.SMSAccountApply')->withDistrict($district)->withCouncilor($councilor)->withBarangay($barangay)->withSchool($school)->withCourse($course)->withNow($now)->withLow($low)->withSetting($setting);
   }
@@ -65,7 +65,9 @@ class SMSAccountApplyController extends Controller
       $pdf = $request->file('strApplGrades');
       $pdfname = md5($request->strUserEmail. time()).'.'.$pdf->getClientOriginalExtension();
       //Insert in users
+      $sc = new SmartCounter;
       $users = new User;
+      $users->id = $sc->increment('Student');
       $users->type='Student';
       $users->first_name=$request->strUserFirstName;
       $users->middle_name=$request->strUserMiddleName;
@@ -264,7 +266,7 @@ class SMSAccountApplyController extends Controller
       ->select('users.id')
       ->first();
     })
-    ->select('schools.*')
+    ->select(DB::raw("CONCAT(schools.abbreviation,' - ',schools.description) AS description"),'schools.id')
     ->get();
     return Response::json($school);
   }
@@ -279,7 +281,7 @@ class SMSAccountApplyController extends Controller
       ->select('users.id')
       ->first();
     })
-    ->select('courses.*')
+    ->select(DB::raw("CONCAT(courses.abbreviation,' - ',courses.description) AS description"),'courses.id')
     ->get();
     return Response::json($course);
   }

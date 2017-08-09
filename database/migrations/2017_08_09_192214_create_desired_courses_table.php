@@ -15,7 +15,7 @@ class CreateDesiredCoursesTable extends Migration {
 		Schema::create('desired_courses', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('student_detail_user_id')->unsigned()->index('fdesi_application_user_id_idx');
+			$table->string('student_detail_user_id', 30)->index('fdesi_application_user_id_idx');
 			$table->integer('course_id')->unsigned()->index('fdesi_course_id_idx');
 			$table->integer('school_id')->unsigned()->index('fdesi_school_id_idx');
 		});

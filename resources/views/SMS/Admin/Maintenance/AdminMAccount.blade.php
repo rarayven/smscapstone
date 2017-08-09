@@ -17,6 +17,7 @@
 					<div class="box-body table-responsive">
 						<table id="users-table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
 							<thead>
+								<th>ID</th>
 								<th>User</th>
 								<th>Email</th>
 								<th>Last Login</th>

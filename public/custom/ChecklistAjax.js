@@ -11,9 +11,9 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         "columnDefs": [
-        { "width": "130px", "targets": 3 },
-        { "width": "150px", "targets": 2 },
-        { "width": "150px", "targets": 1 }
+        { "width": "130px", "targets": 4 },
+        { "width": "150px", "targets": 3 },
+        { "width": "150px", "targets": 2 }
         ],
         ajax: {
             type: 'POST',
@@ -32,6 +32,7 @@ $(document).ready(function() {
             }
         },
         columns: [
+        { data: 'id', name: 'users.id' },
         { data: 'strStudName', name: 'strStudName' },
         { data: 'counter', name: 'counter', searchable: false, orderable: false },
         { data: 'stipend', name: 'stipend', searchable: false, orderable: false },

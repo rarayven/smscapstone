@@ -15,7 +15,7 @@ class CreateEducationalBackgroundsTable extends Migration {
 		Schema::create('educational_backgrounds', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('student_detail_user_id')->unsigned()->index('feduc_application_user_id_idx');
+			$table->string('student_detail_user_id', 30)->index('feduc_application_user_id_idx');
 			$table->boolean('level')->default(0);
 			$table->string('school_name', 50);
 			$table->string('date_enrolled', 4);

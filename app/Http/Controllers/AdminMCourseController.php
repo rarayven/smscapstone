@@ -61,6 +61,7 @@ class AdminMCourseController extends Controller
         }
         try {
             $course = new Course;
+            $course->abbreviation=$request->abbreviation;
             $course->description=$request->strCourDesc;
             $course->save();
             return Response::json($course);
@@ -86,6 +87,7 @@ class AdminMCourseController extends Controller
         try {
             try {
                 $course = Course::findorfail($id);
+                $course->abbreviation=$request->abbreviation;
                 $course->description = $request->strCourDesc;
                 $course->save();
                 return Response::json($course);

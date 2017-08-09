@@ -17,6 +17,7 @@
             <div class="box-body table-responsive">
               <table id="table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
                 <thead>
+                  <th>ID</th>
                   <th>Student</th>
                   <th>School</th>
                   <th>Course</th>
@@ -59,11 +60,12 @@
         processing: true,
         serverSide: true,
         ajax: dataurl,
-        "order": [3, 'asc'],
+        "order": [4, 'asc'],
         "columnDefs": [
-        { "width": "70px", "targets": 4 }
+        { "width": "70px", "targets": 5 }
         ],
         columns: [
+        { data: 'id', name: 'users.id' },
         { data: 'strUserName', name: 'strUserName' },
         { data: 'description', name: 'schools.description' },
         { data: 'courses_description', name: 'courses.description' },

@@ -15,7 +15,7 @@ class CreateUserAllocationTypeTable extends Migration {
 		Schema::create('user_allocation_type', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('user_id')->unsigned()->index('f_user_allocation_type_user_id_idx');
+			$table->string('user_id', 30)->index('f_user_allocation_type_user_id_idx');
 			$table->integer('allocation_type_id')->unsigned()->index('f_user_allocation_allocation_type_id_idx');
 			$table->unique(['user_id','allocation_type_id'], 'user_allocation_type_unique');
 		});

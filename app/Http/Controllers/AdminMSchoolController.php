@@ -64,6 +64,7 @@ class AdminMSchoolController extends Controller
         }
         try {
             $school = new School;
+            $school->abbreviation=$request->abbreviation;
             $school->description=$request->strSchoDesc;
             $school->grading_id=$request->intSystID;
             $school->save();
@@ -93,6 +94,7 @@ class AdminMSchoolController extends Controller
         try {
             try {
                 $school = School::findorfail($id);
+                $school->abbreviation=$request->abbreviation;
                 $school->description = $request->strSchoDesc;
                 $school->grading_id = $request->intSystID;
                 $school->save();

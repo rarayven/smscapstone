@@ -14,7 +14,7 @@ class CreateSiblingsTable extends Migration {
 	{
 		Schema::create('siblings', function(Blueprint $table)
 		{
-			$table->integer('student_detail_user_id')->unsigned()->index('fsiblings_application_id_idx');
+			$table->string('student_detail_user_id', 30)->index('fsiblings_application_id_idx');
 			$table->string('first_name', 25);
 			$table->string('last_name', 25);
 			$table->string('date_from', 4);

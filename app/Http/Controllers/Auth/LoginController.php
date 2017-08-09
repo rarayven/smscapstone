@@ -39,7 +39,9 @@ class LoginController extends Controller
     }
     protected function credentials(Request $request)
     {
-        return ['email'=>$request{$this->username()},'password'=>$request->password,'is_active'=> 1];
+        $field = filter_var($request->input('email'), FILTER_VALIDATE_EMAIL) ? 'email' : 'id';
+        $request->merge([$field => $request->input('email')]);
+        return [$field=>$request{$this->username()},'password'=>$request->password,'is_active'=> 1];
     }
 
     public function showLoginForm()

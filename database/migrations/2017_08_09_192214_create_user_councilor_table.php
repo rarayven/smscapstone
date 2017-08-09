@@ -15,7 +15,7 @@ class CreateUserCouncilorTable extends Migration {
 		Schema::create('user_councilor', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('user_id')->unsigned()->index('fconnection_user_id_idx');
+			$table->string('user_id', 30)->index('fconnection_user_id_idx');
 			$table->integer('councilor_id')->unsigned()->index('fconnection_councilor_id_idx');
 		});
 	}

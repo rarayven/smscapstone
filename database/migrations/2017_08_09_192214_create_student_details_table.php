@@ -14,7 +14,7 @@ class CreateStudentDetailsTable extends Migration {
 	{
 		Schema::create('student_details', function(Blueprint $table)
 		{
-			$table->integer('user_id')->unsigned()->index('fapplication_user_id_idx');
+			$table->string('user_id', 30)->index('fapplication_user_id_idx');
 			$table->integer('barangay_id')->unsigned()->index('fapplication_barangay_id_idx');
 			$table->integer('batch_id')->unsigned()->index('fapplication_batch_id_idx');
 			$table->integer('district_id')->unsigned()->index('fapplication_district_id_idx');
@@ -34,7 +34,6 @@ class CreateStudentDetailsTable extends Migration {
 			$table->enum('application_status', array('Accepted','Declined','Pending'))->default('Pending');
 			$table->enum('student_status', array('Graduated','Forfeit','Continuing'))->default('Continuing');
 			$table->boolean('is_renewal')->default(0);
-			$table->boolean('is_steps_done')->default(0);
 		});
 	}
 

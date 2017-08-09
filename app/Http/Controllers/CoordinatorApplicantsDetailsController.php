@@ -110,7 +110,7 @@ class CoordinatorApplicantsDetailsController extends Controller
                     return redirect(route('applications.index'));
                 }
                 $application = Application::find($id);
-                $application->application_status='Accepted';
+                $application->application_status = 'Accepted';
                 $application->save();
                 $user = User::find($id);
                 $user->is_active = 1;

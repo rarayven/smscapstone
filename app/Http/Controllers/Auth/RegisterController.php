@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\SmartCounter;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-
 class RegisterController extends Controller
 {
     /*
@@ -52,7 +52,7 @@ class RegisterController extends Controller
             'middle_name' => 'string|max:25',
             'last_name' => 'required|string|max:25',
             'cell_no' => 'required|string|max:15',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:30|unique:users',
             'password' => 'required|string|min:6|confirmed',
             ]);
     }
@@ -65,14 +65,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'first_name' => $data['first_name'],
-            'middle_name' => $data['middle_name'],
-            'last_name' => $data['last_name'],
-            'cell_no' => $data['cell_no'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'is_active' => 1,
-            ]);
+        $sc = new SmartCounter;
+        $user = new User;
+        $user->id = $sc->increment('Admin');
+        $user->first_name = $data['first_name'];
+        $user->middle_name = $data['middle_name'];
+        $user->last_name = $data['last_name'];
+        $user->cell_no = $data['cell_no'];
+        $user->email = $data['email'];
+        $user->password = bcrypt($data['password']);
+        $user->is_active = 1;
+        $user->save();
+        return $user;
     }
 }

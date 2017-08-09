@@ -15,7 +15,7 @@ class CreateMessagesTable extends Migration {
 		Schema::create('messages', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('user_id')->unsigned()->index('fmess_user_id_idx');
+			$table->string('user_id', 30)->index('fmess_user_id_idx');
 			$table->string('title', 45);
 			$table->text('description', 65535);
 			$table->string('pdf', 50)->nullable();

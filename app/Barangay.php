@@ -3,7 +3,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 class Barangay extends Model
 {
-	protected $table = 'Barangay';
+	protected $table = 'barangay';
 	public $timestamps = false;
 	public static $storeRule = [
 	'strBaraDesc' => 'required|unique:barangay,description|max:25',

@@ -5,6 +5,7 @@ class Application extends Model
 {
 	protected $table = 'student_details';
 	protected $primaryKey = 'user_id';
+	public $incrementing = false;
 	public $timestamps = false;
 	protected $dates = ['birthday','application_date'];
 	public static $storeRule = [

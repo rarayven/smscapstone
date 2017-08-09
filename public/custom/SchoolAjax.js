@@ -13,10 +13,11 @@ $(document).ready(function() {
         serverSide: true,
         ajax: dataurl,
         "columnDefs": [
-        { "width": "130px", "targets": 3 },
-        { "width": "70px", "targets": 2 }
+        { "width": "130px", "targets": 4 },
+        { "width": "70px", "targets": 3 }
         ],
         columns: [
+        { data: 'abbreviation', name: 'schools.abbreviation' },
         { data: 'description', name: 'schools.description' },
         { data: 'academic_gradings_description', name: 'gradings.description' },
         { data: 'is_active', name: 'schools.is_active', searchable: false },
@@ -80,6 +81,7 @@ $(document).ready(function() {
                     }
                 }
                 $('h4').text('Edit School');
+                $('#abbreviation').val(data.abbreviation);
                 $('#strSchoDesc').val(data.description);
                 $('#btn-save').val("update");
                 $('#add_school').modal('show');
@@ -157,7 +159,8 @@ $(document).ready(function() {
             }, 1000);
             var formData = {
                 intSystID: $('#intSystID').val(),
-                strSchoDesc: $('#strSchoDesc').parsley('data-parsley-whitespace', 'squish').getValue()
+                strSchoDesc: $('#strSchoDesc').parsley('data-parsley-whitespace', 'squish').getValue(),
+                abbreviation: $('#abbreviation').parsley('data-parsley-whitespace', 'squish').getValue()
             }
                 //used to determine the http verb to use [add=POST], [update=PUT]
                 var state = $('#btn-save').val();

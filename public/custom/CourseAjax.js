@@ -13,10 +13,11 @@ $(document).ready(function() {
         serverSide: true,
         ajax: dataurl,
         "columnDefs": [
-        { "width": "130px", "targets": 2 },
-        { "width": "70px", "targets": 1 }
+        { "width": "130px", "targets": 3 },
+        { "width": "70px", "targets": 2 }
         ],
         columns: [
+        { data: 'abbreviation', name: 'abbreviation' },
         { data: 'description', name: 'description' },
         { data: 'is_active', name: 'is_active', searchable: false },
         { data: 'action', name: 'action', orderable: false, searchable: false }
@@ -71,6 +72,7 @@ $(document).ready(function() {
                 refresh();
             } else {
                 $('h4').text('Edit Course');
+                $('#abbreviation').val(data.abbreviation);
                 $('#strCourDesc').val(data.description);
                 $('#btn-save').val("update");
                 $('#add_course').modal('show');
@@ -147,7 +149,8 @@ $(document).ready(function() {
                 $("#btn-save").removeAttr('disabled');
             }, 1000);
             var formData = {
-                strCourDesc: $('#strCourDesc').parsley('data-parsley-whitespace', 'squish').getValue()
+                strCourDesc: $('#strCourDesc').parsley('data-parsley-whitespace', 'squish').getValue(),
+                abbreviation: $('#abbreviation').parsley('data-parsley-whitespace', 'squish').getValue()
             }
                 //used to determine the http verb to use [add=POST], [update=PUT]
                 var state = $('#btn-save').val();

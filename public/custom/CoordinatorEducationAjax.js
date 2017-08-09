@@ -10,6 +10,7 @@ $(document).ready(function() {
         serverSide: true,
         ajax: dataurl,
         columns: [
+        { data: 'abbreviation', name: 'abbreviation' },
         { data: 'description', name: 'description' },
         { data: 'is_active', name: 'is_active', searchable: false, orderable: false }
         ]

@@ -33,6 +33,18 @@
 										])
 									}}
 									<div class="form-group">
+										{{ Form::label('name', 'Abbreviation') }}
+										{{ Form::text('abbreviation', null, [
+											'id' => 'abbreviation',
+											'class' => 'form-control',
+											'maxlength' => '10',
+											'required' => 'required',
+											'data-parsley-pattern' => '^[a-zA-Z]+$',
+											'autocomplete' => 'off'
+											]) 
+										}}
+									</div>
+									<div class="form-group">
 										{{ Form::label('name', 'Course Name') }}
 										{{ Form::text('strCourDesc', null, [
 											'id' => 'strCourDesc',
@@ -69,6 +81,7 @@
 						}}
 						<table id="course-table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
 							<thead>
+								<th>Abbreviation</th>
 								<th>Course Name</th>
 								<th>Status</th>
 								<th>Action</th>

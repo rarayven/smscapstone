@@ -15,7 +15,7 @@ class CreateUserAnnouncementTable extends Migration {
 		Schema::create('user_announcement', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('user_id')->unsigned()->index('fk_user_id_idx');
+			$table->string('user_id', 30)->index('fk_user_id_idx');
 			$table->integer('announcement_id')->unsigned()->index('fk_announcement_id_idx');
 			$table->boolean('is_read')->default(0);
 		});

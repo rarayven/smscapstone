@@ -17,6 +17,7 @@
           <div class="box-body table-responsive">
             <table id="table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
               <thead>
+                <th>Abbreviation</th>
                 <th>Course Name</th>
                 <th>Status</th>
               </thead>

@@ -12,10 +12,11 @@ $(document).ready(function() {
 		serverSide: true,
 		ajax: dataurl,
 		"columnDefs": [
-		{ "width": "70px", "targets": 4 },
-		{ "width": "70px", "targets": 3 }
+		{ "width": "70px", "targets": 5 },
+		{ "width": "70px", "targets": 4 }
 		],
 		columns: [
+		{ data: 'id', name: 'id' },
 		{ data: 'strUserName', name: 'strUserName' },
 		{ data: 'email', name: 'email' },
 		{ data: 'last_login', name: 'last_login' },

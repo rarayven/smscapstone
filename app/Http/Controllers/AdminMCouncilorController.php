@@ -93,7 +93,9 @@ class AdminMCouncilorController extends Controller
             $councilor->cell_no=$request->strCounCell;
             $councilor->picture=$imagename;
             $councilor->save();
+            $sc = new SmartCounter;
             $users = new User;
+            $users->id = $sc->increment('Coordinator');
             $users->type='Coordinator';
             $users->password=$randompassword;
             $users->first_name=$randomnumber;

@@ -15,7 +15,7 @@ class CreateUserEventTable extends Migration {
 		Schema::create('user_event', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('user_id')->unsigned()->index('fatte_user_id_idx');
+			$table->string('user_id', 30)->index('fatte_user_id_idx');
 			$table->integer('event_id')->unsigned()->index('fatte_event_id_idx');
 			$table->boolean('is_attending')->default(0);
 		});

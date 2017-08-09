@@ -15,7 +15,7 @@ class CreateGradesTable extends Migration {
 		Schema::create('grades', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('student_detail_user_id')->unsigned();
+			$table->string('student_detail_user_id', 30);
 			$table->integer('grading_id')->unsigned()->index('f_grade_grading_id_idx');
 			$table->char('year', 1)->default(1);
 			$table->char('semester', 1)->default(0);

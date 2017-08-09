@@ -86,12 +86,12 @@ class CoordinatorStudentsController extends Controller
 			<div class='progress-bar progress-bar-success progress-bar-striped' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: $percentage%'></div>";
 		})
 		->addColumn('action', function ($data) {
-			$claim = "disabled";
+			$claim = "";
 			$list = '';
-			if($data->is_steps_done){
-				$claim = "";
-				$list = 'disabled';
-			}
+			// if($data->is_steps_done){
+			// 	$claim = "";
+			// 	$list = 'disabled';
+			// }
 			return "<button class='btn btn-primary btn-xs btn-progress' value=$data->id $list><i class='fa fa-files-o'></i> List</button> <button class='btn btn-success btn-xs open-modal' value='$data->id' $claim><i class='fa fa-money'></i> Claim</button>";
 		})
 		->editColumn('strStudName', function ($data) {
@@ -189,20 +189,6 @@ class CoordinatorStudentsController extends Controller
 				$steps->grade_id = $grade->id;
 				$steps->date_passed = Carbon::now(Config::get('app.timezone'));
 				$steps->save();
-			}
-			$requirements = Requirement::where('type', function($query) use($id) {
-				$query->from('student_details')
-				->select('is_renewal')
-				->where('user_id',$id)
-				->first();
-			})
-			->where('user_id',Auth::id())
-			->count();
-			$step = Studentsteps::where('grade_id',$grade->id)->count();
-			if ($requirements == $step) {
-				$application = Application::find($id);
-				$application->is_steps_done = 1;
-				$application->save();
 			}
 			DB::commit();
 			return Response::json($grade);

@@ -162,6 +162,7 @@
 						<strong class="pull-right" id="advsearch" style="cursor: pointer; cursor: hand;">Advanced Search</strong>
 						<table id="student-table" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
 							<thead>
+								<th>ID</th>
 								<th>Student</th>
 								<th>Requirements</th>
 								<th>Claiming</th>

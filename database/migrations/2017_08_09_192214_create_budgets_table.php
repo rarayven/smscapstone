@@ -15,7 +15,7 @@ class CreateBudgetsTable extends Migration {
 		Schema::create('budgets', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('user_id')->unsigned()->index('fallocations_users_id_idx');
+			$table->string('user_id', 30)->index('fallocations_users_id_idx');
 			$table->integer('councilor_id')->unsigned()->index('fallocation_councilor_id_idx');
 			$table->float('amount', 10, 0)->unsigned();
 			$table->float('budget_per_student', 10, 0)->unsigned();

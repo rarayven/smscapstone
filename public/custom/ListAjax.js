@@ -10,9 +10,9 @@ $(document).ready(function() {
         serverSide: true,
         "order": [1,'desc'],
         "columnDefs": [
+        { "width": "70px", "targets": 5 },
         { "width": "70px", "targets": 4 },
-        { "width": "70px", "targets": 3 },
-        { "width": "100px", "targets": 2 }
+        { "width": "100px", "targets": 3 }
         ],
         ajax: {
             type: 'POST',
@@ -30,6 +30,7 @@ $(document).ready(function() {
             }
         },
         columns: [
+        { data: 'id', name: 'users.id' },
         { data: 'strStudName', name: 'strStudName' },
         { data: 'application_date', name: 'student_details.application_date', searchable: false },
         { data: 'student_status', name: 'student_details.student_status', searchable: false },

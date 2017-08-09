@@ -14,7 +14,7 @@ class CreateAffiliationsTable extends Migration {
 	{
 		Schema::create('affiliations', function(Blueprint $table)
 		{
-			$table->integer('student_detail_user_id')->unsigned()->index('fafflistudentdetailuserid_idx');
+			$table->string('student_detail_user_id', 30)->index('fafflistudentdetailuserid_idx');
 			$table->string('organization', 50);
 			$table->string('position', 25);
 			$table->string('participation_date', 4);
