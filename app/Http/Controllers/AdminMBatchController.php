@@ -34,16 +34,11 @@ class AdminMBatchController extends Controller
         ->rawColumns(['is_active','action'])
         ->make(true);
     }
-    public function checkbox($id)
+    public function checkbox(Request $request, $id)
     {
         try {
             $batch = Batch::findorfail($id);
-            if ($batch->is_active) {
-                $batch->is_active=0;
-            }
-            else{
-                $batch->is_active=1;
-            }
+            $batch->is_active = $request->is_active;
             $batch->save();
         } catch(\Exception $e) {
             return "Deleted";
@@ -65,7 +60,7 @@ class AdminMBatchController extends Controller
             $batch->save();
             return Response::json($batch);
         } catch(\Exception $e) {
-            return var_dump($e->getMessage());
+            return $e->getMessage();
         } 
     }
     public function edit($id)
@@ -90,7 +85,7 @@ class AdminMBatchController extends Controller
                 $batch->save();
                 return Response::json($batch);
             } catch(\Exception $e) {
-                return var_dump($e->getMessage());
+                return $e->getMessage();
             }
         } catch(\Exception $e) {
             return Response::json("The record is invalid or deleted.", 422);

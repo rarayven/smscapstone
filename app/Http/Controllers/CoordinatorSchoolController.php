@@ -35,18 +35,22 @@ class CoordinatorSchoolController extends Controller
 		->rawColumns(['is_active','action'])
 		->make(true);
 	}
-	public function checkbox($id)
+	public function checkbox(Request $request, $id)
 	{
 		try {
-			$school = UserSchool::where('user_id',Auth::id())->where('school_id',$id)->firstorfail();
-			$school->delete();
+			if ($request->is_active) {
+				$school = new UserSchool;
+				$school->school_id = $id;
+				$school->user_id = Auth::id();
+				$school->save();
+			} else {
+				$school = UserSchool::where('user_id',Auth::id())->where('school_id',$id)->firstorfail();
+				$school->delete();
+			}
+			return Response::json(200);
 		} catch(\Exception $e) {
-			$school = new UserSchool;
-			$school->school_id = $id;
-			$school->user_id = Auth::id();
-			$school->save();
+			return Response::json('Already Add or Remove', 500);
 		}
-		return Response::json(200);
 	}
 	public function index()
 	{

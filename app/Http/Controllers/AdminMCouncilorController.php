@@ -49,16 +49,11 @@ class AdminMCouncilorController extends Controller
         ->rawColumns(['strCounName','is_active','action'])
         ->make(true);
     }
-    public function checkbox($id)
+    public function checkbox(Request $request, $id)
     {
         try {
             $councilor = Councilor::findorfail($id);
-            if ($councilor->is_active) {
-                $councilor->is_active=0;
-            }
-            else{
-                $councilor->is_active=1;
-            }
+            $councilor->is_active = $request->is_active;
             $councilor->save();
         } catch(\Exception $e) {
             return "Deleted";
@@ -128,7 +123,7 @@ class AdminMCouncilorController extends Controller
             return Response::json($councilor);
         } catch(\Exception $e) {
             DB::rollBack();
-            return var_dump($e->getMessage());
+            return $e->getMessage();
         } 
     }
     public function show($id)
@@ -202,7 +197,7 @@ class AdminMCouncilorController extends Controller
                 }
                 return Response::json($councilor);
             } catch(\Exception $e) {
-                return var_dump($e->getMessage());
+                return $e->getMessage();
             } 
         } catch(\Exception $e) {
             return Response::json("The record is invalid or deleted.", 422);

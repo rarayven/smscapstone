@@ -19,7 +19,8 @@
 				<li class="active"><a href="#tab_1" data-toggle="tab">Available Claiming</a></li>
 				<li><a href="#tab_2" data-toggle="tab">Undo Checklist</a></li>
 				<li><a href="#tab_3" data-toggle="tab">Essay Question</a></li>
-				<li><a href="#tab_4" data-toggle="tab">Backup</a></li>
+				<li><a href="#tab_4" data-toggle="tab">Filter Applications</a></li>
+				<li><a href="#tab_5" data-toggle="tab">Backup</a></li>
 			</ul>
 			<div class="tab-content">
 				<div class="tab-pane active row" id="tab_1">
@@ -150,6 +151,8 @@
 					</div>
 				</div>
 				<div class="tab-pane row" id="tab_4">
+				</div>
+				<div class="tab-pane row" id="tab_5">
 				</div>
 			</div>
 		</div>

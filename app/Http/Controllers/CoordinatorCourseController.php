@@ -35,18 +35,22 @@ class CoordinatorCourseController extends Controller
 		->rawColumns(['is_active','action'])
 		->make(true);
 	}
-	public function checkbox($id)
+	public function checkbox(Request $request, $id)
 	{
 		try {
-			$course = UserCourse::where('user_id',Auth::id())->where('course_id',$id)->firstorfail();
-			$course->delete();
+			if ($request->is_active) {
+				$course = new UserCourse;
+				$course->course_id = $id;
+				$course->user_id = Auth::id();
+				$course->save();
+			} else {
+				$course = UserCourse::where('user_id',Auth::id())->where('course_id',$id)->firstorfail();
+				$course->delete();
+			}
+			return Response::json(200);
 		} catch(\Exception $e) {
-			$course = new UserCourse;
-			$course->course_id = $id;
-			$course->user_id = Auth::id();
-			$course->save();
+			return Response::json('Already Add or Remove', 500);
 		}
-		return Response::json(200);
 	}
 	public function index()
 	{

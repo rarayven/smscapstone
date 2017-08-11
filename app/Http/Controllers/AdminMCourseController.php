@@ -34,16 +34,11 @@ class AdminMCourseController extends Controller
         ->rawColumns(['is_active','action'])
         ->make(true);
     }
-    public function checkbox($id)
+    public function checkbox(Request $request, $id)
     {
         try {
             $course = Course::findorfail($id);
-            if ($course->is_active) {
-                $course->is_active=0;
-            }
-            else{
-                $course->is_active=1;
-            }
+            $course->is_active = $request->is_active;
             $course->save();
         } catch(\Exception $e) {
             return "Deleted";
@@ -66,7 +61,7 @@ class AdminMCourseController extends Controller
             $course->save();
             return Response::json($course);
         } catch(\Exception $e) {
-            return var_dump($e->getMessage());
+            return $e->getMessage();
         } 
     }
     public function edit($id)
@@ -92,7 +87,7 @@ class AdminMCourseController extends Controller
                 $course->save();
                 return Response::json($course);
             } catch(\Exception $e) {
-                return var_dump($e->getMessage());
+                return $e->getMessage();
             } 
         } catch(\Exception $e) {
             return Response::json("The record is invalid or deleted.", 422);

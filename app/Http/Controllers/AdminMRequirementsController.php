@@ -78,18 +78,12 @@ class AdminMRequirementsController extends Controller
         ->rawColumns(['is_active','action'])
         ->make(true);
     }
-    public function checkbox($id)
+    public function checkbox(Request $request, $id)
     {
         try {
             $steps = Requirement::findorfail($id);
-            if ($steps->is_active) {
-                $steps->is_active=0;
-            }
-            else {
-                $steps->is_active=1;
-            }
+            $steps->is_active = $request->is_active;
             $steps->save();
-            return Response::json($steps);
         } catch(\Exception $e) {
             return "Deleted";
         } 
@@ -112,16 +106,16 @@ class AdminMRequirementsController extends Controller
             ->where('users.type','Coordinator')
             ->first();
             $steps = new Requirement;
+            $steps->user_id = $connection->id;
             $steps->description=$request->strStepDesc;
             $steps->type=$request->type;
-            $steps->user_id = $connection->id;
             $steps->save();
             return Response::json($steps);
         } catch(\Exception $e) {
             if ($e->getCode()==23000) {
                 return Response::json('The requirement has already been taken.',500);
             }
-            return var_dump($e->getMessage());
+            return $e->getMessage();
         } 
     }
     public function show($id)
@@ -156,7 +150,7 @@ class AdminMRequirementsController extends Controller
                 if ($e->getCode()==23000) {
                     return Response::json('The requirement has already been taken.',500);
                 }
-                return var_dump($e->getMessage());
+                return $e->getMessage();
             }
         } catch(\Exception $e) {
             return Response::json("The record is invalid or deleted.", 422);

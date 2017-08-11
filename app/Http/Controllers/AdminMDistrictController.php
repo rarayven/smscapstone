@@ -34,16 +34,11 @@ class AdminMDistrictController extends Controller
         ->rawColumns(['is_active','action'])
         ->make(true);
     }
-    public function checkbox($id)
+    public function checkbox(Request $request, $id)
     {
         try {
             $district = District::findorfail($id);
-            if ($district->is_active) {
-                $district->is_active=0;
-            }
-            else{
-                $district->is_active=1;
-            }
+            $district->is_active = $request->is_active;
             $district->save();
         } catch(\Exception $e) {
             return "Deleted";
@@ -65,7 +60,7 @@ class AdminMDistrictController extends Controller
             $district->save();
             return Response::json($district);
         } catch(\Exception $e) {
-            return var_dump($e->getMessage());
+            return $e->getMessage();
         } 
     }
     public function edit($id)
@@ -90,7 +85,7 @@ class AdminMDistrictController extends Controller
                 $district->save();
                 return Response::json($district);
             } catch(\Exception $e) {
-                return var_dump($e->getMessage());
+                return $e->getMessage();
             }
         } catch(\Exception $e) {
             return Response::json("The record is invalid or deleted.", 422);

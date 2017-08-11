@@ -36,16 +36,11 @@ class AdminMGradeController extends Controller
         ->rawColumns(['is_active','action'])
         ->make(true);
     }
-    public function checkbox($id)
+    public function checkbox(Request $request, $id)
     {
         try {
             $grade = Grading::findorfail($id);
-            if ($grade->is_active) {
-                $grade->is_active=0;
-            }
-            else{
-                $grade->is_active=1;
-            }
+            $grade->is_active = $request->is_active;
             $grade->save();
         } catch(\Exception $e) {
             return "Deleted";
@@ -80,7 +75,7 @@ class AdminMGradeController extends Controller
             return redirect(route('grade.index'));
         } catch(\Exception $e) {
             DB::rollBack();
-            return var_dump($e->getMessage());
+            return $e->getMessage();
         } 
     }
     public function show($id)
@@ -119,7 +114,7 @@ class AdminMGradeController extends Controller
             return redirect(route('grade.index'));
         } catch(\Exception $e) {
             DB::rollBack();
-            return var_dump($e->getMessage());
+            return $e->getMessage();
         } 
     }
     public function destroy($id)

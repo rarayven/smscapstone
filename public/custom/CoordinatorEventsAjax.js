@@ -198,9 +198,17 @@ $(document).ready(function() {
     });
     $('#list').on('change', '#isActive', function() {
         var link_id = $(this).val();
+        var is_active = 'Cancelled';
+        if ($(this).prop('checked')) {
+            var is_active = 'Ongoing';
+        }
+        var formData = {
+            status: is_active
+        }
         $.ajax({
             url: url2 + '/' + link_id,
             type: "PUT",
+            data: formData,
             success: function(data) {
                 Pace.restart();
                 if (data == "Deleted") {

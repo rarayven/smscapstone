@@ -50,7 +50,7 @@
                   <img src="{{ asset('images/'.Auth::user()->picture) }}" class="img-circle" alt="User Image">
                   <p style="text-align: center;">
                     {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
-                    <small>{{ Auth::user()->type }}</small>
+                    <small>ID: {{ Auth::id() }}</small>
                   </p>
                 </li>
                 <li class="user-footer">

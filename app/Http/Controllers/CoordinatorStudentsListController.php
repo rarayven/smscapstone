@@ -118,16 +118,11 @@ class CoordinatorStudentsListController extends Controller
         }
         return $datatables->make(true);
     }
-    public function checkbox($id)
+    public function checkbox(Request $request, $id)
     {
         try {
             $user = User::findorfail($id);
-            if ($user->is_active) {
-                $user->is_active=0;
-            }
-            else {
-                $user->is_active=1;
-            }
+            $user->is_active = $request->is_active;
             $user->save();
         } catch(\Exception $e) {
             return "Deleted";

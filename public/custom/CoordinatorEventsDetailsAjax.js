@@ -12,9 +12,17 @@ $(document).ready(function() {
 	var url = '/coordinator/events/attendance/checkbox';
 	$('#list').on('change', '#isActive', function() {
 		var link_id = $(this).val();
+		var is_active = 0;
+		if ($(this).prop('checked')) {
+			var is_active = 1;
+		}
+		var formData = {
+			is_attending: is_active
+		}
 		$.ajax({
 			url: url + '/' + link_id,
 			type: "PUT",
+			data: formData,
 			success: function(data) {
 				Pace.restart();
 			},

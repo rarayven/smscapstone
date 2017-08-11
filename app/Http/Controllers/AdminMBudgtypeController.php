@@ -34,16 +34,11 @@ class AdminMBudgtypeController extends Controller
         ->rawColumns(['is_active','action'])
         ->make(true);
     }
-    public function checkbox($id)
+    public function checkbox(Request $request, $id)
     {
         try {
             $budgtype = Budgtype::findorfail($id);
-            if ($budgtype->is_active) {
-                $budgtype->is_active=0;
-            }
-            else{
-                $budgtype->is_active=1;
-            }
+            $budgtype->is_active = $request->is_active;
             $budgtype->save();
         } catch(\Exception $e) {
             return "Deleted";
@@ -65,7 +60,7 @@ class AdminMBudgtypeController extends Controller
             $budgtype->save();
             return Response::json($budgtype);
         } catch(\Exception $e) {
-            return var_dump($e->getMessage());
+            return $e->getMessage();
         } 
     }
     public function edit($id)
@@ -90,7 +85,7 @@ class AdminMBudgtypeController extends Controller
                 $budgtype->save();
                 return Response::json($budgtype);
             } catch(\Exception $e) {
-                return var_dump($e->getMessage());
+                return $e->getMessage();
             }
         } catch(\Exception $e) {
             return Response::json("The record is invalid or deleted.", 422);

@@ -43,18 +43,22 @@ class CoordinatorUtilitiesController extends Controller
         ->rawColumns(['is_active','action'])
         ->make(true);
     }
-    public function checkbox($id)
+    public function checkbox(Request $request, $id)
     {
         try {
-            $type = UserAllocationType::where('user_id',Auth::id())->where('allocation_type_id',$id)->firstorfail();
-            $type->delete();
+            if ($request->is_active) {
+                $type = new UserAllocationType;
+                $type->allocation_type_id = $id;
+                $type->user_id = Auth::id();
+                $type->save();
+            } else {
+                $type = UserAllocationType::where('user_id',Auth::id())->where('allocation_type_id',$id)->firstorfail();
+                $type->delete();
+            }
+            return Response::json(200);
         } catch(\Exception $e) {
-            $type = new UserAllocationType;
-            $type->allocation_type_id = $id;
-            $type->user_id = Auth::id();
-            $type->save();
+            return Response::json('Already Add or Remove', 500);
         }
-        return Response::json(200);
     }
     public function index()
     {

@@ -18,16 +18,11 @@ class CoordinatorMessagesController extends Controller
         $this->middleware('auth');
         $this->middleware('coordinator');
     }
-    public function checkbox($id)
+    public function checkbox(Request $request, $id)
     {
         try {
             $receiver = Receiver::findorfail($id);
-            if ($receiver->is_read) {
-                $receiver->is_read=0;
-            }
-            else {
-                $receiver->is_read=1;
-            }
+            $receiver->is_read = $request->is_read;
             $receiver->save();
         } catch(\Exception $e) {
             return "Deleted";

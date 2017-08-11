@@ -36,16 +36,11 @@ class AdminMBarangayController extends Controller
         ->rawColumns(['is_active','action'])
         ->make(true);
     }
-    public function checkbox($id)
+    public function checkbox(Request $request, $id)
     {
         try {
             $barangay = Barangay::findorfail($id);
-            if ($barangay->is_active) {
-                $barangay->is_active=0;
-            }
-            else{
-                $barangay->is_active=1;
-            }
+            $barangay->is_active = $request->is_active;
             $barangay->save();
         } catch(\Exception $e) {
             return "Deleted";
@@ -69,7 +64,7 @@ class AdminMBarangayController extends Controller
             $barangay->save();
             return Response::json($barangay);
         } catch(\Exception $e) {
-            return var_dump($e->getMessage());
+            return $e->getMessage();
         }
     }
     public function edit($id)
@@ -103,7 +98,7 @@ class AdminMBarangayController extends Controller
                 return Response::json($barangay);
             }
             catch(\Exception $e) {
-                return var_dump($e->getMessage());
+                return $e->getMessage();
             }
         } catch(\Exception $e) {
             return Response::json("The record is invalid or deleted.", 422);

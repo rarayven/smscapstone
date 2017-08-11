@@ -57,31 +57,21 @@ class CoordinatorEventsController extends Controller
         ->rawColumns(['status','action'])
         ->make(true);
     }
-    public function attendance($id)
+    public function attendance(Request $request, $id)
     {
         try {
             $attendance = Attendance::findorfail($id);
-            if ($attendance->is_attending) {
-                $attendance->is_attending=0;
-            }
-            else{
-                $attendance->is_attending=1;
-            }
+            $attendance->is_attending = $request->is_attending;
             $attendance->save();
         } catch(\Exception $e) {
             return "Deleted";
-        } 
+        }
     }
-    public function checkbox($id)
+    public function checkbox(Request $request, $id)
     {
         try {
             $event = Event::findorfail($id);
-            if ($event->status=='Ongoing') {
-                $event->status='Cancelled';
-            }
-            else {
-                $event->status='Ongoing';
-            }
+            $event->status = $request->status;
             $event->save();
         } catch(\Exception $e) {
             return "Deleted";
@@ -117,7 +107,6 @@ class CoordinatorEventsController extends Controller
             })
             ->where('student_details.application_status','Accepted')
             ->where('student_status','Continuing')
-            ->where('student_details.is_steps_done',0)
             ->get();
             $time_from = date("H:i:s", strtotime($request->time_from));
             $time_to = date("H:i:s", strtotime($request->time_to));
@@ -197,8 +186,7 @@ class CoordinatorEventsController extends Controller
             $event->save();
             return Response::json($event);
         } catch(\Exception $e) {
-            dd($e);
-            return var_dump($e->getMessage());
+            return $e->getMessage();
         }
     }
     public function destroy($id)

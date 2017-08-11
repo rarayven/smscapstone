@@ -43,18 +43,12 @@ class CoordinatorRequirementController extends Controller
 		->rawColumns(['is_active','action'])
 		->make(true);
 	}
-	public function checkbox($id)
+	public function checkbox(Request $request, $id)
 	{
 		try {
 			$steps = Requirement::findorfail($id);
-			if ($steps->is_active) {
-				$steps->is_active=0;
-			}
-			else {
-				$steps->is_active=1;
-			}
+			$steps->is_active = $request->is_active;
 			$steps->save();
-			return Response::json($steps);
 		} catch(\Exception $e) {
 			return "Deleted";
 		} 
@@ -77,7 +71,7 @@ class CoordinatorRequirementController extends Controller
 			$steps->save();
 			return Response::json($steps);
 		} catch(\Exception $e) {
-			return var_dump($e->getMessage());
+			return $e->getMessage();
 		} 
 	}
 	public function edit($id)
@@ -103,7 +97,7 @@ class CoordinatorRequirementController extends Controller
 				$steps->save();
 				return Response::json($steps);
 			} catch(\Exception $e) {
-				return var_dump($e->getMessage());
+				return $e->getMessage();
 			}
 		} catch(\Exception $e) {
 			return Response::json("The record is invalid or deleted.", 422);
