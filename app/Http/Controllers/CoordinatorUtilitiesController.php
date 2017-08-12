@@ -103,10 +103,11 @@ class CoordinatorUtilitiesController extends Controller
     public function allocation($id)
     {
         $allocation = Allocation::leftJoin('allocation_types','allocations.allocation_type_id','allocation_types.id')
-        ->join('budgets','allocations.budget_id','budgets.id')
-        ->select('allocation_types.description','allocations.id')
-        ->where('budgets.id', function($query){
+        ->leftJoin('user_allocation_type','allocation_types.id','user_allocation_type.allocation_type_id')
+        ->select('allocation_types.description','allocations.id','user_allocation_type.allocation_type_id')
+        ->where('allocations.budget_id', function($query){
             $query->from('budgets')
+            ->where('user_id',Auth::id())
             ->select('id')
             ->latest('id')
             ->first();
@@ -115,8 +116,16 @@ class CoordinatorUtilitiesController extends Controller
             $query->from('user_allocation')
             ->select('allocation_id')
             ->where('user_id',$id)
+            ->where('grade_id', function($subquery) use($id) {
+                $subquery->from('grades')
+                ->select('id')
+                ->where('student_detail_user_id',$id)
+                ->latest('id')
+                ->first();
+            })
             ->get();
         })
+        ->where('user_allocation_type.user_id',Auth::id())
         ->get();
         return Response::json($allocation);
     }
@@ -131,9 +140,6 @@ class CoordinatorUtilitiesController extends Controller
                 ->where('grade_id',$grade->id)
                 ->delete();
             }
-            $application = Application::find($id);
-            $application->is_steps_done = 0;
-            $application->save();
             DB::commit();
             return Response::json($grade);
         } catch (\Exception $e) {

@@ -74,8 +74,7 @@ class CoordinatorStudentsController extends Controller
 			<div class='progress-bar progress-bar-success progress-bar-striped' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: $percentage%'></div>";
 		})
 		->addColumn('stipend', function ($data) {
-			$count = Budgtype::join('user_allocation_type','allocation_types.id','user_allocation_type.allocation_type_id')
-			->where('allocation_types.is_active',1)->count();
+			$count = Budgtype::count();
 			$allocate = Allocation::leftjoin('user_allocation','allocations.id','user_allocation.allocation_id')
 			->where('user_allocation.user_id',$data->id)->count();
 			if($count!=0)
@@ -86,12 +85,21 @@ class CoordinatorStudentsController extends Controller
 			<div class='progress-bar progress-bar-success progress-bar-striped' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: $percentage%'></div>";
 		})
 		->addColumn('action', function ($data) {
-			$claim = "";
+			$count = Requirement::where('is_active',1)
+			->where('type',$data->is_renewal)
+			->where('user_id',Auth::id())
+			->count();
+			$steps = Studentsteps::join('requirements','user_requirement.requirement_id','requirements.id')
+			->where('user_requirement.user_id',$data->id)
+			->where('requirements.type',$data->is_renewal)
+			->where('requirements.user_id',Auth::id())
+			->count();
+			$claim = 'disabled';
 			$list = '';
-			// if($data->is_steps_done){
-			// 	$claim = "";
-			// 	$list = 'disabled';
-			// }
+			if($count == $steps){
+				$claim = '';
+				$list = 'disabled';
+			}
 			return "<button class='btn btn-primary btn-xs btn-progress' value=$data->id $list><i class='fa fa-files-o'></i> List</button> <button class='btn btn-success btn-xs open-modal' value='$data->id' $claim><i class='fa fa-money'></i> Claim</button>";
 		})
 		->editColumn('strStudName', function ($data) {
@@ -171,6 +179,13 @@ class CoordinatorStudentsController extends Controller
 			$query->from('user_allocation')
 			->select('allocation_id')
 			->where('user_id',$id)
+			->where('grade_id', function($subquery) use($id) {
+				$subquery->from('grades')
+				->select('id')
+				->where('student_detail_user_id',$id)
+				->latest('id')
+				->first();
+			})
 			->get();
 		})
 		->where('user_allocation_type.user_id',Auth::id())

@@ -104,7 +104,7 @@
         <li class="header">NAVIGATION</li>
         <li class="{{Request::path() == 'coordinator/dashboard' ? 'active' : ''}}"><a href="{{ url('coordinator/dashboard') }}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
         <li class="{{Request::path() == 'coordinator/applications' ? 'active' : ''}}"><a href="{{ url('coordinator/applications') }}"><i class="fa fa-users"></i><span>Applications</span></a></li>
-        <li class="treeview {{Request::path() == 'coordinator/list' ? 'active' : ''}} {{Request::path() == 'coordinator/checklist' ? 'active' : ''}}">
+        <li class="treeview {{Request::path() == 'coordinator/list' ? 'active' : ''}} {{Request::path() == 'coordinator/checklist' ? 'active' : ''}} {{Request::path() == 'coordinator/renewal' ? 'active' : ''}}">
           <a href="#"><i class="fa fa-graduation-cap"></i><span>Scholars</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -113,15 +113,23 @@
           <ul class="treeview-menu">
             <li class="{{Request::path() == 'coordinator/list' ? 'active' : ''}}"><a href="{{ url('coordinator/list') }}"><i class="fa fa-list-ul"></i><span>List</span></a></li>
             <li class="{{Request::path() == 'coordinator/checklist' ? 'active' : ''}}"><a href="{{ url('coordinator/checklist') }}"><i class="fa fa-tasks"></i><span>Checklist</span></a></li>
+            <li class="{{Request::path() == 'coordinator/renewal' ? 'active' : ''}}"><a href="{{ url('coordinator/renewal') }}"><i class="fa fa-refresh"></i><span>Renewal</span></a></li>
           </ul>
         </li>
-        <li class="{{Request::path() == 'coordinator/messages' ? 'active' : ''}}{{Request::path() == 'coordinator/messages/create' ? 'active' : ''}} {{Request::path() == 'coordinator/messages/sent' ? 'active' : ''}}"><a href="{{ url('coordinator/messages') }}"><i class="fa fa-envelope"></i><span>Messages</span><small class="label pull-right bg-green panelnotif"></small></a></li>
-        <li class="{{Request::path() == 'coordinator/announcements' ? 'active' : ''}}"><a href="{{ url('coordinator/announcements') }}"><i class="fa fa-bullhorn"></i><span>Announcements</span></a></li>
-        <li class="{{Request::path() == 'coordinator/events' ? 'active' : ''}}"><a href="{{ url('coordinator/events') }}"><i class="fa fa-flag"></i><span>Events</span></a></li>
-        <li class="{{Request::path() == 'coordinator/budget' ? 'active' : ''}}"><a href="{{ url('coordinator/budget') }}"><i class="fa fa-money"></i><span>Budget</span></a></li>
-        <li class="{{Request::path() == 'coordinator/renewal' ? 'active' : ''}}"><a href="{{ url('coordinator/renewal') }}"><i class="fa fa-refresh"></i><span>Renewal</span></a></li>
+        <li class="treeview {{Request::path() == 'coordinator/messages' ? 'active' : ''}} {{Request::path() == 'coordinator/messages/create' ? 'active' : ''}} {{Request::path() == 'coordinator/messages/sent' ? 'active' : ''}} {{Request::path() == 'coordinator/announcements' ? 'active' : ''}} {{Request::path() == 'coordinator/events' ? 'active' : ''}}">
+          <a href="#"><i class="fa fa-phone"></i><span>Communication&emsp;&emsp;&emsp;<small class="label bg-green panelnotif"></small></span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{Request::path() == 'coordinator/messages' ? 'active' : ''}}{{Request::path() == 'coordinator/messages/create' ? 'active' : ''}} {{Request::path() == 'coordinator/messages/sent' ? 'active' : ''}}"><a href="{{ url('coordinator/messages') }}"><i class="fa fa-envelope"></i><span>Messages<small class="label pull-right bg-green panelnotif"></small></span></a></li>
+            <li class="{{Request::path() == 'coordinator/announcements' ? 'active' : ''}}"><a href="{{ url('coordinator/announcements') }}"><i class="fa fa-bullhorn"></i><span>Announcements</span></a></li>
+            <li class="{{Request::path() == 'coordinator/events' ? 'active' : ''}}"><a href="{{ url('coordinator/events') }}"><i class="fa fa-flag"></i><span>Events</span></a></li>
+          </ul>
+        </li>
         <li class="treeview {{Request::path() == 'coordinator/reports' ? 'active' : ''}} {{Request::path() == 'coordinator/reports' ? 'active' : ''}}">
-          <a href="#"><i class="fa  fa-trophy"></i><span>Reports</span>
+          <a href="#"><i class="fa fa-trophy"></i><span>Reports</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -131,10 +139,20 @@
           </ul>
         </li>
         <li class="{{Request::path() == 'coordinator/queries' ? 'active' : ''}}"><a href="{{ url('coordinator/queries') }}"><i class="fa fa-list"></i><span>Queries</span></a></li>
-        <li class="{{Request::path() == 'coordinator/utilities' ? 'active' : ''}}"><a href="{{ url('coordinator/utilities') }}"><i class="fa fa-gear"></i><span>Utilities</span></a></li>
-        <li class="{{Request::path() == 'coordinator/requirements' ? 'active' : ''}}"><a href="{{ url('coordinator/requirements') }}"><i class="fa fa-files-o"></i><span>Requirements</span></a></li>
-        <li class="{{Request::path() == 'coordinator/school' ? 'active' : ''}}"><a href="{{ url('coordinator/school') }}"><i class="fa fa-graduation-cap"></i><span>School</span></a></li>
-        <li class="{{Request::path() == 'coordinator/course' ? 'active' : ''}}"><a href="{{ url('coordinator/course') }}"><i class="fa fa-book"></i><span>Course</span></a></li>
+        <li class="treeview {{Request::path() == 'coordinator/utilities' ? 'active' : ''}} {{Request::path() == 'coordinator/requirements' ? 'active' : ''}} {{Request::path() == 'coordinator/school' ? 'active' : ''}} {{Request::path() == 'coordinator/course' ? 'active' : ''}} {{Request::path() == 'coordinator/budget' ? 'active' : ''}}">
+          <a href="#"><i class="fa fa-gears"></i><span>Settings</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{Request::path() == 'coordinator/budget' ? 'active' : ''}}"><a href="{{ url('coordinator/budget') }}"><i class="fa fa-money"></i><span>Budget</span></a></li>
+            <li class="{{Request::path() == 'coordinator/requirements' ? 'active' : ''}}"><a href="{{ url('coordinator/requirements') }}"><i class="fa fa-files-o"></i><span>Requirements</span></a></li>
+            <li class="{{Request::path() == 'coordinator/school' ? 'active' : ''}}"><a href="{{ url('coordinator/school') }}"><i class="fa fa-graduation-cap"></i><span>School</span></a></li>
+            <li class="{{Request::path() == 'coordinator/course' ? 'active' : ''}}"><a href="{{ url('coordinator/course') }}"><i class="fa fa-book"></i><span>Course</span></a></li>
+            <li class="{{Request::path() == 'coordinator/utilities' ? 'active' : ''}}"><a href="{{ url('coordinator/utilities') }}"><i class="fa fa-gear"></i><span>Utilities</span></a></li>
+          </ul>
+        </li>
       </ul>
     </section>
   </aside>

@@ -60,9 +60,10 @@ $(document).ready(function() {
         $('#advanced_search').modal('show');
     });
     $('#student-list').on('click', '.btn-progress', function() {
-        $(".btn-progress").attr('disabled', 'disabled');
+        $(this).attr('disabled', 'disabled');
+        var getbutton = $(this);
         setTimeout(function() {
-            $(".btn-progress").removeAttr('disabled');
+            getbutton.removeAttr('disabled');
         }, 1000);
         var link_id = $(this).val();
         id = link_id;
@@ -89,9 +90,10 @@ $(document).ready(function() {
         });
     });
     $('#student-list').on('click', '.open-modal', function() {
-        $(".open-modal").attr('disabled', 'disabled');
+        $(this).attr('disabled', 'disabled');
+        var getbutton = $(this);
         setTimeout(function() {
-            $(".open-modal").removeAttr('disabled');
+            getbutton.removeAttr('disabled');
         }, 1000);
         var link_id = $(this).val();
         id = link_id;

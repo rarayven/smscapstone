@@ -121,7 +121,6 @@
               {{ Form::textarea('description', null, [
                 'id' => 'description',
                 'class' => 'form-control',
-                'maxlength' => '15',
                 'required' => 'required',
                 'style' => 'resize: none;',
                 'data-parsley-pattern' => '^[a-zA-Z0-9. ]+$',
